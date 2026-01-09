@@ -1,18 +1,20 @@
-﻿name: Auto PR to main
+name: Auto PR to main
 
 on:
   push:
-    branches: [ sylvain, phily, ethan, virgile ]
+    branches: [ "sylvain", "phily", "ethan", "virgile" ]
 
 permissions:
-  pull-requests: write
-  contents: read
+  contents: write        # nécessaire pour merger
+  pull-requests: write   # nécessaire pour créer/éditer la PR
 
 jobs:
   pr:
     runs-on: ubuntu-latest
     steps:
-      - name: Create PR if missing
+      - uses: actions/checkout@v4
+
+      - name: Ensure PR exists + enable auto-merge
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
@@ -20,22 +22,26 @@ jobs:
           set -e
           BRANCH="${GITHUB_REF_NAME}"
 
+          # Cherche une PR ouverte BRANCH -> main
           PR_NUMBER=$(gh pr list --head "$BRANCH" --base main --state open --json number -q '.[0].number' || true)
 
-          if [ -n "$PR_NUMBER" ]; then
-            echo "PR already open: #$PR_NUMBER"
-            exit 0
+          # Si pas de PR, la créer (si rien à merger -> exit 0)
+          if [ -z "$PR_NUMBER" ]; then
+            if gh pr create \
+              --head "$BRANCH" \
+              --base main \
+              --title "Merge ${BRANCH} -> main" \
+              --body "PR automatique : ${BRANCH} -> main"
+            then
+              PR_NUMBER=$(gh pr list --head "$BRANCH" --base main --state open --json number -q '.[0].number')
+            else
+              echo "Rien à merger entre ${BRANCH} et main. OK."
+              exit 0
+            fi
           fi
 
-          echo "Creating PR: $BRANCH -> main"
-          if gh pr create \
-            --head "$BRANCH" \
-            --base main \
-            --title "Merge ${BRANCH} -> main" \
-            --body "PR automatique : ${BRANCH} -> main"
-          then
-            echo "PR created."
-          else
-            echo "No diff / nothing to merge. OK."
-            exit 0
-          fi
+          echo "PR #$PR_NUMBER trouvée/créée."
+
+          # Active l'auto-merge (GitHub merge dès que CI OK + règles OK)
+          # Si auto-merge n'est pas activé dans Settings, ça échouera.
+          gh pr merge "$PR_NUMBER" --auto --merge
