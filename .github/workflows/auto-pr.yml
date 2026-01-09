@@ -1,4 +1,4 @@
-﻿name: Auto PR to main
+name: Auto PR to main
 
 on:
   push:
@@ -8,46 +8,59 @@ permissions:
   contents: write
   pull-requests: write
 
-concurrency:
-  group: auto-pr-${{ github.ref_name }}
-  cancel-in-progress: true
-
 jobs:
   pr:
     runs-on: ubuntu-latest
     steps:
-      - name: Create PR if missing + enable auto-merge
+      - name: Checkout (needed for gh context)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ensure PR exists + enable auto-merge
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
         run: |
-          set -euo pipefail
+          set -e
 
           BRANCH="${GITHUB_REF_NAME}"
+
+          echo "Branch: $BRANCH -> main"
 
           # Cherche une PR ouverte BRANCH -> main
           PR_NUMBER=$(gh pr list --head "$BRANCH" --base main --state open --json number -q '.[0].number' || true)
 
-          # Si pas de PR, on tente d'en créer une. S'il n'y a rien à merger, on sort proprement.
-          if [ -z "${PR_NUMBER}" ] || [ "${PR_NUMBER}" = "null" ]; then
-            echo "No open PR found, creating one..."
-            if ! gh pr create \
+          # Si pas de PR ouverte, on tente de la créer
+          if [ -z "$PR_NUMBER" ]; then
+            echo "No open PR found, creating..."
+            if gh pr create \
               --head "$BRANCH" \
               --base main \
               --title "Merge ${BRANCH} -> main" \
-              --body "PR automatique : ${BRANCH} -> main" >/dev/null 2>&1
+              --body "PR automatique : ${BRANCH} -> main"
             then
-              echo "Rien à merger entre ${BRANCH} et main (ou PR impossible à créer). OK."
+              PR_NUMBER=$(gh pr list --head "$BRANCH" --base main --state open --json number -q '.[0].number')
+            else
+              echo "Rien à merger entre ${BRANCH} et main. OK."
               exit 0
             fi
-
-            PR_NUMBER=$(gh pr list --head "$BRANCH" --base main --state open --json number -q '.[0].number')
+          else
+            echo "PR already exists: #$PR_NUMBER"
           fi
 
-          echo "PR #${PR_NUMBER} trouvée."
+          echo "Enabling auto-merge on PR #$PR_NUMBER ..."
 
-          # Active l'auto-merge (si GitHub l'autorise)
-          if ! gh pr merge "$PR_NUMBER" --auto --merge; then
-            echo "Auto-merge pas activé (souvent: checks pas encore prêts / option auto-merge désactivée). OK."
-            exit 0
-          fi
+          # Parfois GitHub dit "unstable status" juste après création:
+          # on retente 5 fois avec une petite pause.
+          for i in 1 2 3 4 5; do
+            if gh pr merge "$PR_NUMBER" --auto --merge; then
+              echo "Auto-merge enabled."
+              exit 0
+            fi
+            echo "Auto-merge not ready yet, retry $i/5..."
+            sleep 3
+          done
+
+          echo "Auto-merge could not be enabled now (will still be mergeable manually)."
+          exit 0
