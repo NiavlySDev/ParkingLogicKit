@@ -5,18 +5,23 @@ on:
     branches: [ sylvain, phily, ethan, virgile ]
 
 permissions:
-  contents: read
+  contents: write
   pull-requests: write
+
+concurrency:
+  group: auto-pr-${{ github.ref_name }}
+  cancel-in-progress: true
 
 jobs:
   pr:
     runs-on: ubuntu-latest
     steps:
-      - name: Ensure PR exists + enable auto-merge
+      - name: Create PR if missing + enable auto-merge
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
         run: |
-          set -e
+          set -euo pipefail
 
           BRANCH="${GITHUB_REF_NAME}"
 
@@ -24,19 +29,25 @@ jobs:
           PR_NUMBER=$(gh pr list --head "$BRANCH" --base main --state open --json number -q '.[0].number' || true)
 
           # Si pas de PR, on tente d'en créer une. S'il n'y a rien à merger, on sort proprement.
-          if [ -z "$PR_NUMBER" ]; then
-            if gh pr create \
+          if [ -z "${PR_NUMBER}" ] || [ "${PR_NUMBER}" = "null" ]; then
+            echo "No open PR found, creating one..."
+            if ! gh pr create \
               --head "$BRANCH" \
               --base main \
               --title "Merge ${BRANCH} -> main" \
-              --body "PR automatique : ${BRANCH} -> main"
+              --body "PR automatique : ${BRANCH} -> main" >/dev/null 2>&1
             then
-              PR_NUMBER=$(gh pr list --head "$BRANCH" --base main --state open --json number -q '.[0].number')
-            else
-              echo "Rien à merger entre ${BRANCH} et main. OK."
+              echo "Rien à merger entre ${BRANCH} et main (ou PR impossible à créer). OK."
               exit 0
             fi
+
+            PR_NUMBER=$(gh pr list --head "$BRANCH" --base main --state open --json number -q '.[0].number')
           fi
 
-          # Active l’auto-merge (fusionnera dès que la CI est OK)
-          gh pr merge "$PR_NUMBER" --auto --merge
+          echo "PR #${PR_NUMBER} trouvée."
+
+          # Active l'auto-merge (si GitHub l'autorise)
+          if ! gh pr merge "$PR_NUMBER" --auto --merge; then
+            echo "Auto-merge pas activé (souvent: checks pas encore prêts / option auto-merge désactivée). OK."
+            exit 0
+          fi
