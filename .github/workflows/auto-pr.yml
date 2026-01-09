@@ -1,0 +1,42 @@
+﻿name: Auto PR to main
+
+on:
+  push:
+    branches: [ sylvain, phily, ethan, virgile ]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ensure PR exists + enable auto-merge
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+
+          BRANCH="${GITHUB_REF_NAME}"
+
+          # Cherche une PR ouverte BRANCH -> main
+          PR_NUMBER=$(gh pr list --head "$BRANCH" --base main --state open --json number -q '.[0].number' || true)
+
+          # Si pas de PR, on tente d'en créer une. S'il n'y a rien à merger, on sort proprement.
+          if [ -z "$PR_NUMBER" ]; then
+            if gh pr create \
+              --head "$BRANCH" \
+              --base main \
+              --title "Merge ${BRANCH} -> main" \
+              --body "PR automatique : ${BRANCH} -> main"
+            then
+              PR_NUMBER=$(gh pr list --head "$BRANCH" --base main --state open --json number -q '.[0].number')
+            else
+              echo "Rien à merger entre ${BRANCH} et main. OK."
+              exit 0
+            fi
+          fi
+
+          # Active l’auto-merge (fusionnera dès que la CI est OK)
+          gh pr merge "$PR_NUMBER" --auto --merge
