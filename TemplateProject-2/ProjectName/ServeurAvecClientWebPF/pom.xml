@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>${project.groupid}</groupId>
+    <artifactId>${project.name}ServeurAvecClientWebPF</artifactId>
+    <name>${project.name}ServeurAvecClientWebPF</name>   
+    <version>1.0</version>    
+    <packaging>war</packaging>
+
+    <parent>
+        <groupId>${project.groupid}</groupId>
+        <artifactId>${project.name}</artifactId>
+        <version>1.0</version>
+    </parent>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.1</version>     
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <compilerArgs>
+                        <arg>--enable-preview</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+        </plugins>        
+    </build>
+    
+    <dependencies>
+        <!-- Project dependencies -->        
+        <dependency>
+            <groupId>lml.snir.gestiontemperature</groupId>
+            <artifactId>GestionTemperatureMetier</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-wadl</artifactId>
+            <version>6.2.12.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <version>10.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>14.0.12</version>
+            <classifier>jakarta</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces.extensions</groupId>
+            <artifactId>primefaces-extensions</artifactId>
+            <version>14.0.12</version>
+            <classifier>jakarta</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces.extensions</groupId>
+            <artifactId>resources-monacoeditor</artifactId>
+            <version>14.0.12</version>
+        </dependency>
+        <dependency>
+            <groupId>software.xdev</groupId>
+            <artifactId>chartjs-java-model</artifactId>
+            <version>1.4.1</version>
+            <type>jar</type>
+        </dependency>
+    </dependencies>
+</project>
+

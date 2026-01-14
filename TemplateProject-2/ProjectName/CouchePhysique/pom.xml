@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>${project.groupid}</groupId>
+    <artifactId>${project.name}Physique</artifactId>
+    <name>${project.name}Physique</name>  
+    <version>1.0</version>    
+    <packaging>jar</packaging>
+
+    <properties>
+        <app.mainClass>${project.groupid}.physique.data.Test</app.mainClass>
+        <exec.mainClass>${app.mainClass}</exec.mainClass>        
+    </properties>
+    
+    <parent>
+        <groupId>${project.groupid}</groupId>
+        <artifactId>${project.name}</artifactId>
+        <version>1.0</version>
+    </parent>
+    
+    <dependencies>
+        <dependency>
+            <groupId>lml.snir.gestiontemperature</groupId>
+            <artifactId>GestionTemperatureCommon</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>lml.snir.persistence</groupId>
+            <artifactId>LMLPersistenceJPA</artifactId>
+            <version>2.0</version>
+            <type>jar</type>
+        </dependency>
+        
+        <dependency>
+            <groupId>lml.snir.persistence</groupId>
+            <artifactId>LMLPersistenceJDBC</artifactId>
+            <version>2.0</version>
+            <type>jar</type>
+        </dependency>
+        
+        <dependency>
+             <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+            <type>jar</type>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.34.0</version>
+        </dependency>
+        <dependency>
+            <groupId>lml.snir.tools</groupId>
+            <artifactId>LMLTools</artifactId>
+            <version>2.0</version>
+            <type>jar</type>
+        </dependency>
+    </dependencies>
+</project>
