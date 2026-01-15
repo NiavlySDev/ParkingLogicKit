@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Gestion Utilisateurs</title>
+    </h:head>
+    <h:body>
+        <h:form id="form">
+            <p:panel header="Ajouter un utilisateur" style="margin-bottom:20px;">
+                <p:messages id="messages" showDetail="true" closable="true"/>
+                <p:panelGrid columns="2" layout="grid" style="width:400px;">
+                    <p:outputLabel for="nom" value="nom :" />
+                    <p:inputText id="nom" value="#{utilisateurBean.nom}" required="true" label="Nom" />
+                    
+                    <p:outputLabel for="prenom" value="prenom :" />
+                    <p:inputText id="prenom" value="#{utilisateurBean.prenom}" required="true" label="prenom" />
+                    
+                    <p:outputLabel for="age" value="Âge :" />
+                    <p:spinner id="age" value="#{utilisateurBean.age}" min="0" max="120" />
+                    
+                    <p:outputLabel for="login" value="login :" />
+                    <p:inputText id="login" value="#{utilisateurBean.login}" required="true" label="login" />
+                    
+                    <p:outputLabel for="password" value="password :" />
+                    <p:password id="password" value="#{utilisateurBean.password}" required="true" feedback="true" />
+                    
+                    <p:outputLabel value="Genre :" />
+                    <h:panelGroup>
+                        <p:selectBooleanCheckbox id="feminin" value="#{utilisateurBean.isfeminin}" itemLabel="Feminin" style="margin-right:15px;"> 
+                            <p:ajax update="messages"/> 
+                        </p:selectBooleanCheckbox>
+                        <p:selectBooleanCheckbox id="masculin" value="#{utilisateurBean.ismasculin}" itemLabel="Masculin">
+                            <p:ajax update="messages"/> 
+                        </p:selectBooleanCheckbox>
+                    </h:panelGroup>
+                 
+                    <p:commandButton value="Enregistrer" icon="pi pi-save" action="#{utilisateurBean.createUser}" update="messages tableUtilisateurs" styleClass="p-mt-3"/>
+                </p:panelGrid>
+            </p:panel>
+            <h:form>
+            <p:panel header="Liste des utilisateurs" style="width:750px;">
+                <p:dataTable id="tableUtilisateurs" value="#{utilisateurBean.utilisateurs}" var="u"
+                             paginator="true" rows="5" style="width:100%;" rowIndexVar="idx">
+                    <p:column headerText="Nom">
+                        <h:outputText value="#{u.name}" /> 
+                    </p:column>
+                    
+                    <p:column headerText="Prénom">
+                        <h:outputText value="#{u.firstName}" /> 
+                    </p:column>
+                    
+                   <p:column headerText="Genre">
+                      
+                       <h:outputText value="#{u.isMasculin}"/> 
+                    </p:column>
+                    
+                    <p:column headerText="Âge"> 
+                        <h:outputText value="#{u.age}" /> 
+                    </p:column>
+                    
+                     <p:column headerText="password"></h:form>
+                         <h:outputText value="#{u.password}" />
+                    </p:column>
+                    
+                    <p:column headerText="Login">
+                        <h:outputText value="#{u.login}" />
+                    </p:column>
+                    
+           
+                    <p:column headerText="Supprimer" style="width:100px; text-align:center;">
+                        <p:commandButton icon="pi pi-trash" title="Supprimer" action="#{utilisateurBean.supprimer(u)}" update="@form" styleClass="p-button-danger p-button-sm" />
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </h:body>
+    </h:form>
+</html>

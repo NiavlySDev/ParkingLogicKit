@@ -1,0 +1,40 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"   
+      xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui = "http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Gestion de la Temperature des Locaux</title>
+    </h:head>
+    <h:body>        
+        <ui:composition template = "templates/common.xhtml">	
+            <ui:define name = "content">
+                <h:form id="form" >
+                    <p:messages id="messages" showDetail="true" closable="true">
+                        <p:autoUpdate/>
+                    </p:messages>
+
+                    <p:tabView>                         
+                        <p:tab title="Consignes">
+                            <ui:include src="consignesView.xhtml" />
+                        </p:tab>
+                        
+                        <p:tab title="Temperatures">
+                            <ui:include src="temperaturesView.xhtml" />
+                        </p:tab>    
+                        
+                              <p:tab title="Gestionutilisateurs">
+                            <ui:include src="gestionutilisateurs.xhtml" />
+                        </p:tab>     
+                         
+                    </p:tabView>   
+                </h:form>
+            </ui:define>
+        </ui:composition>
+
+    </h:body>
+</html>	
