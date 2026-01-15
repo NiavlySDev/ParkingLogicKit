@@ -22,8 +22,8 @@
     </dependency>
 
     <dependency>
-      <groupId>lml.snir.gestiontemperature</groupId>
-      <artifactId>GestionTemperatureCommon</artifactId>
+      <groupId>lml.snir.parkinglogicmanager</groupId>
+      <artifactId>ParkingLogicManagerCommon</artifactId>
       <version>1.0</version>
       <type>jar</type>
     </dependency>

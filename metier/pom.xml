@@ -21,17 +21,17 @@
       <version>${project.version}</version>
     </dependency>
     <!--dependency>
-      <groupId>lml.snir.gestiontemperature</groupId>
-      <artifactId>GestionTemperatureCommon</artifactId>
+      <groupId>lml.snir.parkinglogicmanager</groupId>
+      <artifactId>ParkingLogicManagerCommon</artifactId>
       <version>1.0</version>
       <type>jar</type>
     </dependency-->
-    <dependency>
-      <groupId>lml.snir.gestiontemperature</groupId>
-      <artifactId>GestionTemperaturePhysique</artifactId>
+    <!--dependency>
+      <groupId>lml.snir.parkinglogicmanager</groupId>
+      <artifactId>ParkingLogicManagerPhysique</artifactId>
       <version>1.0</version>
       <type>jar</type>
-    </dependency>
+    </dependency-->
     <dependency>
       <groupId>lml.snir.rest</groupId>
       <artifactId>LMLRestServer</artifactId>
