@@ -21,6 +21,12 @@ jobs:
           java-version: "23"
           cache: maven
 
+      - name: Install LML dependencies
+        run: |
+          cd libs/libLML
+          mvn clean install -DskipTests
+          cd ../..
+
       - name: Build (Maven Wrapper)
         run: |
           chmod +x mvnw
