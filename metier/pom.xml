@@ -21,18 +21,6 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>lml.snir</groupId>
-      <artifactId>parkinglogickit-common</artifactId>
-      <version>${project.version}</version>
-      <type>jar</type>
-    </dependency>
-    <dependency>
-      <groupId>lml.snir</groupId>
-      <artifactId>parkinglogickit-physique</artifactId>
-      <version>${project.version}</version>
-      <type>jar</type>
-    </dependency>
-    <dependency>
       <groupId>lml.snir.rest</groupId>
       <artifactId>LMLRestServer</artifactId>
       <version>2.0</version>
