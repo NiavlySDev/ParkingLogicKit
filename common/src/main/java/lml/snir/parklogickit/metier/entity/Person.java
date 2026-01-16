@@ -38,7 +38,7 @@ public class Person implements Serializable {
     private boolean isMale;
 
     /**
-     * @return the name
+     * @return the surname
      */
     public String getSurname() {
         return surname;
@@ -109,7 +109,7 @@ public class Person implements Serializable {
     }
 
     /**
-     * @return the login
+     * @return the username
      */
     public String getUsername() {
         return username;
