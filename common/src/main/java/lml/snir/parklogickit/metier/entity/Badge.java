@@ -18,7 +18,7 @@ public class Badge implements Serializable {
     private Long id;
     
     @Column(nullable = false)
-    private String contenu;
+    private String content;
 
     public Long getId() {
         return id;
@@ -48,7 +48,7 @@ public class Badge implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 67 * hash + Objects.hashCode(this.contenu);
+        hash = 67 * hash + Objects.hashCode(this.content);
         return hash;
     }
 
@@ -58,17 +58,17 @@ public class Badge implements Serializable {
     }
 
     /**
-     * @return the contenu
+     * @return the content
      */
-    public String getContenu() {
-        return contenu;
+    public String getContent() {
+        return content;
     }
 
     /**
-     * @param contenu the contenu to set
+     * @param content the content to set
      */
-    public void setContenu(String contenu) {
-        this.contenu = contenu;
+    public void setContent(String content) {
+        this.content = content;
     }
     
 }
