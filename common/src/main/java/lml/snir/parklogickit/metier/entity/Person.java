@@ -15,50 +15,121 @@ import java.io.Serializable;
  *
  * @author ethan
  */
+
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="TYPE", discriminatorType = DiscriminatorType.STRING)
 public class Person implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private String surname;
+    private String firstName;
+    @Column(unique = true)
+    private String username;
+    private String password;
+    private boolean isMale;
 
-    public Long getId() {
+    /**
+     * @return the name
+     */
+    public String getSurname() {
+        return surname;
+    }
+
+    /**
+     * @param surname the surname to set
+     */
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    /**
+     * @return the firstName
+     */
+    public String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     * @param firstName the firstName to set
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    /**
+     * @return the isMale
+     */
+    public boolean isIsMale() {
+        return isMale;
+    }
+
+    /**
+     * @param isMale the isMale to set
+     */
+    public void setIsMale(boolean isMale) {
+        this.isMale = isMale;
+    }
+
+    /**
+     * @return the id
+     */
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    /**
+     * @param id the id to set
+     */
+    public void setId(long id) {
         this.id = id;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (object==null) {
-            return false;
-        }
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Person)) {
-            return false;
-        }
-        Person other = (Person) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
+    
     @Override
     public String toString() {
-        return "lml.snir.parklogickit.metier.entity.person[ id=" + id + " ]";
+        String genre = "M.";
+        if (!this.isIsMale()) {
+            genre = "Mme";
+        }
+        
+        String str = genre + " " + this.getFirstName() + " " + this.getSurname();
+        
+        if (this.getClass() == Admin.class) {
+            str += " (Administrator)";
+        }
+        return str;
     }
-    
+
+    /**
+     * @return the login
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * @param username the username to set
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void remove() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
