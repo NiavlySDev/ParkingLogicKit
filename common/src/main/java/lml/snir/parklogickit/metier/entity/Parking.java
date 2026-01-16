@@ -21,6 +21,8 @@ public class Parking implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private boolean isFull;
+    private int CountPlace;
 
     public Long getId() {
         return id;
@@ -29,6 +31,24 @@ public class Parking implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public boolean isIsFull() {
+        return isFull;
+    }
+
+    public void setIsFull(boolean isFull) {
+        this.isFull = isFull;
+    }
+
+    public int getCountPlace() {
+        return CountPlace;
+    }
+
+    public void setCountPlace(int CountPlace) {
+        this.CountPlace = CountPlace;
+    }
+    
+    
 
     @Override
     public int hashCode() {
