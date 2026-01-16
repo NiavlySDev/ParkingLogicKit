@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author ethan
+ * @author phily
  */
 @Entity
 public class Places implements Serializable {
