@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author jupiter
+ * @author virgile
  */
 @Entity
 public class Parking implements Serializable {

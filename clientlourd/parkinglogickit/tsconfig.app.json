@@ -7,9 +7,9 @@
     "types": []
   },
   "include": [
-    "../parkingProjetS2/src/**/*.ts"
+    "src/**/*.ts"
   ],
   "exclude": [
-    "../parkingProjetS2/src/**/*.spec.ts"
+    "src/**/*.spec.ts"
   ]
 }
