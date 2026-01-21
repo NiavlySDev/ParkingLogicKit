@@ -9,7 +9,7 @@
     ]
   },
   "include": [
-    "../parkingProjetS2/src/**/*.d.ts",
-    "../parkingProjetS2/src/**/*.spec.ts"
+    "src/**/*.d.ts",
+    "src/**/*.spec.ts"
   ]
 }
