@@ -4,7 +4,6 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import java.io.Serializable;
 
-
 /**
  *
  * @author ethan
@@ -12,6 +11,5 @@ import java.io.Serializable;
 @Entity
 @DiscriminatorValue("Admin")
 public class Admin extends Driver implements Serializable {
-
 
 }

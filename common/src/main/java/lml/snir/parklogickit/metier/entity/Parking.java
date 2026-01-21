@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package lml.snir.parklogickit.metier.entity;
 
 import jakarta.persistence.Entity;
@@ -12,59 +8,130 @@ import java.io.Serializable;
 
 /**
  *
- * @author jupiter
+ * @author virgile, sylvain
  */
 @Entity
 public class Parking implements Serializable {
-
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private boolean isFull;
-    private int CountPlace;
+    private int countPlace;
+    private int maxPlace;
 
+    /**
+     * Retourne L'Identifiant unique du Parking
+     * @return id : L'Identifiant unique du Parking
+     */
     public Long getId() {
         return id;
     }
-
+    /**
+     * Modifier L'Identifiant unique du Parking
+     * @param id : L'Identifiant unique du Parking à modifier
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Retourne si le Parking est Plein
+     * @return isFull : True si le Parking est plein, False sinon
+     */
     public boolean isIsFull() {
         return isFull;
     }
-
+    /**
+     * Modifier si le Parking est Plein ou non.
+     * @param isFull : True si le Parking est plein, False sinon
+     */
     public void setIsFull(boolean isFull) {
         this.isFull = isFull;
     }
 
+    /**
+     * Retourne Le Nombre de Places disponibles dans le Parking
+     * @return 
+     */
     public int getCountPlace() {
-        return CountPlace;
+        return countPlace;
     }
-
-    public void setCountPlace(int CountPlace) {
-        this.CountPlace = CountPlace;
-    }
-
-    public void incrementPlaceCount() {
-        this.CountPlace++;
-    }
-
-    public void decrementPlaceCount() {
-        if (this.CountPlace > 0) {
-            this.CountPlace--;
+    /**
+     * Modifier Le Nombre de Places disponibles dans le Parking
+     * @param countPlace : Le Nombre de Places disponibles dans le Parking
+     */
+    public void setCountPlace(int countPlace) {
+        if(countPlace <= maxPlace){
+            this.countPlace = countPlace;
         }
     }
-
+    /**
+     * Augmenter de 1 Le Nombre de Places disponibles dans le Parking
+     */
+    public void incrementPlaceCount() {
+        if(this.countPlace < maxPlace){
+            this.countPlace++;
+        }
+    }
+    /**
+     * Diminuer de 1 Le Nombre de Places disponibles dans le Parking
+     */
+    public void decrementPlaceCount() {
+        if (this.countPlace > 0) {
+            this.countPlace--;
+        }
+    }
+    /**
+     * Ajouter {amount} Nombre de Places disponibles dans le Parking
+     * @param amount : Le Nombre de Places disponible à Ajouter dans le Parking
+     */
+    public void addPlaceCount(Integer amount){
+        if(countPlace+amount <= maxPlace){
+            this.countPlace+=amount;
+        }
+    }
+    /**
+     * Retirer {amount} Nombre de Places disponibles dans le Parking
+     * @param amount : Le Nombre de Places disponibles à Ajouter dans le Parking
+     */
+    public void removePlaceCount(Integer amount){
+        if(this.countPlace-amount > 0){
+            this.countPlace-=amount;
+        }
+    }
+    
+    /**
+     * Retourne Le Nombre Maximum de Places dans le Parking
+     * @return maxPlace : Le Nombre Maximum de Places dans le Parking
+     */
+    public int getMaxPlace() {
+        return maxPlace;
+    }
+    /**
+     * Modifier Le Nombre Maximum de Places dans le Parking
+     * @param maxPlace : Le Nombre Maximum de Places dans le Parking à modifier
+     */
+    public void setMaxPlace(int maxPlace) {
+        this.maxPlace = maxPlace;
+    }
+    
+    /**
+     * Retourne un identifiant unique correspondant au Parking uniquement
+     * @return Identifiant unique correspondant au Parking uniquement.
+     */
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
-
+    /**
+     * Vérifier si un objet est égal à ce Parking
+     * @param object : L'objet a vérifier
+     * @return True si égal, False si non.
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -77,10 +144,16 @@ public class Parking implements Serializable {
         }
         return true;
     }
-
+    /**
+     * Retourne le Parking sous forme de String
+     * @return Parking sous forme de String.
+     */
     @Override
     public String toString() {
-        return "lml.snir.parklogickit.metier.entity.Parking[ id=" + id + " ]";
+        String str = "Identifiant du Parking : "+id+" | ";
+        str+="Place Count : "+countPlace+" | ";
+        str+="Max Place : "+maxPlace+" | ";
+        str+="isFull? "+isFull;
+        return str;
     }
-
 }
