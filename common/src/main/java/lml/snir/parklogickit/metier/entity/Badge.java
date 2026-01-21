@@ -22,14 +22,43 @@ public class Badge implements Serializable {
     @Column(nullable = false)
     private String content;
 
+    /**
+     * Récupérer l'identifiant unique du Badge
+     * @return id : Identifiant Unique du Badge
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Modifier l'identifiant unique du Badge
+     * @param id : L'identifiant unique du Badge
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Récupérer le contenu du Badge.
+     * @return content : Retourne le contenu du Badge
+     */
+    public String getContent() {
+        return content;
+    }
+
+    /**
+     * Modifier le contenu du Badge
+     * @param content : Le contenu du Badge a modifier
+     */
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    /**
+     * Vérifier si un objet est égal au Badge
+     * @param object : L'objet a vérifier
+     * @return True ou False
+     */
     @Override
     public boolean equals(Object object) {
         if (object == null) {
@@ -46,31 +75,22 @@ public class Badge implements Serializable {
         }
         return true;
     }
-
+    /**
+     * Retourne le Badge sous forme de String
+     * @return Badge sous forme de String.
+     */
+    @Override
+    public String toString() {
+        return "Badge n°"+getId()+", Contenu: "+getContent();
+    }
+    /**
+     * Retourne un identifiant unique correspondant au Badge uniquement
+     * @return Identifiant unique correspondant au Badge uniquement.
+     */
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 67 * hash + Objects.hashCode(this.content);
         return hash;
     }
-
-    @Override
-    public String toString() {
-        return "lml.snir.gestiontemperature.metier.entity.Badge[ id=" + getId() + " ]";
-    }
-
-    /**
-     * @return the content
-     */
-    public String getContent() {
-        return content;
-    }
-
-    /**
-     * @param content the content to set
-     */
-    public void setContent(String content) {
-        this.content = content;
-    }
-
 }
