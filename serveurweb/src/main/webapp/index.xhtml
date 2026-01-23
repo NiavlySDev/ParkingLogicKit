@@ -1,48 +1,26 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"   
+      xmlns:h = "http://java.sun.com/jsf/html"
+      xmlns:ui = "http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
+
     <h:head>
         <title>Gestion de la Temperature des Locaux</title>
-        <style>
-            body {
-                background-image: url('https://cloudfront-eu-central-1.images.arcpublishing.com/leparisien/W3BONNEX4N62DSFO3ZQZYMSZ2E.jpg');
-                background-size: cover;
-                background-repeat: no-repeat;
-                background-position: center center;
-                min-height: 100vh;
-                margin: 0;
-                padding: 0;
-                font-family: Arial, sans-serif;
-            }
-            .card {
-                background-color: rgba(255,255,255,0.85);
-                padding: 2rem;
-                margin: 2rem auto;
-                border-radius: 12px;
-                max-width: 400px;
-                box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-            }
-        </style>
     </h:head>
-    <h:body>
-        <div class="card">
-            <h:form>
-                <h2>Se connecter</h2>
-                <span class="ui-float-label">
-                    <p:inputText id="float-input" value="#{loginBean.username}"/>
-                    <p:outputLabel for="@previous" value="Nom d'utilisateur"/>
-                </span>
-                <span class="ui-float-label">
-                    <h5><p:outputLabel for="@next" value="Mots de passe"/></h5>
-                    <p:password id="toggle" value="#{loginBean.password}" toggleMask="true" redisplay="true"/>
-                </span>
-            </h:form>
-        </div>
-        <div class="card">
-            <p:commandButton  value="Se connecter"  action="#{loginBean.login()}"/>
-        </div>
+    <h:body>        
+        <ui:composition template = "templates/common.xhtml">	
+            <ui:define name = "content">
+                <h:form id="form" >
+                    <p:messages id="messages" showDetail="true" closable="true">
+                        <p:autoUpdate/>
+                    </p:messages>
+
+                </h:form>
+            </ui:define>
+        </ui:composition>
+
     </h:body>
-</html>
+</html>	 

@@ -11,14 +11,7 @@
         <ui:composition> 
             <h:form id="helloForm" >
                 <h:panelGrid columns="4" cellpadding="20">
-                    <h:graphicImage id="waveImg" url="#{resource['TEMP.png']}" />    
-                    <p:outputLabel value="Gestion de la Temperature des Locaux"/>
-                          
-                    <p:calendar id="eventBatt" value="#{dateBean.date}" >
-                        <p:ajax event="dateSelect"/>
-                    </p:calendar> 
-                    
-                    <p:outputLabel value="#{dateBean.countObservers()}"/>
+                    <p:outputLabel value="Parking Logic Kit"/>
                 </h:panelGrid>
             </h:form>
         </ui:composition>	

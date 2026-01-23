@@ -7,5 +7,4 @@
 .DS_Store
 Thumbs.db
 /common/target/
-/metier/target/
-/physique/target/
+/serveurweb/target/
