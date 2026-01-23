@@ -6,8 +6,8 @@ package lml.snir.parklogickit.metier.transactionel;
 
 /**
  *
- * @author jupiter
+ * @author phily
  */
-public interface MaintenanceService {
+public interface AdminService {
     
 }

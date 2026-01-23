@@ -12,9 +12,9 @@ import lml.snir.persistence.CrudService;
  */
    public interface ParkingService extends CrudService<Parking> {
 
-   
-    public Parking getByLogin(String contenu) throws Exception;
-    public Parking getByPassword(String contenu) throws Exception;
+    public Parking getById(long id) throws Exception;
+    public Parking getByUsername(String contenu) throws Exception;
+    public Parking getByCountPlace(int contenu) throws Exception;
     public Parking getByIsFull(boolean attribue) throws Exception;
-     public Parking getByMaxPlace(String contenu) throws Exception;
+   
    }

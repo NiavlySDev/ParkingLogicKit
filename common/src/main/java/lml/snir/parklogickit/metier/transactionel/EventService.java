@@ -4,14 +4,15 @@
  */
 package lml.snir.parklogickit.metier.transactionel;
 
-import lml.snir.parklogickit.metier.entity.Driver;
+import lml.snir.parklogickit.metier.entity.Event;
 import lml.snir.persistence.CrudService;
-
-
 /**
  *
- * @author ethan
+ * @author phily
  */
-public interface DriverService extends CrudService<Driver>  {
-    public Driver getByLogin (String login) throws Exception;
-}
+   public interface EventService extends CrudService<Event> {
+
+    public Event getById(long id) throws Exception;
+    public Event getByIsEntered(boolean attribue) throws Exception;
+   
+   }
