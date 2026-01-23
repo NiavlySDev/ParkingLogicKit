@@ -29,6 +29,8 @@ public abstract class Driver implements Serializable {
     private String username;
     private String password;
     private boolean isMale;
+    
+    private Car car;
 
     /**
      * Retourne l'identifiant unique du Conducteur (Driver)
@@ -114,6 +116,14 @@ public abstract class Driver implements Serializable {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * Récupérer l'objet Voiture (Car)
+     * @return car : l'objet Voiture (Car)
+     */
+    public Car getCar() {
+        return car;
     }
 
     /**
