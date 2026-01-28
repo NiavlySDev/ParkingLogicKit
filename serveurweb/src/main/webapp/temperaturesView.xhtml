@@ -1,29 +1,40 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"   
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="jakarta.faces.facelets">
 
     <h:head>
         <title>Gestion Energie Electrique</title>
-    </h:head>
- <h:body>        
-        <ui:composition template="templates/common.xhtml">	
-            <ui:define name="content">
-                <h:form id="form">
-      
-        <style>
-            .ui-chart {
-                margin-bottom: 50px;
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css" />
+        <script type="text/javascript">
+            function toggleDarkMode() {
+                document.body.classList.toggle('dark-mode');
+                if(document.body.classList.contains('dark-mode')) {
+                    localStorage.setItem('darkMode', '1');
+                } else {
+                    localStorage.removeItem('darkMode');
+                }
             }
-        </style>
-        <div class="card">  
-            <p:chart id="graphTemperatures" value="#{temperaturesBean.lineModel}" style="width: 100%; height: 300px;"/>              
+            window.onload = function() {
+                if(localStorage.getItem('darkMode') === '1') {
+                    document.body.classList.add('dark-mode');
+                }
+            }
+        </script>
+    </h:head>
+    <h:body>
+        <button onclick="toggleDarkMode()" style="position:fixed; top:20px; right:24px; z-index:1000; border-radius:18px; padding:8px 18px; background:#ececec; border:none; color:#222; font-weight:600; cursor:pointer;">
+            🌙/☀️ Mode
+        </button>
+        <h:panelGroup layout="block">
+            <ui:include src="/templates/header.xhtml"/>
+        </h:panelGroup>
+        <div class="modern-card">
+            <p:chart id="graphTemperatures" value="#{temperaturesBean.lineModel}" style="width: 100%; height: 300px;"/>
         </div>
-              </h:form>
-            </ui:define>
-        </ui:composition>
-    </h:body> 
-</html>	
+    </h:body>
+</html>

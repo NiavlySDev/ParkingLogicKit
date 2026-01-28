@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
  */
 @Entity
 public class Badge implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,13 +24,16 @@ public class Badge implements Serializable {
 
     /**
      * Récupérer l'identifiant unique du Badge
+     *
      * @return id : Identifiant Unique du Badge
      */
     public Long getId() {
         return id;
     }
+
     /**
      * Modifier l'identifiant unique du Badge
+     *
      * @param id : L'identifiant unique du Badge
      */
     public void setId(Long id) {
@@ -38,21 +42,25 @@ public class Badge implements Serializable {
 
     /**
      * Récupérer le contenu du Badge.
+     *
      * @return content : Retourne le contenu du Badge
      */
     public String getContent() {
         return content;
     }
+
     /**
      * Modifier le contenu du Badge
+     *
      * @param content : Le contenu du Badge a modifier
      */
     public void setContent(String content) {
         this.content = content;
     }
-    
+
     /**
      * Retourne un identifiant unique correspondant au Badge uniquement
+     *
      * @return Identifiant unique correspondant au Badge uniquement.
      */
     @Override
@@ -61,8 +69,10 @@ public class Badge implements Serializable {
         hash = 67 * hash + Objects.hashCode(this.content);
         return hash;
     }
+
     /**
      * Vérifier si un objet est égal au Badge
+     *
      * @param object : L'objet a vérifier
      * @return True si égal, False si non.
      */
@@ -79,14 +89,16 @@ public class Badge implements Serializable {
         Badge other = (Badge) object;
         return !((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id)));
     }
+
     /**
      * Retourne le Badge sous forme de String
+     *
      * @return Badge sous forme de String.
      */
     @Override
     public String toString() {
-        String str = "Identifiant du Badge: "+id+" | ";
-        str += "Contenu: "+content;
+        String str = "Identifiant du Badge: " + id + " | ";
+        str += "Contenu: " + content;
         return str;
     }
 }

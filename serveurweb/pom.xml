@@ -38,9 +38,15 @@
     
     <dependencies>
         <!-- Project dependencies -->        
-        <dependency>
+        <!--<dependency>
             <groupId>lml.snir</groupId>
             <artifactId>parkinglogickit-physique</artifactId>
+            <version>${project.version}</version>
+            <type>jar</type>
+        </dependency>-->   
+        <dependency>
+            <groupId>lml.snir</groupId>
+            <artifactId>parkinglogickit-common</artifactId>
             <version>${project.version}</version>
             <type>jar</type>
         </dependency>

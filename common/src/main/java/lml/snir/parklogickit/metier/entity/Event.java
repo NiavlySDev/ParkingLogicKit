@@ -22,13 +22,16 @@ public class Event implements Serializable {
 
     /**
      * Retourne l'identifiant unique de L'Evènement (Event)
+     *
      * @return id : L'identifiant unique de l'Evènement
      */
     public Long getId() {
         return id;
     }
+
     /**
      * Modifier l'identifiant unique de l'Evènement (Event)
+     *
      * @param id : L'identifiant de l'Evènement (Event) à modifier
      */
     public void setId(Long id) {
@@ -37,13 +40,16 @@ public class Event implements Serializable {
 
     /**
      * Retourne si l'évènement (Event) est une "Entrée" ou une "Sortie"
+     *
      * @return accessType : "Entrée" ou "Sortie"
      */
     public AccessType getAccessType() {
         return accessType;
     }
+
     /**
      * Modifier si l'évènement (Event) est une "Entrée" ou une "Sortie"
+     *
      * @param accessType : Le type d'accès à modifier : "Entrée" ou "Sortie"
      */
     public void setAccessType(AccessType accessType) {
@@ -51,8 +57,11 @@ public class Event implements Serializable {
     }
 
     /**
-     * Retourne un identifiant unique correspondant à L'Evènement (Event) uniquement
-     * @return Identifiant unique correspondant à L'Evènement (Event) uniquement.
+     * Retourne un identifiant unique correspondant à L'Evènement (Event)
+     * uniquement
+     *
+     * @return Identifiant unique correspondant à L'Evènement (Event)
+     * uniquement.
      */
     @Override
     public int hashCode() {
@@ -60,8 +69,10 @@ public class Event implements Serializable {
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
+
     /**
      * Vérifier si un objet est égal à L'Evènement (Event)
+     *
      * @param object : L'objet a vérifier
      * @return True si égal, False si non.
      */
@@ -82,15 +93,17 @@ public class Event implements Serializable {
         }
         return this.accessType == other.accessType;
     }
+
     /**
      * Retourne L'Evènement (Event) sous forme de String
+     *
      * @return L'Evènement (Event) sous forme de String.
      */
     @Override
     public String toString() {
         String str = "";
-        str+="Event n°"+id+" | ";
-        str+="";
+        str += "Event n°" + id + " | ";
+        str += "";
         return str;
     }
 

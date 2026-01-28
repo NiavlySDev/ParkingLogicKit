@@ -13,9 +13,9 @@
     <class>lml.snir.parkinglogicmanager.metier.entity.Badge</class>
     <properties>
       <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/parkinglogicmanager?zeroDateTimeBehavior=convertToNull"/>
-      <property name="jakarta.persistence.jdbc.user" value="parkinglogicmanager"/>
+      <property name="jakarta.persistence.jdbc.user" value="parklogickit"/>
       <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-      <property name="jakarta.persistence.jdbc.password" value="I./TYbNokf3A)hvJ"/>
+      <property name="jakarta.persistence.jdbc.password" value="Gl8[/(qNy17370D8"/>
       <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
