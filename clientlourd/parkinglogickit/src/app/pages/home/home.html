@@ -14,23 +14,25 @@
     <p>Une solution applicative pour gérer les accès des profs au parking du lycée LML !</p>
 
     <div class="actions">
-      <p-button
-        label="Se connecter"
-        icon="pi pi-sign-in"
+      <button
+      pButton
+      type="button"
+      label="Se connecter"
         [routerLink]="['/sign-in']"
         size="large"
         [rounded]="true"
         severity="primary"
-      ></p-button>
+      ></button>
 
-      <p-button
-        label="S'inscrire"
-        icon="pi pi-user-plus"
+      <button
+      pButton
+      type="button"
+      label="S'inscrire"
         [routerLink]="['/sign-up']"
         size="large"
         [rounded]="true"
         severity="success"
-      ></p-button>
+      ></button>
     </div>
   </main>
 </body>
