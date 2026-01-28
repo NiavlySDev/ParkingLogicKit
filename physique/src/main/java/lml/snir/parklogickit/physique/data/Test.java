@@ -6,7 +6,7 @@ package lml.snir.parklogickit.physique.data;
 
 /**
  *
- * @author jupiter
+ * @author virgile
  */
 public class Test {
 
