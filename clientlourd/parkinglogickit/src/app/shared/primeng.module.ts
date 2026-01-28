@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
-import { RouterLink } from '@angular/router';
+// On retire RouterLink d'ici
 
-// Les essentiels pour démarrer
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
@@ -10,20 +9,18 @@ import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { CheckboxModule } from 'primeng/checkbox';
 
-const PRIMENG_MODULES = [
+const PRIMENG_COMPONENTS = [
   ButtonModule,
   InputTextModule,
-  TableModule, // Tableau de datas
-  DialogModule, // Dialogues modaux
-  CardModule, // Cartes d'affichage
-  RouterLink, // Pour les liens de routage
-  ToastModule, // Notifications toast
-  CheckboxModule, // Cases à cocher
-  // ... liste tous ceux que tu veux
+  TableModule,
+  DialogModule,
+  CardModule,
+  ToastModule,
+  CheckboxModule,
 ];
 
 @NgModule({
-  imports: PRIMENG_MODULES,
-  exports: PRIMENG_MODULES,
+  imports: [...PRIMENG_COMPONENTS],
+  exports: [...PRIMENG_COMPONENTS],
 })
 export class PrimengModule {}
