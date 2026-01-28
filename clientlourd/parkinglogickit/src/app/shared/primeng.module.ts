@@ -12,18 +12,18 @@ import { CheckboxModule } from 'primeng/checkbox';
 
 const PRIMENG_MODULES = [
   ButtonModule,
-  InputTextModule, 
+  InputTextModule,
   TableModule, // Tableau de datas
   DialogModule, // Dialogues modaux
-  CardModule,   // Cartes d'affichage
+  CardModule, // Cartes d'affichage
   RouterLink, // Pour les liens de routage
-  ToastModule,  // Notifications toast
-  CheckboxModule,   // Cases à cocher
+  ToastModule, // Notifications toast
+  CheckboxModule, // Cases à cocher
   // ... liste tous ceux que tu veux
 ];
 
 @NgModule({
   imports: PRIMENG_MODULES,
-  exports: PRIMENG_MODULES
+  exports: PRIMENG_MODULES,
 })
-export class PrimengModule { }
+export class PrimengModule {}
