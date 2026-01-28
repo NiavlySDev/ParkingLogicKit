@@ -1,24 +1,36 @@
 <head>
-    <meta charset="UTF-8">
-    <title>Gestion de Parking</title>
+  <meta charset="UTF-8" />
+  <title>Gestion de Parking</title>
 
-    <!-- Responsive obligatoire -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Responsive obligatoire -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Lien vers le CSS -->
-    <link rel="stylesheet" href="home.css">
+  <!-- Lien vers le CSS -->
+  <link rel="stylesheet" href="home.css" />
 </head>
 <body>
+  <main class="container">
+    <h1>Bienvenue sur le Projet ParkingLogicKit !</h1>
+    <p>Une solution applicative pour gérer les accès des profs au parking du lycée LML !</p>
 
-    <main class="container">
-        <h1>Bienvenue sur le Projet ParkingLogicKit !</h1>
-        <p>Une solution applicative pour gérer les accès des profs au parking du lycée LML !</p>
+    <div class="actions">
+      <p-button
+        label="Se connecter"
+        icon="pi pi-sign-in"
+        [routerLink]="['/sign-in']"
+        size="large"
+        [rounded]="true"
+        severity="primary"
+      ></p-button>
 
-        <div class="actions">
-            <a routerLink="./sign-in.html">Se connecter</a>
-            <a routerLink="./sign-up.html">S'inscrire</a>
-        </div>
-        
-    </main>
-
+      <p-button
+        label="S'inscrire"
+        icon="pi pi-user-plus"
+        [routerLink]="['/sign-up']"
+        size="large"
+        [rounded]="true"
+        severity="success"
+      ></p-button>
+    </div>
+  </main>
 </body>
