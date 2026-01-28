@@ -19,6 +19,7 @@ import java.util.Objects;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "TYPE", discriminatorType = DiscriminatorType.STRING)
 public class Maintenance implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -28,13 +29,16 @@ public class Maintenance implements Serializable {
 
     /**
      * Retourne L'Identifiant unique du Technicien
+     *
      * @return id : L'Identifiant unique du Technicien
      */
     public long getId() {
         return id;
     }
+
     /**
      * Modifie L'Identifiant unique du Technicien
+     *
      * @param id : L'Identifiant unique du Technicien à modifier
      */
     public void setId(long id) {
@@ -43,14 +47,19 @@ public class Maintenance implements Serializable {
 
     /**
      * Retourne le Nom d'Utilisateur (Username) du Technicien (Maintenance)
-     * @return username : le Nom d'Utilisateur (Username) du Technicient (Maintenance)
+     *
+     * @return username : le Nom d'Utilisateur (Username) du Technicient
+     * (Maintenance)
      */
     public String getUsername() {
         return username;
     }
+
     /**
      * Modifier le Nom d'Utilisateur (Username) du Technicien (Maintenance)
-     * @param username : le Nom d'Utilisateur (Username) du Technicient (Maintenance) à modifier
+     *
+     * @param username : le Nom d'Utilisateur (Username) du Technicient
+     * (Maintenance) à modifier
      */
     public void setUsername(String username) {
         this.username = username;
@@ -58,29 +67,36 @@ public class Maintenance implements Serializable {
 
     /**
      * Retourne si le Technicien (Maintenance) est admin ou non
+     *
      * @return isAdmin : True si admin, False si non
      */
     public boolean isIsAdmin() {
         return isAdmin;
     }
+
     /**
      * Modifier si le Technicien est admin ou non.
+     *
      * @param isAdmin : True si admin, False si non
      */
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
-    
+
     /**
      * Retourne le Mot de Passe (Password) du Technicien (Maintenance)
+     *
      * @return password : Le Mot de Passe (Password) du Technicien (Maintenance)
      */
     public String getPassword() {
         return password;
     }
+
     /**
      * Modifier le Mot de Passe (Password) du Technicien (Maintenance)
-     * @param password : Le Mot de Passe (Password) du Technicien (Maintenance) à modifier
+     *
+     * @param password : Le Mot de Passe (Password) du Technicien (Maintenance)
+     * à modifier
      */
     public void setPassword(String password) {
         this.password = password;
@@ -88,6 +104,7 @@ public class Maintenance implements Serializable {
 
     /**
      * Vérifier si un objet est égal au Technicien (Maintenance)
+     *
      * @param object : L'objet a vérifier
      * @return True si égal, False si non.
      */
@@ -114,9 +131,13 @@ public class Maintenance implements Serializable {
         }
         return Objects.equals(this.password, other.password);
     }
+
     /**
-     * Retourne un identifiant unique correspondant au Technicien (Maintenance) uniquement
-     * @return Identifiant unique correspondant au Technicien (Maintenance) uniquement.
+     * Retourne un identifiant unique correspondant au Technicien (Maintenance)
+     * uniquement
+     *
+     * @return Identifiant unique correspondant au Technicien (Maintenance)
+     * uniquement.
      */
     @Override
     public int hashCode() {
@@ -127,14 +148,16 @@ public class Maintenance implements Serializable {
         hash = 37 * hash + (this.isAdmin ? 1 : 0);
         return hash;
     }
+
     /**
      * Retourne le Technicien (Maintenance) sous forme de String
+     *
      * @return Le Technicien (Maintenance) sous forme de String.
      */
     @Override
     public String toString() {
-        String str = "Identifiant Technicien : "+id+" | ";
-        str+="IsAdmin? "+isAdmin;
+        String str = "Identifiant Technicien : " + id + " | ";
+        str += "IsAdmin? " + isAdmin;
         return str;
     }
 }

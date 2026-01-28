@@ -20,6 +20,7 @@ import java.util.Objects;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "TYPE", discriminatorType = DiscriminatorType.STRING)
 public abstract class Driver implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -29,33 +30,39 @@ public abstract class Driver implements Serializable {
     private String username;
     private String password;
     private boolean isMale;
-    
+
     private Car car;
 
     /**
      * Retourne l'identifiant unique du Conducteur (Driver)
+     *
      * @return id : L'identifiant unique du Conducteur (Driver)
      */
     public long getId() {
         return id;
     }
+
     /**
      * Modifier l'identifiant unique du Conducteur (Driver)
+     *
      * @param id : L'identifiant du Conducteur (Driver) à modifier
      */
     public void setId(long id) {
         this.id = id;
     }
-    
+
     /**
      * Retourne le Nom du Conducteur (Driver)
+     *
      * @return surname : Le Nom du Conducteur (Driver)
      */
     public String getSurname() {
         return surname;
     }
+
     /**
      * Modifier le Nom du Conducteur (Driver)
+     *
      * @param surname : Le Nom du Conducteur (Driver) à modifier.
      */
     public void setSurname(String surname) {
@@ -64,13 +71,16 @@ public abstract class Driver implements Serializable {
 
     /**
      * Retourne le Prénom du Conducteur (Driver)
+     *
      * @return firstName : Le Prénom du Conducteur (Driver)
      */
     public String getFirstName() {
         return firstName;
     }
+
     /**
      * Modifier le Prénom du Conducteur (Driver)
+     *
      * @param firstName : Le Prénom du Conducteur (Driver) à modifier
      */
     public void setFirstName(String firstName) {
@@ -79,25 +89,29 @@ public abstract class Driver implements Serializable {
 
     /**
      * Retourne si le Conducteur (Driver) est un Homme ou une Femme
+     *
      * @return isMale : True si Homme, False si Femme
      */
     public boolean isIsMale() {
         return isMale;
     }
+
     /**
      * Modifier si le Conducteur (Driver) est un Homme ou une Femme
+     *
      * @param isMale : True si Homme, False si Femme
      */
     public void setIsMale(boolean isMale) {
         this.isMale = isMale;
     }
-    
+
     /**
      * @return the username
      */
     public String getUsername() {
         return username;
     }
+
     /**
      * @param username the username to set
      */
@@ -111,6 +125,7 @@ public abstract class Driver implements Serializable {
     public String getPassword() {
         return password;
     }
+
     /**
      * @param password the password to set
      */
@@ -120,6 +135,7 @@ public abstract class Driver implements Serializable {
 
     /**
      * Récupérer l'objet Voiture (Car)
+     *
      * @return car : l'objet Voiture (Car)
      */
     public Car getCar() {
@@ -127,15 +143,20 @@ public abstract class Driver implements Serializable {
     }
 
     /**
-     * Retourne un identifiant unique correspondant au Conducteur (Driver) uniquement
-     * @return Identifiant unique correspondant au Conducteur (Driver) uniquement.
+     * Retourne un identifiant unique correspondant au Conducteur (Driver)
+     * uniquement
+     *
+     * @return Identifiant unique correspondant au Conducteur (Driver)
+     * uniquement.
      */
     @Override
     public int hashCode() {
         return super.hashCode(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
+
     /**
      * Retourne le Conducteur (Driver) sous forme de string
+     *
      * @return driverStr : Le Conducteur (Driver) sous forme de string.
      */
     @Override
@@ -152,8 +173,10 @@ public abstract class Driver implements Serializable {
         }
         return str;
     }
+
     /**
      * Vérifier si un objet est égal au Conducteur (Driver)
+     *
      * @param object : L'objet a vérifier
      * @return True si égal, False si non.
      */
