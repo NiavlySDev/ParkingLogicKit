@@ -3,66 +3,22 @@ package lml.snir.parklogickit.metier.transactionel;
 import java.util.List;
 
 
-import lml.snir.parklogickit.metier.entity.Driver;
-import lml.snir.parklogickit.data.DriverDataService;
+import lml.snir.parklogickit.metier.entity.Admin;
+//import lml.snir.parklogickit.data.AdminDataService;
 
 /**
  *
  * @author fanou
  */
-public final class AdminServiceImpl implements DriverService {
-    private final DriverDataService drvDataSrv;
+public final class AdminServiceImpl implements AdminService {
+//    private final AdminDataService AdminDataSrv;
+//    
+//    public AdminServiceImpl() throws Exception {
+//        this.AdminDataSrv = PhysiqueDataFactory.getAdminDataService();
+//    }
     
-    public AdminServiceImpl() throws Exception {
-        this.drvDataSrv = PhysiqueDataFactory.getDriverDataService();
-    }
-    
-    public Driver getByLogin(String login) throws Exception {
-        return this.drvDataSrv.getByLogin(login);
-    }
 
 
-    @Override
-    public Driver getById(Long id) throws Exception {
-        return this.drvDataSrv.getById(id);
-    }
-
-
-
-    @Override
-    public Driver getByUsername(String contenu) throws Exception {
-      return this.drvDataSrv.getByUsername();
-    }
-
-
-    @Override
-    public Driver getByFirstname(String contenu) throws Exception {
-       return this.drvDataSrv.getByFirstname();
-    }
-
-
-    @Override
-    public Driver getBySurname(String contenu) throws Exception {
-      return this.drvDataSrv.getBySurname();
-    }
-
-
-    @Override
-    public Driver getByCountPlace(int contenu) throws Exception {
-       return this.drvDataSrv.getByCountPlace();
-    }
-
-
-    @Override
-    public Driver getByIsMale(boolean attribue) throws Exception {
-         return this.drvDataSrv.getByIsMale();
-    }
-
-
-    @Override
-    public Driver getByPassword(String contenu) throws Exception {
-     return this.drvDataSrv.getByPassword();
-    }
-
+ 
     
 }

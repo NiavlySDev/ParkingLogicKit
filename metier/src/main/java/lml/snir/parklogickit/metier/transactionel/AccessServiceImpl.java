@@ -15,35 +15,40 @@ import lml.snir.parklogickit.physique.data.AccessDataService;
  */
 public class AccessServiceImpl implements AccessService {
 
-    private final AccessDataService accessDataSrv;
+//    private final AccessDataService accessDataSrv;
 
-    public AccessServiceImpl() throws Exception {
-        this.accessDataSrv = PhysiqueDataFactory.getAccessDataService();
-    }
+//    public AccessServiceImpl() throws Exception {
+//        this.accessDataSrv = PhysiqueDataFactory.getAccessDataService();
+//    }
 
     @Override
     public Access getById(long id) throws Exception {
-        return this.accessDataSrv.getById(id);
+        return null;
+//        return this.accessDataSrv.getById(id);
     }
 
     @Override
     public Access getByDriver(String contenu) throws Exception {
-       return this.accessDataSrv.getByDriver();
+        return null;
+//       return this.accessDataSrv.getByDriver();
     }
 
     @Override
     public Access getByBadge(String contenu) throws Exception {
-        return this.accessDataSrv.getByBadge();
+        return null;
+//        return this.accessDataSrv.getByBadge();
     }
 
     @Override
     public Access getByDateTime(String contenu) throws Exception {
-     return this.accessDataSrv.getByDateTime();
+        return null;
+//     return this.accessDataSrv.getByDateTime();
     }
 
     @Override
     public Access getByEvent(String contenu) throws Exception {
-     return this.accessDataSrv.getByEvent();
+        return null;
+//     return this.accessDataSrv.getByEvent();
     }
 
     @Override
@@ -81,6 +86,7 @@ public class AccessServiceImpl implements AccessService {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+  
 }
 
 
