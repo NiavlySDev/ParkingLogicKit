@@ -1,15 +1,14 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="jakarta.faces.core">
+      xmlns:ui="jakarta.faces.facelets">
 
     <h:head>
-        <title>Gestion de la Temperature des Locaux</title>
+        <title>Gestion Energie Electrique</title>
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css" />
         <script type="text/javascript">
             function toggleDarkMode() {
@@ -28,20 +27,14 @@
         </script>
     </h:head>
     <h:body>
-        <button onclick="toggleDarkMode()" class="dark-mode-toggle">
-            🌙 Mode
+        <button onclick="toggleDarkMode()" style="position:fixed; top:20px; right:24px; z-index:1000; border-radius:18px; padding:8px 18px; background:#ececec; border:none; color:#222; font-weight:600; cursor:pointer;">
+            🌙/☀️ Mode
         </button>
-        <div class="main-container">
-            <p:messages id="messageindex" showDetail="true" closable="true" />
-            <h:form id="index">
-                <p:tabMenu id="tabMenu"
-                    model="#{navBean.model}"
-                    activeIndex="#{navBean.activeIndex}"/>
-                <p:growl id="message" showDetail="true" />
-                <h:panelGroup id="fragmentPanel" layout="block">
-                    <ui:include src="#{navBean.path}" />
-                </h:panelGroup>
-            </h:form>
+        <h:panelGroup layout="block">
+            <ui:include src="/templates/header.xhtml"/>
+        </h:panelGroup>
+        <div class="modern-card">
+            <p:chart id="graphTemperatures" value="#{temperaturesBean.lineModel}" style="width: 100%; height: 300px;"/>
         </div>
     </h:body>
 </html>

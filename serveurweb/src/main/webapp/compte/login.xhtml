@@ -1,16 +1,16 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="jakarta.faces.core">
+      xmlns:p="http://primefaces.org/ui">
 
     <h:head>
-        <title>Gestion de la Temperature des Locaux</title>
+        <title>Connexion - Gestion de la Temperature des Locaux</title>
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css" />
+            
+            
         <script type="text/javascript">
             function toggleDarkMode() {
                 document.body.classList.toggle('dark-mode');
@@ -31,17 +31,16 @@
         <button onclick="toggleDarkMode()" class="dark-mode-toggle">
             🌙 Mode
         </button>
-        <div class="main-container">
-            <p:messages id="messageindex" showDetail="true" closable="true" />
-            <h:form id="index">
-                <p:tabMenu id="tabMenu"
-                    model="#{navBean.model}"
-                    activeIndex="#{navBean.activeIndex}"/>
-                <p:growl id="message" showDetail="true" />
-                <h:panelGroup id="fragmentPanel" layout="block">
-                    <ui:include src="#{navBean.path}" />
-                </h:panelGroup>
-            </h:form>
+        <div class="login-card">
+            <h4>Nom d'utilisateur</h4>
+            <p:inputText value="#{loginBean.username}" />
+            <h4>Mot de Passe</h4>
+            <p:password value="#{loginBean.password}" toggleMask="true" redisplay="true"/><br/><br/>
+            <p:commandButton value="Login"
+                             styleClass="rounded-button ui-button-success"
+                             icon="pi pi-sign-in"
+                             action="#{loginBean.login()}"
+                             update="index:fragmentPanel messageindex message index:tabMenu"/>
         </div>
     </h:body>
 </html>
