@@ -18,19 +18,22 @@ public class Car implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     private String plaque;
     private CarType type;
 
     /**
      * Récupérer l'identifiant unique de la Voiture (Car)
+     *
      * @return id : L'identifiant unique de la Voiture (Car)
      */
     public Long getId() {
         return id;
     }
+
     /**
      * Modifier l'identifiant unique de la Voiture (Car)
+     *
      * @param id : L'identifiant unique de la Voiture (Car) à modifier.
      */
     public void setId(Long id) {
@@ -39,13 +42,16 @@ public class Car implements Serializable {
 
     /**
      * Récupérer la Plaque de la Voiture (Car)
+     *
      * @return plaque : la Plaque de la Voiture (Car)
      */
     public String getPlaque() {
         return plaque;
     }
+
     /**
      * Modifier la Plaque de la Voiture (Car)
+     *
      * @param plaque : la Plaque de la Voiture (Car) à modifier.
      */
     public void setPlaque(String plaque) {
@@ -54,13 +60,16 @@ public class Car implements Serializable {
 
     /**
      * Récupérer le type de la Voiture (Car)
+     *
      * @return type : le type de la Voiture (Car)
      */
     public CarType getType() {
         return type;
     }
+
     /**
      * Modifier le type de la Voiture (Car)
+     *
      * @param type : le type de la Voiture (Car) à modifier.
      */
     public void setType(CarType type) {
@@ -68,7 +77,9 @@ public class Car implements Serializable {
     }
 
     /**
-     * Retourne un identifiant unique correspondant à la Voiture (Car) uniquement
+     * Retourne un identifiant unique correspondant à la Voiture (Car)
+     * uniquement
+     *
      * @return Identifiant unique correspondant au Badge uniquement.
      */
     @Override
@@ -77,8 +88,10 @@ public class Car implements Serializable {
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
+
     /**
      * Vérifier si un objet est égal à la Voiture (Car)
+     *
      * @param object : L'objet a vérifier
      * @return True si égal, False si non.
      */
@@ -102,15 +115,17 @@ public class Car implements Serializable {
         }
         return this.type == other.type;
     }
+
     /**
      * Retourne le Voiture (Car) sous forme de String
+     *
      * @return Voiture (Car) sous forme de String.
      */
     @Override
     public String toString() {
-        String str = "Identifiant Voiture : "+id+" | ";
-        str+="Plaque : "+plaque+" | ";
-        str+="Type de Voiture : "+type+" | ";
+        String str = "Identifiant Voiture : " + id + " | ";
+        str += "Plaque : " + plaque + " | ";
+        str += "Type de Voiture : " + type + " | ";
         return str;
     }
 }

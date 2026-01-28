@@ -1,0 +1,92 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+
+    <h:head>
+        <title>Gestion des Attributions - Administration</title>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css" />
+
+        <script type="text/javascript">
+            function toggleDarkMode() {
+                document.body.classList.toggle('dark-mode');
+                if(document.body.classList.contains('dark-mode')) {
+                    localStorage.setItem('darkMode', '1');
+                } else {
+                    localStorage.removeItem('darkMode');
+                }
+            }
+            window.onload = function() {
+                if(localStorage.getItem('darkMode') === '1') {
+                    document.body.classList.add('dark-mode');
+                }
+            }
+        </script>
+    </h:head>
+    <h:body>
+        <button onclick="toggleDarkMode()" style="position:fixed; top:20px; right:24px; z-index:1000; border-radius:18px; padding:8px 18px; background:#ececec; border:none; color:#222; font-weight:600; cursor:pointer;">
+            🌙/☀️ Mode
+        </button>
+        <br/>
+        <h2>Gestion des Locaux</h2>
+        <p:dataTable id="attribution" var="attribution" value="#{attributionsBean.attributions}" style="margin-bottom:24px;">
+            <p:column headerText="Identifiant">
+                <h:outputText value="#{attribution.id}" />
+            </p:column>
+            <p:column headerText="Utilisateur">
+                <h:outputText value="#{attribution.utilisateur.firstName} #{attribution.utilisateur.name} (ID: #{attribution.utilisateur.id})" />
+            </p:column>
+            <p:column headerText="Badge">
+                <h:outputText value="#{attribution.badge.contenu} (ID: #{attribution.badge.id})" />
+            </p:column>
+        </p:dataTable>
+
+        <br/>
+
+        <h2>Actions: </h2>
+
+        <p:commandButton value="Créer Attribution" type="button" icon="pi pi-plus"
+                         styleClass="rounded-button ui-button-success"
+                         onclick="PF('creation').show()"/> &nbsp;
+
+        <p:dialog header="Création Attribution" widgetVar="creation" minHeight="40" width="350" showEffect="fade">
+            <h4>Utilisateur :</h4>
+            <p:selectOneMenu value="#{ajouterAttributionBean.idUtilisateur}">
+                <f:selectItems value="#{utilisateurSelectBean.usersGroupes}"/>
+            </p:selectOneMenu>
+            <h4>Badge :</h4>
+            <p:selectOneMenu value="#{ajouterAttributionBean.idBadge}">
+                <f:selectItems value="#{badgeSelectBean.badgesGroupes}"/>
+            </p:selectOneMenu>
+            <f:facet name="footer">
+                <p:commandButton value="Créer Badge"
+                                 icon="pi pi-plus"
+                                 styleClass="rounded-button ui-button-success"
+                                 action="#{ajouterAttributionBean.ajouter()}"
+                                 update="index:fragmentPanel messageindex message index:tabMenu user"/>
+            </f:facet>
+        </p:dialog>
+
+        <p:commandButton value="Supprimer Attribution" type="button" icon="pi pi-times"
+                         styleClass="rounded-button ui-button-danger"
+                         onclick="PF('suppression').show()"/>
+
+        <p:dialog header="Suppression Attribution" widgetVar="suppression" minHeight="40" width="350" showEffect="fade">
+            <h4>Attribution :</h4>
+            <p:selectOneMenu value="#{supprimerAttributionBean.id}">
+                <f:selectItems value="#{attributionsSelectBean.attrsGroupes}"/>
+            </p:selectOneMenu>
+            <f:facet name="footer">
+                <p:commandButton value="Supprimer Attribution"
+                                 icon="pi pi-times"
+                                 styleClass="rounded-button ui-button-danger"
+                                 action="#{supprimerAttributionBean.supprimer()}"
+                                 update="index:fragmentPanel messageindex message index:tabMenu user"/>
+            </f:facet>
+        </p:dialog>
+    </h:body>
+</html>

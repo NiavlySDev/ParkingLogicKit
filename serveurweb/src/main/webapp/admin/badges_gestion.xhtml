@@ -1,0 +1,81 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+
+    <h:head>
+        <title>Gestion des Badges - Administration</title>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css" />
+
+        <script type="text/javascript">
+            function toggleDarkMode() {
+                document.body.classList.toggle('dark-mode');
+                if(document.body.classList.contains('dark-mode')) {
+                    localStorage.setItem('darkMode', '1');
+                } else {
+                    localStorage.removeItem('darkMode');
+                }
+            }
+            window.onload = function() {
+                if(localStorage.getItem('darkMode') === '1') {
+                    document.body.classList.add('dark-mode');
+                }
+            }
+        </script>
+    </h:head>
+    <h:body>
+        <button onclick="toggleDarkMode()" style="position:fixed; top:20px; right:24px; z-index:1000; border-radius:18px; padding:8px 18px; background:#ececec; border:none; color:#222; font-weight:600; cursor:pointer;">
+            🌙/☀️ Mode
+        </button>
+        <br/>
+        <h2>Gestion des Locaux</h2>
+        <p:dataTable id="badge" var="badge" value="#{badgesBean.badges}" style="margin-bottom:24px;">
+            <p:column headerText="Identifiant">
+                <h:outputText value="#{badge.id}" />
+            </p:column>
+            <p:column headerText="Contenu">
+                <h:outputText value="#{badge.contenu}" />
+            </p:column>
+        </p:dataTable>
+
+        <br/>
+
+        <h2>Actions: </h2>
+
+        <p:commandButton value="Créer Badge" type="button" icon="pi pi-plus"
+                         styleClass="rounded-button ui-button-success"
+                         onclick="PF('creation').show()"/> &nbsp;
+
+        <p:dialog header="Création Badge" widgetVar="creation" minHeight="40" width="350" showEffect="fade">
+            <h4>Contenu :</h4>
+            <p:inputText value="#{ajouterBadgeBean.contenu}"/><br/>
+            <f:facet name="footer">
+                <p:commandButton value="Créer Badge"
+                                 icon="pi pi-plus"
+                                 styleClass="rounded-button ui-button-success"
+                                 action="#{ajouterBadgeBean.ajouter()}"
+                                 update="index:fragmentPanel messageindex message index:tabMenu user"/>
+            </f:facet>
+        </p:dialog>
+
+        <p:commandButton value="Supprimer Badge" type="button" icon="pi pi-times"
+                         styleClass="rounded-button ui-button-danger"
+                         onclick="PF('suppression').show()"/>
+
+        <p:dialog header="Suppression Badge" widgetVar="suppression" minHeight="40" width="350" showEffect="fade">
+            <h4>Numéro :</h4>
+            <p:inputNumber value="#{supprimerBadgeBean.id}" minValue="0"/><br/>
+            <f:facet name="footer">
+                <p:commandButton value="Supprimer Badge"
+                                 icon="pi pi-times"
+                                 styleClass="rounded-button ui-button-danger"
+                                 action="#{supprimerBadgeBean.supprimer()}"
+                                 update="index:fragmentPanel messageindex message index:tabMenu user"/>
+            </f:facet>
+        </p:dialog>
+    </h:body>
+</html>

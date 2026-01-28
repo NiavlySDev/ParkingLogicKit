@@ -6,12 +6,23 @@
       xmlns:ui = "http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
-
+    
     <body>
         <ui:composition> 
             <h:form id="helloForm" >
                 <h:panelGrid columns="4" cellpadding="20">
-                    <p:outputLabel value="Parking Logic Kit"/>
+                    <h:graphicImage id="waveImg" url="#{resource['TEMP.png']}" />    
+                    <p:outputLabel value="Gestion de la Temperature des Locaux"/>
+                          
+                    <p:calendar id="eventBatt" value="#{dateBean.date}" >
+                        <p:ajax event="dateSelect"/>
+                    </p:calendar> 
+                    <input
+                        type="submit"
+                        value="Update Date"
+                        name="Update Date"
+                        style="background-color:#4CAF50;color:white;padding:10px 24px;border:none;border-radius:4px;cursor:pointer;font-size:16px;transition:background 0.3s ease;"
+                      />
                 </h:panelGrid>
             </h:form>
         </ui:composition>	

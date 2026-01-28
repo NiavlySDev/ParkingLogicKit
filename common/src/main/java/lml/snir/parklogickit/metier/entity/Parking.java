@@ -8,15 +8,7 @@ import java.io.Serializable;
 
 /**
  *
-<<<<<<< HEAD
-<<<<<<< HEAD
  * @author virgile, sylvain
-=======
- * @author virgile
->>>>>>> origin/main
-=======
- * @author virgile, sylvain
->>>>>>> ee7b45e77baec9b0234ef035ed3a16da927d2d0b
  */
 @Entity
 public class Parking implements Serializable {

@@ -16,6 +16,7 @@ import java.util.logging.Logger;
  */
 @Entity
 public class Access implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -26,16 +27,19 @@ public class Access implements Serializable {
     private Badge badge;
     private Date date;
     private Event event;
-    
+
     /**
      * Retourne l'identifiant unique de l'accès
+     *
      * @return id : L'identifiant unique de l'accès
      */
     public Long getId() {
         return id;
     }
+
     /**
      * Modifier l'identifiant unique de l'accès
+     *
      * @param id : L'identifiant à modifier
      */
     public void setId(Long id) {
@@ -44,13 +48,16 @@ public class Access implements Serializable {
 
     /**
      * Retourne l'objet Conducteur lié à l'accès (Driver)
+     *
      * @return driver : Le Conducteur lié à l'accès (Driver)
      */
     public Driver getDriver() {
         return driver;
     }
+
     /**
      * Modifier le Conducteur lié a l'accès (Driver)
+     *
      * @param driver : Le Conducteur à Modifier
      */
     public void setDriver(Driver driver) {
@@ -59,13 +66,16 @@ public class Access implements Serializable {
 
     /**
      * Retourne le Badge lié à l'accès
+     *
      * @return badge : Le Badge lié à l'accès
      */
     public Badge getBadge() {
         return badge;
     }
+
     /**
      * Modifier le Badge lié à l'accès
+     *
      * @param badge : Le Badge à modifier
      */
     public void setBadge(Badge badge) {
@@ -74,13 +84,16 @@ public class Access implements Serializable {
 
     /**
      * Retourne la Date liée à l'accès
+     *
      * @return date : La Date liée à l'accès
      */
     public Date getDate() {
         return date;
     }
+
     /**
      * Modifier la date liée à l'accès
+     *
      * @param date : La Date à modifier
      */
     public void setDate(Date date) {
@@ -89,21 +102,25 @@ public class Access implements Serializable {
 
     /**
      * Retourne l'évènement lié a l'accès
+     *
      * @return event : L'évènement lié à l'accès
      */
     public Event getEvent() {
         return event;
     }
+
     /**
      * Modifier l'évènement lié à l'accès
+     *
      * @param event : L'évènement a modifier
      */
     public void setEvent(Event event) {
         this.event = event;
     }
-    
+
     /**
      * Retourne un identifiant unique correspondant au Badge uniquement
+     *
      * @return Identifiant unique correspondant au Badge uniquement.
      */
     @Override
@@ -112,8 +129,10 @@ public class Access implements Serializable {
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
+
     /**
      * Vérifier si un objet est égal à l'accès
+     *
      * @param object : L'objet a vérifier
      * @return True si égal, False si non.
      */
@@ -126,8 +145,10 @@ public class Access implements Serializable {
         return !((this.id == null && other.id != null)
                 || (this.id != null && !this.id.equals(other.id)));
     }
+
     /**
      * Retourne l'Accès sous forme de String
+     *
      * @return Accès sous forme de String.
      */
     @Override
