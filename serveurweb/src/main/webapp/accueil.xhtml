@@ -1,5 +1,5 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -31,17 +31,9 @@
         <button onclick="toggleDarkMode()" class="dark-mode-toggle">
             🌙 Mode
         </button>
-        <div class="main-container">
-            <p:messages id="messageindex" showDetail="true" closable="true" />
-            <h:form id="index">
-                <p:tabMenu id="tabMenu"
-                    model="#{navBean.model}"
-                    activeIndex="#{navBean.activeIndex}"/>
-                <p:growl id="message" showDetail="true" />
-                <h:panelGroup id="fragmentPanel" layout="block">
-                    <ui:include src="#{navBean.path}" />
-                </h:panelGroup>
-            </h:form>
+        <div class="main-card">
+            <h1>Bienvenue !</h1>
+            <div class="subtitle">Gestion de la température des locaux</div>
         </div>
     </h:body>
 </html>
