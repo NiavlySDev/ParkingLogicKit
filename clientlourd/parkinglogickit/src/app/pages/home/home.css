@@ -9,8 +9,8 @@
   }
   
   /* =========================
-     BODY - CENTRAGE GLOBAL
-     ========================= */
+       BODY - CENTRAGE GLOBAL
+       ========================= */
   body {
     min-height: 100vh;
     background: linear-gradient(135deg, #f5f7fa, #e4ecf5);
@@ -23,8 +23,8 @@
   }
   
   /* =========================
-     CONTAINER PRINCIPAL
-     ========================= */
+       CONTAINER PRINCIPAL
+       ========================= */
   .container {
     background: #ffffff;
     width: 100%;
@@ -40,8 +40,8 @@
   }
   
   /* =========================
-     TEXTES
-     ========================= */
+       TEXTES
+       ========================= */
   .container h1 {
     font-size: clamp(1.5rem, 5vw, 2.4rem); /* Responsive font size */
     margin-bottom: 15px;
@@ -59,8 +59,8 @@
   }
   
   /* =========================
-     ACTIONS / BOUTONS
-     ========================= */
+       ACTIONS / BOUTONS
+       ========================= */
   .actions {
     display: flex;
     justify-content: center;
@@ -86,8 +86,8 @@
   }
   
   /* =========================
-     STYLE BOUTONS PRIMENG
-     ========================= */
+       STYLE BOUTONS PRIMENG
+       ========================= */
   ::ng-deep .actions .p-button {
     padding: 14px 28px !important;
     font-weight: 500;
@@ -111,8 +111,8 @@
   }
   
   /* =========================
-     ANIMATIONS
-     ========================= */
+       ANIMATIONS
+       ========================= */
   @keyframes slideDown {
     from {
       opacity: 0;
@@ -134,57 +134,57 @@
   }
   
   /* =========================
-     RESPONSIVE TABLETTE
-     ========================= */
+       RESPONSIVE TABLETTE
+       ========================= */
   @media (max-width: 992px) {
     .container {
       padding: 50px 40px;
       min-height: 70vh;
     }
-    
+  
     .container h1 {
       margin-bottom: 12px;
     }
-    
+  
     .container p {
       margin-bottom: 35px;
     }
   }
   
   /* =========================
-     RESPONSIVE MOBILE
-     ========================= */
+       RESPONSIVE MOBILE
+       ========================= */
   @media (max-width: 768px) {
     body {
       padding: 15px;
     }
-    
+  
     .container {
       min-height: auto;
       padding: 40px 25px;
       border-radius: 12px;
       width: 100%;
     }
-    
+  
     .container h1 {
       margin-bottom: 12px;
     }
-    
+  
     .container p {
       margin-bottom: 30px;
     }
-    
+  
     .actions {
       flex-direction: column;
       gap: 15px;
       width: 100%;
     }
-    
+  
     .actions a {
       width: 100%;
       padding: 14px 0;
     }
-    
+  
     /* Boutons PrimeNG en pleine largeur sur mobile */
     ::ng-deep .actions .p-button {
       width: 100% !important;
@@ -195,51 +195,52 @@
   }
   
   /* =========================
-     RESPONSIVE PETITS MOBILES
-     ========================= */
+       RESPONSIVE PETITS MOBILES
+       ========================= */
   @media (max-width: 480px) {
     body {
       padding: 10px;
     }
-    
+  
     .container {
       padding: 30px 20px;
       min-height: auto;
     }
-    
+  
     .container h1 {
       font-size: 1.5rem;
     }
-    
+  
     .container p {
       font-size: 0.95rem;
       margin-bottom: 25px;
     }
-    
+  
     ::ng-deep .actions .p-button {
       padding: 12px 16px !important;
       font-size: 0.95rem;
     }
-    
+  
     ::ng-deep .actions .p-button .p-button-icon {
       font-size: 1rem;
     }
   }
   
   /* =========================
-     RESPONSIVE GRANDS ÉCRANS
-     ========================= */
+       RESPONSIVE GRANDS ÉCRANS
+       ========================= */
   @media (min-width: 1400px) {
     .container {
       max-width: 1000px;
       padding: 70px 60px;
     }
-    
+  
     .container h1 {
       font-size: 2.6rem;
     }
-    
+  
     .container p {
       font-size: 1.2rem;
     }
   }
+  
