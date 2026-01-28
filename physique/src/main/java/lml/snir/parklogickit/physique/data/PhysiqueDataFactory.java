@@ -1,5 +1,4 @@
-package lml.snir.gestiontemperature.physique.data;
-
+package lml.snir.parkinglogickit.physique.data;
 
 /**
  * qxZEALmd-Cfux6V3 gestiontemperature
@@ -13,31 +12,31 @@ public final class PhysiqueDataFactory {
     private static final String PU = "lml.snir.parkinglogickit_ParkingLogicKitCommon_jar_1.0PU";
     private static final boolean JDBC = false;
 
-    private static DriverDataService usrSrv = null;
-    public static synchronized DriverDataService getDriverDataService() throws Exception {
-        if (usrSrv == null) {
-            if (JDBC) {
-                //usrSrv = new UtilisateurDataServiceDBCImpl();
-            } else {
-                usrSrv = new DriverDataServiceJPAImpl(PU);
-            }
-        }
-
-        return usrSrv;
-    }
-
-    private static BadgeDataService badgeSrv = null;
-    public static synchronized BadgeDataService getBadgeDataService() throws Exception {
-        if (badgeSrv == null) {
-            if (JDBC) {
-                //badgeSrv = new BadgeDataServiceJDBCImpl();
-            } else {
-                badgeSrv = new BadgeDataServiceJPAImpl(PU);
-            }
-        }
-
-        return badgeSrv;
-    }
+//    private static DriverDataService usrSrv = null;
+//    public static synchronized DriverDataService getDriverDataService() throws Exception {
+//        if (usrSrv == null) {
+//            if (JDBC) {
+//                //usrSrv = new UtilisateurDataServiceDBCImpl();
+//            } else {
+//                usrSrv = new DriverDataServiceJPAImpl(PU);
+//            }
+//        }
+//
+//        return usrSrv;
+//    }
+//
+//    private static BadgeDataService badgeSrv = null;
+//    public static synchronized BadgeDataService getBadgeDataService() throws Exception {
+//        if (badgeSrv == null) {
+//            if (JDBC) {
+//                //badgeSrv = new BadgeDataServiceJDBCImpl();
+//            } else {
+//                badgeSrv = new BadgeDataServiceJPAImpl(PU);
+//            }
+//        }
+//
+//        return badgeSrv;
+//    }
     /**
     private static AttributionDataService attributionSrv = null;
     public static synchronized AttributionDataService getAttributionDataService() throws Exception {
