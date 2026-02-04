@@ -7,7 +7,7 @@ import lml.snir.rest.client.ClientRest;
 
 /**
  *
- * @author fanou
+ * @author jupiter
  */
 public class DriverServiceClientRESTImpl extends ClientRest<Driver> implements DriverService {
 
