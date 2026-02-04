@@ -1,38 +1,26 @@
-package lml.snir.parkinglogickit.metier.transactionel;
+package lml.snir.parkinglogickit.metier.rest.client;
+
 
 import java.util.List;
-
 import lml.snir.parkinglogickit.metier.entity.Places;
-//import lml.snir.parkinglogickit.data.PlacesDataService;
-
+import lml.snir.parkinglogickit.metier.transactionel.PlacesService;
+import lml.snir.rest.client.ClientRest;
 
 /**
  *
  * @author fanou
  */
-public final class PlacesServiceImpl implements PlacesService {
+public class PlacesServiceClientRESTImpl extends ClientRest<Places> implements PlacesService {
 
-//    private final PlacesDataService PlacesDataSrv;
-//
-//    public PlacesServiceImpl() throws Exception {
-//        this.PlacesDataSrv = PhysiqueDataFactory.getPlacesDataService();
-//    }
-
-
-
-   
-    @Override
-    public Places getById(Long id) throws Exception {
-        return null;
-//         return this.PlacesDataSrv.getById(id);
+    public PlacesServiceClientRESTImpl() {
+        super.init("PlacesService", new RestServerLocalConfiguration());
     }
-    
+
     @Override
     public Places getByIsOccuped(boolean attribue) throws Exception {
-        return null;
-//        return this.PlacesDataSrv.getByIsOccuped();
+       super.setPath("getByIsOccuped" );
+        return super.getEntity();
     }
-
     @Override
     public Places add(Places t) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -45,6 +33,11 @@ public final class PlacesServiceImpl implements PlacesService {
 
     @Override
     public void update(Places t) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Places getById(Long id) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -62,8 +55,4 @@ public final class PlacesServiceImpl implements PlacesService {
     public List<Places> getAll(int begin, int count) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
-
-
-
-    }
+}
