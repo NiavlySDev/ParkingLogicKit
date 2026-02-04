@@ -7,7 +7,7 @@ import lml.snir.parkinglogickit.metier.rest.client.BadgeServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.ParkingServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.EventServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.DriverServiceClientRESTImpl;
-import lml.snir.parkinglogickit.metier.rest.client.MaintenanceServiceClientRESTImpl;
+//import lml.snir.parkinglogickit.metier.rest.client.MaintenanceServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.PlacesServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.transactionel.AccessService;
 import lml.snir.parkinglogickit.metier.transactionel.AccessServiceImpl;
@@ -106,7 +106,7 @@ public class MetierFactory {
             if (readLocalState()) {
                 MaintenanceSrv = new MaintenanceServiceImpl();
             } else {
-                MaintenanceSrv = new MaintenanceServiceClientRESTImpl();
+//                MaintenanceSrv = new MaintenanceServiceClientRESTImpl();
             }            
         }
 

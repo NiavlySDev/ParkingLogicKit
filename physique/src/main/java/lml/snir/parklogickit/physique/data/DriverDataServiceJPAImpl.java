@@ -6,7 +6,8 @@ package lml.snir.parklogickit.physique.data;
 
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
-import lml.snir.parklogickit.metier.entity.Driver;
+import lml.snir.parkinglogickit.physique.data.DriverDataService;
+import lml.snir.parkinglogickit.metier.entity.Driver;
 import lml.snir.persistence.jpa.AbstracCrudServiceJPA;
 
 /**
@@ -32,6 +33,46 @@ public class DriverDataServiceJPAImpl extends AbstracCrudServiceJPA<Driver> impl
             this.close();
         }
         return user;
+    }
+
+    @Override
+    public Driver getById(long id) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Driver getByUsername(String contenu) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Driver getByFirstname(String contenu) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Driver getBySurname(String contenu) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Driver getByCountPlace(int contenu) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Driver getByIsMale(boolean attribue) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Driver getByPassword(String contenu) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Driver getById(Driver driver) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

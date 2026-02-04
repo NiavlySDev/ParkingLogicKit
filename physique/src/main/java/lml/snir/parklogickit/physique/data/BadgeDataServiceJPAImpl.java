@@ -7,7 +7,8 @@ package lml.snir.parklogickit.physique.data;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import java.util.List;
-import lml.snir.parklogickit.metier.entity.Badge;
+import lml.snir.parkinglogickit.metier.entity.Badge;
+import lml.snir.parkinglogickit.physique.data.BadgeDataService;
 import lml.snir.persistence.jpa.AbstracCrudServiceJPA;
 
 /**
@@ -20,12 +21,13 @@ public class BadgeDataServiceJPAImpl extends AbstracCrudServiceJPA<Badge> implem
         super(PU);
     }
     
-    public Badge getByContenu(String contenu) throws Exception {
+    @Override
+    public Badge getByContent(String content) throws Exception {
         Badge badge;
         try {
             this.open();
-            Query query = em.createQuery("SELECT b FROM Badge b WHERE b.contenu = fcontenu");
-            query.setParameter("fcontenu", contenu);
+            Query query = em.createQuery("SELECT b FROM Badge b WHERE b.content = fcontent");
+            query.setParameter("fcontent", content);
             badge = (Badge) query.getSingleResult();
         } catch (NoResultException ex) {
             return null;

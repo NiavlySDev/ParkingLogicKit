@@ -18,29 +18,7 @@ public final class MaintenanceServiceImpl implements MaintenanceService {
 //    }
 
 
-    @Override
-    public Maintenance getById(long id) throws Exception {
-        return null;
-//         return this.MaintenanceDataSrv.getById(id);
-    }
-
-    @Override
-    public Maintenance getByUsername(String contenu) throws Exception {
-        return null;
-//        return this.MaintenanceDataSrv.getByUsername();
-    }
-
-    @Override
-    public Maintenance getByPassword(String contenu) throws Exception {
-        return null;
-//        return this.MaintenanceDataSrv.getByPassword();
-    }
-
-    @Override
-    public Maintenance getByIsAdmin(boolean attribue) throws Exception {
-        return null;
-//            return this.MaintenanceDataSrv.getByIsAdmin();
-    }
+  
 
     @Override
     public Maintenance add(Maintenance t) throws Exception {
