@@ -8,6 +8,7 @@ import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { CheckboxModule } from 'primeng/checkbox';
+import { ListboxModule } from 'primeng/listbox';
 
 const PRIMENG_COMPONENTS = [
   ButtonModule,
@@ -17,6 +18,7 @@ const PRIMENG_COMPONENTS = [
   CardModule,
   ToastModule,
   CheckboxModule,
+  ListboxModule,
 ];
 
 @NgModule({

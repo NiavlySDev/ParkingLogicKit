@@ -8,22 +8,22 @@ import { Driver } from '../../../Auth/Driver.js';
 
 @Component({
   selector: 'app-sign-up',
+  standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './sign-up.html',
   styleUrl: './sign-up.css',
 })
-export class signUp {
+export class SignUp {
   firstname: string = '';
   surname: string = '';
   login: string = '';
   password: string = '';
   age: number | null = null;
 
-  // devient un booléen pour la structure "isMasculin"
   isMasculin: boolean | null = null;
-
-  // sert seulement à déterminer la classe envoyée
   DriverType: number | null = null;
+  addCar: VehicleType | null = null;
+  VehicleType = VehicleType; // exposé au HTML
 
   isLoading: boolean = false;
   message: string = '';
@@ -37,23 +37,23 @@ export class signUp {
       !this.surname ||
       !this.login ||
       !this.password ||
-      //this.age === null ||
+      this.age === null ||
       this.isMasculin === null ||
-      this.DriverType === null
+      this.DriverType === null ||
+      this.addCar === null
     ) {
       this.setMessage('Tous les champs sont obligatoires', 'error');
       return;
     }
 
-    if (this.age === null || this.age! < 1 || this.age! > 120) {
-      this.setMessage("L'âge doit être entre 1 et 120 ans", 'error');
+    if (this.age < 1 || this.age > 120) {
+      this.setMessage("L'âge doit être compris entre 1 et 120 ans", 'error');
       return;
     }
 
     this.isLoading = true;
     this.message = '';
 
-    // Détermination de la classe Java
     const DriverClass =
       this.DriverType === 0
         ? 'lml.snir.ParkingLogicKit.metier.entity.Administrator'
@@ -65,27 +65,26 @@ export class signUp {
       firstName: this.firstname,
       login: this.login,
       password: this.password,
-      //age: this.age,
+      age: this.age,
       isMasculin: this.isMasculin,
+      vehicleType: this.addCar,
       class: DriverClass,
     };
 
-    console.log('JSON envoyé:', JSON.stringify(DriverData, null, 2));
+    console.log('JSON envoyé :', DriverData);
 
     this.restServer
       .getDriverService()
       .add(DriverData as Driver)
       .subscribe({
-        next: (response: Driver) => {
+        next: () => {
           this.isLoading = false;
-          this.setMessage('Sign-up réussie!', 'success');
+          this.setMessage('Inscription réussie 🎉', 'success');
           this.resetForm();
         },
         error: (error: any) => {
           this.isLoading = false;
-          const msg =
-            error.error?.message || error.message || "Une erreur s'est produite lors de l'Sign-up";
-          this.setMessage(msg, 'error');
+          this.setMessage(error?.error?.message || "Une erreur s'est produite", 'error');
         },
       });
   }
@@ -100,8 +99,15 @@ export class signUp {
     this.surname = '';
     this.login = '';
     this.password = '';
-    //this.age = null;
+    this.age = null;
     this.isMasculin = null;
     this.DriverType = null;
+    this.addCar = null;
   }
+}
+
+export enum VehicleType {
+  Car = 'Car',
+  Motorcycle = 'Motorcycle',
+  Van = 'Van',
 }
