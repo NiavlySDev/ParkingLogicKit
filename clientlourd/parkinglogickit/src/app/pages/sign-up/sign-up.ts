@@ -37,7 +37,7 @@ export class signUp {
       !this.surname ||
       !this.login ||
       !this.password ||
-      this.age === null ||
+      //this.age === null ||
       this.isMasculin === null ||
       this.DriverType === null
     ) {
@@ -65,7 +65,7 @@ export class signUp {
       firstName: this.firstname,
       login: this.login,
       password: this.password,
-      age: this.age,
+      //age: this.age,
       isMasculin: this.isMasculin,
       class: DriverClass,
     };
@@ -100,7 +100,7 @@ export class signUp {
     this.surname = '';
     this.login = '';
     this.password = '';
-    this.age = null;
+    //this.age = null;
     this.isMasculin = null;
     this.DriverType = null;
   }
