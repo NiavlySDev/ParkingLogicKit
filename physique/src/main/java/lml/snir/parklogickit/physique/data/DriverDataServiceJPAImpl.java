@@ -2,10 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package lml.snir.parkinglogickit.physique.data;
+package lml.snir.parklogickit.physique.data;
 
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
+import lml.snir.parkinglogickit.physique.data.DriverDataService;
 import lml.snir.parkinglogickit.metier.entity.Driver;
 import lml.snir.persistence.jpa.AbstracCrudServiceJPA;
 
@@ -19,8 +20,7 @@ public class DriverDataServiceJPAImpl extends AbstracCrudServiceJPA<Driver> impl
         super(PU);
     }
 
-    @Override
-    public Driver getBySurname(String username) throws Exception {
+    public Driver getUsername(String username) throws Exception {
         Driver user = null;
         try {
             this.open();
@@ -47,6 +47,11 @@ public class DriverDataServiceJPAImpl extends AbstracCrudServiceJPA<Driver> impl
 
     @Override
     public Driver getByFirstname(String contenu) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Driver getBySurname(String contenu) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

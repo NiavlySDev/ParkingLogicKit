@@ -1,0 +1,29 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package lml.snir.parkinglogickit.metier.rest.serveur;
+
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import lml.snir.parkinglogickit.metier.transactionel.AdminService;
+import lml.snir.parkinglogickit.metierfactory.MetierFactory;
+import lml.snir.parkinglogickit.metier.entity.Admin;
+
+/**
+ *
+ * @author jupiter
+ */
+@Path("/AdminService")
+@Consumes("application/json")
+@Produces("application/json")
+public class AdminServiceRestServeurImpl {
+    
+    private final AdminService AdminSrv;
+
+    public AdminServiceRestServeurImpl() throws Exception {
+        this.AdminSrv = MetierFactory.getAdminService();
+    }
+
+}
