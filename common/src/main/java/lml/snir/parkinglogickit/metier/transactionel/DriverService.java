@@ -23,4 +23,6 @@ public interface DriverService extends CrudService<Driver> {
 
     public Driver getByPassword(String contenu) throws Exception;
 
+    public Driver getById(Driver driver);
+
 }

@@ -29,8 +29,10 @@ public class AccessServiceImpl implements AccessService {
 
     @Override
     public Access getByDriver(String contenu) throws Exception {
-        return null;
+       return null;
 //       return this.accessDataSrv.getByDriver();
+       
+
     }
 
     @Override
@@ -85,6 +87,7 @@ public class AccessServiceImpl implements AccessService {
     public List<Access> getAll(int begin, int count) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
 
   
 }

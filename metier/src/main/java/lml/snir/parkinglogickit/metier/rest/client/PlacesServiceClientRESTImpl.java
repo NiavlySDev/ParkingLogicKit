@@ -1,42 +1,43 @@
-package lml.snir.parkinglogickit.metier.transactionel;
+package lml.snir.parkinglogickit.metier.rest.client;
+
 
 import java.util.List;
-
-
-import lml.snir.parkinglogickit.metier.entity.Maintenance;
-//import lml.snir.parklogickit.data.MaintenanceDataService;
+import lml.snir.parkinglogickit.metier.entity.Places;
+import lml.snir.parkinglogickit.metier.transactionel.PlacesService;
+import lml.snir.rest.client.ClientRest;
 
 /**
  *
  * @author fanou
  */
-public final class MaintenanceServiceImpl implements MaintenanceService {
-//    private final MaintenanceDataService MaintenanceDataSrv;
-    
-//    public MaintenanceServiceImpl() throws Exception {
-//        this.MaintenanceDataSrv = PhysiqueDataFactory.getLocalDataService();
-//    }
+public class PlacesServiceClientRESTImpl extends ClientRest<Places> implements PlacesService {
 
-
-  
+    public PlacesServiceClientRESTImpl() {
+        super.init("PlacesService", new RestServerLocalConfiguration());
+    }
 
     @Override
-    public Maintenance add(Maintenance t) throws Exception {
+    public Places getByIsOccuped(boolean attribue) throws Exception {
+       super.setPath("getByIsOccuped" );
+        return super.getEntity();
+    }
+    @Override
+    public Places add(Places t) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void remove(Maintenance t) throws Exception {
+    public void remove(Places t) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void update(Maintenance t) throws Exception {
+    public void update(Places t) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Maintenance getById(Long id) throws Exception {
+    public Places getById(Long id) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -46,16 +47,12 @@ public final class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public List<Maintenance> getAll() throws Exception {
+    public List<Places> getAll() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public List<Maintenance> getAll(int begin, int count) throws Exception {
+    public List<Places> getAll(int begin, int count) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
-
-
-    
 }
