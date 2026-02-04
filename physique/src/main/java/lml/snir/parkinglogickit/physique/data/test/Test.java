@@ -1,10 +1,16 @@
-package lml.snir.parkinglogickit.physique.data;
+package lml.snir.parkinglogickit.physique.data.test;
 
 import java.util.List;
 import lml.snir.parkinglogickit.metier.entity.Admin;
 import lml.snir.parkinglogickit.metier.entity.Associate;
 import lml.snir.parkinglogickit.metier.entity.Badge;
 import lml.snir.parkinglogickit.metier.entity.Driver;
+import lml.snir.parkinglogickit.metier.entity.Car;
+import lml.snir.parkinglogickit.physique.data.AssociateDataService;
+import lml.snir.parkinglogickit.physique.data.BadgeDataService;
+import lml.snir.parkinglogickit.physique.data.CarDataService;
+import lml.snir.parkinglogickit.physique.data.DriverDataService;
+import lml.snir.parkinglogickit.physique.data.PhysiqueDataFactory;
 
 /**
  *
@@ -13,7 +19,7 @@ import lml.snir.parkinglogickit.metier.entity.Driver;
 public class Test {
 
     //private final TemperatureDataService tempSrv;
-    //private final LocalDataService localSrv;
+    private final CarDataService carSrv;
     private final DriverDataService usrSrv;
     private final BadgeDataService badgeSrv;
     private final AssociateDataService assoSrv;
@@ -27,7 +33,7 @@ public class Test {
     }
 
     private Test() throws Exception {
-        //this.localSrv = PhysiqueDataFactory.getLocalDataService();
+        this.carSrv = PhysiqueDataFactory.getLocalDataService();
         //this.tempSrv = PhysiqueDataFactory.getTemperatureDataService();
         this.usrSrv = PhysiqueDataFactory.getDriverDataService();
         this.badgeSrv = PhysiqueDataFactory.getBadgeDataService();
@@ -36,6 +42,7 @@ public class Test {
 
     private void populate() throws Exception {
         this.populateDriver();
+        this.populateLocaux();
     }
 
     private void populateDriver() throws Exception {
@@ -76,20 +83,20 @@ public class Test {
         drv.setPassword("secret");
         this.usrSrv.add(drv);
     }
-/**
+
     
     private void populateLocaux() throws Exception {
-        Local l = new Local();
-        l.setNumero(458L);
-        l = localSrv.add(l);
-        l = new Local();
-        l.setNumero(459L);
-        l = localSrv.add(l);
-        l = new Local();
-        l.setNumero(435L);
-        l = localSrv.add(l);
+        Car l = new Car();
+        l.setPlaque("458L");
+    //    l = carSrv.add(l);
+        l = new Car();
+        l.setPlaque("459L");
+    //    l = carSrv.add(l);
+        l = new Car();
+        l.setPlaque("435L");
+    //    l = carSrv.add(l);
     }
-
+/**
     private void populateTemperature() throws Exception {
         Temperature temp;
         Local local;

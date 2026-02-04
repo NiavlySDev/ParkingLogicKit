@@ -49,18 +49,18 @@ public final class PhysiqueDataFactory {
 
         return associateSrv;
     }
-/**
-    private static LocalDataService localSrv = null;
-    public static synchronized LocalDataService getLocalDataService() throws Exception {
+
+    private static CarDataService localSrv = null;
+    public static synchronized CarDataService getLocalDataService() throws Exception {
         if (JDBC) {
-                localSrv = new LocalDataServiceJDBCImpl();
+                //localSrv = new CarDataServiceJDBCImpl();
             } else {
-                localSrv = new LocalDataServiceJPAImpl(PU);
+                localSrv = new CarDataServiceJPAImpl(PU);
             }
 
         return localSrv;
     }
-
+/**
     private static TemperatureDataService temperatureSrv = null;
     public static synchronized TemperatureDataService getTemperatureDataService() throws Exception {
         if (JDBC) {
