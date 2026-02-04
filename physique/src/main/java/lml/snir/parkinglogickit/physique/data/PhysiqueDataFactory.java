@@ -23,7 +23,7 @@ public final class PhysiqueDataFactory {
 
         return usrSrv;
     }
-
+        
     private static BadgeDataService badgeSrv = null;
     public static synchronized BadgeDataService getBadgeDataService() throws Exception {
         if (badgeSrv == null) {

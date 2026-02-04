@@ -6,6 +6,7 @@ import lml.snir.parkinglogickit.metier.entity.Associate;
 import lml.snir.parkinglogickit.metier.entity.Badge;
 import lml.snir.parkinglogickit.metier.entity.Driver;
 import lml.snir.parkinglogickit.metier.entity.Car;
+import lml.snir.parkinglogickit.metier.entity.Maintenance;
 import lml.snir.parkinglogickit.physique.data.AssociateDataService;
 import lml.snir.parkinglogickit.physique.data.BadgeDataService;
 import lml.snir.parkinglogickit.physique.data.CarDataService;
@@ -80,6 +81,15 @@ public class Test {
         drv.setIsMale(false);
         drv.setUsername("MS");
         drv.setSurname("Simpson");
+        drv.setPassword("secret");
+        this.usrSrv.add(drv);
+        
+        drv = new Maintenance();
+        drv.setAge(45);
+        drv.setFirstName("Test");
+        drv.setIsMale(false);
+        drv.setUsername("tt");
+        drv.setSurname("Test");
         drv.setPassword("secret");
         this.usrSrv.add(drv);
     }
