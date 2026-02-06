@@ -18,8 +18,10 @@ public class Parking implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private boolean isFull;
-    private int countPlace;
-    private int maxPlace;
+    private int placeCount;
+    private int totalPlace;
+    private int handicapCount;
+    private int totalHandicap;
 
     /**
      * Retourne L'Identifiant unique du Parking
@@ -55,32 +57,32 @@ public class Parking implements Serializable {
      * Retourne Le Nombre de Places disponibles dans le Parking
      * @return 
      */
-    public int getCountPlace() {
-        return countPlace;
+    public int getPlaceCount() {
+        return placeCount;
     }
     /**
      * Modifier Le Nombre de Places disponibles dans le Parking
-     * @param countPlace : Le Nombre de Places disponibles dans le Parking
+     * @param placeCount : Le Nombre de Places disponibles dans le Parking
      */
-    public void setCountPlace(int countPlace) {
-        if(countPlace <= maxPlace){
-            this.countPlace = countPlace;
+    public void setPlaceCount(int placeCount) {
+        if(placeCount <= totalPlace){
+            this.placeCount = placeCount;
         }
     }
     /**
      * Augmenter de 1 Le Nombre de Places disponibles dans le Parking
      */
     public void incrementPlaceCount() {
-        if(this.countPlace < maxPlace){
-            this.countPlace++;
+        if(this.placeCount < totalPlace){
+            this.placeCount++;
         }
     }
     /**
      * Diminuer de 1 Le Nombre de Places disponibles dans le Parking
      */
     public void decrementPlaceCount() {
-        if (this.countPlace > 0) {
-            this.countPlace--;
+        if (this.placeCount > 0) {
+            this.placeCount--;
         }
     }
     /**
@@ -88,8 +90,8 @@ public class Parking implements Serializable {
      * @param amount : Le Nombre de Places disponible à Ajouter dans le Parking
      */
     public void addPlaceCount(Integer amount){
-        if(countPlace+amount <= maxPlace){
-            this.countPlace+=amount;
+        if(placeCount+amount <= totalPlace){
+            this.placeCount+=amount;
         }
     }
     /**
@@ -97,24 +99,24 @@ public class Parking implements Serializable {
      * @param amount : Le Nombre de Places disponibles à Ajouter dans le Parking
      */
     public void removePlaceCount(Integer amount){
-        if(this.countPlace-amount > 0){
-            this.countPlace-=amount;
+        if(this.placeCount-amount > 0){
+            this.placeCount-=amount;
         }
     }
     
     /**
      * Retourne Le Nombre Maximum de Places dans le Parking
-     * @return maxPlace : Le Nombre Maximum de Places dans le Parking
+     * @return totalPlace : Le Nombre Maximum de Places dans le Parking
      */
-    public int getMaxPlace() {
-        return maxPlace;
+    public int getTotalPlace() {
+        return totalPlace;
     }
     /**
      * Modifier Le Nombre Maximum de Places dans le Parking
-     * @param maxPlace : Le Nombre Maximum de Places dans le Parking à modifier
+     * @param totalPlace : Le Nombre Maximum de Places dans le Parking à modifier
      */
-    public void setMaxPlace(int maxPlace) {
-        this.maxPlace = maxPlace;
+    public void setTotalPlace(int totalPlace) {
+        this.totalPlace = totalPlace;
     }
     
     /**
@@ -151,9 +153,26 @@ public class Parking implements Serializable {
     @Override
     public String toString() {
         String str = "Identifiant du Parking : "+id+" | ";
-        str+="Place Count : "+countPlace+" | ";
-        str+="Max Place : "+maxPlace+" | ";
+        str+="Place Count : "+placeCount+" | ";
+        str+="Max Place : "+totalPlace+" | ";
         str+="isFull? "+isFull;
         return str;
     }
+
+    public int getHandicapCount() {
+        return handicapCount;
+    }
+
+    public void setHandicapCount(int handicapCount) {
+        this.handicapCount = handicapCount;
+    }
+
+    public int getTotalHandicap() {
+        return totalHandicap;
+    }
+
+    public void setTotalHandicap(int totalHandicap) {
+        this.totalHandicap = totalHandicap;
+    }
+        
 }

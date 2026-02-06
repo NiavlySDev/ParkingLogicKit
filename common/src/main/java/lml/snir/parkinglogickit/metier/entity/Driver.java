@@ -23,7 +23,7 @@ public class Driver implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String surname;
+    private String Lastname;
     private String firstName;
     @Column(unique = true)
     private String username;
@@ -31,7 +31,7 @@ public class Driver implements Serializable {
     private boolean isMale;
     private int age;
 
-    private Car car;
+    private Vehicle car;
 
     /**
      * Retourne l'identifiant unique du Conducteur (Driver)
@@ -54,19 +54,19 @@ public class Driver implements Serializable {
     /**
      * Retourne le Nom du Conducteur (Driver)
      *
-     * @return surname : Le Nom du Conducteur (Driver)
+     * @return Lastname : Le Nom du Conducteur (Driver)
      */
-    public String getSurname() {
-        return surname;
+    public String getLastname() {
+        return Lastname;
     }
 
     /**
      * Modifier le Nom du Conducteur (Driver)
      *
-     * @param surname : Le Nom du Conducteur (Driver) à modifier.
+     * @param Lastname : Le Nom du Conducteur (Driver) à modifier.
      */
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastname(String Lastname) {
+        this.Lastname = Lastname;
     }
 
     /**
@@ -134,11 +134,11 @@ public class Driver implements Serializable {
     }
 
     /**
-     * Récupérer l'objet Voiture (Car)
+     * Récupérer l'objet Voiture (Vehicle)
      *
-     * @return car : l'objet Voiture (Car)
+     * @return car : l'objet Voiture (Vehicle)
      */
-    public Car getCar() {
+    public Vehicle getCar() {
         return car;
     }
 
@@ -166,7 +166,7 @@ public class Driver implements Serializable {
             genre = "Mme";
         }
 
-        String str = genre + " " + this.getFirstName() + " " + this.getSurname();
+        String str = genre + " " + this.getFirstName() + " " + this.getLastname();
 
         if (this.getClass() == Admin.class) {
             str += " (Admin)";
@@ -198,7 +198,7 @@ public class Driver implements Serializable {
         if (this.isMale != other.isMale) {
             return false;
         }
-        if (!Objects.equals(this.surname, other.surname)) {
+        if (!Objects.equals(this.Lastname, other.Lastname)) {
             return false;
         }
         if (!Objects.equals(this.firstName, other.firstName)) {

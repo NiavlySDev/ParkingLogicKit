@@ -30,6 +30,10 @@ public class Associate implements Serializable {
     @OneToOne
     @JoinColumn(nullable = false)
     private Driver driver;
+    
+    @OneToOne
+    @JoinColumn(nullable = false)
+    private Vehicle vehicle;
 
     public Long getId() {
         return id;
@@ -92,4 +96,22 @@ public class Associate implements Serializable {
     public void setUtilisateur(Driver utilisateur) {
         this.driver = utilisateur;
     }
+
+    public Driver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
+    
+    
 }
