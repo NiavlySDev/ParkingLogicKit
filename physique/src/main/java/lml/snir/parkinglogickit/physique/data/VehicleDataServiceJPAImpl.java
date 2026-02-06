@@ -12,49 +12,50 @@ import lml.snir.persistence.jpa.AbstracCrudServiceJPA;
 
 /**
  *
- * @author Viralu
+ * @author Virgile
  */
-public class CarDataServiceJPAImpl extends AbstracCrudServiceJPA<Vehicle> implements CarDataService {
-        public CarDataServiceJPAImpl(String PU) {
+public class VehicleDataServiceJPAImpl extends AbstracCrudServiceJPA<Vehicle> implements VehicleDataService {
+        
+    public VehicleDataServiceJPAImpl(String PU) {
         super(PU);
     }
     
     @Override
-    public Vehicle getByContent(String contenu) throws Exception {
-        Vehicle badge;
+    public Vehicle getByContent(String content) throws Exception {
+        Vehicle vehicle;
         try {
             this.open();
-            Query query = em.createQuery("SELECT b FROM Badge b WHERE b.contenu = fcontenu");                       //PAS FINI
-            query.setParameter("fcontenu", contenu);
-            badge = (Vehicle) query.getSingleResult();
+            Query query = em.createQuery("SELECT v FROM Vehicle v WHERE v.content = fcontent");                       //PAS FINI
+            query.setParameter("fcontent", content);
+            vehicle = (Vehicle) query.getSingleResult();
         } catch (NoResultException ex) {
             return null;
         } finally {
             this.close();
         }
         
-        return badge;
+        return vehicle;
     }
 
     @Override
-    public List<Vehicle> getByAssociate(boolean attribue) throws Exception {
-        List<Vehicle> badges;
+    public List<Vehicle> getByAssociate(boolean associate) throws Exception {
+        List<Vehicle> vehicle;
         try {
             Query query;
             this.open();
-            if (attribue) {
-                query = em.createQuery("SELECT a.badge FROM Associate a");
+            if (associate) {
+                query = em.createQuery("SELECT a.vehicle FROM Associate a");
             } else {
-                query = em.createQuery("SELECT b FROM Badge b WHERE b NOT IN (SELECT a.badge FROM Associate a)");
+                query = em.createQuery("SELECT v FROM Vehicle v WHERE v NOT IN (SELECT a.vehicle FROM Associate a)");
             }
             
-            badges = query.getResultList();
+            vehicle = query.getResultList();
         } catch (NoResultException ex) {
             return null;
         } finally {
             this.close();
         }
         
-        return badges;
+        return vehicle;
     }
 }
