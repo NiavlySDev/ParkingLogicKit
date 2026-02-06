@@ -64,11 +64,11 @@ public class Parking implements Serializable {
      * Modifier Le Nombre de Places disponibles dans le Parking
      * @param placeCount : Le Nombre de Places disponibles dans le Parking
      */
-    public void setPlaceCount(int placeCount) {
-        if(placeCount <= totalPlace){
-            this.placeCount = placeCount;
-        }
-    }
+//    public void setPlaceCount(int placeCount) {
+//        if(placeCount <= totalPlace){
+//            this.placeCount = placeCount;
+//        }
+//    }
     /**
      * Augmenter de 1 Le Nombre de Places disponibles dans le Parking
      */
@@ -175,4 +175,8 @@ public class Parking implements Serializable {
         this.totalHandicap = totalHandicap;
     }
         
+        public void setPlaceCount(int placeCount) {
+        this.placeCount = placeCount;
+    }
+    
 }

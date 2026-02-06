@@ -7,10 +7,12 @@ import lml.snir.parkinglogickit.metier.entity.Badge;
 import lml.snir.parkinglogickit.metier.entity.Driver;
 import lml.snir.parkinglogickit.metier.entity.Vehicle;
 import lml.snir.parkinglogickit.metier.entity.Maintenance;
+import lml.snir.parkinglogickit.metier.entity.Parking;
 import lml.snir.parkinglogickit.metier.entity.VehicleType;
 import lml.snir.parkinglogickit.physique.data.AssociateDataService;
 import lml.snir.parkinglogickit.physique.data.BadgeDataService;
 import lml.snir.parkinglogickit.physique.data.DriverDataService;
+import lml.snir.parkinglogickit.physique.data.ParkingDataService;
 import lml.snir.parkinglogickit.physique.data.PhysiqueDataFactory;
 import lml.snir.parkinglogickit.physique.data.VehicleDataService;
 
@@ -25,6 +27,7 @@ public class Test {
     private final DriverDataService usrSrv;
     private final BadgeDataService badgeSrv;
     private final AssociateDataService assoSrv;
+    private final ParkingDataService parkingSrv;
 
     public static void main(String[] args) throws Exception {
         Test test = new Test();
@@ -41,6 +44,7 @@ public class Test {
         this.usrSrv = PhysiqueDataFactory.getDriverDataService();
         this.badgeSrv = PhysiqueDataFactory.getBadgeDataService();
         this.assoSrv = PhysiqueDataFactory.getAssociateDataService();
+        this.parkingSrv = PhysiqueDataFactory.getParkingDataService();
     }
 
     private void populate() throws Exception {
@@ -73,7 +77,7 @@ public class Test {
         b = this.badgeSrv.add(b);
 
         drv = new Driver();
-        drv.setAge(45);
+        drv.setAge(25);
         drv.setFirstName("Marge");
         drv.setIsMale(false);
         drv.setUsername("MS");
@@ -82,10 +86,10 @@ public class Test {
         this.usrSrv.add(drv);
 
         drv = new Maintenance();
-        drv.setAge(45);
+        drv.setAge(33);
         drv.setFirstName("Test");
         drv.setIsMale(false);
-        drv.setUsername("tt");
+        drv.setUsername("Test");
         drv.setLastname("hh");
         drv.setPassword("secret");
         this.usrSrv.add(drv);
@@ -116,7 +120,14 @@ public class Test {
     }
 
     private void populateLocaux() throws Exception {
-
+        
+        Parking p = new Parking();
+        p.setPlaceCount(59);
+        p.setTotalPlace(60);
+        p.setHandicapCount(2);
+        p.setTotalHandicap(4);
+        p.setIsFull(false);
+        p = this.parkingSrv.add(p);
     }
 
     /**
