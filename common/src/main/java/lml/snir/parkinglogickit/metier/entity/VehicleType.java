@@ -5,7 +5,7 @@ package lml.snir.parkinglogickit.metier.entity;
  *
  * @author sylvain
  */
-public enum CarType {
+public enum VehicleType {
 
     Moto("Moto"),
     Voiture("Voiture"),
@@ -14,14 +14,14 @@ public enum CarType {
 
     private String name;
 
-    private CarType(String name) {
+    private VehicleType(String name) {
         this.name = name;
     }
 
     /**
-     * Récupérer le nom du type de Voiture (CarType)
+     * Récupérer le nom du type de Voiture (VehicleType)
      *
-     * @return name : le nom du type de Voiture (CarType)
+     * @return name : le nom du type de Voiture (VehicleType)
      */
     public String getName() {
         return name;

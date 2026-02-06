@@ -5,7 +5,7 @@
 package lml.snir.parkinglogickit.metier.transactionel;
 
 import java.util.List;
-import lml.snir.parkinglogickit.metier.entity.Car;
+import lml.snir.parkinglogickit.metier.entity.Vehicle;
 
 /**
  *
@@ -13,6 +13,6 @@ import lml.snir.parkinglogickit.metier.entity.Car;
  */
 public interface CarService {
     
-    public Car getByContent(String contenu) throws Exception;
-    public List<Car> getByAssociate(boolean attribue) throws Exception;
+    public Vehicle getByContent(String contenu) throws Exception;
+    public List<Vehicle> getByAssociate(boolean attribue) throws Exception;
 }

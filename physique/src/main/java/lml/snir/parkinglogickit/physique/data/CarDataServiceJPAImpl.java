@@ -7,26 +7,26 @@ package lml.snir.parkinglogickit.physique.data;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import java.util.List;
-import lml.snir.parkinglogickit.metier.entity.Car;
+import lml.snir.parkinglogickit.metier.entity.Vehicle;
 import lml.snir.persistence.jpa.AbstracCrudServiceJPA;
 
 /**
  *
  * @author Viralu
  */
-public class CarDataServiceJPAImpl extends AbstracCrudServiceJPA<Car> implements CarDataService {
+public class CarDataServiceJPAImpl extends AbstracCrudServiceJPA<Vehicle> implements CarDataService {
         public CarDataServiceJPAImpl(String PU) {
         super(PU);
     }
     
     @Override
-    public Car getByContent(String contenu) throws Exception {
-        Car badge;
+    public Vehicle getByContent(String contenu) throws Exception {
+        Vehicle badge;
         try {
             this.open();
             Query query = em.createQuery("SELECT b FROM Badge b WHERE b.contenu = fcontenu");                       //PAS FINI
             query.setParameter("fcontenu", contenu);
-            badge = (Car) query.getSingleResult();
+            badge = (Vehicle) query.getSingleResult();
         } catch (NoResultException ex) {
             return null;
         } finally {
@@ -37,8 +37,8 @@ public class CarDataServiceJPAImpl extends AbstracCrudServiceJPA<Car> implements
     }
 
     @Override
-    public List<Car> getByAssociate(boolean attribue) throws Exception {
-        List<Car> badges;
+    public List<Vehicle> getByAssociate(boolean attribue) throws Exception {
+        List<Vehicle> badges;
         try {
             Query query;
             this.open();

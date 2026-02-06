@@ -5,7 +5,7 @@ import lml.snir.parkinglogickit.metier.entity.Admin;
 import lml.snir.parkinglogickit.metier.entity.Associate;
 import lml.snir.parkinglogickit.metier.entity.Badge;
 import lml.snir.parkinglogickit.metier.entity.Driver;
-import lml.snir.parkinglogickit.metier.entity.Car;
+import lml.snir.parkinglogickit.metier.entity.Vehicle;
 import lml.snir.parkinglogickit.metier.entity.Maintenance;
 import lml.snir.parkinglogickit.physique.data.AssociateDataService;
 import lml.snir.parkinglogickit.physique.data.BadgeDataService;
@@ -54,7 +54,7 @@ public class Test {
         drv.setFirstName("homer");
         drv.setIsMale(true);
         drv.setUsername("HS");
-        drv.setSurname("Simpson");
+        drv.setLastname("Simpson");
         drv.setPassword("secret");
         this.usrSrv.add(drv);
 
@@ -80,7 +80,7 @@ public class Test {
         drv.setFirstName("Marge");
         drv.setIsMale(false);
         drv.setUsername("MS");
-        drv.setSurname("Simpson");
+        drv.setLastname("Simpson");
         drv.setPassword("secret");
         this.usrSrv.add(drv);
         
@@ -89,21 +89,21 @@ public class Test {
         drv.setFirstName("Test");
         drv.setIsMale(false);
         drv.setUsername("tt");
-        drv.setSurname("Test");
+        drv.setLastname("Test");
         drv.setPassword("secret");
         this.usrSrv.add(drv);
     }
 
     
     private void populateLocaux() throws Exception {
-        Car l = new Car();
-        l.setPlaque("458L");
+        Vehicle l = new Vehicle();
+        l.setNumberPlate("458L");
     //    l = carSrv.add(l);
-        l = new Car();
-        l.setPlaque("459L");
+        l = new Vehicle();
+        l.setNumberPlate("459L");
     //    l = carSrv.add(l);
-        l = new Car();
-        l.setPlaque("435L");
+        l = new Vehicle();
+        l.setNumberPlate("435L");
     //    l = carSrv.add(l);
     }
 /**
