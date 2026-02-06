@@ -60,16 +60,16 @@ public final class PhysiqueDataFactory {
 
         return vehicleSrv;
     }
-/**
-    private static TemperatureDataService temperatureSrv = null;
-    public static synchronized TemperatureDataService getTemperatureDataService() throws Exception {
+
+    private static ParkingDataService parkingSrv = null;
+    public static synchronized ParkingDataService getParkingDataService() throws Exception {
         if (JDBC) {
-                temperatureSrv = new TemperatureDataServiceJDBCImpl();
+                //temperatureSrv = new ParkingDataServiceJDBCImpl();
             } else {
-                temperatureSrv = new TemperatureDataServiceJPAImpl(PU);
+                parkingSrv = new ParkingDataServiceJPAImpl(PU);
             }
 
-        return temperatureSrv;
+        return parkingSrv;
     }
-    **/
+    
 }
