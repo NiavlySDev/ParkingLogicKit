@@ -11,7 +11,7 @@ import lml.snir.parkinglogickit.metier.entity.Vehicle;
  *
  * @author Viralu
  */
-public interface CarService {
+public interface VehicleService {
     
     public Vehicle getByContent(String contenu) throws Exception;
     public List<Vehicle> getByAssociate(boolean attribue) throws Exception;

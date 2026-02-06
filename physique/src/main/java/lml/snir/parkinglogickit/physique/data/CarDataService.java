@@ -4,12 +4,12 @@
  */
 package lml.snir.parkinglogickit.physique.data;
 
-import lml.snir.parkinglogickit.metier.transactionel.CarService;
+import lml.snir.parkinglogickit.metier.transactionel.VehicleService;
 
 /**
  *
  * @author Viralu
  */
-public interface CarDataService extends CarService{
+public interface CarDataService extends VehicleService{
     
 }

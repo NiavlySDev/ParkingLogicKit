@@ -6,7 +6,7 @@
     <class>lml.snir.parkinglogickit.metier.entity.Driver</class>
     <class>lml.snir.parkinglogickit.metier.entity.Associate</class>
     <class>lml.snir.parkinglogickit.metier.entity.Badge</class>
-    <class>lml.snir.parkinglogickit.metier.entity.Maintenance</class>
+    <class>lml.snir.parkinglogickit.metier.entity.Vehicle</class>
     <properties>
       <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/parkinglogickit?zeroDateTimeBehavior=convertToNull"/>
       <property name="jakarta.persistence.jdbc.user" value="parkinglogickit"/>
