@@ -50,15 +50,15 @@ public final class PhysiqueDataFactory {
         return associateSrv;
     }
 
-    private static CarDataService localSrv = null;
-    public static synchronized CarDataService getLocalDataService() throws Exception {
+    private static VehicleDataService vehicleSrv = null;
+    public static synchronized VehicleDataService getVehicleDataService() throws Exception {
         if (JDBC) {
-                //localSrv = new CarDataServiceJDBCImpl();
+                //localSrv = new VehicleDataServiceJDBCImpl();
             } else {
-                localSrv = new CarDataServiceJPAImpl(PU);
+                vehicleSrv = new VehicleDataServiceJPAImpl(PU);
             }
 
-        return localSrv;
+        return vehicleSrv;
     }
 /**
     private static TemperatureDataService temperatureSrv = null;
