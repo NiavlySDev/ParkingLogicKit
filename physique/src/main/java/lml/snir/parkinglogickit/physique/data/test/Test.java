@@ -66,15 +66,15 @@ public class Test {
 
         Badge b = new Badge();
         b.setContent("0014511054");
-        b = this.badgeSrv.add(b);
+        this.badgeSrv.add(b);
 
         b = new Badge();
         b.setContent("0009803529");
-        b = this.badgeSrv.add(b);
+        this.badgeSrv.add(b);
 
         b = new Badge();
         b.setContent("0009966230");
-        b = this.badgeSrv.add(b);
+        this.badgeSrv.add(b);
 
         drv = new Driver();
         drv.setAge(25);
@@ -116,18 +116,18 @@ public class Test {
         asso.setBadge(b);
         asso.setVehicle(l);
         asso.setDriver(drv);
-        asso = this.assoSrv.add(asso);
+        this.assoSrv.add(asso);
     }
 
     private void populateLocaux() throws Exception {
         
         Parking p = new Parking();
-        p.setPlaceCount(59);
+        p.setPlaceCount(60);
         p.setTotalPlace(60);
         p.setHandicapCount(2);
         p.setTotalHandicap(4);
         p.setIsFull(false);
-        p = this.parkingSrv.add(p);
+        this.parkingSrv.add(p);
     }
 
     /**
