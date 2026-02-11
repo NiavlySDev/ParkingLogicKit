@@ -9,5 +9,5 @@ package lml.snir.parkinglogickit.physique.data;
  * @author virgile
  */
 public class AccessDataServiceJPAImpl {
-    
+
 }

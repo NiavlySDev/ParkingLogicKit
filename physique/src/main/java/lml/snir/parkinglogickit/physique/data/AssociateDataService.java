@@ -10,6 +10,6 @@ import lml.snir.parkinglogickit.metier.transactionel.AssociateService;
  *
  * @author jupiter
  */
-public interface AssociateDataService extends AssociateService{
-    
+public interface AssociateDataService extends AssociateService {
+
 }

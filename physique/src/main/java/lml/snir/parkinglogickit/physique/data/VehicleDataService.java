@@ -11,5 +11,5 @@ import lml.snir.parkinglogickit.metier.transactionel.VehicleService;
  * @author Viralu
  */
 public interface VehicleDataService extends VehicleService {
-    
+
 }

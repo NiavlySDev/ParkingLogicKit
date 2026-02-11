@@ -11,5 +11,5 @@ import lml.snir.parkinglogickit.metier.transactionel.ParkingService;
  * @author jupiter
  */
 public interface ParkingDataService extends ParkingService {
-    
+
 }
