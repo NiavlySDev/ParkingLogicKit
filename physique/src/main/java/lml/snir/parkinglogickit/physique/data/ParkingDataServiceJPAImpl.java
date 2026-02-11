@@ -1,16 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package lml.snir.parkinglogickit.physique.data;
 
-import java.util.List;
 import lml.snir.parkinglogickit.metier.entity.Parking;
 import lml.snir.persistence.jpa.AbstracCrudServiceJPA;
 
 /**
  *
- * @author jupiter
+ * @author Virgile Alari
  */
 public class ParkingDataServiceJPAImpl extends AbstracCrudServiceJPA<Parking> implements ParkingDataService {
 

@@ -31,7 +31,7 @@
             🌙 Mode
         </button>
         <div class="account-card">
-            <h1>Bienvenue #{loginBean.user.firstName} #{loginBean.user.name}</h1>
+            <h1>Bienvenue #{loginBean.driver.username}</h1>
             <p:commandButton value="Se Déconnecter"
                              icon="pi pi-sign-out"
                              styleClass="rounded-button ui-button-danger"
@@ -43,6 +43,7 @@
                 <p:commandButton value="Changement Mot de Passe" type="button" icon="pi pi-file-edit"
                                  styleClass="rounded-button ui-button-warning"
                                  onclick="PF('changemenet_mdp').show()"/>
+                <!--
                 <p:dialog header="Changement Mot de Passe" widgetVar="changemenet_mdp" minHeight="40" width="350" showEffect="fade">
                     <h4>Mot de Passe Actuel</h4>
                     <p:password value="#{mdpChangeBean.currentPassword}" toggleMask="true" redisplay="true"/><br/><br/>
@@ -58,6 +59,7 @@
                                          update="index:fragmentPanel messageindex message index:tabMenu"/>
                     </f:facet>
                 </p:dialog>
+                -->
             </div>
         </div>
     </h:body>

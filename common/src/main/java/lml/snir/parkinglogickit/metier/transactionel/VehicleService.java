@@ -10,7 +10,7 @@ import lml.snir.persistence.CrudService;
 
 /**
  *
- * @author Viralu
+ * @author Virgile Alari
  */
 public interface VehicleService extends CrudService<Vehicle>{
     

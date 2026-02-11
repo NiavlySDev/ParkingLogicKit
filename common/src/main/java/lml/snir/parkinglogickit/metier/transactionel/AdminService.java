@@ -2,7 +2,7 @@ package lml.snir.parkinglogickit.metier.transactionel;
 
 /**
  *
- * @author phily
+ * @author Phily Seck
  */
 public interface AdminService {
 

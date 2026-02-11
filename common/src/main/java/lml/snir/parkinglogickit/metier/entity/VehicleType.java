@@ -3,7 +3,7 @@ package lml.snir.parkinglogickit.metier.entity;
 /**
  * Types: Moto, Voiture, Camionette, Camion
  *
- * @author sylvain
+ * @author Sylvain Crocquevieille
  */
 public enum VehicleType {
 

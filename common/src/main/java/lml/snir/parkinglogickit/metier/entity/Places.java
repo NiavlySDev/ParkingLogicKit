@@ -9,7 +9,7 @@ import java.util.Objects;
 
 /**
  *
- * @author phily, sylvain
+ * @author Phily Seck, Sylvain Crocquevieille
  */
 @Entity
 public class Places implements Serializable {

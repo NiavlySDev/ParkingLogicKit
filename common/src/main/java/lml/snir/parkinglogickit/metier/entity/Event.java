@@ -9,7 +9,7 @@ import java.util.Objects;
 
 /**
  *
- * @author ethan, sylvain
+ * @author Ethan Chandebois, Sylvain Crocquevieille
  */
 @Entity
 public class Event implements Serializable {

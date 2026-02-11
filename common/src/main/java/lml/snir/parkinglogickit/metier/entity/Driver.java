@@ -14,12 +14,13 @@ import java.util.Objects;
 
 /**
  *
- * @author ethan, sylvain
+ * @author Ethan Chandebois, Sylvain Crocquevieille
  */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "TYPE", discriminatorType = DiscriminatorType.STRING)
 public class Driver implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -216,5 +217,5 @@ public class Driver implements Serializable {
     public void setAge(int age) {
         this.age = age;
     }
-        
+
 }
