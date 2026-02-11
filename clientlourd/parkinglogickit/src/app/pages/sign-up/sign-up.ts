@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RestServer } from '../../../Rest/RestServer';
 import { Driver } from '../../../Auth/Driver.js';
+import { Router } from '@angular/router';
 
 // author Ethan
 
@@ -29,8 +30,11 @@ export class SignUp {
   message: string = '';
   messageType: 'success' | 'error' = 'success';
 
-  constructor(private restServer: RestServer) {}
+  constructor(private restServer: RestServer, private router: Router) {}
 
+  goHome(): void {
+    this.router.navigate(['/']); // redirige vers Home
+  }
   onSubmit(): void {
     if (
       !this.firstname ||
