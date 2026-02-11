@@ -1,13 +1,11 @@
 package lml.snir.parkinglogickit.metier.rest.client;
 
-import java.io.FileInputStream;
-import java.util.Properties;
 import lml.snir.rest.client.RestServerConfig;
 import lml.snir.tools.ConfigReader;
 
 /**
  *
- * @author fanou
+ * @author phily
  */
 public class RestServerLocalConfiguration extends RestServerConfig {
 
