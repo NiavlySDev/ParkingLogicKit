@@ -3,8 +3,6 @@ package lml.snir.parkinglogickit.client.beans.comptegestion;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
 import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import lml.snir.parkinglogickit.metier.entity.Admin;
 import lml.snir.parkinglogickit.metier.entity.Driver;
 import lml.snir.parkinglogickit.metier.transactionel.DriverService;
