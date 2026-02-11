@@ -88,7 +88,7 @@ public class Test {
         drv.setFirstName("Test");
         drv.setIsMale(false);
         drv.setUsername("Test");
-        drv.setLastname("hh");
+        drv.setLastname("TT");
         drv.setPassword("secret");
         this.usrSrv.add(drv);
 
@@ -115,7 +115,7 @@ public class Test {
         asso.setVehicle(l);
         asso.setDriver(drv);
         this.assoSrv.add(asso);
-
+        
     }
 
     private void populateParking() throws Exception {
