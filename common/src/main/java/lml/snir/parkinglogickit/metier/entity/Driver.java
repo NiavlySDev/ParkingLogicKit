@@ -14,7 +14,7 @@ import java.util.Objects;
 
 /**
  *
- * @author ethan, sylvain
+ * @author Ethan Chandebois, Sylvain Crocquevieille
  */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

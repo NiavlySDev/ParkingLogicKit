@@ -15,7 +15,7 @@ import java.util.Objects;
 
 /**
  *
- * @author jupiter
+ * @author Virgile Alari
  */
 @Entity
 public class Associate implements Serializable {

@@ -33,65 +33,14 @@ public enum Page {
                 LoggedType.LoggedOutOnly
         )
     ),
-    Consignes(
-        2,
-        "/consignesView.xhtml",
-        Arrays.asList(LoggedType.LoggedInOnly)
-    ),
-    Temperatures(
-        3,
-        "/temperaturesView.xhtml",
-        Arrays.asList(LoggedType.LoggedInOnly)
-    ),
-    Separateur2(
-            "|",
-            4,
-            "",
-            Arrays.asList(
-                    LoggedType.Affichage,
-                    LoggedType.LoggedInOnly
-            )
-    ),
     Compte(
-        5,
+        2,
         "/compte/compte.xhtml",
         Arrays.asList(
                 LoggedType.LoggedInOnly
         )
     ),
-    
-    Utilisateurs(
-        6,
-        "/admin/user_gestion.xhtml",
-        Arrays.asList(
-                LoggedType.LoggedInOnly,
-                LoggedType.AdminOnly
-        )
-    ),
-    Locaux(
-        7,
-        "/admin/local_gestion.xhtml",
-        Arrays.asList(
-                LoggedType.LoggedInOnly,
-                LoggedType.AdminOnly
-        )
-    ),
-    Badges(
-        8,
-        "/admin/badges_gestion.xhtml",
-        Arrays.asList(
-                LoggedType.LoggedInOnly,
-                LoggedType.AdminOnly
-        )
-    ),
-    Attributions(
-        9,
-        "/admin/attributions_gestion.xhtml",
-        Arrays.asList(
-                LoggedType.LoggedInOnly,
-                LoggedType.AdminOnly
-        )
-    ),;
+    ;
     
     private final String nom;
     private final Integer id;

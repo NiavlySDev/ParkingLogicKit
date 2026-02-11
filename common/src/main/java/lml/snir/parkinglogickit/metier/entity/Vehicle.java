@@ -9,7 +9,7 @@ import java.util.Objects;
 
 /**
  *
- * @author sylvain
+ * @author Sylvain Crocquevieille
  */
 @Entity
 public class Vehicle implements Serializable {
