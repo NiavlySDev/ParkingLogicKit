@@ -1,1 +1,54 @@
-<p>La page de connexion marche !</p>
+<div class="sign-in">
+    <!-- Bouton Home PNG -->
+    <button class="home-button" (click)="goHome()" aria-label="Accueil">
+      <img src="logo-home.png" alt="Accueil" class="home-logo"/>
+    </button>
+  
+    <!-- Carte de connexion -->
+    <div class="sign-in-card">
+      <h1 class="sign-in-title">Connexion</h1>
+  
+      <form class="sign-in-form" (ngSubmit)="onSubmit()">
+        <!-- Login -->
+        <div class="form-group">
+          <label for="login" class="form-label">Nom d'utilisateur</label>
+          <input
+            type="text"
+            id="login"
+            class="form-input"
+            [(ngModel)]="login"
+            name="login"
+            placeholder="Entrez votre login"
+            required
+          />
+        </div>
+  
+        <!-- Mot de passe -->
+        <div class="form-group">
+          <label for="password" class="form-label">Mot de passe</label>
+          <input
+            type="password"
+            id="password"
+            class="form-input"
+            [(ngModel)]="password"
+            name="password"
+            placeholder="Entrez votre mot de passe"
+            required
+          />
+        </div>
+  
+        <!-- Bouton Connexion -->
+        <div class="form-actions">
+          <button type="submit" class="btn-submit" [disabled]="isLoading">
+            {{ isLoading ? 'Chargement...' : 'Se connecter' }}
+          </button>
+        </div>
+      </form>
+  
+      <!-- Message d'erreur / succès -->
+      <div *ngIf="message" class="message" [ngClass]="'message-' + messageType">
+        {{ message }}
+      </div>
+    </div>
+  </div>
+  
