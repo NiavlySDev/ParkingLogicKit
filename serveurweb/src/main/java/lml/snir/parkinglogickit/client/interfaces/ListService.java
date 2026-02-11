@@ -4,7 +4,7 @@ import jakarta.faces.component.UIComponent;
 
 /**
  * 
- * @author sylvain
+ * @author Sylvain Crocquevieille
  */
 public interface ListService {
     

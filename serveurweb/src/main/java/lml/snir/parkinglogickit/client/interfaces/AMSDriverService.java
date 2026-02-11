@@ -1,14 +1,10 @@
 package lml.snir.parkinglogickit.client.interfaces;
 
 import java.util.Random;
-//import lml.snir.parkinglogickit.metier.MetierFactory;
-//import lml.snir.parkinglogickit.metier.entity.Driver;
-//import lml.snir.parkinglogickit.metier.transactionel.DriverService;
-// extends AMSService<DriverService, Driver>
 
 /**
  * 
- * @author sylvain
+ * @author Sylvain Crocquevieille
  */
 public interface AMSDriverService {
     
