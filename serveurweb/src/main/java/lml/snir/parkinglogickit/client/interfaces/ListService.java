@@ -3,12 +3,12 @@ package lml.snir.parkinglogickit.client.interfaces;
 import jakarta.faces.component.UIComponent;
 
 /**
- * 
+ *
  * @author Sylvain Crocquevieille
  */
 public interface ListService {
-    
-    default UIComponent getUIComponentOfId(UIComponent root, String id) {   
+
+    default UIComponent getUIComponentOfId(UIComponent root, String id) {
         String rootId = root.getId();
         if (rootId.equals(id)) {
             return root;
