@@ -1,13 +1,15 @@
 package lml.snir.parkinglogickit.metier.rest.client;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lml.snir.parkinglogickit.metier.entity.Driver;
 import lml.snir.parkinglogickit.metier.transactionel.DriverService;
 import lml.snir.rest.client.ClientRest;
 
 /**
  *
- * @author jupiter
+ * @author phily
  */
 public class DriverServiceClientRESTImpl extends ClientRest<Driver> implements DriverService {
 
@@ -99,10 +101,14 @@ public class DriverServiceClientRESTImpl extends ClientRest<Driver> implements D
     }
 
     @Override
-    public Driver getById(Driver driver) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Driver getById(Driver driver)   {
+         super.setPath("getByDriver/" + driver.getId());
+        try {
+            return super.getEntity();
+        } catch (Exception ex) {
+            Logger.getLogger(DriverServiceClientRESTImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
-   
-    
 }

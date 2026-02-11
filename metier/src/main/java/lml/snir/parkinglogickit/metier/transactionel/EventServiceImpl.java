@@ -9,7 +9,7 @@ import lml.snir.parkinglogickit.metier.entity.Event;
 
 /**
  *
- * @author fanou
+ * @author phily
  */
 public class EventServiceImpl implements EventService {
 //    private final EventDataService eventDataSrv;

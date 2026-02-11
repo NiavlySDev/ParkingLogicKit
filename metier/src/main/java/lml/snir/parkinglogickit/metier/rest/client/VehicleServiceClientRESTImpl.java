@@ -2,42 +2,49 @@ package lml.snir.parkinglogickit.metier.rest.client;
 
 
 import java.util.List;
-import lml.snir.parkinglogickit.metier.entity.Places;
-import lml.snir.parkinglogickit.metier.transactionel.PlacesService;
+
+import lml.snir.parkinglogickit.metier.entity.Vehicle;
+import lml.snir.parkinglogickit.metier.transactionel.VehicleService;
 import lml.snir.rest.client.ClientRest;
+
 
 /**
  *
  * @author phily
  */
-public class PlacesServiceClientRESTImpl extends ClientRest<Places> implements PlacesService {
+public class VehicleServiceClientRESTImpl extends ClientRest<Vehicle> implements VehicleService {
 
-    public PlacesServiceClientRESTImpl() {
-        super.init("PlacesService", new RestServerLocalConfiguration());
+    public VehicleServiceClientRESTImpl() {
+        super.init("ParkingService", new RestServerLocalConfiguration());
     }
 
     @Override
-    public Places getByIsOccuped(boolean attribue) throws Exception {
-       super.setPath("getByIsOccuped" );
-        return super.getEntity();
-    }
-    @Override
-    public Places add(Places t) throws Exception {
+    public Vehicle getByContent(String contenu) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void remove(Places t) throws Exception {
+    public List<Vehicle> getByAssociate(boolean attribue) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void update(Places t) throws Exception {
+    public Vehicle add(Vehicle t) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Places getById(Long id) throws Exception {
+    public void remove(Vehicle t) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void update(Vehicle t) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Vehicle getById(Long id) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -47,12 +54,12 @@ public class PlacesServiceClientRESTImpl extends ClientRest<Places> implements P
     }
 
     @Override
-    public List<Places> getAll() throws Exception {
+    public List<Vehicle> getAll() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public List<Places> getAll(int begin, int count) throws Exception {
+    public List<Vehicle> getAll(int begin, int count) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

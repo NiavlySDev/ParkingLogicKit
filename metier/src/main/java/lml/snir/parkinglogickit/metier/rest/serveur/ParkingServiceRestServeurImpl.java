@@ -9,7 +9,6 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import java.util.List;
-import lml.snir.parkinglogickit.metier.entity.Event;
 import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 import lml.snir.parkinglogickit.metier.entity.Parking;
 import lml.snir.parkinglogickit.metier.transactionel.ParkingService;
@@ -17,7 +16,7 @@ import lml.snir.rest.server.RestException;
 
 /**
  *
- * @author fanou
+ * @author phily
  */
 @Path("/ParkingService")
 @Consumes("application/json")

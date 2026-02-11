@@ -9,7 +9,7 @@ import lml.snir.parkinglogickit.metier.entity.Badge;
 
 /**
  *
- * @author fanou
+ * @author phily
  */
 public class BadgeServiceImpl implements BadgeService {
 //    private final BadgeDataService badgeDataSrv;

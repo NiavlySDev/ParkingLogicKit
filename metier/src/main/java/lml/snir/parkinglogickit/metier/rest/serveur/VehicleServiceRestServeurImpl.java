@@ -1,3 +1,4 @@
+
 package lml.snir.parkinglogickit.metier.rest.serveur;
 
 import jakarta.ws.rs.Consumes;
@@ -10,29 +11,29 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import java.util.List;
 import lml.snir.parkinglogickit.metierfactory.MetierFactory;
-import lml.snir.parkinglogickit.metier.entity.Maintenance;
-import lml.snir.parkinglogickit.metier.transactionel.MaintenanceService;
+import lml.snir.parkinglogickit.metier.entity.Vehicle;
+import lml.snir.parkinglogickit.metier.transactionel.PlacesService;
+import lml.snir.parkinglogickit.metier.transactionel.VehicleService;
 import lml.snir.rest.server.RestException;
 
 /**
  *
  * @author phily
  */
-@Path("/MaintenanceService")
+@Path("/VehicleService")
 @Consumes("application/json")
 @Produces("application/json")
-public class MaintenanceServiceRestServeurImpl {
-    private final MaintenanceService MaintenanceSrv;
+public class VehicleServiceRestServeurImpl {
+    private final VehicleService VehicleSrv;
 
-    public MaintenanceServiceRestServeurImpl() throws Exception {
-        this.MaintenanceSrv = MetierFactory.getMaintenanceService();
+    public VehicleServiceRestServeurImpl() throws Exception {
+        this.VehicleSrv = MetierFactory.getVehicleService();
     }
-
     @POST
     @Path("/")
-    public Maintenance add(Maintenance t) throws Exception {
+    public Vehicle add(Vehicle t) throws Exception {
         try {
-            return this.MaintenanceSrv.add(t);
+            return this.VehicleSrv.add(t);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
         }
@@ -40,9 +41,9 @@ public class MaintenanceServiceRestServeurImpl {
 
     @DELETE
     @Path("/")
-    public void remove(Maintenance t) throws Exception {
+    public void remove(Vehicle t) throws Exception {
         try {
-            this.MaintenanceSrv.remove(t);
+            this.VehicleSrv.remove(t);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
         }
@@ -50,9 +51,9 @@ public class MaintenanceServiceRestServeurImpl {
 
     @PUT
     @Path("/")
-    public void update(Maintenance t) throws Exception {
+    public void update(Vehicle t) throws Exception {
         try {
-            this.MaintenanceSrv.update(t);
+            this.VehicleSrv.update(t);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
         }
@@ -60,9 +61,9 @@ public class MaintenanceServiceRestServeurImpl {
 
     @GET
     @Path("/{id}")
-    public Maintenance getById(@PathParam("id") Long id) throws Exception {
+    public Vehicle getById(@PathParam("id") Long id) throws Exception {
         try {
-            return this.MaintenanceSrv.getById(id);
+            return this.VehicleSrv.getById(id);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
         }
@@ -72,7 +73,7 @@ public class MaintenanceServiceRestServeurImpl {
     @Path("/Count")
     public long getCount() throws Exception {
         try {
-            return this.MaintenanceSrv.getCount();
+            return this.VehicleSrv.getCount();
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
         }
@@ -80,9 +81,9 @@ public class MaintenanceServiceRestServeurImpl {
 
     @GET
     @Path("/")
-    public List<Maintenance> getAll() throws Exception {
+    public List<Vehicle> getAll() throws Exception {
         try {
-            return this.MaintenanceSrv.getAll();
+            return this.VehicleSrv.getAll();
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
         }
@@ -90,12 +91,13 @@ public class MaintenanceServiceRestServeurImpl {
 
     @GET
     @Path("/{begin}/{count}")
-    public List<Maintenance> getAll(@PathParam("begin") int begin, @PathParam("count") int count) throws Exception {
+    public List<Vehicle> getAll(@PathParam("begin") int begin, @PathParam("count") int count) throws Exception {
         try {
-            return this.MaintenanceSrv.getAll(begin, count);
+            return this.VehicleSrv.getAll(begin, count);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
         }
     }
-
+      
+    
 }

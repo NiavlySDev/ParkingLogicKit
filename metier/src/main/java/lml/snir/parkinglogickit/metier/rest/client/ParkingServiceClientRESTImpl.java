@@ -10,7 +10,7 @@ import lml.snir.rest.client.ClientRest;
 
 /**
  *
- * @author fanou
+ * @author phily
  */
 public class ParkingServiceClientRESTImpl extends ClientRest<Parking> implements ParkingService {
 

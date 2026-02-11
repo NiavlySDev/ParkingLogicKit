@@ -9,7 +9,7 @@ import lml.snir.rest.client.ClientRest;
 
 /**
  *
- * @author fanou
+ * @author phily
  */
 public class EventServiceClientRESTImpl extends ClientRest<Places> implements EventService {
 
