@@ -2,7 +2,7 @@ package lml.snir.parkinglogickit.metier.entity;
 
 /**
  *
- * @author sylvain
+ * @author Sylvain Crocquevieille
  */
 public enum AccessType {
     ENTER("Entré"),

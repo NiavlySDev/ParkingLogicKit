@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @author ethan, sylvain
+ * @author Ethan Chandebois, Sylvain Crocquevieille
  */
 @Entity
 public class Access implements Serializable {
