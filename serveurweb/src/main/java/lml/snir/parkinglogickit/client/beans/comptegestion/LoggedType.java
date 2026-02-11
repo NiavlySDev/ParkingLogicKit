@@ -2,7 +2,7 @@ package lml.snir.parkinglogickit.client.beans.comptegestion;
 
 /**
  *
- * @author sylvain
+ * @author Sylvain Crocquevieille
  */
 public enum LoggedType {
     Affichage,

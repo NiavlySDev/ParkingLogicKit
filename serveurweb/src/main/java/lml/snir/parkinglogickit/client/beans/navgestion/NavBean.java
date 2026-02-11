@@ -14,7 +14,7 @@ import org.primefaces.model.menu.MenuModel;
 
 /**
  * 
- * @author sylvain
+ * @author Sylvain Crocquevieille
  */
 @Named
 @ViewScoped

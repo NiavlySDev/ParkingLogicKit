@@ -2,7 +2,7 @@ package lml.snir.parkinglogickit.client.interfaces;
 
 /**
  * 
- * @author sylvain
+ * @author Sylvain Crocquevieille
  */
 public interface AMSService<T, U> {
     

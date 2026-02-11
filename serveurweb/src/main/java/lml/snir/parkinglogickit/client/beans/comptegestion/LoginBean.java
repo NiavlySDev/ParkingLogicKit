@@ -5,10 +5,16 @@ import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import lml.snir.parkinglogickit.client.fakedata.Admin;
-import lml.snir.parkinglogickit.client.fakedata.Driver;
+import lml.snir.parkinglogickit.metier.entity.Admin;
+import lml.snir.parkinglogickit.metier.entity.Driver;
+import lml.snir.parkinglogickit.metier.transactionel.DriverService;
+import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 import org.primefaces.PrimeFaces;
 
+/**
+ * 
+ * @author Sylvain Crocquevieille
+ */
 @Named
 @SessionScoped
 public class LoginBean implements Serializable {
@@ -17,7 +23,8 @@ public class LoginBean implements Serializable {
     private String password;
     private Driver driver;
     private boolean logged;
-
+    private boolean fallback;
+    
     public String getUsername() {
         return username;
     }
@@ -39,7 +46,7 @@ public class LoginBean implements Serializable {
         this.logged = logged;
     }
 
-    public Driver getUser() {
+    public Driver getDriver() {
         return driver;
     }
     
@@ -48,6 +55,20 @@ public class LoginBean implements Serializable {
     }
     
     public void login(){
+        try {
+            DriverService ds = MetierFactory.getDriverService();
+            if(ds.getByUsername(username) == null){
+                return;
+            }
+            Driver driverDS = ds.getByUsername(username);
+            if(!driverDS.getPassword().equals(password)){
+                return;
+            }
+            
+            setLogged(true);
+        } catch (Exception ex) {
+            Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
         setLogged(true);
         PrimeFaces.current().executeScript("location.reload();");
     }
@@ -58,6 +79,19 @@ public class LoginBean implements Serializable {
         this.setUsername("");
         this.setPassword("");
         PrimeFaces.current().executeScript("location.reload();");
+    }
+    
+    private void activateFallback(){
+        String fallbackMode = "[FallBack Mode]";
+        this.fallback = true;
+        this.driver = new Driver();
+        this.driver.setAge(0);
+        this.driver.setFirstName(fallbackMode);
+        this.driver.setId(0);
+        this.driver.setIsMale(true);
+        this.driver.setLastname(fallbackMode);
+        this.driver.setPassword(fallbackMode);
+        this.driver.setUsername(fallbackMode);
     }
     
 }
