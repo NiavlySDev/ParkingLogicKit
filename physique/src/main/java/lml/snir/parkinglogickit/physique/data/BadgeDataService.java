@@ -10,6 +10,6 @@ import lml.snir.parkinglogickit.metier.transactionel.BadgeService;
  *
  * @author virgile
  */
-public interface BadgeDataService extends BadgeService{
-    
+public interface BadgeDataService extends BadgeService {
+
 }

@@ -34,7 +34,7 @@ public class AssociateDataServiceImpl extends AbstracCrudServiceJPA<Associate> i
         } finally {
             this.close();
         }
-        
+
         return associate;
     }
 
@@ -51,7 +51,7 @@ public class AssociateDataServiceImpl extends AbstracCrudServiceJPA<Associate> i
         } finally {
             this.close();
         }
-        
+
         return associate;
     }
 
@@ -62,5 +62,5 @@ public class AssociateDataServiceImpl extends AbstracCrudServiceJPA<Associate> i
     public Boolean isBadgeAttribue(Badge badge) throws Exception {
         return (this.getByBadge(badge) != null);
     }
-    
+
 }

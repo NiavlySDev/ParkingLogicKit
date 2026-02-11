@@ -15,11 +15,11 @@ import lml.snir.persistence.jpa.AbstracCrudServiceJPA;
  * @author Virgile
  */
 public class VehicleDataServiceJPAImpl extends AbstracCrudServiceJPA<Vehicle> implements VehicleDataService {
-        
+
     public VehicleDataServiceJPAImpl(String PU) {
         super(PU);
     }
-    
+
     @Override
     public Vehicle getByContent(String content) throws Exception {
         Vehicle vehicle;
@@ -33,7 +33,7 @@ public class VehicleDataServiceJPAImpl extends AbstracCrudServiceJPA<Vehicle> im
         } finally {
             this.close();
         }
-        
+
         return vehicle;
     }
 
@@ -48,14 +48,14 @@ public class VehicleDataServiceJPAImpl extends AbstracCrudServiceJPA<Vehicle> im
             } else {
                 query = em.createQuery("SELECT v FROM Vehicle v WHERE v NOT IN (SELECT a.vehicle FROM Associate a)");
             }
-            
+
             vehicle = query.getResultList();
         } catch (NoResultException ex) {
             return null;
         } finally {
             this.close();
         }
-        
+
         return vehicle;
     }
 }

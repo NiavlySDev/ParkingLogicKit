@@ -49,7 +49,7 @@ public class Test {
 
     private void populate() throws Exception {
         this.populateDriver();
-        this.populateLocaux();
+        this.populateParking();
     }
 
     private void populateDriver() throws Exception {
@@ -99,13 +99,13 @@ public class Test {
         l.setBrand("Citroen");
         l.setType(VehicleType.Voiture);
         this.vehicleSrv.add(l);
-        
+
         l = new Vehicle();
         l.setNumberPlate("TT-459-CC");
         l.setBrand("Citroen");
         l.setType(VehicleType.Camion);
         this.vehicleSrv.add(l);
-        
+
         l = new Vehicle();
         l.setNumberPlate("TT-435-CC");
         l.setBrand("Citroen");
@@ -117,10 +117,11 @@ public class Test {
         asso.setVehicle(l);
         asso.setDriver(drv);
         this.assoSrv.add(asso);
+
     }
 
-    private void populateLocaux() throws Exception {
-        
+    private void populateParking() throws Exception {
+
         Parking p = new Parking();
         p.setPlaceCount(60);
         p.setTotalPlace(60);

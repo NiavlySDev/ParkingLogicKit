@@ -5,6 +5,7 @@ package lml.snir.parkinglogickit.physique.data;
  * @author virgile
  */
 public final class PhysiqueDataFactory {
+
     private PhysiqueDataFactory() {
     }
 
@@ -12,6 +13,7 @@ public final class PhysiqueDataFactory {
     private static final boolean JDBC = false;
 
     private static DriverDataService usrSrv = null;
+
     public static synchronized DriverDataService getDriverDataService() throws Exception {
         if (usrSrv == null) {
             if (JDBC) {
@@ -23,8 +25,9 @@ public final class PhysiqueDataFactory {
 
         return usrSrv;
     }
-        
+
     private static BadgeDataService badgeSrv = null;
+
     public static synchronized BadgeDataService getBadgeDataService() throws Exception {
         if (badgeSrv == null) {
             if (JDBC) {
@@ -36,12 +39,13 @@ public final class PhysiqueDataFactory {
 
         return badgeSrv;
     }
-    
+
     private static AssociateDataService associateSrv = null;
+
     public static synchronized AssociateDataService getAssociateDataService() throws Exception {
         if (associateSrv == null) {
             if (JDBC) {
-               //attributionSrv = new AssociateDataServiceImpl();
+                //attributionSrv = new AssociateDataServiceImpl();
             } else {
                 associateSrv = new AssociateDataServiceImpl(PU);
             }
@@ -51,25 +55,27 @@ public final class PhysiqueDataFactory {
     }
 
     private static VehicleDataService vehicleSrv = null;
+
     public static synchronized VehicleDataService getVehicleDataService() throws Exception {
         if (JDBC) {
-                //localSrv = new VehicleDataServiceJDBCImpl();
-            } else {
-                vehicleSrv = new VehicleDataServiceJPAImpl(PU);
-            }
+            //localSrv = new VehicleDataServiceJDBCImpl();
+        } else {
+            vehicleSrv = new VehicleDataServiceJPAImpl(PU);
+        }
 
         return vehicleSrv;
     }
 
     private static ParkingDataService parkingSrv = null;
+
     public static synchronized ParkingDataService getParkingDataService() throws Exception {
         if (JDBC) {
-                //temperatureSrv = new ParkingDataServiceJDBCImpl();
-            } else {
-                parkingSrv = new ParkingDataServiceJPAImpl(PU);
-            }
+            //temperatureSrv = new ParkingDataServiceJDBCImpl();
+        } else {
+            parkingSrv = new ParkingDataServiceJPAImpl(PU);
+        }
 
         return parkingSrv;
     }
-    
+
 }

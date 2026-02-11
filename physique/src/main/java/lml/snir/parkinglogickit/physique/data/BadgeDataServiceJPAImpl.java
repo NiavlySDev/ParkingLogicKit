@@ -19,7 +19,7 @@ public class BadgeDataServiceJPAImpl extends AbstracCrudServiceJPA<Badge> implem
     public BadgeDataServiceJPAImpl(String PU) {
         super(PU);
     }
-    
+
     @Override
     public Badge getByContent(String contenu) throws Exception {
         Badge badge;
@@ -33,7 +33,7 @@ public class BadgeDataServiceJPAImpl extends AbstracCrudServiceJPA<Badge> implem
         } finally {
             this.close();
         }
-        
+
         return badge;
     }
 
@@ -48,14 +48,14 @@ public class BadgeDataServiceJPAImpl extends AbstracCrudServiceJPA<Badge> implem
             } else {
                 query = em.createQuery("SELECT b FROM Badge b WHERE b NOT IN (SELECT a.badge FROM Associate a)");
             }
-            
+
             badges = query.getResultList();
         } catch (NoResultException ex) {
             return null;
         } finally {
             this.close();
         }
-        
+
         return badges;
     }
 

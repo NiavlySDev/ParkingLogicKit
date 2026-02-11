@@ -10,6 +10,6 @@ import lml.snir.parkinglogickit.metier.transactionel.DriverService;
  *
  * @author virgile
  */
-public interface DriverDataService extends DriverService{
-    
+public interface DriverDataService extends DriverService {
+
 }
