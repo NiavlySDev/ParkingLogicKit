@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Named
 @ViewScoped
 public class ConvertisseurBean implements Serializable {
+
     private final double TAUX = 6.55957;
     private double euro;
     private double franc;
@@ -42,9 +43,9 @@ public class ConvertisseurBean implements Serializable {
     public void setFranc(double franc) {
         this.concertFrancToEuro();
     }
-    
+
     public void concertFrancToEuro() {
         this.franc = this.euro * this.TAUX;
     }
-    
+
 }

@@ -78,7 +78,7 @@ public class Vehicle implements Serializable {
 
     /**
      * Retourne un identifiant unique correspondant à la Voiture (Vehicle)
- uniquement
+     * uniquement
      *
      * @return Identifiant unique correspondant au Badge uniquement.
      */
@@ -136,6 +136,5 @@ public class Vehicle implements Serializable {
     public void setBrand(String brand) {
         this.brand = brand;
     }
-    
-    
+
 }
