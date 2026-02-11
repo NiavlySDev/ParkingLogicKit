@@ -19,47 +19,54 @@ public class EventServiceClientRESTImpl extends ClientRest<Places> implements Ev
 
     @Override
     public Event getById(long id) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+      super.setPath("getById/" );
+        return null;
     }
 
     @Override
     public Event getByIsEntered(boolean attribue) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+      super.setPath("getByIsEntered/" );
+        return null;
     }
 
     @Override
     public Event add(Event t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        super.setPath("add/" );
+        return null;   
     }
 
     @Override
     public void remove(Event t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+      super.setPath("remove/" );
     }
-
+    
     @Override
     public void update(Event t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    super.setPath("update/" );
     }
 
     @Override
     public Event getById(Long id) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        super.setPath("getById/" );
+        return null;
     }
 
     @Override
     public long getCount() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        super.setPath("getCount/" );
+        return 0;
     }
 
     @Override
     public List<Event> getAll() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       super.setPath("getAll/" );
+        return null;
     }
 
     @Override
     public List<Event> getAll(int begin, int count) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       super.setPath("" + begin + "/" + count);
+        return null;
     }
 }
    

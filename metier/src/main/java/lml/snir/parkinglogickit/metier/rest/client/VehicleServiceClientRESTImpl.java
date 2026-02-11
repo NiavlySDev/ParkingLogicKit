@@ -20,42 +20,51 @@ public class VehicleServiceClientRESTImpl extends ClientRest<Vehicle> implements
 
     @Override
     public Vehicle getByContent(String contenu) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         super.setPath("getByContent" );
+        return super.getEntity();
     }
 
     @Override
     public List<Vehicle> getByAssociate(boolean attribue) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         super.setPath("getByAssociate" );
+        return null;
     }
 
     @Override
     public Vehicle add(Vehicle t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       super.setPath("add" );
+        return super.getEntity();
     }
 
     @Override
     public void remove(Vehicle t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       super.setPath("remove" );
     }
 
     @Override
     public void update(Vehicle t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        super.setPath("update" );
+        
     }
 
     @Override
     public Vehicle getById(Long id) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         super.setPath("getById" );
+        return super.getEntity();
     }
 
     @Override
     public long getCount() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        super.setPath("getCount" );
+        return 0;
+       
     }
 
     @Override
     public List<Vehicle> getAll() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       super.setPath("add" );
+        return null;
+
     }
 
     @Override
