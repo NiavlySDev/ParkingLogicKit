@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author virgile, sylvain
+ * @author Virgile Alari, Sylvain Crocquevieille
  */
 @Entity
 public class Parking implements Serializable {

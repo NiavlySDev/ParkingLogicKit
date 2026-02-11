@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author ethan
+ * @author Ethan Chandebois
  */
 @Entity
 @DiscriminatorValue("Maintenance")

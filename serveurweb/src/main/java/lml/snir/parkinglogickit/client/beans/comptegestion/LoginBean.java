@@ -12,22 +12,23 @@ import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 import org.primefaces.PrimeFaces;
 
 /**
- * 
+ *
  * @author Sylvain Crocquevieille
  */
 @Named
 @SessionScoped
 public class LoginBean implements Serializable {
-    
+
     private String username;
     private String password;
     private Driver driver;
     private boolean logged;
     private boolean fallback;
-    
+
     public String getUsername() {
         return username;
     }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -35,6 +36,7 @@ public class LoginBean implements Serializable {
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -42,6 +44,7 @@ public class LoginBean implements Serializable {
     public boolean isLogged() {
         return logged;
     }
+
     public void setLogged(boolean logged) {
         this.logged = logged;
     }
@@ -49,42 +52,44 @@ public class LoginBean implements Serializable {
     public Driver getDriver() {
         return driver;
     }
-    
-    public boolean isAdmin(){
+
+    public boolean isAdmin() {
         return driver instanceof Admin;
     }
-    
-    public void login(){
+
+    public void login() {
         try {
             DriverService ds = MetierFactory.getDriverService();
-            if(ds.getByUsername(username) == null){
+            if (ds.getByUsername(username) == null) {
+                activateFallback();
                 return;
             }
             Driver driverDS = ds.getByUsername(username);
-            if(!driverDS.getPassword().equals(password)){
+            if (!driverDS.getPassword().equals(password)) {
+                activateFallback();
                 return;
             }
-            
+
             setLogged(true);
         } catch (Exception ex) {
-            Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
+            activateFallback();
         }
         setLogged(true);
         PrimeFaces.current().executeScript("location.reload();");
     }
-    
-    public void logout(){
+
+    public void logout() {
         this.driver = null;
         this.setLogged(false);
         this.setUsername("");
         this.setPassword("");
         PrimeFaces.current().executeScript("location.reload();");
     }
-    
-    private void activateFallback(){
+
+    private void activateFallback() {
         String fallbackMode = "[FallBack Mode]";
         this.fallback = true;
-        this.driver = new Driver();
+        this.driver = new Admin();
         this.driver.setAge(0);
         this.driver.setFirstName(fallbackMode);
         this.driver.setId(0);
@@ -92,6 +97,8 @@ public class LoginBean implements Serializable {
         this.driver.setLastname(fallbackMode);
         this.driver.setPassword(fallbackMode);
         this.driver.setUsername(fallbackMode);
+        setLogged(true);
+        PrimeFaces.current().executeScript("location.reload();");
     }
-    
+
 }

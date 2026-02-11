@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 
 /**
  *
- * @author ethan, sylvain
+ * @author Ethan Chandebois, Sylvain Crocquevieille
  */
 @Entity
 public class Badge implements Serializable {

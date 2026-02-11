@@ -5,7 +5,7 @@ import lml.snir.persistence.CrudService;
 
 /**
  *
- * @author phily
+ * @author Phily Seck
  */
 public interface EventService extends CrudService<Event> {
 
