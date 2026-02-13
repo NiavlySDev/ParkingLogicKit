@@ -33,4 +33,9 @@ public class BadgeDataServiceJPAImpl extends AbstracCrudServiceJPA<Badge> implem
         return badge;
     }
 
+    @Override
+    public List<Badge> getByAssociate(boolean attribue) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }
