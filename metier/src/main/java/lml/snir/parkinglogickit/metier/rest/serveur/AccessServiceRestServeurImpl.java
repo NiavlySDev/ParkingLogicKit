@@ -103,7 +103,7 @@ public class AccessServiceRestServeurImpl {
     @Path("/{Badge}")
     public Access getByBadge(@PathParam("Badge") String Badge) throws Exception {
         try {
-            return this.AccessSrv.getByDateTime(Badge);
+            return this.AccessSrv.getByBadge(Badge);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
         }

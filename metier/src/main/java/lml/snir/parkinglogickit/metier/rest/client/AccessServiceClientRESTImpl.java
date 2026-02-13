@@ -80,4 +80,10 @@ public class AccessServiceClientRESTImpl extends ClientRest<Access> implements A
         super.setPath("getByContenu");
         return super.getEntity();
     }
+    
+     @Override
+    public Access getByBadge(String contenu) throws Exception {
+        super.setPath("getByBadge");
+        return super.getEntity();
+    }
 }

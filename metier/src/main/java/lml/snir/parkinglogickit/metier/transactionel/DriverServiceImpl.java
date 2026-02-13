@@ -29,42 +29,52 @@ public final class DriverServiceImpl implements DriverService {
 
     @Override
     public Driver getById(long id) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         return null;
+//        return this.drvDataSrv.getById(id);
     }
 
     @Override
     public Driver add(Driver t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+  return null;
+//      return this.drvDataSrv.add();
     }
-
+    
     @Override
     public void remove(Driver t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//      return this.drvDataSrv.remove();
+        
     }
 
     @Override
     public void update(Driver t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//        return this.drvDataSrv.update();
+        
     }
 
     @Override
     public long getCount() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+           return 0;
+//        return this.drvDataSrv.getCount(Count);
+     
+        
     }
 
     @Override
     public List<Driver> getAll() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+          return null;
+//      return this.drvDataSrv.add();
     }
 
     @Override
     public List<Driver> getAll(int begin, int count) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         return null;
+//      return this.drvDataSrv.add();
     }
 
     @Override
     public Driver getByUsername(String contenu) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         return null;
+//      return this.drvDataSrv.getByUsername(usr);
     }
 
 }
