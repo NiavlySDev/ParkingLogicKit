@@ -47,7 +47,7 @@ export class DriverService {
     return this.http.get<Driver[]>(`${this.apiUrl}/${begin}/${count}`);
   }
 
-  public getByLogin(login: string): Observable<Driver> {
-    return this.http.get<Driver>(`${this.apiUrl}/getByLogin/${login}`);
+  public getByUsername(username: string): Observable<Driver> {
+    return this.http.get<Driver>(`${this.apiUrl}/getByUsername/${username}`);
   }
 }

@@ -9,8 +9,8 @@ import lml.snir.tools.ConfigReader;
  */
 public class RestServerLocalConfiguration extends RestServerConfig {
 
-    // http://localhost:8080/GestionTemperatureServeur/rest/BadgeService
-    // http://localhost:8080/GestionTemperatureServeur/rest/application.wadl
+    // http://localhost:8080/ParkingLogicKitServeur/rest/BadgeService
+    // http://localhost:8080/ParkingLogicKitServeur/rest/application.wadl
     private static String url = "http://localhost:8080"; // default value
 
     static {
@@ -18,7 +18,7 @@ public class RestServerLocalConfiguration extends RestServerConfig {
     }
 
     public RestServerLocalConfiguration() {
-        super(url, "GestionTemperatureServeur", "rest");
+        super(url, "ParkingLogicKit", "rest");
     }
 
 }
