@@ -13,7 +13,7 @@ import lml.snir.rest.client.ClientRest;
 public class VehicleServiceClientRESTImpl extends ClientRest<Vehicle> implements VehicleService {
 
     public VehicleServiceClientRESTImpl() {
-        super.init("ParkingService", new RestServerLocalConfiguration());
+        super.init("VehicleService", new RestServerLocalConfiguration());
     }
 
     @Override
@@ -67,6 +67,7 @@ public class VehicleServiceClientRESTImpl extends ClientRest<Vehicle> implements
 
     @Override
     public List<Vehicle> getAll(int begin, int count) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        super.setPath("" + begin + "/" + count);
+        return super.getEntitys();
     }
 }
