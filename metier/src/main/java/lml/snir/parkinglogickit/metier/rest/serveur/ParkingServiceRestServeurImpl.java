@@ -16,12 +16,13 @@ import lml.snir.rest.server.RestException;
 
 /**
  *
- * @author phily
+ * @author Phily Seck
  */
 @Path("/ParkingService")
 @Consumes("application/json")
 @Produces("application/json")
 public class ParkingServiceRestServeurImpl {
+
     private final ParkingService ParkingSrv;
 
     public ParkingServiceRestServeurImpl() throws Exception {
@@ -97,22 +98,12 @@ public class ParkingServiceRestServeurImpl {
             throw new RestException(500, ex.getMessage());
         }
     }
-      
+
     @GET
     @Path("/{IsFull}")
     public Parking getByIsFull(@PathParam("") boolean isFull) throws Exception {
         try {
-            return this.ParkingSrv.getByIsFull (isFull);
-        } catch (Exception ex) {
-            throw new RestException(500, ex.getMessage());
-        }
-}
-    
-     @GET
-    @Path("/{CountPLace}")
-    public Parking getByCountPLace(@PathParam("CountPLace")  int begin ) throws Exception {
-        try {
-            return this.ParkingSrv.getByCountPlace(begin);
+            return this.ParkingSrv.getByIsFull(isFull);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
         }

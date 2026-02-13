@@ -16,12 +16,13 @@ import lml.snir.rest.server.RestException;
 
 /**
  *
- * @author phily
+ * @author Phily Seck
  */
 @Path("/MaintenanceService")
 @Consumes("application/json")
 @Produces("application/json")
 public class MaintenanceServiceRestServeurImpl {
+
     private final MaintenanceService MaintenanceSrv;
 
     public MaintenanceServiceRestServeurImpl() throws Exception {

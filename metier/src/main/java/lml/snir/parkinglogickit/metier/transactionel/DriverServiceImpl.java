@@ -2,13 +2,12 @@ package lml.snir.parkinglogickit.metier.transactionel;
 
 import java.util.List;
 
-
 import lml.snir.parkinglogickit.metier.entity.Driver;
 //import lml.snir.parklogickit.data.DriverDataService;
 
 /**
  *
- * @author phily
+ * @author Phily Seck
  */
 public final class DriverServiceImpl implements DriverService {
 //    private final DriverDataService drvDataSrv;
@@ -16,53 +15,16 @@ public final class DriverServiceImpl implements DriverService {
 //    public DriverServiceImpl() throws Exception {
 //        this.drvDataSrv = PhysiqueDataFactory.getDriverDataService();
 //    }
-    
+
     public Driver getByLogin(String login) throws Exception {
         return null;
 //        return this.drvDataSrv.getByLogin(login);
     }
 
-
     @Override
     public Driver getById(Long id) throws Exception {
         return null;
 //        return this.drvDataSrv.getById(id);
-    }
-
-
-
-    @Override
-    public Driver getByFirstname(String contenu) throws Exception {
-        return null;
-//       return this.drvDataSrv.getByFirstname();
-    }
-
-
-    @Override
-    public Driver getBySurname(String contenu) throws Exception {
-        return null;
-//      return this.drvDataSrv.getBySurname();
-    }
-
-
-    @Override
-    public Driver getByCountPlace(int contenu) throws Exception {
-        return null;
-//       return this.drvDataSrv.getByCountPlace();
-    }
-
-
-    @Override
-    public Driver getByIsMale(boolean attribue) throws Exception {
-        return null;
-//         return this.drvDataSrv.getByIsMale();
-    }
-
-
-    @Override
-    public Driver getByPassword(String contenu) throws Exception {
-        return null;
-//     return this.drvDataSrv.getByPassword();
     }
 
     @Override
@@ -101,15 +63,8 @@ public final class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public Driver getById(Driver driver) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public Driver getByUsername(String contenu) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    
-    
 }

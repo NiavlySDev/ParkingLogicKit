@@ -11,6 +11,4 @@ public interface EventService extends CrudService<Event> {
 
     public Event getById(long id) throws Exception;
 
-    public Event getByIsEntered(boolean attribue) throws Exception;
-
 }

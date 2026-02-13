@@ -16,7 +16,7 @@ import lml.snir.rest.server.RestException;
 
 /**
  *
- * @author phily
+ * @author Phily Seck
  */
 @Path("/BadgeService")
 @Consumes("application/json")
@@ -108,6 +108,5 @@ public class BadgeServiceRestServeurImpl {
             throw new RestException(500, ex.getMessage());
         }
     }
-
 
 }

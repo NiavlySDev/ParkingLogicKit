@@ -9,6 +9,6 @@ import lml.snir.persistence.CrudService;
  * @author Phily Seck
  */
 public interface BadgeService extends CrudService<Badge> {
+
     public Badge getByContent(String content) throws Exception;
-    public List<Badge> getByAssociate(boolean attribue) throws Exception;
 }

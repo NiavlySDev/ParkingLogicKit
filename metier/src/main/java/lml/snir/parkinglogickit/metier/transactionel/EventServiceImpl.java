@@ -2,14 +2,12 @@ package lml.snir.parkinglogickit.metier.transactionel;
 
 import java.util.List;
 
-
 import lml.snir.parkinglogickit.metier.entity.Event;
 //import lml.snir.parklogickit.data.EventDataService;
 
-
 /**
  *
- * @author phily
+ * @author Phily Seck
  */
 public class EventServiceImpl implements EventService {
 //    private final EventDataService eventDataSrv;
@@ -18,19 +16,10 @@ public class EventServiceImpl implements EventService {
 //        this.eventDataSrv = PhysiqueDataFactory.getEventDataService();
 //    }
 
-
-
-
-
     @Override
     public Event getById(long id) throws Exception {
         return null;
 //         return this.eventDataSrv.getById(id);
-    }
-    @Override
-    public Event getByIsEntered(boolean attribue) throws Exception {
-        return null;
-//      return this.eventDataSrv.getByEntered();
     }
 
     @Override
@@ -68,7 +57,4 @@ public class EventServiceImpl implements EventService {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-
- 
-    
 }

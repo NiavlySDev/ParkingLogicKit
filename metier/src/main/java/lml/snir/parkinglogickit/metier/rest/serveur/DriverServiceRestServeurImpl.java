@@ -16,12 +16,13 @@ import lml.snir.rest.server.RestException;
 
 /**
  *
- * @author phily
+ * @author Phily Seck
  */
 @Path("/DriverService")
 @Consumes("application/json")
 @Produces("application/json")
 public class DriverServiceRestServeurImpl {
+
     private final DriverService DriverSrv;
 
     public DriverServiceRestServeurImpl() throws Exception {
@@ -97,7 +98,7 @@ public class DriverServiceRestServeurImpl {
             throw new RestException(500, ex.getMessage());
         }
     }
-    
+
     @GET
     @Path("/getByUsername/{username}")
     public Driver getByusername(@PathParam("username") String username) throws Exception {

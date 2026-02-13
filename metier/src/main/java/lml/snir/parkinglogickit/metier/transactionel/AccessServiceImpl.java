@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package lml.snir.parkinglogickit.metier.transactionel;
 
 import java.util.List;
@@ -11,16 +7,14 @@ import lml.snir.parkinglogickit.metier.entity.Access;
 
 /**
  *
- * @author phily
+ * @author Phily Seck
  */
 public class AccessServiceImpl implements AccessService {
 
 //    private final AccessDataService accessDataSrv;
-
 //    public AccessServiceImpl() throws Exception {
 //        this.accessDataSrv = PhysiqueDataFactory.getAccessDataService();
 //    }
-
     @Override
     public Access getById(long id) throws Exception {
         return null;
@@ -29,28 +23,15 @@ public class AccessServiceImpl implements AccessService {
 
     @Override
     public Access getByDriver(String contenu) throws Exception {
-       return null;
-//       return this.accessDataSrv.getByDriver();
-       
-
-    }
-
-    @Override
-    public Access getByBadge(String contenu) throws Exception {
         return null;
-//        return this.accessDataSrv.getByBadge();
+//       return this.accessDataSrv.getByDriver();
+
     }
 
     @Override
     public Access getByDateTime(String contenu) throws Exception {
         return null;
 //     return this.accessDataSrv.getByDateTime();
-    }
-
-    @Override
-    public Access getByEvent(String contenu) throws Exception {
-        return null;
-//     return this.accessDataSrv.getByEvent();
     }
 
     @Override
@@ -88,8 +69,9 @@ public class AccessServiceImpl implements AccessService {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    @Override
+    public Access getByContenu(String contenu) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
-  
 }
-
-

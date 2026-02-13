@@ -16,7 +16,7 @@ import lml.snir.rest.server.RestException;
 
 /**
  *
- * @author phily
+ * @author Phily Seck
  */
 @Path("/EventService")
 @Consumes("application/json")
@@ -99,16 +99,4 @@ public class EventServiceRestServeurImpl {
         }
     }
 
-    
-
-  
-    @GET
-    @Path("/{isEntered}")
-    public Event getByIsEntered(@PathParam("") boolean isEntered) throws Exception {
-        try {
-            return this.EventSrv.getByIsEntered(isEntered);
-        } catch (Exception ex) {
-            throw new RestException(500, ex.getMessage());
-        }
-}
 }

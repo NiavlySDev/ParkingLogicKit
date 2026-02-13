@@ -5,7 +5,7 @@ import lml.snir.tools.ConfigReader;
 
 /**
  *
- * @author phily
+ * @author Phily Seck
  */
 public class RestServerLocalConfiguration extends RestServerConfig {
 

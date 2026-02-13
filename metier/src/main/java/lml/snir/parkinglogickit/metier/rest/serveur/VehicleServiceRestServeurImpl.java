@@ -1,4 +1,3 @@
-
 package lml.snir.parkinglogickit.metier.rest.serveur;
 
 import jakarta.ws.rs.Consumes;
@@ -12,23 +11,24 @@ import jakarta.ws.rs.Produces;
 import java.util.List;
 import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 import lml.snir.parkinglogickit.metier.entity.Vehicle;
-import lml.snir.parkinglogickit.metier.transactionel.PlacesService;
 import lml.snir.parkinglogickit.metier.transactionel.VehicleService;
 import lml.snir.rest.server.RestException;
 
 /**
  *
- * @author phily
+ * @author Phily Seck
  */
 @Path("/VehicleService")
 @Consumes("application/json")
 @Produces("application/json")
 public class VehicleServiceRestServeurImpl {
+
     private final VehicleService VehicleSrv;
 
     public VehicleServiceRestServeurImpl() throws Exception {
         this.VehicleSrv = MetierFactory.getVehicleService();
     }
+
     @POST
     @Path("/")
     public Vehicle add(Vehicle t) throws Exception {
@@ -98,6 +98,5 @@ public class VehicleServiceRestServeurImpl {
             throw new RestException(500, ex.getMessage());
         }
     }
-      
-    
+
 }

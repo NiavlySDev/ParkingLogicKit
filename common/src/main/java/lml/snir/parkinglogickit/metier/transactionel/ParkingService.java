@@ -11,10 +11,8 @@ public interface ParkingService extends CrudService<Parking> {
 
     public Parking getById(long id) throws Exception;
 
-    public Parking getByUsername(String contenu) throws Exception;
+    public Parking getByUsername(String username) throws Exception;
 
-    public Parking getByCountPlace(int contenu) throws Exception;
-
-    public Parking getByIsFull(boolean attribue) throws Exception;
+    public Parking getByIsFull(boolean isFull) throws Exception;
 
 }

@@ -11,11 +11,10 @@ public interface AccessService extends CrudService<Access> {
 
     public Access getById(long id) throws Exception;
 
-    public Access getByDriver(String contenu) throws Exception;
+    public Access getByDriver(String driver) throws Exception;
 
-    public Access getByBadge(String contenu) throws Exception;
+    public Access getByContenu(String contenu) throws Exception;
 
-    public Access getByDateTime(String contenu) throws Exception;
+    public Access getByDateTime(String date) throws Exception;
 
-    public Access getByEvent(String contenu) throws Exception;
 }
