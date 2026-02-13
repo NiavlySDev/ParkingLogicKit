@@ -5,10 +5,9 @@ import java.util.List;
 import lml.snir.parkinglogickit.metier.entity.Places;
 //import lml.snir.parkinglogickit.data.PlacesDataService;
 
-
 /**
  *
- * @author phily
+ * @author Phily Seck
  */
 public final class PlacesServiceImpl implements PlacesService {
 
@@ -17,16 +16,12 @@ public final class PlacesServiceImpl implements PlacesService {
 //    public PlacesServiceImpl() throws Exception {
 //        this.PlacesDataSrv = PhysiqueDataFactory.getPlacesDataService();
 //    }
-
-
-
-   
     @Override
     public Places getById(Long id) throws Exception {
         return null;
 //         return this.PlacesDataSrv.getById(id);
     }
-    
+
     @Override
     public Places getByIsOccuped(boolean attribue) throws Exception {
         return null;
@@ -63,7 +58,4 @@ public final class PlacesServiceImpl implements PlacesService {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-
-
-
-    }
+}

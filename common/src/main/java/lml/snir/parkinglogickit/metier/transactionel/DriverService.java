@@ -13,16 +13,4 @@ public interface DriverService extends CrudService<Driver> {
 
     public Driver getByUsername(String contenu) throws Exception;
 
-    public Driver getByFirstname(String contenu) throws Exception;
-
-    public Driver getBySurname(String contenu) throws Exception;
-
-    public Driver getByCountPlace(int contenu) throws Exception;
-
-    public Driver getByIsMale(boolean attribue) throws Exception;
-
-    public Driver getByPassword(String contenu) throws Exception;
-
-    public Driver getById(Driver driver);
-
 }

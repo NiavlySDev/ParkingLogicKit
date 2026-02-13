@@ -17,7 +17,7 @@ public final class PhysiqueDataFactory {
     public static synchronized DriverDataService getDriverDataService() throws Exception {
         if (usrSrv == null) {
             if (JDBC) {
-                //usrSrv = new UtilisateurDataServiceDBCImpl();
+//                usrSrv = new UtilisateurDataServiceDBCImpl();
             } else {
                 usrSrv = new DriverDataServiceJPAImpl(PU);
             }

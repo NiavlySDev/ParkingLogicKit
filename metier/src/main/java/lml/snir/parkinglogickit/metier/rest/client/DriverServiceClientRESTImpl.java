@@ -1,15 +1,13 @@
 package lml.snir.parkinglogickit.metier.rest.client;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import lml.snir.parkinglogickit.metier.entity.Driver;
 import lml.snir.parkinglogickit.metier.transactionel.DriverService;
 import lml.snir.rest.client.ClientRest;
 
 /**
  *
- * @author phily
+ * @author Phily Seck
  */
 public class DriverServiceClientRESTImpl extends ClientRest<Driver> implements DriverService {
 
@@ -61,54 +59,14 @@ public class DriverServiceClientRESTImpl extends ClientRest<Driver> implements D
 
     @Override
     public Driver getById(long id) throws Exception {
-         super.setPath("getById/" );
+        super.setPath("getById/");
         return super.getEntity();
     }
+
     @Override
     public Driver getByUsername(String contenu) throws Exception {
-         super.setPath("getByUsername/" );
+        super.setPath("getByUsername/");
         return super.getEntity();
-    }
-
-    @Override
-    public Driver getByFirstname(String contenu) throws Exception {
-         super.setPath("getByFirstname/");
-        return super.getEntity();
-    }
-
-    @Override
-    public Driver getBySurname(String contenu) throws Exception {
-       super.setPath("getBySurname/" );
-        return super.getEntity();
-    }
-
-    @Override
-    public Driver getByCountPlace(int contenu) throws Exception {
-        super.setPath("getByCountPLace" );
-        return super.getEntity();
-    }
-
-    @Override
-    public Driver getByIsMale(boolean attribue) throws Exception {
-         super.setPath("getByIsMale/"  );
-        return super.getEntity();
-    }
-
-    @Override
-    public Driver getByPassword(String contenu) throws Exception {
-      super.setPath("getByPassword/" );
-        return super.getEntity();
-    }
-
-    @Override
-    public Driver getById(Driver driver)   {
-         super.setPath("getByDriver/" + driver.getId());
-        try {
-            return super.getEntity();
-        } catch (Exception ex) {
-            Logger.getLogger(DriverServiceClientRESTImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
     }
 
 }

@@ -7,7 +7,7 @@ import lml.snir.rest.client.ClientRest;
 
 /**
  *
- * @author phily
+ * @author Phily Seck
  */
 public class BadgeServiceClientRESTImpl extends ClientRest<Badge> implements BadgeService {
 
@@ -15,14 +15,11 @@ public class BadgeServiceClientRESTImpl extends ClientRest<Badge> implements Bad
         super.init("BadgeService", new RestServerLocalConfiguration());
     }
 
-    
-   
     @Override
     public Badge getByContent(String content) throws Exception {
         super.setPath("getByContent/" + content);
         return super.getEntity();
     }
-
 
     @Override
     public Badge add(Badge t) throws Exception {
@@ -66,9 +63,4 @@ public class BadgeServiceClientRESTImpl extends ClientRest<Badge> implements Bad
         return super.getEntitys();
     }
 
-    @Override
-    public List<Badge> getByAssociate(boolean attribue) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
 }

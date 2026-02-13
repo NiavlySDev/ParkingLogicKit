@@ -7,15 +7,13 @@ import lml.snir.rest.client.ClientRest;
 
 /**
  *
- * @author phily
+ * @author Phily Seck
  */
 public class AccessServiceClientRESTImpl extends ClientRest<Access> implements AccessService {
-    
+
     public AccessServiceClientRESTImpl() {
         super.init("AccessService", new RestServerLocalConfiguration());
     }
-
-
 
     @Override
     public Access add(Access t) throws Exception {
@@ -61,9 +59,10 @@ public class AccessServiceClientRESTImpl extends ClientRest<Access> implements A
 
     @Override
     public Access getById(long id) throws Exception {
-      super.setPath("getById");
+        super.setPath("getById");
         return super.getEntity();
     }
+
     @Override
     public Access getByDriver(String contenu) throws Exception {
         super.setPath("getByDriver");
@@ -71,21 +70,14 @@ public class AccessServiceClientRESTImpl extends ClientRest<Access> implements A
     }
 
     @Override
-    public Access getByBadge(String contenu) throws Exception {
-      super.setPath("getByBadge");
-        return super.getEntity();
-    }
-
-    @Override
     public Access getByDateTime(String contenu) throws Exception {
-     super.setPath("getByDateTime");
+        super.setPath("getByDateTime");
         return super.getEntity();
     }
 
     @Override
-    public Access getByEvent(String contenu) throws Exception {
-      super.setPath("getByEvent");
+    public Access getByContenu(String contenu) throws Exception {
+        super.setPath("getByContenu");
         return super.getEntity();
     }
-    
 }

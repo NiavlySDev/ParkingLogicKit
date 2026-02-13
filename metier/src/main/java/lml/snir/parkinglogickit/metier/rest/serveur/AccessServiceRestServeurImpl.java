@@ -16,7 +16,7 @@ import lml.snir.rest.server.RestException;
 
 /**
  *
- * @author phily
+ * @author Phily Seck
  */
 @Path("/AccessService")
 @Consumes("application/json")
@@ -109,7 +109,6 @@ public class AccessServiceRestServeurImpl {
         }
     }
 
-    
     @GET
     @Path("/{Driver}")
     public Access getByDriver(@PathParam("Driver") String Driver) throws Exception {
@@ -120,8 +119,6 @@ public class AccessServiceRestServeurImpl {
         }
     }
 
-    
-    
     @GET
     @Path("/{DateTime}")
     public Access getByDateTime(@PathParam("DateTime") String DateTime) throws Exception {
@@ -131,6 +128,5 @@ public class AccessServiceRestServeurImpl {
             throw new RestException(500, ex.getMessage());
         }
     }
-    
-   }
 
+}

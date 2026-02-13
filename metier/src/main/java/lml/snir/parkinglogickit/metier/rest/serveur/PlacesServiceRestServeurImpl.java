@@ -16,12 +16,13 @@ import lml.snir.rest.server.RestException;
 
 /**
  *
- * @author phily
+ * @author Phily Seck
  */
 @Path("/PlacesService")
 @Consumes("application/json")
 @Produces("application/json")
 public class PlacesServiceRestServeurImpl {
+
     private final PlacesService PlacesSrv;
 
     public PlacesServiceRestServeurImpl() throws Exception {
@@ -97,12 +98,12 @@ public class PlacesServiceRestServeurImpl {
             throw new RestException(500, ex.getMessage());
         }
     }
-      
+
     @GET
     @Path("/{IsOccuped}")
-    public Places getByIsOccuped (@PathParam("") boolean isOccuped) throws Exception {
+    public Places getByIsOccuped(@PathParam("") boolean isOccuped) throws Exception {
         try {
-            return this.PlacesSrv.getByIsOccuped (isOccuped);
+            return this.PlacesSrv.getByIsOccuped(isOccuped);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
         }

@@ -33,26 +33,4 @@ public class BadgeDataServiceJPAImpl extends AbstracCrudServiceJPA<Badge> implem
         return badge;
     }
 
-    @Override
-    public List<Badge> getByAssociate(boolean attribue) throws Exception {
-        List<Badge> badges;
-        try {
-            Query query;
-            this.open();
-            if (attribue) {
-                query = em.createQuery("SELECT a.badge FROM Associate a");
-            } else {
-                query = em.createQuery("SELECT b FROM Badge b WHERE b NOT IN (SELECT a.badge FROM Associate a)");
-            }
-
-            badges = query.getResultList();
-        } catch (NoResultException ex) {
-            return null;
-        } finally {
-            this.close();
-        }
-
-        return badges;
-    }
-
 }
