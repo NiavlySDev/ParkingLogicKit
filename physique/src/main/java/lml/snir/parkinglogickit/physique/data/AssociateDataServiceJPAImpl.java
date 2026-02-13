@@ -11,9 +11,9 @@ import lml.snir.persistence.jpa.AbstracCrudServiceJPA;
  *
  * @author Virgile Alari
  */
-public class AssociateDataServiceImpl extends AbstracCrudServiceJPA<Associate> implements AssociateDataService {
+public class AssociateDataServiceJPAImpl extends AbstracCrudServiceJPA<Associate> implements AssociateDataService {
 
-    public AssociateDataServiceImpl(String PU) {
+    public AssociateDataServiceJPAImpl(String PU) {
         super(PU);
     }
 
