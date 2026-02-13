@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./sign-in.css'],
 })
 export class SignIn {
-  login: string = '';
+  username: string = '';
   password: string = '';
 
   isLoading: boolean = false;
@@ -32,16 +32,16 @@ export class SignIn {
 
   // Soumission du formulaire
   onSubmit(): void {
-    if (!this.login || !this.password) {
+    if (!this.username || !this.password) {
       this.setMessage('Tous les champs sont obligatoires', 'error');
       return;
     }
 
     this.isLoading = true;
     this.message = '';
-    console.log('Login envoyé :', this.login);
+    console.log('username envoyé :', this.username);
 
-    this.driverService.getByLogin(this.login).subscribe({
+    this.driverService.getByUsername(this.username).subscribe({
       next: (driver: Driver) => {
         console.log('Réponse du serveur :', driver);
         this.isLoading = false;
