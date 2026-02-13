@@ -45,9 +45,9 @@ public final class PhysiqueDataFactory {
     public static synchronized AssociateDataService getAssociateDataService() throws Exception {
         if (associateSrv == null) {
             if (JDBC) {
-                //attributionSrv = new AssociateDataServiceImpl();
+                //attributionSrv = new AssociateDataServiceJPAImpl();
             } else {
-                associateSrv = new AssociateDataServiceImpl(PU);
+                associateSrv = new AssociateDataServiceJPAImpl(PU);
             }
         }
 
@@ -78,4 +78,15 @@ public final class PhysiqueDataFactory {
         return parkingSrv;
     }
 
+    private static AccessDataService AccessSrv = null;
+
+    public static synchronized AccessDataService getAccessDataService() throws Exception {
+        if (JDBC) {
+            //temperatureSrv = new ParkingDataServiceJDBCImpl();
+        } else {
+            AccessSrv = new AccessDataServiceJPAImpl(PU);
+        }
+
+        return AccessSrv;
+    }
 }
