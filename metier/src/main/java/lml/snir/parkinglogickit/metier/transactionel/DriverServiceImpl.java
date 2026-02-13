@@ -8,7 +8,7 @@ import lml.snir.parkinglogickit.metier.entity.Driver;
 
 /**
  *
- * @author fanou
+ * @author phily
  */
 public final class DriverServiceImpl implements DriverService {
 //    private final DriverDataService drvDataSrv;
@@ -29,13 +29,6 @@ public final class DriverServiceImpl implements DriverService {
 //        return this.drvDataSrv.getById(id);
     }
 
-
-
-    @Override
-    public Driver getByUsername(String contenu) throws Exception {
-        return null;
-//      return this.drvDataSrv.getByUsername();
-    }
 
 
     @Override
@@ -112,5 +105,11 @@ public final class DriverServiceImpl implements DriverService {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    @Override
+    public Driver getByUsername(String contenu) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    
     
 }

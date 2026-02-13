@@ -8,7 +8,7 @@ import lml.snir.parkinglogickit.metier.entity.Admin;
 
 /**
  *
- * @author fanou
+ * @author phily
  */
 public final class AdminServiceImpl implements AdminService {
 //    private final AdminDataService AdminDataSrv;

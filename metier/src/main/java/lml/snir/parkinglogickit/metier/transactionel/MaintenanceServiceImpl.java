@@ -8,7 +8,7 @@ import lml.snir.parkinglogickit.metier.entity.Maintenance;
 
 /**
  *
- * @author fanou
+ * @author phily
  */
 public final class MaintenanceServiceImpl implements MaintenanceService {
 //    private final MaintenanceDataService MaintenanceDataSrv;
@@ -22,37 +22,42 @@ public final class MaintenanceServiceImpl implements MaintenanceService {
 
     @Override
     public Maintenance add(Maintenance t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+          return null;
+//      return this.prkDataSrv.add();
     }
-
     @Override
     public void remove(Maintenance t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//      return this.prkDataSrv.remove();
+        
     }
 
     @Override
     public void update(Maintenance t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//      return this.prkDataSrv.update();
+        
     }
 
     @Override
     public Maintenance getById(Long id) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+          return null;
+//      return this.prkDataSrv.getById();
     }
 
     @Override
     public long getCount() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return 0;
     }
 
     @Override
     public List<Maintenance> getAll() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         return null;
+//      return this.prkDataSrv.getAll();
     }
 
     @Override
     public List<Maintenance> getAll(int begin, int count) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         return null;
+//      return this.prkDataSrv.getAll();
     }
 
 

@@ -8,7 +8,7 @@ import lml.snir.parkinglogickit.metier.entity.Places;
 
 /**
  *
- * @author fanou
+ * @author phily
  */
 public final class PlacesServiceImpl implements PlacesService {
 

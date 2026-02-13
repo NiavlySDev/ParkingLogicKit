@@ -11,7 +11,7 @@ import lml.snir.parkinglogickit.metier.entity.Access;
 
 /**
  *
- * @author fanou
+ * @author phily
  */
 public class AccessServiceImpl implements AccessService {
 

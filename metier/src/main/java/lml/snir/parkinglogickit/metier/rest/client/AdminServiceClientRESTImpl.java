@@ -7,7 +7,7 @@ import lml.snir.rest.client.ClientRest;
 
 /**
  *
- * @author fanou
+ * @author phily
  */
 public class AdminServiceClientRESTImpl extends ClientRest< Admin> implements  AdminService {
 

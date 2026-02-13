@@ -9,18 +9,21 @@ import lml.snir.parkinglogickit.metier.rest.client.EventServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.DriverServiceClientRESTImpl;
 //import lml.snir.parkinglogickit.metier.rest.client.MaintenanceServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.PlacesServiceClientRESTImpl;
+import lml.snir.parkinglogickit.metier.rest.client.VehicleServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.transactionel.AccessService;
 import lml.snir.parkinglogickit.metier.transactionel.AccessServiceImpl;
 import lml.snir.parkinglogickit.metier.transactionel.AdminService;
 import lml.snir.parkinglogickit.metier.transactionel.AdminServiceImpl;
 import lml.snir.parkinglogickit.metier.transactionel.BadgeService;
 import lml.snir.parkinglogickit.metier.transactionel.BadgeServiceImpl;
-import lml.snir.parkinglogickit.metier.transactionel.MaintenanceService;
-import lml.snir.parkinglogickit.metier.transactionel.MaintenanceServiceImpl;
+import lml.snir.parkinglogickit.metier.transactionel.VehicleService;
+import lml.snir.parkinglogickit.metier.transactionel.VehicleServiceImpl;
 import lml.snir.parkinglogickit.metier.transactionel.EventServiceImpl;
 import lml.snir.parkinglogickit.metier.transactionel.EventService;
 import lml.snir.parkinglogickit.metier.transactionel.DriverService;
 import lml.snir.parkinglogickit.metier.transactionel.DriverServiceImpl;
+import lml.snir.parkinglogickit.metier.transactionel.MaintenanceService;
+import lml.snir.parkinglogickit.metier.transactionel.MaintenanceServiceImpl;
 import lml.snir.parkinglogickit.metier.transactionel.ParkingService;
 import lml.snir.parkinglogickit.metier.transactionel.ParkingServiceImpl;
 import lml.snir.parkinglogickit.metier.transactionel.PlacesService;
@@ -41,6 +44,7 @@ public class MetierFactory {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    
     private MetierFactory() {
     }
 
@@ -180,5 +184,19 @@ public class MetierFactory {
 
         return PlacesSrv;
     }
+    
+    private static VehicleService VehicleSrv = null;
+    
+     public static VehicleService getVehicleService() throws Exception {
+        if (VehicleSrv == null) {
+            if (readLocalState()) {
+                VehicleSrv = new VehicleServiceImpl();
+            } else {
+               VehicleSrv = new VehicleServiceClientRESTImpl();
+            }
+        }
 
+        return VehicleSrv;
+
+     }
 }

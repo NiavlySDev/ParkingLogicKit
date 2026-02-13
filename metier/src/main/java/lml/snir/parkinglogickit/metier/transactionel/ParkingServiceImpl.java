@@ -9,7 +9,7 @@ import lml.snir.parkinglogickit.metier.entity.Parking;
 
 /**
  *
- * @author fanou
+ * @author phily
  */
 public final class ParkingServiceImpl implements ParkingService {
 //    private final ParkingDataService prkDataSrv;
@@ -40,27 +40,32 @@ public final class ParkingServiceImpl implements ParkingService {
 
     @Override
     public Parking getByUsername(String contenu) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+      return null;
+//      return this.prkDataSrv.getByUsername();
     }
 
     @Override
     public Parking add(Parking t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return null;
+//      return this.prkDataSrv.add();
     }
 
     @Override
     public void remove(Parking t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//      return this.prkDataSrv.remove();
+        
     }
 
     @Override
     public void update(Parking t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//      return this.prkDataSrv.update();
+        
     }
 
     @Override
     public Parking getById(Long id) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+          return null;
+//      return this.prkDataSrv.getById();
     }
 
     @Override
@@ -70,12 +75,14 @@ public final class ParkingServiceImpl implements ParkingService {
 
     @Override
     public List<Parking> getAll() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+          return null;
+//      return this.prkDataSrv.getAll();
     }
 
     @Override
     public List<Parking> getAll(int begin, int count) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return null;
+//      return this.prkDataSrv.getAll();
     }
 
 

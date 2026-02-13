@@ -16,7 +16,7 @@ import lml.snir.rest.server.RestException;
 
 /**
  *
- * @author fanou
+ * @author phily
  */
 @Path("/PlacesService")
 @Consumes("application/json")

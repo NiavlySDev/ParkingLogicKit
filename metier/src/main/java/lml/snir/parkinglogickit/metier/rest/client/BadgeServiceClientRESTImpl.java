@@ -2,13 +2,12 @@ package lml.snir.parkinglogickit.metier.rest.client;
 
 import java.util.List;
 import lml.snir.parkinglogickit.metier.entity.Badge;
-import lml.snir.parkinglogickit.metier.entity.Driver;
 import lml.snir.parkinglogickit.metier.transactionel.BadgeService;
 import lml.snir.rest.client.ClientRest;
 
 /**
  *
- * @author fanou
+ * @author phily
  */
 public class BadgeServiceClientRESTImpl extends ClientRest<Badge> implements BadgeService {
 

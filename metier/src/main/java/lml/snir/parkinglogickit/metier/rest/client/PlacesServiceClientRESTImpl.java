@@ -8,7 +8,7 @@ import lml.snir.rest.client.ClientRest;
 
 /**
  *
- * @author fanou
+ * @author phily
  */
 public class PlacesServiceClientRESTImpl extends ClientRest<Places> implements PlacesService {
 
