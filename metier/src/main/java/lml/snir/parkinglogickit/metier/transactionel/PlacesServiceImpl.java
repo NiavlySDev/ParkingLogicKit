@@ -30,32 +30,36 @@ public final class PlacesServiceImpl implements PlacesService {
 
     @Override
     public Places add(Places t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+      return null;
+//        return this.PlacesDataSrv.add();
     }
 
     @Override
     public void remove(Places t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//        return this.PlacesDataSrv.remove();
     }
 
     @Override
     public void update(Places t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//        return this.PlacesDataSrv.update();
     }
 
     @Override
     public long getCount() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return 0;
+//        return this.PlacesDataSrv.getCount();
     }
 
     @Override
     public List<Places> getAll() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return null;
+//        return this.PlacesDataSrv.getAll();
     }
 
     @Override
     public List<Places> getAll(int begin, int count) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+      return null;
+//        return this.PlacesDataSrv.All(int begin, int count);
     }
 
 }

@@ -18,25 +18,25 @@ public final class MaintenanceServiceImpl implements MaintenanceService {
     @Override
     public Maintenance add(Maintenance t) throws Exception {
         return null;
-//      return this.prkDataSrv.add();
+//      return this.MaintenanceDataSrv.add();
     }
 
     @Override
     public void remove(Maintenance t) throws Exception {
-//      return this.prkDataSrv.remove();
+//      return this.MaintenanceDataSrv.remove();
 
     }
 
     @Override
     public void update(Maintenance t) throws Exception {
-//      return this.prkDataSrv.update();
+//      return this.MaintenanceDataSrv.update();
 
     }
 
     @Override
     public Maintenance getById(Long id) throws Exception {
         return null;
-//      return this.prkDataSrv.getById();
+//      return this.MaintenanceDataSrv.getById();
     }
 
     @Override
@@ -47,13 +47,13 @@ public final class MaintenanceServiceImpl implements MaintenanceService {
     @Override
     public List<Maintenance> getAll() throws Exception {
         return null;
-//      return this.prkDataSrv.getAll();
+//      return this.MaintenanceDataSrv.getAll();
     }
 
     @Override
     public List<Maintenance> getAll(int begin, int count) throws Exception {
         return null;
-//      return this.prkDataSrv.getAll();
+//      return this.MaintenanceDataSrv.getAll(int begin, int count);
     }
 
 }

@@ -60,7 +60,8 @@ public final class ParkingServiceImpl implements ParkingService {
 
     @Override
     public long getCount() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+           return 0;
+//      return this.prkDataSrv.getCount();
     }
 
     @Override
@@ -72,7 +73,7 @@ public final class ParkingServiceImpl implements ParkingService {
     @Override
     public List<Parking> getAll(int begin, int count) throws Exception {
         return null;
-//      return this.prkDataSrv.getAll();
+//      return this.prkDataSrv.getAll(int begin, int count);
     }
 
 }

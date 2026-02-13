@@ -22,6 +22,7 @@ public class BadgeServiceImpl implements BadgeService {
 //        return this.badgeDataSrv.getById(id);
     }
 
+    @Override
     public Badge getByContent(String content) throws Exception {
         return null;
 //        return this.badgeDataSrv.getByContent(content);
@@ -29,32 +30,40 @@ public class BadgeServiceImpl implements BadgeService {
 
     @Override
     public Badge add(Badge t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       return null;
+//        return this.badgeDataSrv.add();
     }
+
 
     @Override
     public void remove(Badge t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//        return this.badgeDataSrv.remove();
+        
     }
+
 
     @Override
     public void update(Badge t) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//        return this.badgeDataSrv.update();
+        
     }
 
     @Override
     public long getCount() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return 0;
+//        return this.badgeDataSrv.getCount(count);
     }
 
     @Override
     public List<Badge> getAll() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       return null;
+//        return this.badgeDataSrv.All();
     }
 
     @Override
     public List<Badge> getAll(int begin, int count) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       return null;
+//        return this.badgeDataSrv.All();
     }
 
 }
