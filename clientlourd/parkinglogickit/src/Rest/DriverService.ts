@@ -3,8 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Driver } from '../Auth/Driver';
 
-// author Ethan
-
 @Injectable({
   providedIn: 'root',
 })
