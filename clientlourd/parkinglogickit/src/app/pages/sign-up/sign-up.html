@@ -1,13 +1,16 @@
-<!-- Author Ethan -->
-
 <div class="sign-up">
+  <!-- BOUTON HOME -->
+  <button class="home-button" (click)="goHome()" aria-label="Accueil">
+    <img src="logo-home.png" alt="Accueil" class="home-logo" />
+  </button>
+
   <div class="sign-up-card">
-    <h1 class="sign-up-title">sign-up</h1>
+    <h1 class="sign-up-title">Inscription</h1>
 
     <form class="sign-up-form" (ngSubmit)="onSubmit()">
       <!-- Prénom -->
       <div class="form-group">
-        <label for="firstName" class="form-label">Prénom</label>
+        <label for="firstName">Prénom</label>
         <input
           type="text"
           id="firstName"
@@ -21,7 +24,7 @@
 
       <!-- Nom -->
       <div class="form-group">
-        <label for="surname" class="form-label">Nom de famille</label>
+        <label for="surname">Nom de famille</label>
         <input
           type="text"
           id="surname"
@@ -35,7 +38,7 @@
 
       <!-- Login -->
       <div class="form-group">
-        <label for="login" class="form-label">Login</label>
+        <label for="login">Login</label>
         <input
           type="text"
           id="login"
@@ -49,7 +52,7 @@
 
       <!-- Mot de passe -->
       <div class="form-group">
-        <label for="password" class="form-label">Mot de passe</label>
+        <label for="password">Mot de passe</label>
         <input
           type="password"
           id="password"
@@ -61,9 +64,9 @@
         />
       </div>
 
-      <!--Âge -->
+      <!-- Âge -->
       <div class="form-group">
-        <label for="age" class="form-label">Âge</label>
+        <label for="age">Âge</label>
         <input
           type="number"
           id="age"
@@ -79,7 +82,7 @@
 
       <!-- Genre -->
       <div class="form-group">
-        <label for="isMasculin" class="form-label">Genre</label>
+        <label for="isMasculin">Genre</label>
         <select
           id="isMasculin"
           class="form-input"
@@ -95,7 +98,7 @@
 
       <!-- Type utilisateur -->
       <div class="form-group">
-        <label for="DriverType" class="form-label">Type d'utilisateur</label>
+        <label for="DriverType">Type d'utilisateur</label>
         <select
           id="DriverType"
           class="form-input"
@@ -110,17 +113,18 @@
         </select>
       </div>
 
+      <!-- Ajouter un véhicule -->
       <div class="form-group">
-        <label for="addCar" class="form-label">Ajouter un Véhicule</label>
+        <label for="addCar">Ajouter un véhicule</label>
         <select id="addCar" class="form-input" [(ngModel)]="addCar" name="addCar" required>
-          <option [ngValue]="null" disabled>Sélectionnez un Véhicule</option>
+          <option [ngValue]="null" disabled>Sélectionnez un véhicule</option>
           <option [ngValue]="VehicleType.Car">Voiture</option>
           <option [ngValue]="VehicleType.Motorcycle">Moto</option>
           <option [ngValue]="VehicleType.Van">Camionnette</option>
         </select>
       </div>
 
-      <!-- Bouton -->
+      <!-- Bouton Submit -->
       <div class="form-actions">
         <button type="submit" class="btn-submit" [disabled]="isLoading">
           {{ isLoading ? 'Chargement...' : "S'inscrire" }}
@@ -128,7 +132,7 @@
       </div>
     </form>
 
-    <!-- Message -->
+    <!-- Messages -->
     <div *ngIf="message" class="message" [ngClass]="'message-' + messageType">
       {{ message }}
     </div>

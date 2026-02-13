@@ -8,14 +8,15 @@ import java.io.Serializable;
 
 /**
  *
- * @author virgile, sylvain
+ * @author Virgile Alari, Sylvain Crocquevieille
  */
 @Entity
 public class Parking implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private boolean isFull;
     private int placeCount;
@@ -25,13 +26,16 @@ public class Parking implements Serializable {
 
     /**
      * Retourne L'Identifiant unique du Parking
+     *
      * @return id : L'Identifiant unique du Parking
      */
     public Long getId() {
         return id;
     }
+
     /**
      * Modifier L'Identifiant unique du Parking
+     *
      * @param id : L'Identifiant unique du Parking à modifier
      */
     public void setId(Long id) {
@@ -40,13 +44,16 @@ public class Parking implements Serializable {
 
     /**
      * Retourne si le Parking est Plein
+     *
      * @return isFull : True si le Parking est plein, False sinon
      */
     public boolean isIsFull() {
         return isFull;
     }
+
     /**
      * Modifier si le Parking est Plein ou non.
+     *
      * @param isFull : True si le Parking est plein, False sinon
      */
     public void setIsFull(boolean isFull) {
@@ -55,13 +62,16 @@ public class Parking implements Serializable {
 
     /**
      * Retourne Le Nombre de Places disponibles dans le Parking
-     * @return 
+     *
+     * @return
      */
     public int getPlaceCount() {
         return placeCount;
     }
+
     /**
      * Modifier Le Nombre de Places disponibles dans le Parking
+     *
      * @param placeCount : Le Nombre de Places disponibles dans le Parking
      */
 //    public void setPlaceCount(int placeCount) {
@@ -73,10 +83,11 @@ public class Parking implements Serializable {
      * Augmenter de 1 Le Nombre de Places disponibles dans le Parking
      */
     public void incrementPlaceCount() {
-        if(this.placeCount < totalPlace){
+        if (this.placeCount < totalPlace) {
             this.placeCount++;
         }
     }
+
     /**
      * Diminuer de 1 Le Nombre de Places disponibles dans le Parking
      */
@@ -85,42 +96,51 @@ public class Parking implements Serializable {
             this.placeCount--;
         }
     }
+
     /**
      * Ajouter {amount} Nombre de Places disponibles dans le Parking
+     *
      * @param amount : Le Nombre de Places disponible à Ajouter dans le Parking
      */
-    public void addPlaceCount(Integer amount){
-        if(placeCount+amount <= totalPlace){
-            this.placeCount+=amount;
+    public void addPlaceCount(Integer amount) {
+        if (placeCount + amount <= totalPlace) {
+            this.placeCount += amount;
         }
     }
+
     /**
      * Retirer {amount} Nombre de Places disponibles dans le Parking
+     *
      * @param amount : Le Nombre de Places disponibles à Ajouter dans le Parking
      */
-    public void removePlaceCount(Integer amount){
-        if(this.placeCount-amount > 0){
-            this.placeCount-=amount;
+    public void removePlaceCount(Integer amount) {
+        if (this.placeCount - amount > 0) {
+            this.placeCount -= amount;
         }
     }
-    
+
     /**
      * Retourne Le Nombre Maximum de Places dans le Parking
+     *
      * @return totalPlace : Le Nombre Maximum de Places dans le Parking
      */
     public int getTotalPlace() {
         return totalPlace;
     }
+
     /**
      * Modifier Le Nombre Maximum de Places dans le Parking
-     * @param totalPlace : Le Nombre Maximum de Places dans le Parking à modifier
+     *
+     * @param totalPlace : Le Nombre Maximum de Places dans le Parking à
+     * modifier
      */
     public void setTotalPlace(int totalPlace) {
         this.totalPlace = totalPlace;
     }
-    
+
     /**
      * Retourne un identifiant unique correspondant au Parking uniquement
+     *
      * @return Identifiant unique correspondant au Parking uniquement.
      */
     @Override
@@ -129,8 +149,10 @@ public class Parking implements Serializable {
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
+
     /**
      * Vérifier si un objet est égal à ce Parking
+     *
      * @param object : L'objet a vérifier
      * @return True si égal, False si non.
      */
@@ -146,16 +168,18 @@ public class Parking implements Serializable {
         }
         return true;
     }
+
     /**
      * Retourne le Parking sous forme de String
+     *
      * @return Parking sous forme de String.
      */
     @Override
     public String toString() {
-        String str = "Identifiant du Parking : "+id+" | ";
-        str+="Place Count : "+placeCount+" | ";
-        str+="Max Place : "+totalPlace+" | ";
-        str+="isFull? "+isFull;
+        String str = "Identifiant du Parking : " + id + " | ";
+        str += "Place Count : " + placeCount + " | ";
+        str += "Max Place : " + totalPlace + " | ";
+        str += "isFull? " + isFull;
         return str;
     }
 
@@ -174,9 +198,9 @@ public class Parking implements Serializable {
     public void setTotalHandicap(int totalHandicap) {
         this.totalHandicap = totalHandicap;
     }
-        
-        public void setPlaceCount(int placeCount) {
+
+    public void setPlaceCount(int placeCount) {
         this.placeCount = placeCount;
     }
-    
+
 }

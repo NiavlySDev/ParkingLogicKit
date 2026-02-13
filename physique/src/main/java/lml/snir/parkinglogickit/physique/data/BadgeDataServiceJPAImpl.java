@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package lml.snir.parkinglogickit.physique.data;
 
 import jakarta.persistence.NoResultException;
@@ -12,14 +8,14 @@ import lml.snir.persistence.jpa.AbstracCrudServiceJPA;
 
 /**
  *
- * @author virgile
+ * @author Virgile Alari
  */
 public class BadgeDataServiceJPAImpl extends AbstracCrudServiceJPA<Badge> implements BadgeDataService {
 
     public BadgeDataServiceJPAImpl(String PU) {
         super(PU);
     }
-    
+
     @Override
     public Badge getByContent(String contenu) throws Exception {
         Badge badge;
@@ -33,7 +29,7 @@ public class BadgeDataServiceJPAImpl extends AbstracCrudServiceJPA<Badge> implem
         } finally {
             this.close();
         }
-        
+
         return badge;
     }
 
@@ -48,14 +44,14 @@ public class BadgeDataServiceJPAImpl extends AbstracCrudServiceJPA<Badge> implem
             } else {
                 query = em.createQuery("SELECT b FROM Badge b WHERE b NOT IN (SELECT a.badge FROM Associate a)");
             }
-            
+
             badges = query.getResultList();
         } catch (NoResultException ex) {
             return null;
         } finally {
             this.close();
         }
-        
+
         return badges;
     }
 

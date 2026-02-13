@@ -9,16 +9,15 @@ import java.util.Objects;
 
 /**
  *
- * @author sylvain
+ * @author Sylvain Crocquevieille
  */
 @Entity
 public class Vehicle implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String numberPlate;
     private String brand;
     private VehicleType type;
@@ -79,7 +78,7 @@ public class Vehicle implements Serializable {
 
     /**
      * Retourne un identifiant unique correspondant à la Voiture (Vehicle)
- uniquement
+     * uniquement
      *
      * @return Identifiant unique correspondant au Badge uniquement.
      */
@@ -137,6 +136,5 @@ public class Vehicle implements Serializable {
     public void setBrand(String brand) {
         this.brand = brand;
     }
-    
-    
+
 }

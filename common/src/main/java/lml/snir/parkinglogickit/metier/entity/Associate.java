@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package lml.snir.parkinglogickit.metier.entity;
 
 import jakarta.persistence.Entity;
@@ -15,22 +11,23 @@ import java.util.Objects;
 
 /**
  *
- * @author jupiter
+ * @author Virgile Alari
  */
 @Entity
 public class Associate implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @OneToOne
     @JoinColumn(nullable = false)
     private Badge badge;
-    
+
     @OneToOne
     @JoinColumn(nullable = false)
     private Driver driver;
-    
+
     @OneToOne
     @JoinColumn(nullable = false)
     private Vehicle vehicle;
@@ -42,7 +39,7 @@ public class Associate implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
- 
+
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -112,6 +109,5 @@ public class Associate implements Serializable {
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
-    
-    
+
 }

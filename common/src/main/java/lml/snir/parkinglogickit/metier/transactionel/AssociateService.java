@@ -7,8 +7,7 @@ import lml.snir.persistence.CrudService;
 
 /**
  *
- * @author phily
- *  extends CrudService<Associate> 
+ * @author Phily Seck
  */
 public interface AssociateService extends CrudService<Associate>{
     public Associate getByBadge(Badge badge) throws Exception;

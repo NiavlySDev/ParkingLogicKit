@@ -9,101 +9,82 @@
 }
 
 /* =========================
-     SIGN-UP - CENTRAGE GLOBAL
+     PAGE ET CARTE
      ========================= */
 .sign-up {
   min-height: 100vh;
   background: linear-gradient(135deg, #f5f7fa, #e4ecf5);
   display: flex;
-  align-items: center;
   justify-content: center;
-  color: #2c3e50;
-  overflow-x: hidden;
+  align-items: center;
   padding: 20px;
+  position: relative;
+  color: #2c3e50;
 }
 
-/* =========================
-     CARD PRINCIPALE
-     ========================= */
+/* CARD */
 .sign-up-card {
-  background: #ffffff;
+  background: #fff;
   width: 100%;
   max-width: 600px;
   padding: 50px 45px;
   border-radius: 18px;
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
-  animation: fadeIn 0.6s ease-out;
 }
 
-/* =========================
-     TITRE
-     ========================= */
+/* TITRE */
 .sign-up-title {
   font-size: clamp(1.8rem, 5vw, 2.2rem);
   margin-bottom: 35px;
   font-weight: 600;
   text-align: center;
-  line-height: 1.2;
-  color: #2c3e50;
-  text-transform: capitalize;
-  animation: slideDown 0.6s ease-out;
 }
 
-/* =========================
-     FORMULAIRE
-     ========================= */
+/* FORMULAIRE */
 .sign-up-form {
   display: flex;
   flex-direction: column;
   gap: 22px;
-  animation: fadeIn 0.8s ease-out 0.2s backwards;
 }
 
-/* =========================
-     GROUPE DE CHAMPS
-     ========================= */
+/* GROUPE CHAMPS */
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-/* =========================
-     LABELS
-     ========================= */
-.form-label {
+.form-group label {
   font-size: clamp(0.9rem, 2vw, 0.95rem);
   font-weight: 600;
-  color: #2c3e50;
-  margin-bottom: 4px;
 }
 
-/* =========================
-     INPUTS ET SELECT
-     ========================= */
+/* INPUT & SELECT */
 .form-input {
   padding: 13px 18px;
   font-size: clamp(0.95rem, 2.5vw, 1rem);
-  color: #2c3e50;
+  color: #2c3e50; /* Couleur du texte bien visible */
   border: 2px solid #e4ecf5;
   border-radius: 10px;
-  background-color: #f8fafc;
-  transition: all 0.3s ease;
+  background-color: #f8fafc; /* Fond clair mais pas blanc pur */
   outline: none;
+  transition: all 0.3s ease;
+}
+
+.form-input::placeholder {
+  color: #94a3b8; /* Couleur placeholder légèrement grisée */
 }
 
 .form-input:focus {
   border-color: #3b82f6;
-  background-color: #ffffff;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+  background-color: #ffffff; /* blanc au focus, texte sombre */
+  color: #2c3e50; /* texte bien visible au focus */
+  box-shadow: 0 0 0 4px rgba(59,130,246,0.1);
   transform: translateY(-1px);
 }
 
-.form-input::placeholder {
-  color: #94a3b8;
-}
 
-/* SELECT SPÉCIFIQUE */
+/* SELECT arrow */
 select.form-input {
   cursor: pointer;
   appearance: none;
@@ -113,12 +94,9 @@ select.form-input {
   padding-right: 45px;
 }
 
-/* =========================
-     ACTIONS / BOUTON
-     ========================= */
+/* BOUTON SUBMIT */
 .form-actions {
   margin-top: 15px;
-  animation: fadeIn 0.8s ease-out 0.4s backwards;
 }
 
 .btn-submit {
@@ -126,13 +104,13 @@ select.form-input {
   padding: 15px 30px;
   font-size: clamp(0.95rem, 2.5vw, 1.05rem);
   font-weight: 600;
-  color: #ffffff;
+  color: #fff;
   background: #3b82f6;
   border: none;
   border-radius: 30px;
   cursor: pointer;
-  transition: all 0.3s ease;
   box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+  transition: all 0.3s ease;
 }
 
 .btn-submit:hover:not(:disabled) {
@@ -141,19 +119,12 @@ select.form-input {
   box-shadow: 0 12px 28px rgba(59, 130, 246, 0.4);
 }
 
-.btn-submit:active:not(:disabled) {
-  transform: translateY(-1px);
-}
-
 .btn-submit:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  transform: none;
 }
 
-/* =========================
-     MESSAGES
-     ========================= */
+/* MESSAGES */
 .message {
   margin-top: 25px;
   padding: 14px 20px;
@@ -161,174 +132,104 @@ select.form-input {
   font-size: clamp(0.9rem, 2vw, 0.95rem);
   font-weight: 500;
   text-align: center;
-  animation: fadeIn 0.5s ease-out;
 }
 
 .message-success {
   background-color: #d1fae5;
   color: #065f46;
-  border: 2px solid #6ee7b7;
 }
 
 .message-error {
   background-color: #fee2e2;
   color: #991b1b;
-  border: 2px solid #fca5a5;
-}
-
-.message-info {
-  background-color: #dbeafe;
-  color: #1e40af;
-  border: 2px solid #93c5fd;
-}
-
-.message-warning {
-  background-color: #fef3c7;
-  color: #92400e;
-  border: 2px solid #fcd34d;
 }
 
 /* =========================
-     ANIMATIONS
+     BOUTON HOME (LOGO PNG)
      ========================= */
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.home-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background-color: #3b82f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.home-button:hover {
+  transform: translateY(-2px);
+  background-color: #2563eb;
+}
+
+.home-logo {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.home-button:hover {
+  transform: translateY(-2px);
+  background-color: #2563eb;
+}
+
+.home-logo {
+  width: 24px;
+  height: 24px;
+  display: block;
 }
 
 /* =========================
-     RESPONSIVE TABLETTE
-     ========================= */
-@media (max-width: 992px) {
-  .sign-up-card {
-    padding: 45px 40px;
-    max-width: 550px;
-  }
-
-  .sign-up-title {
-    margin-bottom: 30px;
-  }
-
-  .sign-up-form {
-    gap: 20px;
-  }
-}
-
-/* =========================
-     RESPONSIVE MOBILE
+     RESPONSIVE
      ========================= */
 @media (max-width: 768px) {
-  .sign-up {
-    padding: 15px;
-  }
-
   .sign-up-card {
     padding: 40px 30px;
-    border-radius: 12px;
   }
-
-  .sign-up-title {
-    margin-bottom: 28px;
+  .home-button {
+    top: 15px;
+    left: 15px;
+    width: 40px;
+    height: 40px;
   }
-
-  .sign-up-form {
-    gap: 18px;
-  }
-
-  .form-input {
-    padding: 12px 16px;
-  }
-
-  .btn-submit {
-    padding: 14px 26px;
+  .home-logo {
+    width: 20px;
+    height: 20px;
   }
 }
 
-/* =========================
-     RESPONSIVE PETITS MOBILES
-     ========================= */
 @media (max-width: 480px) {
-  .sign-up {
-    padding: 10px;
-  }
-
   .sign-up-card {
     padding: 30px 20px;
   }
-
   .sign-up-title {
     font-size: 1.6rem;
     margin-bottom: 25px;
   }
-
-  .sign-up-form {
-    gap: 16px;
-  }
-
-  .form-label {
-    font-size: 0.9rem;
-  }
-
   .form-input {
     padding: 11px 14px;
     font-size: 0.95rem;
   }
-
   .btn-submit {
     padding: 13px 22px;
     font-size: 0.95rem;
   }
-
-  .message {
-    padding: 12px 16px;
-    font-size: 0.9rem;
+  .home-button {
+    top: 10px;
+    left: 10px;
+    width: 36px;
+    height: 36px;
   }
-}
-
-/* =========================
-     RESPONSIVE GRANDS ÉCRANS
-     ========================= */
-@media (min-width: 1400px) {
-  .sign-up-card {
-    max-width: 650px;
-    padding: 60px 55px;
-  }
-
-  .sign-up-title {
-    font-size: 2.4rem;
-    margin-bottom: 40px;
-  }
-
-  .sign-up-form {
-    gap: 24px;
-  }
-
-  .form-label {
-    font-size: 1rem;
-  }
-
-  .form-input {
-    padding: 14px 20px;
-    font-size: 1.05rem;
-  }
-
-  .btn-submit {
-    padding: 16px 32px;
-    font-size: 1.1rem;
+  .home-logo {
+    width: 18px;
+    height: 18px;
   }
 }
