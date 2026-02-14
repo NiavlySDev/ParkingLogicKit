@@ -7,6 +7,6 @@ import lml.snir.persistence.CrudService;
  *
  * @author Phily Seck
  */
-public interface MaintenanceService extends CrudService<Maintenance> {
+public interface MaintenanceService {
 
 }

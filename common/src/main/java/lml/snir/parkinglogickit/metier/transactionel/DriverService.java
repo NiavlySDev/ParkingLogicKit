@@ -9,8 +9,6 @@ import lml.snir.persistence.CrudService;
  */
 public interface DriverService extends CrudService<Driver> {
 
-    public Driver getById(long id) throws Exception;
-
     public Driver getByUsername(String contenu) throws Exception;
 
 }

@@ -17,7 +17,7 @@
   <dependencies>
     <dependency>
       <groupId>lml.snir</groupId>
-      <artifactId>parkinglogickit-common</artifactId>
+      <artifactId>parkinglogickit-physique</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

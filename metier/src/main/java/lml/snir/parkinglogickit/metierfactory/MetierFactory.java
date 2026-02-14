@@ -7,7 +7,7 @@ import lml.snir.parkinglogickit.metier.rest.client.BadgeServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.ParkingServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.EventServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.DriverServiceClientRESTImpl;
-//import lml.snir.parkinglogickit.metier.rest.client.MaintenanceServiceClientRESTImpl;
+import lml.snir.parkinglogickit.metier.rest.client.MaintenanceServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.PlacesServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.VehicleServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.transactionel.AccessService;
@@ -31,20 +31,7 @@ import lml.snir.parkinglogickit.metier.transactionel.PlacesServiceImpl;
 import lml.snir.tools.ConfigReader;
 
 public class MetierFactory {
-
-    public static MaintenanceService getMaintenanceService() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public static PlacesService getPlacesService() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public static AdminService getAdminService() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    
+   
     private MetierFactory() {
     }
 
@@ -105,12 +92,12 @@ public class MetierFactory {
 
     private static MaintenanceService MaintenanceSrv = null;
 
-    public static synchronized MaintenanceService getLocalService() throws Exception {
+    public static synchronized MaintenanceService getMaintenanceService() throws Exception {
         if (MaintenanceSrv == null) {
             if (readLocalState()) {
                 MaintenanceSrv = new MaintenanceServiceImpl();
             } else {
-//                MaintenanceSrv = new MaintenanceServiceClientRESTImpl();
+                MaintenanceSrv = new MaintenanceServiceClientRESTImpl();
             }            
         }
 
@@ -159,7 +146,7 @@ public class MetierFactory {
     }
        private static AdminService AdminSrv = null;
 
-    public static AdminService GetAdminService() throws Exception {
+    public static AdminService getAdminService() throws Exception {
         if (AdminSrv == null) {
             if (readLocalState()) {
                 AdminSrv = new AdminServiceImpl();
@@ -173,7 +160,7 @@ public class MetierFactory {
 
       private static PlacesService PlacesSrv = null;
 
-    public static PlacesService GetPlacesService() throws Exception {
+    public static PlacesService getPlacesService() throws Exception {
         if (PlacesSrv == null) {
             if (readLocalState()) {
                 PlacesSrv = new PlacesServiceImpl();

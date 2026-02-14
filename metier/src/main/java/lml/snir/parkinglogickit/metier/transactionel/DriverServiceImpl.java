@@ -1,80 +1,66 @@
 package lml.snir.parkinglogickit.metier.transactionel;
 
 import java.util.List;
-
 import lml.snir.parkinglogickit.metier.entity.Driver;
-//import lml.snir.parklogickit.data.DriverDataService;
+import lml.snir.parkinglogickit.physique.data.DriverDataService;
+import lml.snir.parkinglogickit.physique.data.PhysiqueDataFactory;
 
 /**
  *
  * @author Phily Seck
  */
 public final class DriverServiceImpl implements DriverService {
-//    private final DriverDataService drvDataSrv;
-//    
-//    public DriverServiceImpl() throws Exception {
-//        this.drvDataSrv = PhysiqueDataFactory.getDriverDataService();
-//    }
+    private final DriverDataService drvDataSrv;
+
+    public DriverServiceImpl() throws Exception {
+        this.drvDataSrv = PhysiqueDataFactory.getDriverDataService();
+    }
 
     public Driver getByLogin(String login) throws Exception {
-        return null;
-//        return this.drvDataSrv.getByLogin(login);
+        return this.drvDataSrv.getByUsername(login);
     }
 
     @Override
     public Driver getById(Long id) throws Exception {
-        return null;
-//        return this.drvDataSrv.getById(id);
-    }
-
-    @Override
-    public Driver getById(long id) throws Exception {
-         return null;
-//        return this.drvDataSrv.getById(id);
+        return this.drvDataSrv.getById(id);
     }
 
     @Override
     public Driver add(Driver t) throws Exception {
-  return null;
-//      return this.drvDataSrv.add();
+        return this.drvDataSrv.add(t);
     }
-    
+
     @Override
     public void remove(Driver t) throws Exception {
-//      return this.drvDataSrv.remove();
-        
+        this.drvDataSrv.remove(t);
+
     }
 
     @Override
     public void update(Driver t) throws Exception {
-//        return this.drvDataSrv.update();
-        
+        this.drvDataSrv.update(t);
+
     }
 
     @Override
     public long getCount() throws Exception {
-           return 0;
-//        return this.drvDataSrv.getCount(Count);
-     
-        
+        return this.drvDataSrv.getCount();
+
     }
 
     @Override
     public List<Driver> getAll() throws Exception {
-          return null;
-//      return this.drvDataSrv.add();
+        return this.drvDataSrv.getAll();
     }
 
     @Override
     public List<Driver> getAll(int begin, int count) throws Exception {
-         return null;
-//      return this.drvDataSrv.add();
+        return this.drvDataSrv.getAll(begin, count);
     }
 
     @Override
-    public Driver getByUsername(String contenu) throws Exception {
-         return null;
-//      return this.drvDataSrv.getByUsername(usr);
+    public Driver getByUsername(String usr) throws Exception {
+        return this.drvDataSrv.getByUsername(usr);
     }
 
 }

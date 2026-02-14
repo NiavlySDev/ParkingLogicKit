@@ -14,12 +14,7 @@ public class DriverDataServiceJPAImpl extends AbstracCrudServiceJPA<Driver> impl
     public DriverDataServiceJPAImpl(String PU) {
         super(PU);
     }
-
-    @Override
-    public Driver getById(long id) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
+    
     @Override
     public Driver getByUsername(String username) throws Exception {
         Driver user = null;
