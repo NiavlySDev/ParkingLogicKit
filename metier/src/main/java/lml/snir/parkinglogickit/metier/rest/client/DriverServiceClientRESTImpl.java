@@ -16,6 +16,12 @@ public class DriverServiceClientRESTImpl extends ClientRest<Driver> implements D
     }
 
     @Override
+    public Driver getByUsername(String login) throws Exception {
+        super.setPath("getByUsername/" + login);
+        return super.getEntity();
+    }
+
+    @Override
     public Driver add(Driver t) throws Exception {
         super.setPath("");
         return super.addEntity(t);
@@ -56,17 +62,4 @@ public class DriverServiceClientRESTImpl extends ClientRest<Driver> implements D
         super.setPath("" + begin + "/" + count);
         return super.getEntitys();
     }
-
-    @Override
-    public Driver getById(long id) throws Exception {
-        super.setPath("getById/");
-        return super.getEntity();
-    }
-
-    @Override
-    public Driver getByUsername(String contenu) throws Exception {
-        super.setPath("getByUsername/");
-        return super.getEntity();
-    }
-
 }
