@@ -2,19 +2,21 @@ package lml.snir.parkinglogickit.metier.transactionel;
 
 import java.util.List;
 import lml.snir.parkinglogickit.metier.entity.Vehicle;
+import lml.snir.parkinglogickit.physique.data.PhysiqueDataFactory;
 
-//import lml.snir.parkinglogickit.data.PlacesDataService;
+import lml.snir.parkinglogickit.physique.data.VehicleDataService;
 /**
  *
  * @author Phily Seck
  */
 public final class VehicleServiceImpl implements VehicleService {
 
-//    private final VehicleDataService PlacesDataSrv;
-//
-//    public VehicleServiceImpl() throws Exception {
-//       this.VehicleDataSrv = PhysiqueDataFactory.getVehicleDataService();
-//    }
+    private final VehicleDataService VehicleDataSrv;
+
+   public VehicleServiceImpl() throws Exception {
+      this.VehicleDataSrv = PhysiqueDataFactory.getVehicleDataService();
+      
+   }
     @Override
     public Vehicle getByContent(String contenu) throws Exception {
         return null;
