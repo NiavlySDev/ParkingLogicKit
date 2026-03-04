@@ -3,7 +3,8 @@ package lml.snir.parkinglogickit.metier.transactionel;
 import java.util.List;
 
 import lml.snir.parkinglogickit.metier.entity.Access;
-//import lml.snir.parklogickit.physique.data.AccessDataService;
+import lml.snir.parkinglogickit.physique.data.AccessDataService;
+import lml.snir.parkinglogickit.physique.data.PhysiqueDataFactory;
 
 /**
  *
@@ -11,10 +12,11 @@ import lml.snir.parkinglogickit.metier.entity.Access;
  */
 public class AccessServiceImpl implements AccessService {
 
-//    private final AccessDataService accessDataSrv;
-//    public AccessServiceImpl() throws Exception {
-//        this.accessDataSrv = PhysiqueDataFactory.getAccessDataService();
-//    }
+    private final AccessDataService accessDataSrv;
+    public AccessServiceImpl() throws Exception {
+        this.accessDataSrv = PhysiqueDataFactory.getAccessDataService();
+    }
+    
     @Override
     public Access getById(long id) throws Exception {
         return null;

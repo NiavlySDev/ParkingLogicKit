@@ -3,18 +3,19 @@ package lml.snir.parkinglogickit.metier.transactionel;
 import java.util.List;
 
 import lml.snir.parkinglogickit.metier.entity.Badge;
-//import lml.snir.parklogickit.data.BadgeDataService;
+import lml.snir.parkinglogickit.physique.data.BadgeDataService;
+import lml.snir.parkinglogickit.physique.data.PhysiqueDataFactory;
 
 /**
  *
  * @author Phily Seck
  */
 public class BadgeServiceImpl implements BadgeService {
-//    private final BadgeDataService badgeDataSrv;
-//    
-//    public BadgeServiceImpl() throws Exception {
-//        this.badgeDataSrv = PhysiqueDataFactory.getBadgeDataService();
-//    
+   private final BadgeDataService badgeDataSrv;
+   
+  public BadgeServiceImpl() throws Exception {
+      this.badgeDataSrv = PhysiqueDataFactory.getBadgeDataService();
+  }   
 
     @Override
     public Badge getById(Long id) throws Exception {
