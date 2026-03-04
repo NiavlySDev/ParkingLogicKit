@@ -11,6 +11,6 @@ import lml.snir.rest.client.ClientRest;
 public class AdminServiceClientRESTImpl extends ClientRest< Admin> implements AdminService {
 
     public AdminServiceClientRESTImpl() {
-        super.init("DriverService", new RestServerLocalConfiguration());
+        super.init("AdminService", new RestServerLocalConfiguration());
     }
 }

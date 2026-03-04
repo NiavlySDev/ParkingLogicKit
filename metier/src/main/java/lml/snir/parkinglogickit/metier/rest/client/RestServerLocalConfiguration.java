@@ -11,7 +11,7 @@ public class RestServerLocalConfiguration extends RestServerConfig {
 
     // http://localhost:8080/ParkingLogicKitServeur /rest/BadgeService
     // http://localhost:8080/ParkingLogicKitServeur/rest/application.wadl
-    private static String url = "http://local   host:8080"; // default value
+    private static String url = "http://localhost:8080"; // default value
 
     static {
         url = ConfigReader.getInstance("./rest.properties").getProperty("server");
