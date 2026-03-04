@@ -30,7 +30,7 @@ public class DriverServiceRestServeurImpl {
     }
 
     @POST
-    @Path("/")
+    @Path("/")  
     public Driver add(Driver t) throws Exception {
         try {
             return this.DriverSrv.add(t);
