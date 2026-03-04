@@ -7,10 +7,10 @@ package lml.snir.parkinglogickit.metier.entity;
  */
 public enum VehicleType {
 
-    Moto("Moto"),
-    Voiture("Voiture"),
-    Camionnette("Camionette"),
-    Camion("Camion");
+    Moto("Moto"), //Number 0
+    Voiture("Voiture"),//Number 1
+    Camionnette("Camionette"),//Number 2
+    Camion("Camion");//Number 3
 
     private String name;
 

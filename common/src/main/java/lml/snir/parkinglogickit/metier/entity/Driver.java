@@ -31,7 +31,6 @@ public class Driver implements Serializable {
     private String password;
     private boolean isMale;
     private int age;
-    private Vehicle vehicle;
 
     /**
      * Retourne l'identifiant unique du Conducteur (Driver)
@@ -138,9 +137,6 @@ public class Driver implements Serializable {
      *
      * @return vehicle : l'objet Voiture (Vehicle)
      */
-    public Vehicle getVehicle() {
-        return vehicle;
-    }
 
     /**
      * Retourne un identifiant unique correspondant au Conducteur (Driver)
