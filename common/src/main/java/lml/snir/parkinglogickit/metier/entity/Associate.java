@@ -63,7 +63,7 @@ public class Associate implements Serializable {
 
     @Override
     public String toString() {
-        return "lml.snir.gestiontemperature.metier.entity.Attribution[ id=" + getId() + " ]";
+        return "lml.snir.parkinglogickit.metier.entity.Attribution[ id=" + getId() + " ]";
     }
 
     /**
