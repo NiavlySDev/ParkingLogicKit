@@ -11,6 +11,6 @@ import lml.snir.rest.client.ClientRest;
 public class MaintenanceServiceClientRESTImpl extends ClientRest<Maintenance> implements MaintenanceService {
 
     public MaintenanceServiceClientRESTImpl() {
-        super.init("DriverService", new RestServerLocalConfiguration());
+        super.init("MaintenanceService", new RestServerLocalConfiguration());
     }
 }
