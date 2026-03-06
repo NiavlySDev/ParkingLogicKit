@@ -19,67 +19,58 @@ public class AccessServiceImpl implements AccessService {
     
     @Override
     public Access getById(long id) throws Exception {
-        return null;
-//        return this.accessDataSrv.getById(long id);
+          return this.accessDataSrv.getById( id);
     }
 
     @Override
     public Access getByDriver(String contenu) throws Exception {
-        return null;
-//       return this.accessDataSrv.getByDriver(contenu);
+        return this.accessDataSrv.getByDriver(contenu);
 
     }
 
     @Override
     public Access getByDateTime(String contenu) throws Exception {
-        return null;
-//     return this.accessDataSrv.getByDateTime(contenu);
+      return this.accessDataSrv.getByDateTime(contenu);
     }
     
       @Override
     public Access getByBadge(String contenu) throws Exception {
-        return null;
- //     return this.accessDataSrv.getByBadge(contenu);
+      return this.accessDataSrv.getByBadge(contenu);
     }
 
     @Override
     public Access add(Access t) throws Exception {
-        return null;
-//        return this.accessDataSrv.add();
+        return this.accessDataSrv.add(t);
     }
 
     @Override
     public void remove(Access t) throws Exception {
-//        return this.accessDataSrv.remove();
+      this.accessDataSrv.remove(t);
     }
 
     @Override
     public void update(Access t) throws Exception {
-//        return this.accessDataSrv.update();
+        this.accessDataSrv.update(t);
     }
 
     @Override
     public Access getById(Long id) throws Exception {
-       return null;
-//        return this.accessDataSrv.getById(Long id);
+         return this.accessDataSrv.getById( id);
     }
 
     @Override
     public long getCount() throws Exception {
-        return 0;
-//        return this.accessDataSrv.getCount(Count);
+          return this.accessDataSrv.getCount();
     }
 
     @Override
     public List<Access> getAll() throws Exception {
-        return null;
-//        return this.accessDataSrv.add();
+           return this.accessDataSrv.getAll();
     }
 
     @Override
     public List<Access> getAll(int begin, int count) throws Exception {
-        return null;
-//        return this.accessDataSrv.add();
+          return this.accessDataSrv.getAll(begin,count);
     }
 
     @Override
