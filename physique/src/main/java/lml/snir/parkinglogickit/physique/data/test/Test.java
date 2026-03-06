@@ -46,8 +46,13 @@ public class Test {
     }
 
     private void populate() throws Exception {
+        this.deleteDatabase();
         this.populateDriver();
         this.populateParking();
+    }
+    
+    private void deleteDatabase() throws Exception {
+        
     }
 
     private void populateDriver() throws Exception {
