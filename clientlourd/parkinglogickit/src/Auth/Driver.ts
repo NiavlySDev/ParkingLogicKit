@@ -4,8 +4,7 @@ import { DriverType as DriverType } from './DriverType';
 
 export class Driver {
   id: number;
-
-  name: string;
+  lastName: string;
   firstName: string;
   age: number;
   masculin: number;
@@ -16,7 +15,7 @@ export class Driver {
 
   constructor(
     id: number,
-    name: string,
+    lastName: string,
     firstName: string,
     login: string,
     password: string = '',
@@ -25,7 +24,7 @@ export class Driver {
     userType: DriverType = DriverType.Driver
   ) {
     this.id = id;
-    this.name = name;
+    this.lastName = lastName;
     this.firstName = firstName;
     this.login = login;
     this.password = password;
@@ -38,11 +37,11 @@ export class Driver {
     return this.id;
   }
 
-  getName(): string {
-    return this.name;
+  getLastName(): string {
+    return this.lastName;
   }
 
-  getFirstName(): string {
+  getfirstName(): string {
     return this.firstName;
   }
 
@@ -66,16 +65,16 @@ export class Driver {
     return this.userType;
   }
 
-  setName(name: string) {
-    this.name = name;
+  setLastName(lastName: string) {
+    this.lastName = lastName;
   }
 
-  setFirstName(firstName: string) {
+  setfirstName(firstName: string) {
     this.firstName = firstName;
   }
 
   setLogin() {
-    this.login = this.firstName.toLowerCase().substring(0, 1) + '.' + this.name.toLowerCase();
+    this.login = this.firstName.toLowerCase().substring(0, 1) + '.' + this.lastName.toLowerCase();
   }
 
   setPassword(password: string) {
