@@ -28,12 +28,12 @@ public class RestLaunch extends Application {
         classes.add(DriverServiceRestServeurImpl.class);
         classes.add(BadgeServiceRestServeurImpl.class);
         classes.add(VehicleServiceRestServeurImpl.class);
-       /** classes.add(PlacesServiceRestServeurImpl.class);
-        classes.add(MaintenanceServiceRestServeurImpl.class);
-        classes.add(AccessServiceRestServeurImpl.class);
-        classes.add(AdminServiceRestServeurImpl.class);
+       //sclasses.add(PlacesServiceRestServeurImpl.class);
+       // classes.add(MaintenanceServiceRestServeurImpl.class);
+       // classes.add(AccessServiceRestServeurImpl.class);
+        //classes.add(AdminServiceRestServeurImpl.class);
         classes.add(EventServiceRestServeurImpl.class);
-        classes.add(ParkingServiceRestServeurImpl.class);**/
+       // classes.add(ParkingServiceRestServeurImpl.class);
         return classes;
     }
     
