@@ -6,16 +6,18 @@ import lml.snir.parkinglogickit.metier.entity.Places;
 import lml.snir.parkinglogickit.physique.data.PhysiqueDataFactory;
 import lml.snir.parkinglogickit.physique.data.PlacesDataService;
 
+
 /**
  *
  * @author Phily Seck
  */
 public final class PlacesServiceImpl implements PlacesService {
-    private final PlacesServiceImpl PlacesDataSrv;
+    private final PlacesDataService PlacesDataSrv;
 
     public PlacesServiceImpl() throws Exception {
-        this.PlacesDataSrv = PhysiqueDataFactory.getPlacesDataService();
+      this.PlacesDataSrv = PhysiqueDataFactory.getPlacesDataService();
     }
+    
     @Override
     public Places getById(Long id) throws Exception {
          return this.PlacesDataSrv.getById(id);
