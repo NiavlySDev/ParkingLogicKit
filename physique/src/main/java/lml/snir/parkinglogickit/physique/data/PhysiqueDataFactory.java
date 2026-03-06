@@ -94,23 +94,23 @@ public final class PhysiqueDataFactory {
 
     public static PlacesDataService getPlacesDataService() throws Exception {
         if (JDBC) {
-            //PlacesSrv = new PlacesDataServiceJPAImpl();
+            //PlacesSrv = new PlacesDataServiceJDBCImpl();
         } else {
             PlacesSrv = new PlacesDataServiceJPAImpl(PU);
         }
 
         return PlacesSrv;
     }
-/**
-    private static AccessDataService AccessSrv = null;
 
-    public static synchronized AccessDataService getAccessDataService() throws Exception {
+    private static EventDataService EventSrv = null;
+
+    public static synchronized EventDataService getEventDataService() throws Exception {
         if (JDBC) {
-            //PlacesSrv = new AccessDataServiceJPAImpl();
+            //PlacesSrv = new EventDataServiceJDBCImpl();
         } else {
-            AccessSrv = new AccessDataServiceJPAImpl(PU);
+            EventSrv = new EventDataServiceJPAImpl(PU);
         }
 
-        return AccessSrv;
-    }**/
+        return EventSrv;
+    }
 }
