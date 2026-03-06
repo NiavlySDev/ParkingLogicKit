@@ -89,7 +89,7 @@ public final class PhysiqueDataFactory {
 
         return AccessSrv;
     }
-    
+
     private static PlacesDataService PlacesSrv = null;
 
     public static synchronized PlacesDataService getPlacesDataService() throws Exception {
@@ -101,4 +101,16 @@ public final class PhysiqueDataFactory {
 
         return PlacesSrv;
     }
+/**
+    private static AccessDataService AccessSrv = null;
+
+    public static synchronized AccessDataService getAccessDataService() throws Exception {
+        if (JDBC) {
+            //PlacesSrv = new AccessDataServiceJPAImpl();
+        } else {
+            AccessSrv = new AccessDataServiceJPAImpl(PU);
+        }
+
+        return AccessSrv;
+    }**/
 }
