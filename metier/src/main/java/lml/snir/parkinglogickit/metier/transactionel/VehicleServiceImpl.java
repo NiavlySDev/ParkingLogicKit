@@ -19,55 +19,47 @@ public final class VehicleServiceImpl implements VehicleService {
    }
     @Override
     public Vehicle getByContent(String contenu) throws Exception {
-        return null;
-//      return this.VehicleDataSrv.getByContent();
+     return this.VehicleDataSrv.getByContent(contenu);
     }
 
     @Override
     public Vehicle add(Vehicle t) throws Exception {
-        return null;
-//      return this.VehicleDataSrv.add();
+      return this.VehicleDataSrv.add(t);
     }
 
     @Override
     public void remove(Vehicle t) throws Exception {
-
-//      return this.VehicleDataSrv.remove();
+    this.VehicleDataSrv.remove(t);
     }
 
     @Override
     public void update(Vehicle t) throws Exception {
-
-//      return this.VehicleDataSrv.update();
+ this.VehicleDataSrv.update(t);
     }
 
     @Override
     public Vehicle getById(Long id) throws Exception {
-        return null;
-//      return this.VehicleDataSrv.getById();
+       return this.VehicleDataSrv.getById(id);
     }
 
     @Override
     public long getCount() throws Exception {
-        return 0;
-//      return this.VehicleDataSrv.getCount();
+      return this.VehicleDataSrv.getCount();
     }
 
     @Override
     public List<Vehicle> getAll() throws Exception {
-        return null;
-//      return this.VehicleDataSrv.getAll();
+      return this.VehicleDataSrv.getAll();
     }
 
     @Override
     public List<Vehicle> getAll(int begin, int count) throws Exception {
-        return null;
-//      return this.VehicleDataSrv.getAll();
+       return this.VehicleDataSrv.getAll(begin, count);
+  
     }
 
     @Override
     public List<Vehicle> getByAssociate(boolean attribue) throws Exception {
-        return null;
-//      return this.VehicleDataSrv.getByAssociate();
+      return this.VehicleDataSrv.getByAssociate(attribue);
     }
 }
