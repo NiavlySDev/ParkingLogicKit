@@ -92,7 +92,7 @@ public class LoginBean implements Serializable {
         this.driver.setFirstName(fallbackMode);
         this.driver.setId(0);
         this.driver.setIsMale(true);
-        this.driver.setLastname(fallbackMode);
+        this.driver.setLastName(fallbackMode);
         this.driver.setPassword(fallbackMode);
         this.driver.setUsername(fallbackMode);
         setLogged(true);

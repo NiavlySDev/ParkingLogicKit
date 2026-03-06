@@ -24,7 +24,7 @@ public class Driver implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String Lastname;
+    private String lastName;
     private String firstName;
     @Column(unique = true)
     private String username;
@@ -53,19 +53,19 @@ public class Driver implements Serializable {
     /**
      * Retourne le Nom du Conducteur (Driver)
      *
-     * @return Lastname : Le Nom du Conducteur (Driver)
+     * @return lastName : Le Nom du Conducteur (Driver)
      */
-    public String getLastname() {
-        return Lastname;
+    public String getLastName() {
+        return lastName;
     }
 
     /**
      * Modifier le Nom du Conducteur (Driver)
      *
-     * @param Lastname : Le Nom du Conducteur (Driver) à modifier.
+     * @param lastName : Le Nom du Conducteur (Driver) à modifier.
      */
-    public void setLastname(String Lastname) {
-        this.Lastname = Lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     /**
@@ -162,7 +162,7 @@ public class Driver implements Serializable {
             genre = "Mme";
         }
 
-        String str = genre + " " + this.getFirstName() + " " + this.getLastname();
+        String str = genre + " " + this.getFirstName() + " " + this.getLastName();
 
         if (this.getClass() == Admin.class) {
             str += " (Admin)";
@@ -194,7 +194,7 @@ public class Driver implements Serializable {
         if (this.isMale != other.isMale) {
             return false;
         }
-        if (!Objects.equals(this.Lastname, other.Lastname)) {
+        if (!Objects.equals(this.lastName, other.lastName)) {
             return false;
         }
         if (!Objects.equals(this.firstName, other.firstName)) {

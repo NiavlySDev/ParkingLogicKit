@@ -24,28 +24,28 @@
 
       <!-- Nom -->
       <div class="form-group">
-        <label for="surname">Nom de famille</label>
+        <label for="lastname">Nom de famille</label>
         <input
           type="text"
-          id="surname"
+          id="lastname"
           class="form-input"
-          [(ngModel)]="surname"
-          name="surname"
+          [(ngModel)]="lastname"
+          name="lastname"
           placeholder="Entrez votre nom"
           required
         />
       </div>
 
-      <!-- Login -->
+      <!-- username -->
       <div class="form-group">
-        <label for="login">Login</label>
+        <label for="username">username</label>
         <input
           type="text"
-          id="login"
+          id="username"
           class="form-input"
-          [(ngModel)]="login"
-          name="login"
-          placeholder="Entrez votre login"
+          [(ngModel)]="username"
+          name="username"
+          placeholder="Entrez votre username"
           required
         />
       </div>
@@ -108,8 +108,8 @@
         >
           <option [ngValue]="null" disabled>Sélectionnez un type</option>
           <option [ngValue]="0">Administrator</option>
-          <option [ngValue]="1">Driver</option>
-          <option [ngValue]="2">Maintenance</option>
+          <option [ngValue]="1">Maintenance</option>
+          <option [ngValue]="2">Driver</option>
         </select>
       </div>
 

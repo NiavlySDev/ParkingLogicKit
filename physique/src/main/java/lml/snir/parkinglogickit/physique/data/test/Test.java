@@ -63,7 +63,7 @@ public class Test {
         drv.setFirstName("homer");
         drv.setIsMale(true);
         drv.setUsername("HS");
-        drv.setLastname("Simpson");
+        drv.setLastName("Simpson");
         drv.setPassword("secret");
         this.usrSrv.add(drv);
 
@@ -84,7 +84,7 @@ public class Test {
         drv.setFirstName("Marge");
         drv.setIsMale(false);
         drv.setUsername("MS");
-        drv.setLastname("Simpson");
+        drv.setLastName("Simpson");
         drv.setPassword("secret");
         this.usrSrv.add(drv);
 
@@ -93,7 +93,7 @@ public class Test {
         drv.setFirstName("Test");
         drv.setIsMale(false);
         drv.setUsername("Test");
-        drv.setLastname("TT");
+        drv.setLastName("TT");
         drv.setPassword("secret");
         this.usrSrv.add(drv);
 
