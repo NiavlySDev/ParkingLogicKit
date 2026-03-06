@@ -24,13 +24,13 @@
 
       <!-- Nom -->
       <div class="form-group">
-        <label for="lastname">Nom de famille</label>
+        <label for="lastName">Nom de famille</label>
         <input
           type="text"
-          id="lastname"
+          id="lastName"
           class="form-input"
-          [(ngModel)]="lastname"
-          name="lastname"
+          [(ngModel)]="lastName"
+          name="lastName"
           placeholder="Entrez votre nom"
           required
         />
@@ -82,12 +82,12 @@
 
       <!-- Genre -->
       <div class="form-group">
-        <label for="isMasculin">Genre</label>
+        <label for="isMale">Genre</label>
         <select
-          id="isMasculin"
+          id="isMale"
           class="form-input"
-          [(ngModel)]="isMasculin"
-          name="isMasculin"
+          [(ngModel)]="isMale"
+          name="isMale"
           required
         >
           <option [ngValue]="null" disabled>Sélectionnez votre genre</option>
