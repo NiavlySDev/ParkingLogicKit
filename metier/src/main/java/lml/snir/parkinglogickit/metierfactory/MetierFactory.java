@@ -3,6 +3,7 @@ package lml.snir.parkinglogickit.metierfactory;
 //import lml.snir.gestiontemperature.metier.mqtt.MqttConsumer;
 import lml.snir.parkinglogickit.metier.rest.client.AccessServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.AdminServiceClientRESTImpl;
+import lml.snir.parkinglogickit.metier.rest.client.AssociateServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.BadgeServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.ParkingServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.EventServiceClientRESTImpl;
@@ -14,6 +15,8 @@ import lml.snir.parkinglogickit.metier.transactionel.AccessService;
 import lml.snir.parkinglogickit.metier.transactionel.AccessServiceImpl;
 import lml.snir.parkinglogickit.metier.transactionel.AdminService;
 import lml.snir.parkinglogickit.metier.transactionel.AdminServiceImpl;
+import lml.snir.parkinglogickit.metier.transactionel.AssociateService;
+import lml.snir.parkinglogickit.metier.transactionel.AssociateServiceImpl;
 import lml.snir.parkinglogickit.metier.transactionel.BadgeService;
 import lml.snir.parkinglogickit.metier.transactionel.BadgeServiceImpl;
 import lml.snir.parkinglogickit.metier.transactionel.VehicleService;
@@ -186,4 +189,18 @@ public class MetierFactory {
         return VehicleSrv;
 
      }
+
+ private static AssociateService AssociateSrv = null;
+
+    public static AssociateService getAssociateService() throws Exception {
+        if (AssociateSrv == null) {
+            if (readLocalState()) {
+               AssociateSrv = new AssociateServiceImpl();
+            } else {
+              AssociateSrv = new AssociateServiceClientRESTImpl();
+            }
+        }
+
+        return AssociateSrv;
+    }
 }
