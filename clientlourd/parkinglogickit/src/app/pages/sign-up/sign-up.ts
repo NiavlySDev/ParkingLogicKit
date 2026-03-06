@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { RestServer } from '../../../Rest/RestServer';
 import { Driver } from '../../../Auth/Driver.js';
 import { Router } from '@angular/router';
-import { last } from 'rxjs';
 
 // author Ethan
 
@@ -17,12 +16,11 @@ import { last } from 'rxjs';
 })
 export class SignUp {
   firstname: string = '';
-  lastname: string = '';
+  lastName: string = '';
   username: string = '';
   password: string = '';
   age: number | null = null;
-
-  isMasculin: boolean | null = null;
+  isMale: boolean | null = null;
   DriverType: number | null = null;
   addCar: VehicleType | null = null;
   VehicleType = VehicleType; // exposé au HTML
@@ -39,11 +37,11 @@ export class SignUp {
   onSubmit(): void {
     if (
       !this.firstname ||
-      !this.lastname ||
+      !this.lastName ||
       !this.username ||
       !this.password ||
       this.age === null ||
-      this.isMasculin === null ||
+      this.isMale === null ||
       this.DriverType === null ||
       this.addCar === null
     ) {
@@ -66,13 +64,12 @@ export class SignUp {
         ? 'lml.snir.parkinglogickit.metier.entity.Maintenance'
         : 'lml.snir.parkinglogickit.metier.entity.Driver';
     const DriverData: any = {
-      id: 0,
       firstName: this.firstname,
-      lastname: this.lastname,
+      lastName: this.lastName,
       username: this.username,
       password: this.password,
       age: this.age,
-      isMasculin: this.isMasculin,
+      isMale: this.isMale,
       vehicleType: this.addCar,
       class: DriverClass,
     };
@@ -102,11 +99,11 @@ export class SignUp {
 
   private resetForm(): void {
     this.firstname = '';
-    this.lastname = '';
+    this.lastName = '';
     this.username = '';
     this.password = '';
     this.age = null;
-    this.isMasculin = null;
+    this.isMale = null;
     this.DriverType = null;
     this.addCar = null;
   }
