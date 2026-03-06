@@ -60,8 +60,8 @@ export class SignUp {
 
     const DriverClass =
       this.DriverType === 0
-        ? 'lml.snir.ParkingLogicKit.metier.entity.Administrator'
-        : 'lml.snir.ParkingLogicKit.metier.entity.Driver';
+        ? 'lml.snir.parkinglogickit.metier.entity.Admin'
+        : 'lml.snir.parkingLogicKit.metier.entity.Driver';
 
     const DriverData: any = {
       id: 0,
