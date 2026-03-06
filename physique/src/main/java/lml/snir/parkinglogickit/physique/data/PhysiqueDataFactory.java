@@ -92,7 +92,7 @@ public final class PhysiqueDataFactory {
 
     private static PlacesDataService PlacesSrv = null;
 
-    public static synchronized PlacesDataService getPlacesDataService() throws Exception {
+    public static PlacesDataService getPlacesDataService() throws Exception {
         if (JDBC) {
             //PlacesSrv = new PlacesDataServiceJPAImpl();
         } else {
