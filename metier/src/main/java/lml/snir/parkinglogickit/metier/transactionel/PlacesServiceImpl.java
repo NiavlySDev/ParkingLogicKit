@@ -3,7 +3,7 @@ package lml.snir.parkinglogickit.metier.transactionel;
 import java.util.List;
 
 import lml.snir.parkinglogickit.metier.entity.Places;
-//import lml.snir.parkinglogickit.physique.data.PlacesDataService;
+import lml.snir.parkinglogickit.physique.data.PlacesDataServiceJPAImpl;
 
 /**
  *
@@ -11,7 +11,7 @@ import lml.snir.parkinglogickit.metier.entity.Places;
  */
 public final class PlacesServiceImpl implements PlacesService {
 
-//    private final PlacesDataService PlacesDataSrv;
+//    private final PlacesDataServiceJPAImpl PlacesDataSrv;
 //
 //    public PlacesServiceImpl() throws Exception {
 //        this.PlacesDataSrv = PhysiqueDataFactory.getPlacesDataService();

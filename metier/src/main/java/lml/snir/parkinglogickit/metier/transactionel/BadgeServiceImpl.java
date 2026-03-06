@@ -19,52 +19,46 @@ public class BadgeServiceImpl implements BadgeService {
 
     @Override
     public Badge getById(Long id) throws Exception {
-        return null;
-//        return this.badgeDataSrv.getById(id);
+        return this.badgeDataSrv.getById(id);
     }
 
     @Override
     public Badge getByContent(String content) throws Exception {
-        return null;
-//        return this.badgeDataSrv.getByContent(content);
+        return this.badgeDataSrv.getByContent(content);
     }
 
     @Override
     public Badge add(Badge t) throws Exception {
-       return null;
-//        return this.badgeDataSrv.add();
+         return this.badgeDataSrv.add(t);
     }
 
 
     @Override
     public void remove(Badge t) throws Exception {
-//        return this.badgeDataSrv.remove();
+     this.badgeDataSrv.remove(t);
         
     }
 
 
     @Override
     public void update(Badge t) throws Exception {
-//        return this.badgeDataSrv.update();
+     this.badgeDataSrv.update(t);
         
     }
 
     @Override
     public long getCount() throws Exception {
-        return 0;
-//        return this.badgeDataSrv.getCount(count);
+         return this.badgeDataSrv.getCount();
     }
 
     @Override
     public List<Badge> getAll() throws Exception {
-       return null;
-//        return this.badgeDataSrv.All();
+       return this.badgeDataSrv.getAll();
     }
 
     @Override
     public List<Badge> getAll(int begin, int count) throws Exception {
-       return null;
-//        return this.badgeDataSrv.All();
+        return this.badgeDataSrv.getAll(begin, count);
     }
 
 }
