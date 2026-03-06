@@ -45,7 +45,7 @@ public final class PhysiqueDataFactory {
     public static synchronized AssociateDataService getAssociateDataService() throws Exception {
         if (associateSrv == null) {
             if (JDBC) {
-                //attributionSrv = new AssociateDataServiceJPAImpl();
+                //associateSrv = new AssociateDataServiceJPAImpl();
             } else {
                 associateSrv = new AssociateDataServiceJPAImpl(PU);
             }
@@ -58,7 +58,7 @@ public final class PhysiqueDataFactory {
 
     public static synchronized VehicleDataService getVehicleDataService() throws Exception {
         if (JDBC) {
-            //localSrv = new VehicleDataServiceJDBCImpl();
+            //vehicleSrv = new VehicleDataServiceJDBCImpl();
         } else {
             vehicleSrv = new VehicleDataServiceJPAImpl(PU);
         }
@@ -70,7 +70,7 @@ public final class PhysiqueDataFactory {
 
     public static synchronized ParkingDataService getParkingDataService() throws Exception {
         if (JDBC) {
-            //temperatureSrv = new ParkingDataServiceJDBCImpl();
+            //parkingSrv = new ParkingDataServiceJDBCImpl();
         } else {
             parkingSrv = new ParkingDataServiceJPAImpl(PU);
         }
@@ -82,11 +82,23 @@ public final class PhysiqueDataFactory {
 
     public static synchronized AccessDataService getAccessDataService() throws Exception {
         if (JDBC) {
-            //temperatureSrv = new ParkingDataServiceJDBCImpl();
+            //AccessSrv = new ParkingDataServiceJDBCImpl();
         } else {
             AccessSrv = new AccessDataServiceJPAImpl(PU);
         }
 
         return AccessSrv;
+    }
+    
+    private static PlacesDataService PlacesSrv = null;
+
+    public static synchronized PlacesDataService getPlacesDataService() throws Exception {
+        if (JDBC) {
+            //PlacesSrv = new PlacesDataServiceJPAImpl();
+        } else {
+            PlacesSrv = new PlacesDataServiceJPAImpl(PU);
+        }
+
+        return PlacesSrv;
     }
 }
