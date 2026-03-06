@@ -20,7 +20,7 @@ public class DriverDataServiceJPAImpl extends AbstracCrudServiceJPA<Driver> impl
         Driver user = null;
         try {
             this.open();
-            Query query = em.createQuery("SELECT d FROM Driver d WHERE u.driver = :fusername");
+            Query query = em.createQuery("SELECT d FROM Driver d WHERE d.username = :fusername");
             query.setParameter("fusername", username);
             user = (Driver) query.getSingleResult();
         } catch (NoResultException ex) {
