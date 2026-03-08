@@ -50,9 +50,12 @@ public class Test {
         this.populateDriver();
         this.populateParking();
     }
-    
+
     private void deleteDatabase() throws Exception {
-        
+        List<Driver> drivers = this.usrSrv.getAll();
+        for (Driver d : drivers) {
+            this.usrSrv.remove(d);
+        }
     }
 
     private void populateDriver() throws Exception {
@@ -120,7 +123,7 @@ public class Test {
         asso.setVehicle(l);
         asso.setDriver(drv);
         this.assoSrv.add(asso);
-        
+
     }
 
     private void populateParking() throws Exception {

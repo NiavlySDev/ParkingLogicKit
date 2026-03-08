@@ -33,6 +33,7 @@ public class DriverServiceRestServeurImpl {
     @Path("/")  
     public Driver add(Driver t) throws Exception {
         try {
+            System.out.println("Driver reçu : " + t.getLastName());
             return this.DriverSrv.add(t);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
