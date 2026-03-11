@@ -3,7 +3,6 @@ package lml.snir.parkinglogickit.metier.transactionel;
 import java.util.List;
 import lml.snir.parkinglogickit.metier.entity.Vehicle;
 import lml.snir.parkinglogickit.physique.data.PhysiqueDataFactory;
-
 import lml.snir.parkinglogickit.physique.data.VehicleDataService;
 /**
  *
