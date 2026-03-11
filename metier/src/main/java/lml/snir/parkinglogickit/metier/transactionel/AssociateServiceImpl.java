@@ -4,7 +4,6 @@ import java.util.List;
 import lml.snir.parkinglogickit.metier.entity.Associate;
 import lml.snir.parkinglogickit.metier.entity.Badge;
 import lml.snir.parkinglogickit.metier.entity.Driver;
-
 import lml.snir.parkinglogickit.physique.data. AssociateDataService;
 import lml.snir.parkinglogickit.physique.data.PhysiqueDataFactory;
 
