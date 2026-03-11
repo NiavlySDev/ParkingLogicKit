@@ -59,20 +59,25 @@ public class LoginBean implements Serializable {
         try {
             DriverService ds = MetierFactory.getDriverService();
             if (ds.getByUsername(username) == null) {
+                System.out.println("FallBack : Wrong Username");
                 activateFallback();
                 return;
             }
             Driver driverDS = ds.getByUsername(username);
             if (!driverDS.getPassword().equals(password)) {
+                System.out.println("FallBack : Wrong Password");
                 activateFallback();
                 return;
             }
 
             setLogged(true);
+            this.driver = driverDS;
+            this.setUsername(this.driver.getUsername());
+            this.setPassword(this.driver.getPassword());
         } catch (Exception ex) {
+            System.out.println("FallBack - Error: "+ex);
             activateFallback();
         }
-        setLogged(true);
         PrimeFaces.current().executeScript("location.reload();");
     }
 
