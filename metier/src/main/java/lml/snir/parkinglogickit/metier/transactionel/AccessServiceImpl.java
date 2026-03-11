@@ -75,8 +75,7 @@ public class AccessServiceImpl implements AccessService {
 
     @Override
     public Access getByContenu(String contenu) throws Exception {
-       return null;
-//        return this.accessDataSrv.getByContenu(contenu);
+      return this.accessDataSrv.getByContenu(contenu);
     }
 
 }
