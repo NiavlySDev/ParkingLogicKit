@@ -16,6 +16,7 @@
       <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
       <property name="jakarta.persistence.jdbc.password" value="Gl8[/(qNy17370D8"/>
       <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
+      <property name="eclipselink.weaving" value="false"/>
     </properties>
   </persistence-unit>
 </persistence>

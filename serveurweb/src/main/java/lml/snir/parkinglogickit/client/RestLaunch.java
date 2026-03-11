@@ -33,7 +33,7 @@ public class RestLaunch extends Application {
        // classes.add(AccessServiceRestServeurImpl.class);
         //classes.add(AdminServiceRestServeurImpl.class);
         classes.add(EventServiceRestServeurImpl.class);
-        classes.add(ParkingServiceRestServeurImpl.class);
+//        classes.add(ParkingServiceRestServeurImpl.class);
         return classes;
     }
     

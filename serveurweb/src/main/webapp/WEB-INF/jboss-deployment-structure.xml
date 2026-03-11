@@ -1,0 +1,8 @@
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.2">
+    <deployment>
+        <exclusions>
+            <!-- Empêche le WAR d'utiliser sa version d'ASM et prend celle de WildFly -->
+            <module name="org.eclipse.persistence.asm"/>
+        </exclusions>
+    </deployment>
+</jboss-deployment-structure>
