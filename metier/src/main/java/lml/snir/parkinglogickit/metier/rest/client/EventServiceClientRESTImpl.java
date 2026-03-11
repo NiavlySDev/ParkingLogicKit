@@ -10,55 +10,51 @@ import lml.snir.rest.client.ClientRest;
  *
  * @author Phily Seck
  */
-public class EventServiceClientRESTImpl extends ClientRest<Places> implements EventService {
+public class EventServiceClientRESTImpl extends ClientRest<Event> implements EventService {
 
     public EventServiceClientRESTImpl() {
         super.init("EventService", new RestServerLocalConfiguration());
     }
 
     @Override
-    public Event getById(long id) throws Exception {
-        super.setPath("getById/");
-        return null;
-    }
-
-    @Override
     public Event add(Event t) throws Exception {
-        super.setPath("add/");
-        return null;
+        super.setPath("");
+        return super.addEntity(t);
     }
 
     @Override
     public void remove(Event t) throws Exception {
-        super.setPath("remove/");
+        super.setPath("");
+        super.removeEntity(t);
     }
 
     @Override
     public void update(Event t) throws Exception {
-        super.setPath("update/");
+        super.setPath("");
+        super.updateEntity(t);
     }
 
     @Override
     public Event getById(Long id) throws Exception {
-        super.setPath("getById/");
-        return null;
+        super.setPath("" + id);
+        return super.getEntity();
     }
 
     @Override
     public long getCount() throws Exception {
-        super.setPath("getCount/");
-        return 0;
+        super.setPath("Count");
+        return super.getCountEntity();
     }
 
     @Override
     public List<Event> getAll() throws Exception {
-        super.setPath("getAll/");
-        return null;
+        super.setPath("");
+        return super.getEntitys();
     }
 
     @Override
     public List<Event> getAll(int begin, int count) throws Exception {
         super.setPath("" + begin + "/" + count);
-        return null;
+        return super.getEntitys();
     }
 }

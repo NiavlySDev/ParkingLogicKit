@@ -33,13 +33,11 @@ public final class DriverServiceImpl implements DriverService {
     @Override
     public void remove(Driver t) throws Exception {
         this.drvDataSrv.remove(t);
-
     }
 
     @Override
     public void update(Driver t) throws Exception {
         this.drvDataSrv.update(t);
-
     }
 
     @Override

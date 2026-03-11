@@ -9,6 +9,4 @@ import lml.snir.persistence.CrudService;
  */
 public interface EventService extends CrudService<Event> {
 
-    public Event getById(long id) throws Exception;
-
 }

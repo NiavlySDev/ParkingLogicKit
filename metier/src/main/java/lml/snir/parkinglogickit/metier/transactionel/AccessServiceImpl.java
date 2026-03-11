@@ -18,11 +18,6 @@ public class AccessServiceImpl implements AccessService {
     }
     
     @Override
-    public Access getById(long id) throws Exception {
-          return this.accessDataSrv.getById( id);
-    }
-
-    @Override
     public Access getByDriver(String contenu) throws Exception {
         return this.accessDataSrv.getByDriver(contenu);
 

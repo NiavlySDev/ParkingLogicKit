@@ -17,11 +17,6 @@ public final class ParkingServiceImpl implements ParkingService {
     }
 
     @Override
-    public Parking getById(long id) throws Exception {
-      return this.prkDataSrv.getById(id);
-    }
-
-    @Override
     public Parking getByIsFull(boolean attribue) throws Exception {
      return this.prkDataSrv.getByIsFull(attribue);
     }
@@ -39,13 +34,11 @@ public final class ParkingServiceImpl implements ParkingService {
     @Override
     public void remove(Parking t) throws Exception {
        this.prkDataSrv.remove(t);
-
     }
 
     @Override
     public void update(Parking t) throws Exception {
        this.prkDataSrv.update(t);
-
     }
 
     @Override
@@ -65,7 +58,7 @@ public final class ParkingServiceImpl implements ParkingService {
 
     @Override
     public List<Parking> getAll(int begin, int count) throws Exception {
-      return this.prkDataSrv.getAll( begin,  count);
+      return this.prkDataSrv.getAll(begin, count);
     }
 
 }
