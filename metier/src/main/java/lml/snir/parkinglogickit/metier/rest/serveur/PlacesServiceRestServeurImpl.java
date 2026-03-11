@@ -100,8 +100,8 @@ public class PlacesServiceRestServeurImpl {
     }
 
     @GET
-    @Path("/{IsOccuped}")
-    public Places getByIsOccuped(@PathParam("") boolean isOccuped) throws Exception {
+    @Path("/getByIsOccuped/{IsOccuped}")
+    public Places getByIsOccuped(@PathParam("IsOccuped") boolean isOccuped) throws Exception {
         try {
             return this.PlacesSrv.getByIsOccuped(isOccuped);
         } catch (Exception ex) {

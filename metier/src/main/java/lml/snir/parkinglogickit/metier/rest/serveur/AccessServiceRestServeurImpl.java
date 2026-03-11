@@ -100,7 +100,7 @@ public class AccessServiceRestServeurImpl {
     }
 
     @GET
-    @Path("/{Badge}")
+    @Path("/getByBadge/{Badge}")
     public Access getByBadge(@PathParam("Badge") String Badge) throws Exception {
         try {
             return this.AccessSrv.getByBadge(Badge);
@@ -110,7 +110,7 @@ public class AccessServiceRestServeurImpl {
     }
 
     @GET
-    @Path("/{Driver}")
+    @Path("/getByDriver/{Driver}")
     public Access getByDriver(@PathParam("Driver") String Driver) throws Exception {
         try {
             return this.AccessSrv.getByDriver(Driver);
@@ -120,7 +120,7 @@ public class AccessServiceRestServeurImpl {
     }
 
     @GET
-    @Path("/{DateTime}")
+    @Path("/getByDateTime/{DateTime}")
     public Access getByDateTime(@PathParam("DateTime") String DateTime) throws Exception {
         try {
             return this.AccessSrv.getByDateTime(DateTime);

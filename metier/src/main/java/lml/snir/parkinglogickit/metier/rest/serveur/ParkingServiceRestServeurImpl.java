@@ -100,8 +100,8 @@ public class ParkingServiceRestServeurImpl {
     }
 
     @GET
-    @Path("/{IsFull}")
-    public Parking getByIsFull(@PathParam("") boolean isFull) throws Exception {
+    @Path("/getByIsFull/{IsFull}")
+    public Parking getByIsFull(@PathParam("IsFull") boolean isFull) throws Exception {
         try {
             return this.ParkingSrv.getByIsFull(isFull);
         } catch (Exception ex) {
