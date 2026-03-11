@@ -1,7 +1,6 @@
 package lml.snir.parkinglogickit.metier.rest.client;
 
 import java.util.List;
-
 import lml.snir.parkinglogickit.metier.entity.Parking;
 import lml.snir.parkinglogickit.metier.transactionel.ParkingService;
 import lml.snir.rest.client.ClientRest;
@@ -17,56 +16,51 @@ public class ParkingServiceClientRESTImpl extends ClientRest<Parking> implements
     }
 
     @Override
-    public Parking getById(long id) throws Exception {
-        super.setPath("getByCountPLace");
-        return super.getEntity();
-    }
-
-    @Override
     public Parking getByUsername(String contenu) throws Exception {
-        super.setPath("getByUsername");
+        super.setPath("getByUsername/" + contenu);
         return super.getEntity();
     }
 
     @Override
     public Parking getByIsFull(boolean attribue) throws Exception {
-        super.setPath("getByIsFull");
+        super.setPath("getByIsFull/" + attribue);
         return super.getEntity();
     }
 
     @Override
     public Parking add(Parking t) throws Exception {
         super.setPath("");
-        return super.getEntity();
+        return super.addEntity(t);
     }
 
     @Override
     public void remove(Parking t) throws Exception {
-        super.setPath("remove");
-
+        super.setPath("");
+        super.removeEntity(t);
     }
 
     @Override
     public void update(Parking t) throws Exception {
-        super.setPath("update");
+        super.setPath("");
+        super.updateEntity(t);
     }
 
     @Override
     public Parking getById(Long id) throws Exception {
-        super.setPath("getById");
+        super.setPath("" + id);
         return super.getEntity();
     }
 
     @Override
     public long getCount() throws Exception {
-        super.setPath("getByCount");
-        return 0;
+        super.setPath("Count");
+        return super.getCountEntity();
     }
 
     @Override
     public List<Parking> getAll() throws Exception {
-        super.setPath("getAll");
-        return null;
+        super.setPath("");
+        return super.getEntitys();
     }
 
     @Override

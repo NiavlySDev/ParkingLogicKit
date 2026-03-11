@@ -58,12 +58,6 @@ public class AccessServiceClientRESTImpl extends ClientRest<Access> implements A
     }
 
     @Override
-    public Access getById(long id) throws Exception {
-        super.setPath("getById");
-        return super.getEntity();
-    }
-
-    @Override
     public Access getByDriver(String contenu) throws Exception {
         super.setPath("getByDriver");
         return super.getEntity();

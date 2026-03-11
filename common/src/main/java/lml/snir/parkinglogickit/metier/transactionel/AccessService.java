@@ -9,8 +9,6 @@ import lml.snir.persistence.CrudService;
  */
 public interface AccessService extends CrudService<Access> {
 
-    public Access getById(long id) throws Exception;
-
     public Access getByDriver(String driver) throws Exception;
 
     public Access getByContenu(String contenu) throws Exception;

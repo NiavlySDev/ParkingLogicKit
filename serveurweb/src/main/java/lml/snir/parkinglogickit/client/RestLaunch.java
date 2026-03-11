@@ -12,6 +12,7 @@ import lml.snir.parkinglogickit.metier.rest.serveur.*;
 /**
  * WARNING Wildfly Server Use RESTEASY Lib WE MUST Configure web.xml file and properties to create wadl file and add class parameter
  * for testing
+ * http://localhost:8080/ParkingLogicKitServeur/rest/application.wadl
  * http://localhost:8080/ParkingLogicKitServeur/rest/TemperatureService
  * Class for register Web Service
  */
@@ -28,7 +29,7 @@ public class RestLaunch extends Application {
         classes.add(DriverServiceRestServeurImpl.class);
         classes.add(BadgeServiceRestServeurImpl.class);
         classes.add(VehicleServiceRestServeurImpl.class);
-       //sclasses.add(PlacesServiceRestServeurImpl.class);
+       //classes.add(PlacesServiceRestServeurImpl.class);
        // classes.add(MaintenanceServiceRestServeurImpl.class);
        // classes.add(AccessServiceRestServeurImpl.class);
         //classes.add(AdminServiceRestServeurImpl.class);

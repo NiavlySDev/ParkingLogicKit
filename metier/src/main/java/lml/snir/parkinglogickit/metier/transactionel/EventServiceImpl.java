@@ -18,12 +18,6 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event getById(long id) throws Exception {
-        
-         return this.eventDataSrv.getById(id);
-    }
-
-    @Override
     public Event add(Event t) throws Exception {
          return this.eventDataSrv.add(t);
     }
