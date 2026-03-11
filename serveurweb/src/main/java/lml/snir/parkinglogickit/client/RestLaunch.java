@@ -26,15 +26,22 @@ public class RestLaunch extends Application {
     public Set<Class<?>> getClasses() {
         final Set<Class<?>> classes = new HashSet<>();
         // register root resource
-        classes.add(DriverServiceRestServeurImpl.class);
-        classes.add(BadgeServiceRestServeurImpl.class);
-        classes.add(VehicleServiceRestServeurImpl.class);
-       //classes.add(PlacesServiceRestServeurImpl.class);
-       // classes.add(MaintenanceServiceRestServeurImpl.class);
-       // classes.add(AccessServiceRestServeurImpl.class);
+        classes.add(AccessServiceRestServeurImpl.class);
         //classes.add(AdminServiceRestServeurImpl.class);
+        classes.add(AssociateServiceRestServeurImpl.class);
+        classes.add(BadgeServiceRestServeurImpl.class);
+        classes.add(DriverServiceRestServeurImpl.class);
         classes.add(EventServiceRestServeurImpl.class);
-//        classes.add(ParkingServiceRestServeurImpl.class);
+        //classes.add(MaintenanceServiceRestServeurImpl.class);
+        classes.add(ParkingServiceRestServeurImpl.class);
+        classes.add(VehicleServiceRestServeurImpl.class);
+        classes.add(PlacesServiceRestServeurImpl.class);
+       
+       
+        
+        
+        
+        
         return classes;
     }
     
