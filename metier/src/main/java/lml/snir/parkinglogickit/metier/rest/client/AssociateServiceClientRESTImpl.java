@@ -46,7 +46,7 @@ public class AssociateServiceClientRESTImpl extends ClientRest<Associate> implem
 
     @Override
     public List<Associate> getAll() throws Exception {
-        super.setPath("getAll");
+         super.setPath("");
         return super.getEntitys();
     }
 
@@ -58,20 +58,20 @@ public class AssociateServiceClientRESTImpl extends ClientRest<Associate> implem
 
     @Override
     public Associate getByBadge(Badge badge) throws Exception {
-          super.setPath("getByBadge");
+          super.setPath("getByBadge/" + badge);
         return super.getEntity();
     }
 
     @Override
     public Associate getByUtilisateur(Driver drv) throws Exception {
-         super.setPath("getByUtilisateur");
+         super.setPath("getByUtilisateur/" + drv);
         return super.getEntity();
     }
 
     @Override
     public Associate add(Associate t) throws Exception {
-          super.setPath("add");
-        return super.getEntity();
+           super.setPath("");
+        return super.addEntity(t);
     }
 
 }

@@ -47,13 +47,13 @@ public class BadgeServiceClientRESTImpl extends ClientRest<Badge> implements Bad
 
     @Override
     public long getCount() throws Exception {
-        super.setPath("getCount");
+        super.setPath("Count");
         return super.getCountEntity();
     }
 
     @Override
     public List<Badge> getAll() throws Exception {
-        super.setPath("getAll");
+       super.setPath("");
         return super.getEntitys();
     }
 
