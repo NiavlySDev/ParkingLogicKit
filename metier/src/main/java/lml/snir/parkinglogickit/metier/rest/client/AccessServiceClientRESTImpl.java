@@ -59,25 +59,25 @@ public class AccessServiceClientRESTImpl extends ClientRest<Access> implements A
 
     @Override
     public Access getByDriver(String contenu) throws Exception {
-        super.setPath("getByDriver");
+        super.setPath("getByDriver/" + contenu);
         return super.getEntity();
     }
 
     @Override
     public Access getByDateTime(String contenu) throws Exception {
-        super.setPath("getByDateTime");
+        super.setPath("getByDateTime/" + contenu);
         return super.getEntity();
     }
 
     @Override
     public Access getByContenu(String contenu) throws Exception {
-        super.setPath("getByContenu");
+        super.setPath("getByContenu/" + contenu);
         return super.getEntity();
     }
     
      @Override
     public Access getByBadge(String contenu) throws Exception {
-        super.setPath("getByBadge");
+        super.setPath("getByBadge/" + contenu);
         return super.getEntity();
     }
 }

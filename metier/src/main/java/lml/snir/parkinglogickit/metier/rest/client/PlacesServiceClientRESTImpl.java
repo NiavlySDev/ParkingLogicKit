@@ -17,43 +17,44 @@ public class PlacesServiceClientRESTImpl extends ClientRest<Places> implements P
 
     @Override
     public Places getByIsOccuped(boolean attribue) throws Exception {
-        super.setPath("getByIsOccuped");
+        super.setPath("getByIsOccuped/" + attribue);
         return super.getEntity();
     }
 
     @Override
     public Places add(Places t) throws Exception {
-        super.setPath("add");
-        return super.getEntity();
+        super.setPath("");
+        return super.addEntity(t);
     }
 
     @Override
     public void remove(Places t) throws Exception {
-        super.setPath("remove");
+        super.setPath("");
+        super.removeEntity(t);
     }
 
     @Override
     public void update(Places t) throws Exception {
-        super.setPath("update");
+        super.setPath("");
+        super.updateEntity(t);
     }
 
     @Override
     public Places getById(Long id) throws Exception {
-        super.setPath("getById");
+         super.setPath("" + id);
         return super.getEntity();
     }
 
     @Override
     public long getCount() throws Exception {
         super.setPath("getCount");
-        return 0;
-
+          return super.getCountEntity();
     }
 
     @Override
     public List<Places> getAll() throws Exception {
-        super.setPath("getAll");
-        return null;
+      super.setPath("");
+        return super.getEntitys();
     }
 
     @Override
