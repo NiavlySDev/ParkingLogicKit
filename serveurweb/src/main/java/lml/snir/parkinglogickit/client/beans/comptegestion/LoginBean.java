@@ -21,7 +21,6 @@ public class LoginBean implements Serializable {
     private String password;
     private Driver driver;
     private boolean logged;
-    private boolean fallback;
 
     public String getUsername() {
         return username;
@@ -60,13 +59,11 @@ public class LoginBean implements Serializable {
             DriverService ds = MetierFactory.getDriverService();
             if (ds.getByUsername(username) == null) {
                 System.out.println("FallBack : Wrong Username");
-                activateFallback();
                 return;
             }
             Driver driverDS = ds.getByUsername(username);
             if (!driverDS.getPassword().equals(password)) {
                 System.out.println("FallBack : Wrong Password");
-                activateFallback();
                 return;
             }
 
@@ -76,7 +73,6 @@ public class LoginBean implements Serializable {
             this.setPassword(this.driver.getPassword());
         } catch (Exception ex) {
             System.out.println("FallBack - Error: " + ex);
-            activateFallback();
         }
         PrimeFaces.current().executeScript("location.reload();");
     }
@@ -86,21 +82,6 @@ public class LoginBean implements Serializable {
         this.setLogged(false);
         this.setUsername("");
         this.setPassword("");
-        PrimeFaces.current().executeScript("location.reload();");
-    }
-
-    private void activateFallback() {
-        String fallbackMode = "[FallBack Mode]";
-        this.fallback = true;
-        this.driver = new Admin();
-        this.driver.setAge(0);
-        this.driver.setFirstName(fallbackMode);
-        this.driver.setId(0);
-        this.driver.setIsMale(true);
-        this.driver.setLastName(fallbackMode);
-        this.driver.setPassword(fallbackMode);
-        this.driver.setUsername(fallbackMode);
-        setLogged(true);
         PrimeFaces.current().executeScript("location.reload();");
     }
 
