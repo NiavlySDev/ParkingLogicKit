@@ -9,6 +9,9 @@
     <class>lml.snir.parkinglogickit.metier.entity.Badge</class>
     <class>lml.snir.parkinglogickit.metier.entity.Vehicle</class>
     <class>lml.snir.parkinglogickit.metier.entity.Parking</class>
+    <class>lml.snir.parkinglogickit.metier.entity.Places</class>
+    <class>lml.snir.parkinglogickit.metier.entity.Access</class>
+    <class>lml.snir.parkinglogickit.metier.entity.Event</class>
     
     <properties>
       <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/parkinglogickit?zeroDateTimeBehavior=convertToNull"/>

@@ -1,10 +1,13 @@
 package lml.snir.parkinglogickit.metier.entity;
 
 import java.text.ParseException;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import java.io.Serializable;
 import java.util.Date;
 import lml.snir.tools.DateConverter;
@@ -23,9 +26,12 @@ public class Access implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @ManyToOne
     private Driver driver;
+    @ManyToOne
     private Badge badge;
     private Date date;
+    @OneToOne(cascade = CascadeType.ALL)
     private Event event;
 
     /**

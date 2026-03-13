@@ -18,23 +18,67 @@ public enum Page {
             0,
             "/accueil.xhtml"
     ),
+    Dashboard(
+            1,
+            "/dashboard.xhtml",
+            Arrays.asList(
+                    LoggedType.LoggedInOnly
+            )
+    ),
+    Journal(
+            2,
+            "/journal.xhtml",
+            Arrays.asList(
+                    LoggedType.LoggedInOnly
+            )
+    ),
     Separateur1(
             "|",
-            1,
+            3,
             "",
             Arrays.asList(
                     LoggedType.Affichage
             )
     ),
+    Conducteurs(
+            4,
+            "/admin/conducteurs.xhtml",
+            Arrays.asList(
+                    LoggedType.AdminOnly
+            )
+    ),
+    Vehicules(
+            5,
+            "/admin/vehicules.xhtml",
+            Arrays.asList(
+                    LoggedType.AdminOnly
+            )
+    ),
+    Badges(
+            6,
+            "/admin/badges.xhtml",
+            Arrays.asList(
+                    LoggedType.AdminOnly
+            )
+    ),
+    Separateur2(
+            "|",
+            7,
+            "",
+            Arrays.asList(
+                    LoggedType.Affichage,
+                    LoggedType.LoggedInOnly
+            )
+    ),
     Connexion(
-            2,
+            8,
             "/compte/login.xhtml",
             Arrays.asList(
                     LoggedType.LoggedOutOnly
             )
     ),
     Compte(
-            2,
+            8,
             "/compte/compte.xhtml",
             Arrays.asList(
                     LoggedType.LoggedInOnly
