@@ -75,7 +75,7 @@ public class LoginBean implements Serializable {
             this.setUsername(this.driver.getUsername());
             this.setPassword(this.driver.getPassword());
         } catch (Exception ex) {
-            System.out.println("FallBack - Error: "+ex);
+            System.out.println("FallBack - Error: " + ex);
             activateFallback();
         }
         PrimeFaces.current().executeScript("location.reload();");

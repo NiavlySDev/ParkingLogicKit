@@ -1,0 +1,86 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="jakarta.faces.core">
+        <div class="admin-page">
+
+            <div class="dashboard-header">
+                <h2 class="section-title">Tableau de bord du Parking</h2>
+                <p:commandButton value="Rafraîchir"
+                                 icon="pi pi-refresh"
+                                 styleClass="rounded-button"
+                                 action="#{dashboardBean.refresh()}"
+                                 update="index:fragmentPanel messageindex message"/>
+            </div>
+
+            <div class="dashboard-status-bar #{dashboardBean.parkingPlein ? 'status-full' : 'status-free'}">
+                <span class="status-icon">#{dashboardBean.parkingPlein ? '🔴' : '🟢'}</span>
+                <span class="status-text">#{dashboardBean.parkingPlein ? 'Parking COMPLET' : 'Parking DISPONIBLE'}</span>
+            </div>
+
+            <div class="stats-grid">
+
+                <div class="stat-card stat-total">
+                    <div class="stat-value">#{dashboardBean.totalPlaces}</div>
+                    <div class="stat-label">Places totales</div>
+                </div>
+
+                <div class="stat-card stat-free">
+                    <div class="stat-value">#{dashboardBean.placesLibres}</div>
+                    <div class="stat-label">Places libres</div>
+                </div>
+
+                <div class="stat-card stat-occ">
+                    <div class="stat-value">#{dashboardBean.placesOccupees}</div>
+                    <div class="stat-label">Places occupées</div>
+                </div>
+
+                <div class="stat-card stat-handi">
+                    <div class="stat-value">#{dashboardBean.placesHandicap}</div>
+                    <div class="stat-label">Places handicap</div>
+                </div>
+
+            </div>
+
+            <h3 class="section-subtitle">État des places</h3>
+            <p:dataTable id="tableauPlaces"
+                         var="place"
+                         value="#{dashboardBean.places}"
+                         paginator="true"
+                         rows="20"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="10,20,50"
+                         emptyMessage="Aucune place trouvée."
+                         rowStyleClass="#{place.isOccuped ? 'row-occupied' : 'row-free'}">
+                <p:column headerText="ID">
+                    <h:outputText value="#{place.id}" />
+                </p:column>
+                <p:column headerText="Statut">
+                    <h:outputText value="#{place.isOccuped ? '🔴 Occupée' : '🟢 Libre'}" />
+                </p:column>
+            </p:dataTable>
+
+            <h:panelGroup rendered="#{not empty dashboardBean.parkings}">
+                <h3 class="section-subtitle">Informations parking</h3>
+                <p:dataTable id="tableauParking"
+                             var="parking"
+                             value="#{dashboardBean.parkings}"
+                             emptyMessage="Aucun parking enregistré.">
+                    <p:column headerText="ID">
+                        <h:outputText value="#{parking.id}" />
+                    </p:column>
+                    <p:column headerText="Places dispo">
+                        <h:outputText value="#{parking.placeCount} / #{parking.totalPlace}" />
+                    </p:column>
+                    <p:column headerText="Handicap">
+                        <h:outputText value="#{parking.handicapCount} / #{parking.totalHandicap}" />
+                    </p:column>
+                    <p:column headerText="Complet">
+                        <h:outputText value="#{parking.isFull ? 'Oui' : 'Non'}" />
+                    </p:column>
+                </p:dataTable>
+            </h:panelGroup>
+
+        </div>
+</ui:composition>

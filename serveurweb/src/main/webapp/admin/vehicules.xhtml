@@ -1,0 +1,161 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="jakarta.faces.core">
+        <div class="admin-page">
+
+            <div class="dashboard-header">
+                <h2 class="section-title">Gestion des véhicules</h2>
+                <p:commandButton value="Nouveau véhicule"
+                                 icon="pi pi-plus"
+                                 styleClass="rounded-button ui-button-success"
+                                 type="button"
+                                 onclick="PF('dlgCreerVehicule').show()"/>
+            </div>
+
+            <!-- Tableau véhicules -->
+            <p:dataTable id="tableVehicules"
+                         var="vehicule"
+                         value="#{vehiculesBean.vehicules}"
+                         selectionMode="single"
+                         selection="#{vehiculesBean.selectedVehicle}"
+                         rowKey="#{vehicule.id}"
+                         paginator="true"
+                         rows="15"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="10,15,30"
+                         emptyMessage="Aucun véhicule enregistré."
+                         filterDelay="300">
+
+                <p:column headerText="ID" style="width:60px;" sortBy="#{vehicule.id}">
+                    <h:outputText value="#{vehicule.id}" />
+                </p:column>
+                <p:column headerText="Marque" filterBy="#{vehicule.brand}" filterMatchMode="contains">
+                    <h:outputText value="#{vehicule.brand}" />
+                </p:column>
+                <p:column headerText="Immatriculation" filterBy="#{vehicule.numberPlate}" filterMatchMode="contains">
+                    <h:outputText value="#{vehicule.numberPlate}" />
+                </p:column>
+                <p:column headerText="Type" sortBy="#{vehicule.type}">
+                    <h:outputText value="#{vehicule.type.name}" />
+                </p:column>
+                <p:column headerText="Actions" style="width:140px;">
+                    <p:commandButton icon="pi pi-pencil"
+                                     styleClass="rounded-button ui-button-warning"
+                                     title="Modifier"
+                                     action="#{vehiculesBean.selectionner(vehicule)}"
+                                     update="tableVehicules"
+                                     oncomplete="PF('dlgModifierVehicule').show()"/>
+                    &#160;
+                    <p:commandButton icon="pi pi-trash"
+                                     styleClass="rounded-button ui-button-danger"
+                                     title="Supprimer"
+                                     action="#{vehiculesBean.selectionner(vehicule)}"
+                                     update="tableVehicules"
+                                     oncomplete="PF('dlgSupprimerVehicule').show()"/>
+                </p:column>
+            </p:dataTable>
+
+            <!-- Dialog : Créer véhicule -->
+            <p:dialog header="Nouveau véhicule" widgetVar="dlgCreerVehicule"
+                      minHeight="220" width="400" showEffect="fade" modal="true">
+                <div class="dialog-form">
+                    <h:panelGrid columns="2" cellpadding="8" style="width:100%">
+                        <h:outputLabel value="Marque :"/>
+                        <p:inputText value="#{vehiculesBean.newBrand}" required="true"
+                                     placeholder="Marque" style="width:200px"/>
+                        <h:outputLabel value="Immatriculation :"/>
+                        <p:inputText value="#{vehiculesBean.newNumberPlate}" required="true"
+                                     placeholder="AB-123-CD" style="width:200px"/>
+                        <h:outputLabel value="Type :"/>
+                        <p:selectOneMenu value="#{vehiculesBean.newVehicleType}" style="width:200px">
+                            <f:selectItems value="#{vehiculesBean.vehicleTypes}"
+                                           var="vt"
+                                           itemValue="#{vt}"
+                                           itemLabel="#{vt.name}"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                </div>
+                <f:facet name="footer">
+                    <p:commandButton value="Créer"
+                                     icon="pi pi-check"
+                                     styleClass="rounded-button ui-button-success"
+                                     action="#{vehiculesBean.creer()}"
+                                     update="tableVehicules messageindex message"
+                                     oncomplete="if(!args.validationFailed) PF('dlgCreerVehicule').hide()"/>
+                    &#160;
+                    <p:commandButton value="Annuler"
+                                     icon="pi pi-times"
+                                     styleClass="rounded-button ui-button-secondary"
+                                     type="button"
+                                     onclick="PF('dlgCreerVehicule').hide()"/>
+                </f:facet>
+            </p:dialog>
+
+            <!-- Dialog : Modifier véhicule -->
+            <p:dialog header="Modifier véhicule" widgetVar="dlgModifierVehicule"
+                      minHeight="220" width="400" showEffect="fade" modal="true">
+                <h:panelGroup rendered="#{vehiculesBean.selectedVehicle != null}">
+                    <div class="dialog-form">
+                        <h:panelGrid columns="2" cellpadding="8" style="width:100%">
+                            <h:outputLabel value="Marque :"/>
+                            <p:inputText value="#{vehiculesBean.selectedVehicle.brand}"
+                                         style="width:200px"/>
+                            <h:outputLabel value="Immatriculation :"/>
+                            <p:inputText value="#{vehiculesBean.selectedVehicle.numberPlate}"
+                                         style="width:200px"/>
+                            <h:outputLabel value="Type :"/>
+                            <p:selectOneMenu value="#{vehiculesBean.selectedVehicle.type}"
+                                             style="width:200px">
+                                <f:selectItems value="#{vehiculesBean.vehicleTypes}"
+                                               var="vt"
+                                               itemValue="#{vt}"
+                                               itemLabel="#{vt.name}"/>
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                    </div>
+                </h:panelGroup>
+                <f:facet name="footer">
+                    <p:commandButton value="Enregistrer"
+                                     icon="pi pi-check"
+                                     styleClass="rounded-button ui-button-warning"
+                                     action="#{vehiculesBean.modifier()}"
+                                     update="tableVehicules messageindex message"
+                                     oncomplete="PF('dlgModifierVehicule').hide()"/>
+                    &#160;
+                    <p:commandButton value="Annuler"
+                                     icon="pi pi-times"
+                                     styleClass="rounded-button ui-button-secondary"
+                                     type="button"
+                                     onclick="PF('dlgModifierVehicule').hide()"/>
+                </f:facet>
+            </p:dialog>
+
+            <!-- Dialog : Supprimer véhicule -->
+            <p:dialog header="Supprimer véhicule" widgetVar="dlgSupprimerVehicule"
+                      minHeight="80" width="360" showEffect="fade" modal="true">
+                <h:panelGroup rendered="#{vehiculesBean.selectedVehicle != null}">
+                    <p>Confirmer la suppression de
+                        <strong>#{vehiculesBean.selectedVehicle.brand}
+                        #{vehiculesBean.selectedVehicle.numberPlate}</strong> ?
+                    </p>
+                </h:panelGroup>
+                <f:facet name="footer">
+                    <p:commandButton value="Supprimer"
+                                     icon="pi pi-trash"
+                                     styleClass="rounded-button ui-button-danger"
+                                     action="#{vehiculesBean.supprimer()}"
+                                     update="tableVehicules messageindex message"
+                                     oncomplete="PF('dlgSupprimerVehicule').hide()"/>
+                    &#160;
+                    <p:commandButton value="Annuler"
+                                     icon="pi pi-times"
+                                     styleClass="rounded-button ui-button-secondary"
+                                     type="button"
+                                     onclick="PF('dlgSupprimerVehicule').hide()"/>
+                </f:facet>
+            </p:dialog>
+
+        </div>
+</ui:composition>
