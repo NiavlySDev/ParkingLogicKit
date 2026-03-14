@@ -9,6 +9,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ListboxModule } from 'primeng/listbox';
+import { MessageService } from 'primeng/api';
 
 const PRIMENG_COMPONENTS = [
   ButtonModule,
@@ -24,5 +25,6 @@ const PRIMENG_COMPONENTS = [
 @NgModule({
   imports: [...PRIMENG_COMPONENTS],
   exports: [...PRIMENG_COMPONENTS],
+  providers: [ MessageService]
 })
 export class PrimengModule {}
