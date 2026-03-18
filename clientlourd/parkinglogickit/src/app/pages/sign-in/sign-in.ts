@@ -49,11 +49,12 @@ export class SignIn {
 
     this.driverService.getByUsername(this.username).subscribe({
       next: (driver: Driver) => {
-        console.log('Réponse du serveur :', driver);
+        //console.log('Réponse du serveur :', driver);
         this.isLoading = false;
         if (driver.password === this.password) {
-          this.setMessage('Connexion réussie !', 'success');
-          this.router.navigate(['/reception']);
+          this.router.navigate(['/reception'], {
+            queryParams: { username: this.username }
+          });
         } else {
           this.setMessage('Mot de passe incorrect', 'error');
         }
