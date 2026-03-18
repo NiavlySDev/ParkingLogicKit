@@ -3,9 +3,6 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="jakarta.faces.core">
-        <button onclick="toggleDarkMode()" class="dark-mode-toggle">
-            🌙 Mode
-        </button>
         <div class="account-card">
             <h1>Bienvenue #{loginBean.driver.username}</h1>
             <p:commandButton value="Se Déconnecter"
@@ -21,11 +18,11 @@
                                  onclick="PF('changemenet_mdp').show()"/>
                 <p:dialog header="Changement Mot de Passe" widgetVar="changemenet_mdp" minHeight="40" width="350" showEffect="fade">
                     <h4>Mot de Passe Actuel</h4>
-                    <p:password value="#{mdpChangeBean.currentPassword}" toggleMask="true" redisplay="true"/><br/><br/>
+                    <p:password value="#{mdpChangeBean.currentPassword}" toggleMask="true" redisplay="true" required="false"/><br/><br/>
                     <h4>Nouveau Mot de Passe</h4>
-                    <p:password value="#{mdpChangeBean.newPassword}" toggleMask="true" redisplay="true"/><br/><br/>
+                    <p:password value="#{mdpChangeBean.newPassword}" toggleMask="true" redisplay="true" required="false"/><br/><br/>
                     <h4>Confirmation Nouveau Mot de Passe</h4>
-                    <p:password value="#{mdpChangeBean.newPasswordConfirmation}" toggleMask="true" redisplay="true"/><br/><br/>
+                    <p:password value="#{mdpChangeBean.newPasswordConfirmation}" toggleMask="true" redisplay="true" required="false"/><br/><br/>
                     <f:facet name="footer">
                         <p:commandButton value="Changer Mot de Passe"
                                          icon="pi pi-check"

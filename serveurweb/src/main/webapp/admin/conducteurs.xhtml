@@ -54,14 +54,14 @@
                                      styleClass="rounded-button ui-button-warning"
                                      title="Modifier"
                                      action="#{conducteursBean.selectionner(conducteur)}"
-                                     update="tableConducteurs"
+                                     update="@form"
                                      oncomplete="PF('dlgModifierConducteur').show()"/>
                     &#160;
                     <p:commandButton icon="pi pi-trash"
                                      styleClass="rounded-button ui-button-danger"
                                      title="Supprimer"
                                      action="#{conducteursBean.selectionner(conducteur)}"
-                                     update="tableConducteurs"
+                                     update="@form"
                                      oncomplete="PF('dlgSupprimerConducteur').show()"/>
                 </p:column>
             </p:dataTable>
