@@ -45,14 +45,14 @@
                                      styleClass="rounded-button ui-button-warning"
                                      title="Modifier"
                                      action="#{vehiculesBean.selectionner(vehicule)}"
-                                     update="tableVehicules"
+                                     update="@form"
                                      oncomplete="PF('dlgModifierVehicule').show()"/>
                     &#160;
                     <p:commandButton icon="pi pi-trash"
                                      styleClass="rounded-button ui-button-danger"
                                      title="Supprimer"
                                      action="#{vehiculesBean.selectionner(vehicule)}"
-                                     update="tableVehicules"
+                                     update="@form"
                                      oncomplete="PF('dlgSupprimerVehicule').show()"/>
                 </p:column>
             </p:dataTable>

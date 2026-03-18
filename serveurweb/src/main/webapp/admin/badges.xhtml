@@ -38,7 +38,7 @@
                                      styleClass="rounded-button ui-button-danger"
                                      title="Supprimer"
                                      action="#{badgesBean.selectionnerBadge(badge)}"
-                                     update="tableBadges"
+                                     update="@form"
                                      oncomplete="PF('dlgSupprimerBadge').show()"/>
                 </p:column>
             </p:dataTable>
@@ -131,7 +131,7 @@
                                      styleClass="rounded-button ui-button-danger"
                                      title="Supprimer"
                                      action="#{badgesBean.selectionnerAssociation(assoc)}"
-                                     update="tableAssociations"
+                                     update="@form"
                                      oncomplete="PF('dlgSupprimerAssoc').show()"/>
                 </p:column>
             </p:dataTable>
