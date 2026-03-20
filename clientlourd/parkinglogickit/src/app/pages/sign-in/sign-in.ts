@@ -1,17 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { DriverService } from '../../../Rest/DriverService';
 import { Driver } from '../../../Auth/Driver';
 import { Router } from '@angular/router';
 import { PrimengModule } from '../../shared/primeng.module';
 import { MessageService } from 'primeng/api';
-// author Ethan
 
+
+// author Ethan
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [FormsModule, CommonModule, PrimengModule],
+  imports: [FormsModule, CommonModule, PrimengModule, NgClass],
   templateUrl: './sign-in.html',
   styleUrls: ['./sign-in.css'],
   providers: [MessageService],
@@ -19,54 +20,69 @@ import { MessageService } from 'primeng/api';
 export class SignIn {
   username: string = '';
   password: string = '';
-
   isLoading: boolean = false;
   message: string = '';
   messageType: 'success' | 'error' = 'success';
-
   constructor(
     private driverService: DriverService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private cdr: ChangeDetectorRef
   ) {}
-
   // Bouton Home
   goHome(): void {
-    console.log('Redirection vers Home');
-    this.router.navigate(['/']); // redirection vers la page d'accueil
+    this.router.navigate(['/']);
   }
-
   // Soumission du formulaire
   onSubmit(): void {
-    if (!this.username || !this.password) {
-      this.setMessage('Tous les champs sont obligatoires', 'error');
+    if (!this.username && !this.password) {
+      this.message = "Nom d'utilisateur et mot de passe obligatoires";
+      this.messageType = 'error';
+      this.cdr.detectChanges();
       return;
     }
-
+    if (!this.username) {
+      this.message = "Nom d'utilisateur obligatoire";
+      this.messageType = 'error';
+      this.cdr.detectChanges();
+      return;
+    }
+    if (!this.password) {
+      this.message = 'Mot de passe obligatoire';
+      this.messageType = 'error';
+      this.cdr.detectChanges();
+      return;
+    }
     this.isLoading = true;
     this.message = '';
-    console.log('username envoyé :', this.username);
-
     this.driverService.getByUsername(this.username).subscribe({
       next: (driver: Driver) => {
-        //console.log('Réponse du serveur :', driver);
         this.isLoading = false;
         if (driver.password === this.password) {
-          this.router.navigate(['/reception'], {
-            queryParams: { username: this.username }
-          });
+          if (driver.class.includes('Admin')) {
+            this.router.navigate(['/reception-admin'], {
+              queryParams: { username: this.username },
+            });
+          } else {
+            this.router.navigate(['/reception'], {
+              queryParams: { username: this.username },
+            });
+          }
         } else {
-          this.setMessage('Mot de passe incorrect', 'error');
+          this.message = 'Mot de passe incorrect';
+          this.messageType = 'error';
+          this.cdr.detectChanges();
         }
       },
       error: (err) => {
-        console.error('Erreur serveur :', err);
+        //console.error('Erreur serveur :', err);
         this.isLoading = false;
-        this.setMessage('Utilisateur introuvable', 'error');
+        this.message = 'Utilisateur introuvable';
+        this.messageType = 'error';
+        this.cdr.detectChanges();
       },
     });
   }
-
   private setMessage(message: string, type: 'success' | 'error'): void {
     this.message = message;
     this.messageType = type;

@@ -8,10 +8,10 @@ export class Driver {
   firstName: string;
   age: number;
   masculin: number;
-  userType: DriverType;
-
+  type: DriverType;
   login: string;
   password: string;
+  class: string = '';
 
   constructor(
     id: number,
@@ -21,8 +21,9 @@ export class Driver {
     password: string = '',
     age: number = 0,
     masculin: number = 0,
-    userType: DriverType = DriverType.Driver
-  ) {
+    type: DriverType = DriverType.Driver,
+    class_: string = ''
+  ){
     this.id = id;
     this.lastName = lastName;
     this.firstName = firstName;
@@ -30,7 +31,7 @@ export class Driver {
     this.password = password;
     this.age = age;
     this.masculin = masculin;
-    this.userType = userType;
+    this.type = type;
   }
 
   getId(): number {
@@ -62,7 +63,7 @@ export class Driver {
   }
 
   getUserType(): DriverType {
-    return this.userType;
+    return this.type;
   }
 
   setLastName(lastName: string) {
@@ -90,6 +91,6 @@ export class Driver {
   }
 
   setUserType(userType: DriverType) {
-    this.userType = userType;
+    this.type = userType;
   }
 }
