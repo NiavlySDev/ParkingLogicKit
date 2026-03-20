@@ -54,14 +54,16 @@
                                      styleClass="rounded-button ui-button-warning"
                                      title="Modifier"
                                      action="#{conducteursBean.selectionner(conducteur)}"
-                                     update="tableConducteurs"
+                                     process="@this"
+                                     update="@form"
                                      oncomplete="PF('dlgModifierConducteur').show()"/>
                     &#160;
                     <p:commandButton icon="pi pi-trash"
                                      styleClass="rounded-button ui-button-danger"
                                      title="Supprimer"
                                      action="#{conducteursBean.selectionner(conducteur)}"
-                                     update="tableConducteurs"
+                                     process="@this"
+                                     update="@form"
                                      oncomplete="PF('dlgSupprimerConducteur').show()"/>
                 </p:column>
             </p:dataTable>
@@ -69,6 +71,7 @@
             <!-- Dialog : Créer conducteur -->
             <p:dialog header="Nouveau conducteur" widgetVar="dlgCreerConducteur"
                       minHeight="300" width="420" showEffect="fade" modal="true">
+                <h:panelGroup id="panelCreerConducteur" layout="block">
                 <div class="dialog-form">
                     <h:panelGrid columns="2" cellpadding="8" style="width:100%">
                         <h:outputLabel value="Prénom :"/>
@@ -93,11 +96,13 @@
                         </p:selectOneMenu>
                     </h:panelGrid>
                 </div>
+                </h:panelGroup>
                 <f:facet name="footer">
                     <p:commandButton value="Créer"
                                      icon="pi pi-check"
                                      styleClass="rounded-button ui-button-success"
                                      action="#{conducteursBean.creer()}"
+                                     process="panelCreerConducteur @this"
                                      update="tableConducteurs messageindex message"
                                      oncomplete="if(!args.validationFailed) PF('dlgCreerConducteur').hide()"/>
                     &#160;
@@ -112,7 +117,7 @@
             <!-- Dialog : Modifier conducteur -->
             <p:dialog header="Modifier conducteur" widgetVar="dlgModifierConducteur"
                       minHeight="300" width="420" showEffect="fade" modal="true">
-                <h:panelGroup rendered="#{conducteursBean.selectedDriver != null}">
+                <h:panelGroup id="panelModifierConducteur" rendered="#{conducteursBean.selectedDriver != null}">
                     <div class="dialog-form">
                         <h:panelGrid columns="2" cellpadding="8" style="width:100%">
                             <h:outputLabel value="Prénom :"/>
@@ -141,6 +146,7 @@
                                      icon="pi pi-check"
                                      styleClass="rounded-button ui-button-warning"
                                      action="#{conducteursBean.modifier()}"
+                                     process="panelModifierConducteur @this"
                                      update="tableConducteurs messageindex message"
                                      oncomplete="PF('dlgModifierConducteur').hide()"/>
                     &#160;
@@ -166,6 +172,7 @@
                                      icon="pi pi-trash"
                                      styleClass="rounded-button ui-button-danger"
                                      action="#{conducteursBean.supprimer()}"
+                                     process="@this"
                                      update="tableConducteurs messageindex message"
                                      oncomplete="PF('dlgSupprimerConducteur').hide()"/>
                     &#160;

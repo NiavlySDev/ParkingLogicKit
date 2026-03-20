@@ -45,14 +45,16 @@
                                      styleClass="rounded-button ui-button-warning"
                                      title="Modifier"
                                      action="#{vehiculesBean.selectionner(vehicule)}"
-                                     update="tableVehicules"
+                                     process="@this"
+                                     update="@form"
                                      oncomplete="PF('dlgModifierVehicule').show()"/>
                     &#160;
                     <p:commandButton icon="pi pi-trash"
                                      styleClass="rounded-button ui-button-danger"
                                      title="Supprimer"
                                      action="#{vehiculesBean.selectionner(vehicule)}"
-                                     update="tableVehicules"
+                                     process="@this"
+                                     update="@form"
                                      oncomplete="PF('dlgSupprimerVehicule').show()"/>
                 </p:column>
             </p:dataTable>
@@ -60,6 +62,7 @@
             <!-- Dialog : Créer véhicule -->
             <p:dialog header="Nouveau véhicule" widgetVar="dlgCreerVehicule"
                       minHeight="220" width="400" showEffect="fade" modal="true">
+                <h:panelGroup id="panelCreerVehicule" layout="block">
                 <div class="dialog-form">
                     <h:panelGrid columns="2" cellpadding="8" style="width:100%">
                         <h:outputLabel value="Marque :"/>
@@ -77,11 +80,13 @@
                         </p:selectOneMenu>
                     </h:panelGrid>
                 </div>
+                </h:panelGroup>
                 <f:facet name="footer">
                     <p:commandButton value="Créer"
                                      icon="pi pi-check"
                                      styleClass="rounded-button ui-button-success"
                                      action="#{vehiculesBean.creer()}"
+                                     process="panelCreerVehicule @this"
                                      update="tableVehicules messageindex message"
                                      oncomplete="if(!args.validationFailed) PF('dlgCreerVehicule').hide()"/>
                     &#160;
@@ -96,7 +101,7 @@
             <!-- Dialog : Modifier véhicule -->
             <p:dialog header="Modifier véhicule" widgetVar="dlgModifierVehicule"
                       minHeight="220" width="400" showEffect="fade" modal="true">
-                <h:panelGroup rendered="#{vehiculesBean.selectedVehicle != null}">
+                <h:panelGroup id="panelModifierVehicule" rendered="#{vehiculesBean.selectedVehicle != null}">
                     <div class="dialog-form">
                         <h:panelGrid columns="2" cellpadding="8" style="width:100%">
                             <h:outputLabel value="Marque :"/>
@@ -121,6 +126,7 @@
                                      icon="pi pi-check"
                                      styleClass="rounded-button ui-button-warning"
                                      action="#{vehiculesBean.modifier()}"
+                                     process="panelModifierVehicule @this"
                                      update="tableVehicules messageindex message"
                                      oncomplete="PF('dlgModifierVehicule').hide()"/>
                     &#160;
@@ -146,6 +152,7 @@
                                      icon="pi pi-trash"
                                      styleClass="rounded-button ui-button-danger"
                                      action="#{vehiculesBean.supprimer()}"
+                                     process="@this"
                                      update="tableVehicules messageindex message"
                                      oncomplete="PF('dlgSupprimerVehicule').hide()"/>
                     &#160;

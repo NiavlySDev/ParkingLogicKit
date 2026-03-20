@@ -5,7 +5,6 @@
                 xmlns:f="jakarta.faces.core">
         <div class="admin-page">
 
-            <!-- ===== SECTION BADGES ===== -->
             <div class="dashboard-header">
                 <h2 class="section-title">Gestion des badges</h2>
                 <p:commandButton value="Nouveau badge"
@@ -37,15 +36,14 @@
                     <p:commandButton icon="pi pi-trash"
                                      styleClass="rounded-button ui-button-danger"
                                      title="Supprimer"
-                                     action="#{badgesBean.selectionnerBadge(badge)}"
-                                     update="tableBadges"
+                                     action="#{badgesBean.selectionnerBadge(badge)}"                                     process="@this"                                     update="@form"
                                      oncomplete="PF('dlgSupprimerBadge').show()"/>
                 </p:column>
             </p:dataTable>
 
-            <!-- Dialog : Créer badge -->
             <p:dialog header="Nouveau badge" widgetVar="dlgCreerBadge"
                       minHeight="120" width="380" showEffect="fade" modal="true">
+                <h:panelGroup id="panelCreerBadge" layout="block">
                 <div class="dialog-form">
                     <h:panelGrid columns="2" cellpadding="8">
                         <h:outputLabel value="Contenu RFID :"/>
@@ -53,11 +51,13 @@
                                      placeholder="Ex: A1B2C3D4" style="width:200px"/>
                     </h:panelGrid>
                 </div>
+                </h:panelGroup>
                 <f:facet name="footer">
                     <p:commandButton value="Créer"
                                      icon="pi pi-check"
                                      styleClass="rounded-button ui-button-success"
                                      action="#{badgesBean.creerBadge()}"
+                                     process="panelCreerBadge @this"
                                      update="tableBadges tableAssociations messageindex message"
                                      oncomplete="if(!args.validationFailed) PF('dlgCreerBadge').hide()"/>
                     &#160;
@@ -82,6 +82,7 @@
                                      icon="pi pi-trash"
                                      styleClass="rounded-button ui-button-danger"
                                      action="#{badgesBean.supprimerBadge()}"
+                                     process="@this"
                                      update="tableBadges tableAssociations messageindex message"
                                      oncomplete="PF('dlgSupprimerBadge').hide()"/>
                     &#160;
@@ -131,14 +132,15 @@
                                      styleClass="rounded-button ui-button-danger"
                                      title="Supprimer"
                                      action="#{badgesBean.selectionnerAssociation(assoc)}"
-                                     update="tableAssociations"
+                                     process="@this"
+                                     update="@form"
                                      oncomplete="PF('dlgSupprimerAssoc').show()"/>
                 </p:column>
             </p:dataTable>
 
-            <!-- Dialog : Créer association -->
             <p:dialog header="Nouvelle association" widgetVar="dlgCreerAssoc"
                       minHeight="220" width="440" showEffect="fade" modal="true">
+                <h:panelGroup id="panelCreerAssoc" layout="block">
                 <div class="dialog-form">
                     <h:panelGrid columns="2" cellpadding="8" style="width:100%">
                         <h:outputLabel value="Conducteur :"/>
@@ -170,11 +172,13 @@
                         </p:selectOneMenu>
                     </h:panelGrid>
                 </div>
+                </h:panelGroup>
                 <f:facet name="footer">
                     <p:commandButton value="Associer"
                                      icon="pi pi-check"
                                      styleClass="rounded-button ui-button-success"
                                      action="#{badgesBean.creerAssociation()}"
+                                     process="panelCreerAssoc @this"
                                      update="tableAssociations messageindex message"
                                      oncomplete="if(!args.validationFailed) PF('dlgCreerAssoc').hide()"/>
                     &#160;
@@ -186,7 +190,6 @@
                 </f:facet>
             </p:dialog>
 
-            <!-- Dialog : Supprimer association -->
             <p:dialog header="Supprimer association" widgetVar="dlgSupprimerAssoc"
                       minHeight="80" width="380" showEffect="fade" modal="true">
                 <h:panelGroup rendered="#{badgesBean.selectedAssociate != null}">
@@ -201,6 +204,7 @@
                                      icon="pi pi-trash"
                                      styleClass="rounded-button ui-button-danger"
                                      action="#{badgesBean.supprimerAssociation()}"
+                                     process="@this"
                                      update="tableAssociations messageindex message"
                                      oncomplete="PF('dlgSupprimerAssoc').hide()"/>
                     &#160;

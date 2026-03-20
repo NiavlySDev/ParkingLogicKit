@@ -12,25 +12,36 @@
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css" />
 
         <script type="text/javascript">
-            function toggleDarkMode() {
-                document.body.classList.toggle('dark-mode');
-                if(document.body.classList.contains('dark-mode')) {
-                    localStorage.setItem('darkMode', '1');
+            //<![CDATA[
+            (function () {
+                if (localStorage.getItem('plk-theme') === 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                }
+            })();
+
+            function toggleTheme() {
+                var root = document.documentElement;
+                if (root.getAttribute('data-theme') === 'dark') {
+                    root.removeAttribute('data-theme');
+                    localStorage.removeItem('plk-theme');
                 } else {
-                    localStorage.removeItem('darkMode');
+                    root.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('plk-theme', 'dark');
                 }
             }
-            window.onload = function() {
-                if(localStorage.getItem('darkMode') === '1') {
-                    document.body.classList.add('dark-mode');
-                }
-            }
+            //]]>
         </script>
     </h:head>
     <h:body>
-        <button onclick="toggleDarkMode()" style="position:fixed; top:20px; right:24px; z-index:1000; border-radius:18px; padding:8px 18px; background:#ececec; border:none; color:#222; font-weight:600; cursor:pointer;">
-            🌙/☀️ Mode
+        <button class="theme-toggle" onclick="toggleTheme()" title="Basculer le thème">
+            <span class="toggle-track">
+                <span class="toggle-thumb"></span>
+            </span>
+            <span class="toggle-label-light">☀&#xFE0F; Clair</span>
+            <span class="toggle-label-dark">🌙 Sombre</span>
         </button>
+
+        <div class="main-container" style="margin-top:30px;">
         <br/>
         <h2>Gestion des Locaux</h2>
         <p:dataTable id="attribution" var="attribution" value="#{attributionsBean.attributions}" style="margin-bottom:24px;">
@@ -55,11 +66,11 @@
 
         <p:dialog header="Création Attribution" widgetVar="creation" minHeight="40" width="350" showEffect="fade">
             <h4>Utilisateur :</h4>
-            <p:selectOneMenu value="#{ajouterAttributionBean.idUtilisateur}">
+            <p:selectOneMenu value="#{ajouterAttributionBean.idUtilisateur}" required="false">
                 <f:selectItems value="#{utilisateurSelectBean.usersGroupes}"/>
             </p:selectOneMenu>
             <h4>Badge :</h4>
-            <p:selectOneMenu value="#{ajouterAttributionBean.idBadge}">
+            <p:selectOneMenu value="#{ajouterAttributionBean.idBadge}" required="false">
                 <f:selectItems value="#{badgeSelectBean.badgesGroupes}"/>
             </p:selectOneMenu>
             <f:facet name="footer">
@@ -77,7 +88,7 @@
 
         <p:dialog header="Suppression Attribution" widgetVar="suppression" minHeight="40" width="350" showEffect="fade">
             <h4>Attribution :</h4>
-            <p:selectOneMenu value="#{supprimerAttributionBean.id}">
+            <p:selectOneMenu value="#{supprimerAttributionBean.id}" required="false">
                 <f:selectItems value="#{attributionsSelectBean.attrsGroupes}"/>
             </p:selectOneMenu>
             <f:facet name="footer">
@@ -88,5 +99,6 @@
                                  update="index:fragmentPanel messageindex message index:tabMenu user"/>
             </f:facet>
         </p:dialog>
+        </div><!-- /main-container -->
     </h:body>
 </html>
