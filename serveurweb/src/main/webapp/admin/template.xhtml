@@ -66,11 +66,11 @@
 
         <p:dialog header="Création Attribution" widgetVar="creation" minHeight="40" width="350" showEffect="fade">
             <h4>Utilisateur :</h4>
-            <p:selectOneMenu value="#{ajouterAttributionBean.idUtilisateur}">
+            <p:selectOneMenu value="#{ajouterAttributionBean.idUtilisateur}" required="false">
                 <f:selectItems value="#{utilisateurSelectBean.usersGroupes}"/>
             </p:selectOneMenu>
             <h4>Badge :</h4>
-            <p:selectOneMenu value="#{ajouterAttributionBean.idBadge}">
+            <p:selectOneMenu value="#{ajouterAttributionBean.idBadge}" required="false">
                 <f:selectItems value="#{badgeSelectBean.badgesGroupes}"/>
             </p:selectOneMenu>
             <f:facet name="footer">
@@ -88,7 +88,7 @@
 
         <p:dialog header="Suppression Attribution" widgetVar="suppression" minHeight="40" width="350" showEffect="fade">
             <h4>Attribution :</h4>
-            <p:selectOneMenu value="#{supprimerAttributionBean.id}">
+            <p:selectOneMenu value="#{supprimerAttributionBean.id}" required="false">
                 <f:selectItems value="#{attributionsSelectBean.attrsGroupes}"/>
             </p:selectOneMenu>
             <f:facet name="footer">
