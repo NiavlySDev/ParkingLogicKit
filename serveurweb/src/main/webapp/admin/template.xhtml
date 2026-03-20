@@ -64,7 +64,7 @@
                          styleClass="rounded-button ui-button-success"
                          onclick="PF('creation').show()"/> &nbsp;
 
-        <p:dialog header="Création Attribution" widgetVar="creation" minHeight="40" width="350" showEffect="fade">
+        <p:dialog header="Création Attribution" widgetVar="creation" minHeight="40" width="350" showEffect="fade" modal="true">
             <h4>Utilisateur :</h4>
             <p:selectOneMenu value="#{ajouterAttributionBean.idUtilisateur}" required="false">
                 <f:selectItems value="#{utilisateurSelectBean.usersGroupes}"/>
@@ -86,7 +86,7 @@
                          styleClass="rounded-button ui-button-danger"
                          onclick="PF('suppression').show()"/>
 
-        <p:dialog header="Suppression Attribution" widgetVar="suppression" minHeight="40" width="350" showEffect="fade">
+        <p:dialog header="Suppression Attribution" widgetVar="suppression" minHeight="40" width="350" showEffect="fade" modal="true">
             <h4>Attribution :</h4>
             <p:selectOneMenu value="#{supprimerAttributionBean.id}" required="false">
                 <f:selectItems value="#{attributionsSelectBean.attrsGroupes}"/>

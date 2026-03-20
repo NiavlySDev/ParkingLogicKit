@@ -14,7 +14,6 @@
                                  onclick="PF('dlgCreerConducteur').show()"/>
             </div>
 
-            <!-- Tableau conducteurs -->
             <p:dataTable id="tableConducteurs"
                          var="conducteur"
                          value="#{conducteursBean.conducteurs}"
@@ -68,9 +67,9 @@
                 </p:column>
             </p:dataTable>
 
-            <!-- Dialog : Créer conducteur -->
             <p:dialog header="Nouveau conducteur" widgetVar="dlgCreerConducteur"
-                      minHeight="300" width="420" showEffect="fade" modal="true">
+                      minHeight="300" width="460" showEffect="fade" modal="true"
+                      dynamic="true">
                 <h:panelGroup id="panelCreerConducteur" layout="block">
                 <div class="dialog-form">
                     <h:panelGrid columns="2" cellpadding="8" style="width:100%">
@@ -94,10 +93,47 @@
                             <f:selectItem itemValue="true"  itemLabel="Homme"/>
                             <f:selectItem itemValue="false" itemLabel="Femme"/>
                         </p:selectOneMenu>
+                        <h:outputText value="Créer badge auto :"/>
+                        <p:selectBooleanCheckbox value="#{conducteursBean.creationBadge}" itemLabel="">
+                            <p:ajax update="panelCreerConducteur"
+                                    oncomplete="PF('dlgCreerConducteur').initPosition();"/>
+                        </p:selectBooleanCheckbox>
+
+                        <h:outputText value="Créer un véhicule :"/>
+                        <p:selectBooleanCheckbox value="#{conducteursBean.creationVehicule}" itemLabel="">
+                            <p:ajax update="panelCreerConducteur"
+                                    oncomplete="PF('dlgCreerConducteur').initPosition();"/>
+                        </p:selectBooleanCheckbox>
+
+                        <h:outputText value="Créer association auto :"/>
+                        <p:selectBooleanCheckbox value="#{conducteursBean.creationAssocation}" itemLabel=""
+                                                 disabled="#{!conducteursBean.creationBadge or !conducteursBean.creationVehicule}"/>
                     </h:panelGrid>
+
+                    <h:panelGroup id="vehiculeSection" rendered="#{conducteursBean.creationVehicule}" layout="block"
+                                  style="margin-top:12px; border-top:1px solid var(--border); padding-top:12px;">
+                        <h4 style="margin:0 0 8px 0; font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--text-secondary);">Véhicule</h4>
+                        <h:panelGrid columns="2" cellpadding="8" style="width:100%">
+                            <h:outputLabel value="Marque :"/>
+                            <p:inputText value="#{conducteursBean.newBrand}"
+                                         required="#{conducteursBean.creationVehicule}"
+                                         placeholder="Marque" style="width:200px"/>
+                            <h:outputLabel value="Immatriculation :"/>
+                            <p:inputText value="#{conducteursBean.newNumberPlate}"
+                                         required="#{conducteursBean.creationVehicule}"
+                                         placeholder="AB-123-CD" style="width:200px"/>
+                            <h:outputLabel value="Type :"/>
+                            <p:selectOneMenu value="#{conducteursBean.newVehicleType}" style="width:200px">
+                                <f:selectItems value="#{conducteursBean.vehicleTypes}"
+                                               var="vt"
+                                               itemValue="#{vt}"
+                                               itemLabel="#{vt.name}"/>
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                    </h:panelGroup>
                 </div>
                 </h:panelGroup>
-                <f:facet name="footer">
+                <f:facet name="footer"> 
                     <p:commandButton value="Créer"
                                      icon="pi pi-check"
                                      styleClass="rounded-button ui-button-success"

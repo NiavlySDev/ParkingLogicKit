@@ -36,7 +36,9 @@
                     <p:commandButton icon="pi pi-trash"
                                      styleClass="rounded-button ui-button-danger"
                                      title="Supprimer"
-                                     action="#{badgesBean.selectionnerBadge(badge)}"                                     process="@this"                                     update="@form"
+                                     action="#{badgesBean.selectionnerBadge(badge)}"                                     
+                                     process="@this"                                     
+                                     update="@form"
                                      oncomplete="PF('dlgSupprimerBadge').show()"/>
                 </p:column>
             </p:dataTable>
