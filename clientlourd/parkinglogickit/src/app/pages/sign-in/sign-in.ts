@@ -1,16 +1,18 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { DriverService } from '../../../Rest/DriverService';
 import { Driver } from '../../../Auth/Driver';
 import { Router } from '@angular/router';
 import { PrimengModule } from '../../shared/primeng.module';
 import { MessageService } from 'primeng/api';
+
+
 // author Ethan
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [FormsModule, CommonModule, PrimengModule],
+  imports: [FormsModule, CommonModule, PrimengModule, NgClass],
   templateUrl: './sign-in.html',
   styleUrls: ['./sign-in.css'],
   providers: [MessageService],
