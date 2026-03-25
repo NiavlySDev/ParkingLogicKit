@@ -8,8 +8,16 @@ import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import lml.snir.parkinglogickit.metier.entity.Associate;
+import lml.snir.parkinglogickit.metier.entity.Badge;
 import lml.snir.parkinglogickit.metier.entity.Driver;
+import lml.snir.parkinglogickit.metier.entity.Vehicle;
+import lml.snir.parkinglogickit.metier.entity.VehicleType;
+import lml.snir.parkinglogickit.metier.transactionel.AssociateService;
+import lml.snir.parkinglogickit.metier.transactionel.BadgeService;
 import lml.snir.parkinglogickit.metier.transactionel.DriverService;
+import lml.snir.parkinglogickit.metier.transactionel.VehicleService;
 import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 
 /**
@@ -30,6 +38,14 @@ public class ConducteursBean implements Serializable {
     private int newAge;
     private boolean newIsMale = true;
 
+    private boolean creationBadge;
+    private boolean creationVehicule;
+    private boolean creationAssocation;
+    
+    private String newBrand;
+    private String newNumberPlate;
+    private VehicleType newVehicleType = VehicleType.Voiture;
+    
     @PostConstruct
     public void init() {
         charger();
@@ -46,6 +62,10 @@ public class ConducteursBean implements Serializable {
     public void creer() {
         try {
             DriverService ds = MetierFactory.getDriverService();
+            BadgeService bs = MetierFactory.getBadgeService();
+            AssociateService as = MetierFactory.getAssociateService();
+            VehicleService vs = MetierFactory.getVehicleService();
+
             Driver d = new Driver();
             d.setFirstName(newFirstName);
             d.setLastName(newLastName);
@@ -54,7 +74,38 @@ public class ConducteursBean implements Serializable {
             d.setAge(newAge);
             d.setIsMale(newIsMale);
             ds.add(d);
-            addInfo("Conducteur " + newUsername + " créé.");
+
+            Badge b = null;
+            if (creationBadge) {
+                String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                StringBuilder result = new StringBuilder();
+                Random rng = new Random();
+                for (int i = 0; i < 11; i++) {
+                    result.append(CHARS.charAt(rng.nextInt(CHARS.length())));
+                }
+                b = new Badge();
+                b.setContent(result.toString());
+                bs.add(b);
+            }
+
+            Vehicle v = null;
+            if (creationVehicule) {
+                v = new Vehicle();
+                v.setBrand(newBrand);
+                v.setNumberPlate(newNumberPlate);
+                v.setType(newVehicleType);
+                vs.add(v);
+            }
+
+            if (creationAssocation && creationBadge && creationVehicule) {
+                Associate a = new Associate();
+                a.setBadge(b);
+                a.setDriver(d);
+                a.setVehicle(v);
+                as.add(a);
+            }
+
+            addInfo("Conducteur " + newUsername + " créé avec succès.");
             resetForm();
             charger();
         } catch (Exception e) {
@@ -80,10 +131,13 @@ public class ConducteursBean implements Serializable {
             return;
         }
         try {
-            MetierFactory.getDriverService().remove(selectedDriver);
-            addInfo("Conducteur supprimé.");
+            DriverService ds = MetierFactory.getDriverService();
+            
+            ds.remove(selectedDriver);
+            
             selectedDriver = null;
             charger();
+            addInfo("Conducteur " + newUsername + " supprimés, Badge et Assiciation également.");
         } catch (Exception e) {
             addError("Erreur suppression : " + e.getMessage());
         }
@@ -100,6 +154,12 @@ public class ConducteursBean implements Serializable {
         newPassword = null;
         newAge = 0;
         newIsMale = true;
+        creationBadge = false;
+        creationVehicule = false;
+        creationAssocation = false;
+        newBrand = null;
+        newNumberPlate = null;
+        newVehicleType = VehicleType.Voiture;
     }
 
     private void addInfo(String msg) {
@@ -171,4 +231,58 @@ public class ConducteursBean implements Serializable {
     public void setNewIsMale(boolean v) {
         this.newIsMale = v;
     }
+
+    public boolean isCreationBadge() {
+        return creationBadge;
+    }
+
+    public void setCreationBadge(boolean creationBadge) {
+        this.creationBadge = creationBadge;
+    }
+
+    public boolean isCreationVehicule() {
+        return creationVehicule;
+    }
+
+    public void setCreationVehicule(boolean creationVehicule) {
+        this.creationVehicule = creationVehicule;
+    }
+
+    public boolean isCreationAssocation() {
+        return creationAssocation;
+    }
+
+    public void setCreationAssocation(boolean creationAssocation) {
+        this.creationAssocation = creationAssocation;
+    }
+
+    public String getNewBrand() {
+        return newBrand;
+    }
+
+    public void setNewBrand(String newBrand) {
+        this.newBrand = newBrand;
+    }
+
+    public String getNewNumberPlate() {
+        return newNumberPlate;
+    }
+
+    public void setNewNumberPlate(String newNumberPlate) {
+        this.newNumberPlate = newNumberPlate;
+    }
+
+    public VehicleType getNewVehicleType() {
+        return newVehicleType;
+    }
+
+    public void setNewVehicleType(VehicleType newVehicleType) {
+        this.newVehicleType = newVehicleType;
+    }
+    
+    public VehicleType[] getVehicleTypes() {
+        return VehicleType.values();
+    }
+    
+    
 }

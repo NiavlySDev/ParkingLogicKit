@@ -16,7 +16,7 @@
                 <p:commandButton value="Changement Mot de Passe" type="button" icon="pi pi-file-edit"
                                  styleClass="rounded-button ui-button-warning"
                                  onclick="PF('changemenet_mdp').show()"/>
-                <p:dialog header="Changement Mot de Passe" widgetVar="changemenet_mdp" minHeight="40" width="350" showEffect="fade">
+                <p:dialog header="Changement Mot de Passe" widgetVar="changemenet_mdp" minHeight="40" width="350" showEffect="fade" modal="true">
                     <h4>Mot de Passe Actuel</h4>
                     <p:password value="#{mdpChangeBean.currentPassword}" toggleMask="true" redisplay="true" required="false"/><br/><br/>
                     <h4>Nouveau Mot de Passe</h4>

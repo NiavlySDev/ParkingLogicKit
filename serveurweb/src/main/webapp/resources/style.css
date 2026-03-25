@@ -276,7 +276,7 @@ h3, h4 {
     margin-bottom: 28px !important;
     box-shadow: var(--shadow-md) !important;
     overflow: hidden;
-    padding: 4px 6px !important;
+    padding: 6px 10px !important;
     transition: background var(--speed) var(--ease), border-color var(--speed) var(--ease) !important;
 }
 
@@ -306,11 +306,11 @@ h3, h4 {
 .ui-tabmenu .ui-tabmenu-nav li .ui-menuitem-link {
     display: flex !important;
     align-items: center !important;
-    gap: 6px !important;
+    gap: 7px !important;
     border: none !important;
     border-radius: var(--r-lg) !important;
-    padding: 8px 18px !important;
-    font-size: 13.5px !important;
+    padding: 11px 24px !important;
+    font-size: 15px !important;
     font-weight: 500 !important;
     color: var(--text-secondary) !important;
     background: transparent !important;
@@ -887,6 +887,13 @@ h:outputLabel {
 /* ================================================================
    12. MESSAGES & GROWL
    ================================================================ */
+/* Hide the container entirely when there are no messages */
+.ui-messages:not(:has(.ui-messages-info, .ui-messages-warn, .ui-messages-error, .ui-messages-fatal)) {
+    display: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+}
 .ui-messages {
     border-radius: var(--r-md) !important;
     border: none !important;
