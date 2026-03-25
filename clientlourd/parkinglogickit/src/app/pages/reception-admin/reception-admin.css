@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --purple: #7c3aed;
+  --purple-light: #a855f7;
+  --text-muted: #6b7280;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #c084fc 0%, #818cf8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.app-wrapper {
+  background: rgba(245, 243, 255, 0.6);
+  backdrop-filter: blur(20px);
+  border-radius: 2rem;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 900px;
+  box-shadow: 0 20px 60px rgba(109, 40, 217, 0.25);
+}
+
+/* ── MENUBAR ── */
+.p-menubar {
+  border-radius: 1.25rem !important;
+  margin-bottom: 1.5rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ── CARD ── */
+.p-card {
+  border-radius: 1.5rem !important;
+  text-align: center;
+  animation: fadeUp 0.5s ease both;
+}
+
+.p-card-body {
+  padding: 3rem 2rem !important;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--purple);
+  margin-bottom: 0.5rem;
+}
+
+.p-card p {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+/* ── BOUTONS ── */
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
