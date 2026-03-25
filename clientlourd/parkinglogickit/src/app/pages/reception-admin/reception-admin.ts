@@ -1,18 +1,29 @@
-// reception-admin.component.ts
-import { MenuItem } from 'primeng/api';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { PrimengModule } from '../../shared/primeng.module';
 
+@Component({
+  selector: 'app-reception-admin',
+  standalone: true,
+  imports: [FormsModule, CommonModule, PrimengModule, RouterLink],
+  templateUrl: './reception-admin.html',
+  styleUrls: ['./reception-admin.css'],
+})
 export class ReceptionAdmin {
-  username = 'Admin';
+  username: string = '';
 
-  menuItems: MenuItem[] = [
-    { label: 'Accueil',      icon: 'pi pi-home',        routerLink: ['/accueil'] },
-    { label: 'Dashboard',    icon: 'pi pi-chart-bar',   routerLink: ['/dashboard'] },
-    { label: 'Journal',      icon: 'pi pi-book',        routerLink: ['/journal'] },
-    { separator: true },
-    { label: 'Conducteurs',  icon: 'pi pi-users',       routerLink: ['/conducteurs'] },
-    { label: 'Vehicules',    icon: 'pi pi-car',         routerLink: ['/vehicules'] },
-    { label: 'Badges',       icon: 'pi pi-id-card',     routerLink: ['/badges'] },
-    { separator: true },
-    { label: 'Compte',       icon: 'pi pi-user',        routerLink: ['/compte'] },
-  ];
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router  // ← ajouté
+  ) {
+    this.username = this.route.snapshot.queryParamMap.get('username') ?? '';
+  }
+
+  goHome(): void {
+    this.router.navigate(['/reception-admin'], {
+      queryParams: { username: this.username }
+    });
+  }
 }

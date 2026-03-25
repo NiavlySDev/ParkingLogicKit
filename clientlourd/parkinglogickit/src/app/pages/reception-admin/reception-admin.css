@@ -1,74 +1,137 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --purple: #7c3aed;
-  --purple-light: #a855f7;
-  --text-muted: #6b7280;
-}
-
-body {
-  font-family: 'Poppins', sans-serif;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #c084fc 0%, #818cf8 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-}
-
-.app-wrapper {
-  background: rgba(245, 243, 255, 0.6);
-  backdrop-filter: blur(20px);
-  border-radius: 2rem;
-  padding: 1.5rem;
-  width: 100%;
-  max-width: 900px;
-  box-shadow: 0 20px 60px rgba(109, 40, 217, 0.25);
-}
-
-/* ── MENUBAR ── */
-.p-menubar {
-  border-radius: 1.25rem !important;
-  margin-bottom: 1.5rem;
-  font-family: 'Poppins', sans-serif;
-}
-
-/* ── CARD ── */
-.p-card {
-  border-radius: 1.5rem !important;
-  text-align: center;
-  animation: fadeUp 0.5s ease both;
-}
-
-.p-card-body {
-  padding: 3rem 2rem !important;
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--purple);
-  margin-bottom: 0.5rem;
-}
-
-.p-card p {
-  font-size: 1rem;
-  color: var(--text-muted);
-  margin-bottom: 2rem;
-}
-
-/* ── BOUTONS ── */
-.actions {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-top: 1.5rem;
-}
+/* =========================
+   RESET + BASE
+   ========================= */
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* =========================
+     PAGE
+     ========================= */
+  body {
+    min-height: 100vh;
+    background: #e4ecf5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* =========================
+     NAVBAR
+     ========================= */
+  .navbar {
+    width: 100%;
+    background: #ffffff;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    padding: 14px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+  
+  .navbar-logo {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .navbar-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1e293b;
+  }
+  
+  .navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .navbar-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: #1e293b;
+    background: #f1f5f9;
+    padding: 8px 16px;
+    border-radius: 30px;
+  }
+  
+  /* =========================
+     CARTE PRINCIPALE
+     ========================= */
+  .container {
+    background: #ffffff;
+    width: 100%;
+    max-width: 800px;
+    padding: 80px 60px;
+    border-radius: 18px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    margin-top: 40px;
+  }
+  
+  /* =========================
+     TITRE
+     ========================= */
+  h1 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 700;
+    color: #1e293b;
+    text-align: center;
+  }
+  
+  .subtitle {
+    color: #64748b;
+    font-size: 1rem;
+  }
+  
+  /* =========================
+     BOUTONS
+     ========================= */
+  .actions {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  /* =========================
+     RESPONSIVE
+     ========================= */
+  @media (max-width: 768px) {
+    .navbar-links {
+      display: none; /* ← masquer les boutons navbar sur mobile */
+    }
+  
+    .container {
+      padding: 40px 20px;
+      margin-top: 20px;
+    }
+  
+    h1 {
+      font-size: 1.5rem;
+    }
+  
+    .actions {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
