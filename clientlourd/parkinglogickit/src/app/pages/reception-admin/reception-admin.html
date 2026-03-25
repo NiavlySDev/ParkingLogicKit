@@ -1,50 +1,79 @@
 <!-- author Ethan-->
 <head>
-    <meta charset="UTF-8" />
-    <title>Accueil Admin</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="reception-admin.css" />
-  </head>
-  <body>
-  
-  <div class="app-wrapper">
-  
-    <p-menubar [model]="menuItems"></p-menubar>
-  
-    <main class="container">
-      <p-card>
-        <h1>Bienvenue {{ username }} !</h1>
-        <p>Sur le panneau d'administration de ParkingLogicKit</p>
-  
-        <div class="actions">
-          <p-button
-            label="Créer un compte"
-            icon="pi pi-user-plus"
-            [routerLink]="['/sign-up']"
-            size="large"
-            [rounded]="true"
-            severity="success"
-          ></p-button>
-          <p-button
-            label="Modifier un compte"
-            icon="pi pi-user-edit"
-            [routerLink]="['/']"
-            size="large"
-            [rounded]="true"
-            severity="info"
-          ></p-button>
-          <p-button
-            label="Supprimer un compte"
-            icon="pi pi-user-minus"
-            [routerLink]="['/']"
-            size="large"
-            [rounded]="true"
-            severity="danger"
-          ></p-button>
-        </div>
-      </p-card>
-    </main>
-  
-  </div>
-  
-  </body>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="reception-admin.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <img src="logo-home.png" alt="Accueil" class="navbar-logo" (click)="goHome()" />
+      <span class="navbar-title">ParkingLogicKit</span>
+    </div>
+    <div class="navbar-links">
+      <p-button
+        label="Créer"
+        icon="pi pi-user-plus"
+        [routerLink]="['/sign-up']"
+        [rounded]="true"
+        severity="success"
+        size="small"
+      ></p-button>
+      <p-button
+        label="Modifier"
+        icon="pi pi-user-edit"
+        [routerLink]="['/']"
+        [rounded]="true"
+        severity="info"
+        size="small"
+      ></p-button>
+      <p-button
+        label="Supprimer"
+        icon="pi pi-user-minus"
+        [routerLink]="['/']"
+        [rounded]="true"
+        severity="danger"
+        size="small"
+      ></p-button>
+    </div>
+    <div class="navbar-user">
+      <i class="pi pi-user"></i>
+      <span>{{ username }}</span>
+    </div>
+  </nav>
+
+  <!-- Contenu principal -->
+  <main class="container">
+    <h1>Bienvenue à la réception, {{ username }} 👋</h1>
+    <p class="subtitle">Que souhaitez-vous faire ?</p>
+    <div class="actions">
+      <p-button
+        label="Créer un Driver"
+        icon="pi pi-user-plus"
+        [routerLink]="['/sign-up']"
+        size="large"
+        [rounded]="true"
+        severity="success"
+      ></p-button>
+      <p-button
+        label="Modifier un Driver"
+        icon="pi pi-user-edit"
+        [routerLink]="['/']"
+        size="large"
+        [rounded]="true"
+        severity="info"
+      ></p-button>
+      <p-button
+        label="Supprimer un Driver"
+        icon="pi pi-user-minus"
+        [routerLink]="['/']"
+        size="large"
+        [rounded]="true"
+        severity="danger"
+      ></p-button>
+    </div>
+  </main>
+
+</body>

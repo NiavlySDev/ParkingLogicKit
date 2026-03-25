@@ -32,7 +32,7 @@ export class SignUp {
   constructor(private restServer: RestServer, private router: Router) {}
 
   goHome(): void {
-    this.router.navigate(['/']); // redirige vers Home
+    this.router.navigate(['/reception-admin']); // redirige vers Home
   }
   onSubmit(): void {
     if (
