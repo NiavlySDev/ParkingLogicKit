@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RestServer } from '../../../Rest/RestServer';
-import { Driver } from '../../../Auth/Driver.js';
+import { RestServer } from '../../../../Rest/RestServer';
+import { Driver } from '../../../../Auth/Driver.js';
 import { Router } from '@angular/router';
 
 // author Ethan
@@ -23,7 +23,7 @@ export class SignUp {
   isMale: boolean | null = null;
   DriverType: number | null = null;
   addCar: VehicleType | null = null;
-  VehicleType = VehicleType; // exposé au HTML
+  VehicleType = VehicleType;
 
   isLoading: boolean = false;
   message: string = '';
@@ -32,7 +32,7 @@ export class SignUp {
   constructor(private restServer: RestServer, private router: Router) {}
 
   goHome(): void {
-    this.router.navigate(['/reception-admin']); // redirige vers Home
+    this.router.navigate(['/reception-admin']);
   }
   onSubmit(): void {
     if (

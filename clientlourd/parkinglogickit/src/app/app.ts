@@ -1,7 +1,7 @@
 import { Component, signal, HostListener } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { PrimengModule } from './shared/primeng.module';
-import { AuthService } from '../Auth/auth.service'; // ← ajouté
+import { AuthService } from '../Auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -13,9 +13,8 @@ import { AuthService } from '../Auth/auth.service'; // ← ajouté
 export class App {
   protected readonly title = signal('ParkingLogicKit');
 
-  constructor(private authService: AuthService) {} // ← ajouté
+  constructor(private authService: AuthService) {}
 
-  // ← détecte les interactions utilisateur et reset le timer
   @HostListener('document:click')
   @HostListener('document:keypress')
   @HostListener('document:touchstart')

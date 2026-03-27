@@ -6,7 +6,7 @@ import { Driver } from '../../../Auth/Driver';
 import { Router } from '@angular/router';
 import { PrimengModule } from '../../shared/primeng.module';
 import { MessageService } from 'primeng/api';
-import { AuthService } from '../../../Auth/auth.service'; // ← ajouté
+import { AuthService } from '../../../Auth/auth.service';
 // author Ethan
 @Component({
   selector: 'app-sign-in',
@@ -28,7 +28,7 @@ export class SignIn {
     private router: Router,
     private messageService: MessageService,
     private cdr: ChangeDetectorRef,
-    private authService: AuthService  // ← ajouté
+    private authService: AuthService
   ) {}
 
   goHome(): void {
@@ -62,11 +62,11 @@ export class SignIn {
       next: (driver: any) => {
         this.isLoading = false;
         if (driver.password === this.password) {
-          this.authService.setUser(this.username, driver.class); // ← ajouté
+          this.authService.setUser(this.username, driver.class);
           if (driver.class.includes('Admin')) {
-            this.router.navigate(['/reception-admin']); // ← plus de queryParams
+            this.router.navigate(['/reception-admin']);
           } else {
-            this.router.navigate(['/reception']); // ← plus de queryParams
+            this.router.navigate(['/reception']);
           }
         } else {
           this.message = 'Mot de passe incorrect';
