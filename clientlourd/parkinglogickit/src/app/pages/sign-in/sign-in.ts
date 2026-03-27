@@ -6,7 +6,7 @@ import { Driver } from '../../../Auth/Driver';
 import { Router } from '@angular/router';
 import { PrimengModule } from '../../shared/primeng.module';
 import { MessageService } from 'primeng/api';
-import { AuthService } from '../../../Auth/auth.service';
+import { AuthService } from '../../../Auth/auth.service'; // ← ajouté
 // author Ethan
 @Component({
   selector: 'app-sign-in',
@@ -28,7 +28,7 @@ export class SignIn {
     private router: Router,
     private messageService: MessageService,
     private cdr: ChangeDetectorRef,
-    private authService: AuthService // ← ajouté
+    private authService: AuthService  // ← ajouté
   ) {}
 
   goHome(): void {
