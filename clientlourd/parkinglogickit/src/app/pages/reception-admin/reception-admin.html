@@ -27,8 +27,13 @@
         Gestion Drivers
       </button>
     </div>
-    <div class="navbar-user">
+    <div class="navbar-user" (click)="toggleMenu()">
       <span>{{ username }}</span>
+      <div class="dropdown-menu" *ngIf="menuOpen">
+        <div class="dropdown-item" (click)="goProfile()">Mon profil</div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item danger" (click)="logout()">Se déconnecter</div>
+      </div>
     </div>
   </nav>
 
