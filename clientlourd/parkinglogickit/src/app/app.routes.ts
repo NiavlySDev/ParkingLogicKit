@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { Home } from './pages/home/home';
 import { SignIn } from './pages/sign-in/sign-in';
-import { SignUp } from './pages/sign-up/sign-up';
+import { SignUp } from './pages/reception-admin/sign-up/sign-up';
 import { Reception } from './pages/reception/reception';
 import { ReceptionAdmin } from './pages/reception-admin/reception-admin';
 import { AuthGuard } from '../Auth/auth.guard';
