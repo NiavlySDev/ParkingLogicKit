@@ -1,5 +1,4 @@
 <div class="sign-up">
-
   <button class="home-button" (click)="goHome()" aria-label="Accueil">
     <img src="logo-home.png" alt="Accueil" class="home-logo" />
   </button>
@@ -17,7 +16,7 @@
           class="form-input"
           [(ngModel)]="firstname"
           name="firstName"
-          placeholder="Entrez votre prénom"
+          placeholder="Entrez le prénom"
           required
         />
       </div>
@@ -31,7 +30,7 @@
           class="form-input"
           [(ngModel)]="lastName"
           name="lastName"
-          placeholder="Entrez votre nom"
+          placeholder="Entrez le nom"
           required
         />
       </div>
@@ -45,7 +44,7 @@
           class="form-input"
           [(ngModel)]="username"
           name="username"
-          placeholder="Entrez votre username"
+          placeholder="Entrez un username"
           required
         />
       </div>
@@ -59,7 +58,7 @@
           class="form-input"
           [(ngModel)]="password"
           name="password"
-          placeholder="Entrez votre mot de passe"
+          placeholder="Entrez un mot de passe"
           required
         />
       </div>
@@ -75,7 +74,7 @@
           name="age"
           min="1"
           max="120"
-          placeholder="Entrez votre âge"
+          placeholder="Entrez l'âge"
           required
         />
       </div>
@@ -83,13 +82,7 @@
       <!-- Genre -->
       <div class="form-group">
         <label for="isMale">Genre</label>
-        <select
-          id="isMale"
-          class="form-input"
-          [(ngModel)]="isMale"
-          name="isMale"
-          required
-        >
+        <select id="isMale" class="form-input" [(ngModel)]="isMale" name="isMale" required>
           <option [ngValue]="null" disabled>Sélectionnez votre genre</option>
           <option [ngValue]="true">Masculin</option>
           <option [ngValue]="false">Féminin</option>
@@ -113,7 +106,7 @@
         </select>
       </div>
 
-      <!-- Ajouter un véhicule -->
+      <!-- Ajouter un véhicule 
       <div class="form-group">
         <label for="addCar">Ajouter un véhicule</label>
         <select id="addCar" class="form-input" [(ngModel)]="addCar" name="addCar" required>
@@ -123,7 +116,7 @@
           <option [ngValue]="VehicleType.Van">Camionnette</option>
         </select>
       </div>
-
+-->
       <!-- Bouton Submit -->
       <div class="form-actions">
         <button type="submit" class="btn-submit" [disabled]="isLoading">

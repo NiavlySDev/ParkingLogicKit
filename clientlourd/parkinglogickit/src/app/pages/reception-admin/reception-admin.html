@@ -5,48 +5,85 @@
   <link rel="stylesheet" href="reception-admin.css" />
 </head>
 <body>
-
   <!-- Navbar -->
   <nav class="navbar">
-    <div class="navbar-brand">
-      <img src="logo-home.png" alt="Accueil" class="navbar-logo" (click)="goHome()" />
+    <div class="navbar-brand" (click)="goHome()">
+      <img src="logo-home.png" alt="Accueil" class="navbar-logo" />
       <span class="navbar-title">ParkingLogicKit</span>
     </div>
     <div class="navbar-links">
-      <p-button
-        label="Créer"
-        icon="pi pi-user-plus"
-        [routerLink]="['/sign-up']"
-        [rounded]="true"
-        severity="success"
-        size="small"
-      ></p-button>
-      <p-button
-        label="Modifier"
-        icon="pi pi-user-edit"
-        [routerLink]="['/']"
-        [rounded]="true"
-        severity="info"
-        size="small"
-      ></p-button>
-      <p-button
-        label="Supprimer"
-        icon="pi pi-user-minus"
-        [routerLink]="['/']"
-        [rounded]="true"
-        severity="danger"
-        size="small"
-      ></p-button>
+      <button
+        class="nav-btn"
+        [class.active]="activeTab === 'dashboard'"
+        (click)="activeTab = 'dashboard'"
+      >
+        Dashboard
+      </button>
+      <button
+        class="nav-btn"
+        [class.active]="activeTab === 'drivers'"
+        (click)="activeTab = 'drivers'"
+      >
+        Gestion Drivers
+      </button>
     </div>
     <div class="navbar-user">
-      <i class="pi pi-user"></i>
       <span>{{ username }}</span>
     </div>
   </nav>
 
-  <!-- Contenu principal -->
-  <main class="container">
-    <h1>Bienvenue à la réception, {{ username }} 👋</h1>
+  <!-- VUE DASHBOARD -->
+  <main class="container" *ngIf="activeTab === 'dashboard'">
+    <h1>Dashboard 📊</h1>
+    <p class="subtitle">État du parking en temps réel</p>
+
+    <div class="dashboard">
+      <div class="card card-success">
+        <div class="card-info">
+          <span class="card-label">Places libres</span>
+          <span class="card-value">{{ placesLibres }}</span>
+        </div>
+      </div>
+      <div class="card card-danger">
+        <div class="card-info">
+          <span class="card-label">Places occupées</span>
+          <span class="card-value">{{ placesOccupees }}</span>
+        </div>
+      </div>
+      <div class="card card-info-bg">
+        <div class="card-info">
+          <span class="card-label">Total places</span>
+          <span class="card-value">{{ placesTotal }}</span>
+        </div>
+      </div>
+      <div class="card card-warning">
+        <div class="card-info">
+          <span class="card-label">Taux d'occupation</span>
+          <span class="card-value">{{ tauxOccupation }}%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress-section">
+      <span class="progress-label">Occupation du parking</span>
+      <div class="progress-bar">
+        <div
+          class="progress-fill"
+          [style.width]="tauxOccupation + '%'"
+          [ngClass]="{
+            'fill-success': tauxOccupation < 50,
+            'fill-warning': tauxOccupation >= 50 && tauxOccupation < 80,
+            'fill-danger': tauxOccupation >= 80
+          }"
+        ></div>
+      </div>
+      <span class="progress-percent">{{ tauxOccupation }}%</span>
+    </div>
+  </main>
+
+  <!-- VUE GESTION DRIVERS -->
+  <main class="container" *ngIf="activeTab === 'drivers'">
+    <h1>Gestion Drivers 👥</h1>
     <p class="subtitle">Que souhaitez-vous faire ?</p>
     <div class="actions">
       <p-button
@@ -75,5 +112,4 @@
       ></p-button>
     </div>
   </main>
-
 </body>
