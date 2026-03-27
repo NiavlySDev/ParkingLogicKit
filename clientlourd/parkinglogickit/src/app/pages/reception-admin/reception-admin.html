@@ -17,18 +17,17 @@
         [class.active]="activeTab === 'dashboard'"
         (click)="activeTab = 'dashboard'"
       >
-        <i class="pi pi-chart-bar"></i> Dashboard
+        Dashboard
       </button>
       <button
         class="nav-btn"
         [class.active]="activeTab === 'drivers'"
         (click)="activeTab = 'drivers'"
       >
-        <i class="pi pi-users"></i> Gestion Drivers
+        Gestion Drivers
       </button>
     </div>
     <div class="navbar-user">
-      <i class="pi pi-user"></i>
       <span>{{ username }}</span>
     </div>
   </nav>
@@ -40,28 +39,24 @@
 
     <div class="dashboard">
       <div class="card card-success">
-        <i class="pi pi-check-circle card-icon"></i>
         <div class="card-info">
           <span class="card-label">Places libres</span>
           <span class="card-value">{{ placesLibres }}</span>
         </div>
       </div>
       <div class="card card-danger">
-        <i class="pi pi-times-circle card-icon"></i>
         <div class="card-info">
           <span class="card-label">Places occupées</span>
           <span class="card-value">{{ placesOccupees }}</span>
         </div>
       </div>
       <div class="card card-info-bg">
-        <i class="pi pi-car card-icon"></i>
         <div class="card-info">
           <span class="card-label">Total places</span>
           <span class="card-value">{{ placesTotal }}</span>
         </div>
       </div>
       <div class="card card-warning">
-        <i class="pi pi-chart-bar card-icon"></i>
         <div class="card-info">
           <span class="card-label">Taux d'occupation</span>
           <span class="card-value">{{ tauxOccupation }}%</span>
