@@ -1,2 +1,67 @@
-<p>reception works!</p>
-<h1>Bienvenue à la réception {{ username }}</h1>
+<nav class="navbar">
+  <div class="navbar-brand" (click)="goHome()">
+    <img src="logo-home.png" alt="Accueil" class="navbar-logo" />
+    <span class="navbar-title">ParkingLogicKit</span>
+  </div>
+  <div class="navbar-links">
+    <button class="nav-btn" [class.active]="activeTab === 'dashboard'" (click)="activeTab = 'dashboard'">Dashboard</button>
+  </div>
+
+  <div class="navbar-welcome">Bienvenue à la réception MS</div>
+
+
+    <div class="navbar-user" (click)="toggleUserMenu()">
+      <span class="user-name">{{ username }}</span>
+      <span class="user-caret">▾</span>
+      <div class="user-menu" *ngIf="showUserMenu">
+        <button class="user-menu-item" (click)="logout(); $event.stopPropagation()">Se déconnecter</button>
+      </div>
+    </div>
+
+</nav>
+
+
+<main class="page-main">
+  <div class="container" *ngIf="activeTab === 'dashboard'">
+    <h1>Dashboard📊</h1>
+    <p class="subtitle">État du parking en temps réel</p>
+    <div class="dashboard">
+      <div class="card card-success">
+        <div class="card-info">
+          <span class="card-label">Places libres</span>
+          <span class="card-value">{{ placesLibres }}</span>
+        </div>
+      </div>
+      <div class="card card-danger">
+        <div class="card-info">
+          <span class="card-label">Places occupées</span>
+          <span class="card-value">{{ placesOccupees }}</span>
+        </div>
+      </div>
+      <div class="card card-info-bg">
+        <div class="card-info">
+          <span class="card-label">Total places</span>
+          <span class="card-value">{{ placesTotal }}</span>
+        </div>
+      </div>
+      <div class="card card-warning">
+        <div class="card-info">
+          <span class="card-label">Taux d'occupation</span>
+          <span class="card-value">{{ tauxOccupation }}%</span>
+        </div>
+      </div>
+    </div>
+    <div class="progress-section">
+      <span class="progress-label">Occupation du parking</span>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width]="tauxOccupation + '%'"
+          [ngClass]="{ 'fill-success': tauxOccupation < 50, 'fill-warning': tauxOccupation >= 50 && tauxOccupation < 80, 'fill-danger': tauxOccupation >= 80 }">
+        </div>
+      </div>
+      <span class="progress-percent">{{ tauxOccupation }}%</span>
+    </div>
+  </div>
+
+
+</main>
+<span class="card-value">
