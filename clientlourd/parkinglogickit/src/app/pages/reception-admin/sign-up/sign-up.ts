@@ -22,8 +22,6 @@ export class SignUp {
   age: number | null = null;
   isMale: boolean | null = null;
   DriverType: number | null = null;
-  addCar: VehicleType | null = null;
-  VehicleType = VehicleType;
 
   isLoading: boolean = false;
   message: string = '';
@@ -42,8 +40,7 @@ export class SignUp {
       !this.password ||
       this.age === null ||
       this.isMale === null ||
-      this.DriverType === null ||
-      this.addCar === null
+      this.DriverType === null
     ) {
       this.setMessage('Tous les champs sont obligatoires', 'error');
       return;
@@ -70,7 +67,6 @@ export class SignUp {
       password: this.password,
       age: this.age,
       isMale: this.isMale,
-      vehicleType: this.addCar,
       class: DriverClass,
     };
 
@@ -105,12 +101,5 @@ export class SignUp {
     this.age = null;
     this.isMale = null;
     this.DriverType = null;
-    this.addCar = null;
   }
-}
-
-export enum VehicleType {
-  Car = 'Car',
-  Motorcycle = 'Motorcycle',
-  Van = 'Van',
 }

@@ -1,1 +1,126 @@
-<p>modify-user works!</p>
+<div class="sign-up">
+  <button class="home-button" (click)="goHome()" aria-label="Accueil">
+    <img src="logo-home.png" alt="Accueil" class="home-logo" />
+  </button>
+
+  <div class="sign-up-card">
+    <h1 class="sign-up-title">Modification Driver</h1>
+
+    <form class="sign-up-form" (ngSubmit)="onSubmit()">
+      <!-- Selection Driver -->
+      <div class="form-group">
+        <label for="firstName">Choisir</label>
+        <div class="card flex justify-center">
+            <p-select [options]="drivers" [(ngModel)]="selectedDriver" name="selectedDriver" optionLabel="fullName" placeholder="Choisir un Driver" (onChange)="changeDriver()" />
+        </div>
+      </div>
+
+      <!-- Prénom -->
+      <div class="form-group">
+        <label for="firstName">Prénom</label>
+        <input
+          type="text"
+          id="firstName"
+          class="form-input"
+          [(ngModel)]="firstname"
+          name="firstName"
+          placeholder="Entrez le prénom"
+          required
+        />
+      </div>
+
+      <!-- Nom -->
+      <div class="form-group">
+        <label for="lastName">Nom de famille</label>
+        <input
+          type="text"
+          id="lastName"
+          class="form-input"
+          [(ngModel)]="lastName"
+          name="lastName"
+          placeholder="Entrez le nom"
+          required
+        />
+      </div>
+
+      <!-- Mot de passe -->
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <div class="password-row">
+          <div class="password-input-wrapper">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              id="password"
+              class="form-input"
+              [(ngModel)]="password"
+              name="password"
+              placeholder="Mot de passe généré"
+              readonly
+              required
+            />
+            <button type="button" class="btn-eye" (click)="showPassword = !showPassword" title="Afficher/Masquer">
+              {{ showPassword ? '🙈' : '👁️' }}
+            </button>
+          </div>
+          <button type="button" class="btn-sm" (click)="generateMdp()" title="Générer">&#x1F504;</button>
+          <button type="button" class="btn-sm" (click)="copyMdp()" title="Copier">&#x1F4CB;</button>
+        </div>
+      </div>
+
+      <!-- Âge -->
+      <div class="form-group">
+        <label for="age">Âge</label>
+        <input
+          type="number"
+          id="age"
+          class="form-input"
+          [(ngModel)]="age"
+          name="age"
+          min="1"
+          max="120"
+          placeholder="Entrez l'âge"
+          required
+        />
+      </div>
+
+      <!-- Genre -->
+      <div class="form-group">
+        <label for="isMale">Genre</label>
+        <select id="isMale" class="form-input" [(ngModel)]="isMale" name="isMale" required>
+          <option [ngValue]="null" disabled>Sélectionnez votre genre</option>
+          <option [ngValue]="true">Masculin</option>
+          <option [ngValue]="false">Féminin</option>
+        </select>
+      </div>
+
+      <!-- Type utilisateur -->
+      <div class="form-group">
+        <label for="DriverType">Type d'utilisateur</label>
+        <select
+          id="DriverType"
+          class="form-input"
+          [(ngModel)]="DriverType"
+          name="DriverType"
+          required
+        >
+          <option [ngValue]="null" disabled>Sélectionnez un type</option>
+          <option [ngValue]="0">Admin</option>
+          <option [ngValue]="1">Maintenance</option>
+          <option [ngValue]="2">Driver</option>
+        </select>
+      </div>
+
+      <!-- Bouton Submit -->
+      <div class="form-actions">
+        <button type="submit" class="btn-submit" [disabled]="isLoading">
+          {{ isLoading ? 'Chargement...' : "Confirmer Modification" }}
+        </button>
+      </div>
+    </form>
+
+    <!-- Messages -->
+    <div *ngIf="message" class="message" [ngClass]="'message-' + messageType">
+      {{ message }}
+    </div>
+  </div>
+</div>
