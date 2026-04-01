@@ -10,6 +10,9 @@ import { ToastModule } from 'primeng/toast';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ListboxModule } from 'primeng/listbox';
 import { MessageService } from 'primeng/api';
+import { SelectModule } from 'primeng/select';
+import { FormsModule } from '@angular/forms';
+
 
 const PRIMENG_COMPONENTS = [
   ButtonModule,
@@ -20,6 +23,8 @@ const PRIMENG_COMPONENTS = [
   ToastModule,
   CheckboxModule,
   ListboxModule,
+  SelectModule,
+  FormsModule
 ];
 
 @NgModule({

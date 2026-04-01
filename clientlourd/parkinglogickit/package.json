@@ -24,6 +24,7 @@
   "packageManager": "npm@11.6.2",
   "dependencies": {
     "@angular/animations": "^21.2.5",
+    "@angular/aria": "^21.2.4",
     "@angular/cdk": "^21.2.3",
     "@angular/common": "^21.2.5",
     "@angular/compiler": "^21.2.5",
