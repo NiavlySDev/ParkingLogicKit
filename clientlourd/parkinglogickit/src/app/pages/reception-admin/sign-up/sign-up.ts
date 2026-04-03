@@ -28,8 +28,8 @@ export class SignUp {
   constructor(
     private restServer: RestServer,
     private router: Router,
-    private cdr: ChangeDetectorRef, // 👈 ajout
-    private ngZone: NgZone,         // 👈 ajout
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone
   ) {}
 
   goHome(): void {
@@ -61,9 +61,7 @@ export class SignUp {
     const DriverClass =
       this.DriverType === 0
         ? 'lml.snir.parkinglogickit.metier.entity.Admin'
-        : this.DriverType === 1
-          ? 'lml.snir.parkinglogickit.metier.entity.Maintenance'
-          : 'lml.snir.parkinglogickit.metier.entity.Driver';
+        : 'lml.snir.parkinglogickit.metier.entity.Driver';
 
     const DriverData: any = {
       firstName: this.firstname,
@@ -80,18 +78,18 @@ export class SignUp {
       .add(DriverData as Driver)
       .subscribe({
         next: () => {
-          this.ngZone.run(() => {           // 👈 ajout
+          this.ngZone.run(() => {
             this.isLoading = false;
             this.setMessage('Inscription réussie 🎉', 'success');
             this.resetForm();
-            this.cdr.detectChanges();       // 👈 ajout
+            this.cdr.detectChanges();
           });
         },
         error: (error: any) => {
-          this.ngZone.run(() => {           // 👈 ajout
+          this.ngZone.run(() => {
             this.isLoading = false;
             this.setMessage(error?.error?.message || "Une erreur s'est produite", 'error');
-            this.cdr.detectChanges();       // 👈 ajout
+            this.cdr.detectChanges();
           });
         },
       });
