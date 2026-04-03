@@ -26,6 +26,13 @@
       >
         Gestion Drivers
       </button>
+      <button
+        class="nav-btn"
+        [class.active]="activeTab === 'vehicle'"
+        (click)="activeTab = 'vehicle'"
+      >
+        Gestion Vehicle
+      </button>
     </div>
     <div class="navbar-user" (click)="toggleMenu()">
       <span>{{ username }}</span>
@@ -78,7 +85,7 @@
           [ngClass]="{
             'fill-success': tauxOccupation < 50,
             'fill-warning': tauxOccupation >= 50 && tauxOccupation < 80,
-            'fill-danger': tauxOccupation >= 80
+            'fill-danger': tauxOccupation >= 80,
           }"
         ></div>
       </div>
@@ -111,6 +118,39 @@
         label="Supprimer un Driver"
         icon="pi pi-user-minus"
         [routerLink]="['/delete-user']"
+        size="large"
+        [rounded]="true"
+        severity="danger"
+      ></p-button>
+    </div>
+  </main>
+
+
+ <!-- VUE GESTION VEHICLE -->
+  <main class="container" *ngIf="activeTab === 'vehicle'">
+    <h1>Gestion Vehicle 🚗</h1>
+    <p class="subtitle">Que souhaitez-vous faire ?</p>
+    <div class="actions">
+      <p-button
+        label="Créer un Vehicle"
+        icon="pi pi-car"
+        [routerLink]="['/add-vehicle']"
+        size="large"
+        [rounded]="true"
+        severity="success"
+      ></p-button>
+      <p-button
+        label="Modifier un Vehicle"
+        icon="pi pi-car"
+        [routerLink]="['/modify-vehicle']"
+        size="large"
+        [rounded]="true"
+        severity="info"
+      ></p-button>
+      <p-button
+        label="Supprimer un Vehicle"
+        icon="pi pi-car"
+        [routerLink]="['/delete-vehicle']"
         size="large"
         [rounded]="true"
         severity="danger"
