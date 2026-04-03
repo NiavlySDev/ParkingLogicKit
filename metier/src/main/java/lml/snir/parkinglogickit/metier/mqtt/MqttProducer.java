@@ -16,9 +16,6 @@ import lml.snir.parkinglogickit.metier.entity.Access;
 import lml.snir.parkinglogickit.metier.entity.Associate;
 import lml.snir.parkinglogickit.metier.entity.Badge;
 import lml.snir.parkinglogickit.metier.entity.Parking;
-import lml.snir.parkinglogickit.metier.entity.Places;
-import lml.snir.parkinglogickit.metier.entity.Event;
-import lml.snir.parkinglogickit.metier.entity.Places;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 public class MqttProducer implements MqttCallback {
