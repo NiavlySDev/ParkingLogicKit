@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import lml.snir.parkinglogickit.metier.entity.Parking;
-import lml.snir.parkinglogickit.metier.entity.Places;
 import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 
 /**
@@ -19,7 +18,6 @@ import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 public class DashboardBean implements Serializable {
 
     private List<Parking> parkings = new ArrayList<>();
-    private List<Places> places = new ArrayList<>();
 
     private long totalPlaces;
     private long placesLibres;
@@ -31,10 +29,9 @@ public class DashboardBean implements Serializable {
     public void init() {
         try {
             parkings = MetierFactory.getParkingService().getAll();
-            places = MetierFactory.getPlacesService().getAll();
 
-            totalPlaces = places.size();
-            placesOccupees = places.stream().filter(Places::isIsOccuped).count();
+            totalPlaces = parkings.size();
+            placesOccupees = parkings.stream().filter(Parking::isIsFull).count();
             placesLibres = totalPlaces - placesOccupees;
 
             if (!parkings.isEmpty()) {
@@ -55,9 +52,6 @@ public class DashboardBean implements Serializable {
         return parkings;
     }
 
-    public List<Places> getPlaces() {
-        return places;
-    }
 
     public long getTotalPlaces() {
         return totalPlaces;

@@ -6,10 +6,7 @@ import lml.snir.parkinglogickit.metier.rest.client.AdminServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.AssociateServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.BadgeServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.ParkingServiceClientRESTImpl;
-import lml.snir.parkinglogickit.metier.rest.client.EventServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.DriverServiceClientRESTImpl;
-import lml.snir.parkinglogickit.metier.rest.client.MaintenanceServiceClientRESTImpl;
-import lml.snir.parkinglogickit.metier.rest.client.PlacesServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.VehicleServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.transactionel.AccessService;
 import lml.snir.parkinglogickit.metier.transactionel.AccessServiceImpl;
@@ -21,16 +18,10 @@ import lml.snir.parkinglogickit.metier.transactionel.BadgeService;
 import lml.snir.parkinglogickit.metier.transactionel.BadgeServiceImpl;
 import lml.snir.parkinglogickit.metier.transactionel.VehicleService;
 import lml.snir.parkinglogickit.metier.transactionel.VehicleServiceImpl;
-import lml.snir.parkinglogickit.metier.transactionel.EventServiceImpl;
-import lml.snir.parkinglogickit.metier.transactionel.EventService;
 import lml.snir.parkinglogickit.metier.transactionel.DriverService;
 import lml.snir.parkinglogickit.metier.transactionel.DriverServiceImpl;
-import lml.snir.parkinglogickit.metier.transactionel.MaintenanceService;
-import lml.snir.parkinglogickit.metier.transactionel.MaintenanceServiceImpl;
 import lml.snir.parkinglogickit.metier.transactionel.ParkingService;
 import lml.snir.parkinglogickit.metier.transactionel.ParkingServiceImpl;
-import lml.snir.parkinglogickit.metier.transactionel.PlacesService;
-import lml.snir.parkinglogickit.metier.transactionel.PlacesServiceImpl;
 import lml.snir.tools.ConfigReader;
 
 public class MetierFactory {
@@ -77,34 +68,6 @@ public class MetierFactory {
         }
 
         return DriverSrv;
-    }
-
-    private static EventService EventSrv = null;
-
-    public static synchronized EventService getEventService() throws Exception {
-        if (EventSrv == null) {
-            if (readLocalState()) {
-                EventSrv = new EventServiceImpl();
-            } else {
-               EventSrv = new EventServiceClientRESTImpl();
-            }            
-        }
-
-        return EventSrv;
-    }
-
-    private static MaintenanceService MaintenanceSrv = null;
-
-    public static synchronized MaintenanceService getMaintenanceService() throws Exception {
-        if (MaintenanceSrv == null) {
-            if (readLocalState()) {
-                MaintenanceSrv = new MaintenanceServiceImpl();
-            } else {
-                MaintenanceSrv = new MaintenanceServiceClientRESTImpl();
-            }            
-        }
-
-        return MaintenanceSrv;
     }
 
     private static BadgeService badgeSrv = null;
@@ -159,20 +122,6 @@ public class MetierFactory {
         }
 
         return AdminSrv;
-    }
-
-      private static PlacesService PlacesSrv = null;
-
-    public static PlacesService getPlacesService() throws Exception {
-        if (PlacesSrv == null) {
-            if (readLocalState()) {
-                PlacesSrv = new PlacesServiceImpl();
-            } else {
-                PlacesSrv = new PlacesServiceClientRESTImpl();
-            }
-        }
-
-        return PlacesSrv;
     }
     
     private static VehicleService VehicleSrv = null;

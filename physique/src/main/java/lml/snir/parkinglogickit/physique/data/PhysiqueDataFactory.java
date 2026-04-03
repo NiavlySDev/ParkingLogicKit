@@ -90,27 +90,4 @@ public final class PhysiqueDataFactory {
         return AccessSrv;
     }
 
-    private static PlacesDataService PlacesSrv = null;
-
-    public static PlacesDataService getPlacesDataService() throws Exception {
-        if (JDBC) {
-            //PlacesSrv = new PlacesDataServiceJDBCImpl();
-        } else {
-            PlacesSrv = new PlacesDataServiceJPAImpl(PU);
-        }
-
-        return PlacesSrv;
-    }
-
-    private static EventDataService EventSrv = null;
-
-    public static synchronized EventDataService getEventDataService() throws Exception {
-        if (JDBC) {
-            //PlacesSrv = new EventDataServiceJDBCImpl();
-        } else {
-            EventSrv = new EventDataServiceJPAImpl(PU);
-        }
-
-        return EventSrv;
-    }
 }
