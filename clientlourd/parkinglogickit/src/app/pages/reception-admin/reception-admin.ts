@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, NgClass } from '@angular/common';
-import { Router, RouterLink } from '@angular/router'; // ← ActivatedRoute retiré
+import { Router, RouterLink } from '@angular/router';
 import { PrimengModule } from '../../shared/primeng.module';
 import { AuthService } from '../../../Auth/auth.service';
 
@@ -22,15 +22,15 @@ export class ReceptionAdmin {
   tauxOccupation: number = 0;
 
   constructor(
-    private router: Router,          // ← ActivatedRoute retiré
+    private router: Router,
     private authService: AuthService
   ) {
-    this.username = this.authService.getUsername(); // ← double assignation corrigée
+    this.username = this.authService.getUsername();
     this.tauxOccupation = Math.round((this.placesOccupees / this.placesTotal) * 100);
   }
 
   goHome(): void {
-    this.router.navigate(['/reception-admin']); // ← queryParams retirés
+    this.router.navigate(['/reception-admin']);
   }
 
   toggleMenu(): void {
