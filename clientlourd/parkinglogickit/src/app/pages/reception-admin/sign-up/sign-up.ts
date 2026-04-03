@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RestServer } from '../../../../Rest/RestServer';
@@ -6,7 +6,6 @@ import { Driver } from '../../../../Auth/Driver.js';
 import { Router } from '@angular/router';
 
 // author Ethan
-
 @Component({
   selector: 'app-sign-up',
   standalone: true,
@@ -22,16 +21,21 @@ export class SignUp {
   age: number | null = null;
   isMale: boolean | null = null;
   DriverType: number | null = null;
-
   isLoading: boolean = false;
   message: string = '';
   messageType: 'success' | 'error' = 'success';
 
-  constructor(private restServer: RestServer, private router: Router) {}
+  constructor(
+    private restServer: RestServer,
+    private router: Router,
+    private cdr: ChangeDetectorRef, // 👈 ajout
+    private ngZone: NgZone,         // 👈 ajout
+  ) {}
 
   goHome(): void {
     this.router.navigate(['/reception-admin']);
   }
+
   onSubmit(): void {
     if (
       !this.firstname ||
@@ -58,8 +62,9 @@ export class SignUp {
       this.DriverType === 0
         ? 'lml.snir.parkinglogickit.metier.entity.Admin'
         : this.DriverType === 1
-        ? 'lml.snir.parkinglogickit.metier.entity.Maintenance'
-        : 'lml.snir.parkinglogickit.metier.entity.Driver';
+          ? 'lml.snir.parkinglogickit.metier.entity.Maintenance'
+          : 'lml.snir.parkinglogickit.metier.entity.Driver';
+
     const DriverData: any = {
       firstName: this.firstname,
       lastName: this.lastName,
@@ -70,20 +75,24 @@ export class SignUp {
       class: DriverClass,
     };
 
-    console.log('JSON envoyé :', DriverData);
-
     this.restServer
       .getDriverService()
       .add(DriverData as Driver)
       .subscribe({
         next: () => {
-          this.isLoading = false;
-          this.setMessage('Inscription réussie 🎉', 'success');
-          this.resetForm();
+          this.ngZone.run(() => {           // 👈 ajout
+            this.isLoading = false;
+            this.setMessage('Inscription réussie 🎉', 'success');
+            this.resetForm();
+            this.cdr.detectChanges();       // 👈 ajout
+          });
         },
         error: (error: any) => {
-          this.isLoading = false;
-          this.setMessage(error?.error?.message || "Une erreur s'est produite", 'error');
+          this.ngZone.run(() => {           // 👈 ajout
+            this.isLoading = false;
+            this.setMessage(error?.error?.message || "Une erreur s'est produite", 'error');
+            this.cdr.detectChanges();       // 👈 ajout
+          });
         },
       });
   }
