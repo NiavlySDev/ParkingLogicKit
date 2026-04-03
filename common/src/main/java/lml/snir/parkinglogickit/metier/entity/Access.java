@@ -31,8 +31,6 @@ public class Access implements Serializable {
     @ManyToOne
     private Badge badge;
     private Date date;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Event event;
 
     /**
      * Retourne l'identifiant unique de l'accès
@@ -107,24 +105,6 @@ public class Access implements Serializable {
     }
 
     /**
-     * Retourne l'évènement lié a l'accès
-     *
-     * @return event : L'évènement lié à l'accès
-     */
-    public Event getEvent() {
-        return event;
-    }
-
-    /**
-     * Modifier l'évènement lié à l'accès
-     *
-     * @param event : L'évènement a modifier
-     */
-    public void setEvent(Event event) {
-        this.event = event;
-    }
-
-    /**
      * Retourne un identifiant unique correspondant au Badge uniquement
      *
      * @return Identifiant unique correspondant au Badge uniquement.
@@ -176,7 +156,6 @@ public class Access implements Serializable {
                 .append(" | ")
                 .append(this.driver != null ? this.driver : "Driver inconnu")
                 .append(" est ")
-                .append(this.event != null ? this.event.getAccessType() : "Action inconnue")
                 .append(" le ")
                 .append(strDate);
 
