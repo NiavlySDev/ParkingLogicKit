@@ -11,7 +11,7 @@
 
 body {
   min-height: 100vh;
-  background: #f0ecec;
+  background: #d6d1d1;
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -50,8 +50,8 @@ body {
 }
 
 .navbar-welcome {
-  margin-left: 8px;
-  color: #475569;
+  margin-left: 15px;
+  color: #04070a;
   font-weight: 600;
   font-size: 0.95rem;
 }
@@ -61,7 +61,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255,255,255,0.95);
+  background: rgba(247, 239, 239, 0.95);
   padding: 6px 10px;
   border-radius: 999px;
   font-weight: 600;
@@ -78,9 +78,9 @@ body {
   top: calc(100% + 8px);
   right: 0;
   min-width: 160px;
-  background: #ffffff;
+  background: #e6dede;
   border-radius: 10px;
-  box-shadow: 0 14px 40px rgba(9,25,51,0.08);
+  box-shadow: 0 14px 40px rgba(17, 31, 53, 0.08);
   padding: 8px;
   display: flex;
   flex-direction: column;
@@ -99,7 +99,7 @@ body {
   color: #0b1220;
 }
 
-.user-menu-item:hover { background: #f3f4f6; }
+.user-menu-item:hover { background: #fdfbfb; }
 
 /* NAV BUTTONS */
 .nav-btn {
@@ -109,7 +109,7 @@ body {
   font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
-  background: #f1f5f9;
+  background: #e7eaec;
   color: #637896;
   display: flex;
   align-items: center;
@@ -140,12 +140,12 @@ body {
 }
 
 .container {
-  background: #e5eef1;
+  background: #aac7d1;
   width: calc(100% - 32px);
   max-width: 900px;
   padding: 24px 16px;
   border-radius: 18px;
-  box-shadow: 0 20px 45px rgba(51, 17, 17, 0.08);
+  box-shadow: 0 20px 45px rgba(32, 13, 13, 0.08);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -158,7 +158,7 @@ body {
   width: min(520px, 92%);
   padding: 36px 28px;
   border-radius: 999px;
-  background: radial-gradient(circle at 30% 25%, #ffffff 0%, #f7fbfd 55%, #f0f6f9 100%);
+  background: radial-gradient(circle at 30% 25%, #ebeaea 0%, #f7fbfd 55%, #f0f6f9 100%);
   box-shadow: 0 30px 70px rgba(9, 30, 66, 0.12), inset 0 1px 0 rgba(255,255,255,0.6);
   transform: translateZ(0);
 }
@@ -178,7 +178,7 @@ h1 {
 }
 
 .subtitle {
-  color: #1d2229;
+  color: #000000;
   font-size: 0.88rem;
   margin-top: -12px;
   text-align: center;
@@ -210,7 +210,7 @@ h1 {
 .card-label {
   font-size: 0.72rem;
   font-weight: 500;
-  color: #04070a;
+  color: #000000;
 }
 
 .card-value {
@@ -253,7 +253,7 @@ h1 {
 .progress-bar {
   width: 100%;
   height: 14px;
-  background: #ffffff;
+  background: #e6e3e3;
   border-radius: 30px;
   overflow: hidden;
 }
