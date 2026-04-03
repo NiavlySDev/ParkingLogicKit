@@ -119,10 +119,8 @@ public class Test {
     private void populateParking() throws Exception {
 
         Parking p = new Parking();
-        p.setPlaceCount(60);
+        p.setPlaceCount(48);
         p.setTotalPlace(60);
-        p.setHandicapCount(2);
-        p.setTotalHandicap(4);
         p.setIsFull(false);
         this.parkingSrv.add(p);
     }

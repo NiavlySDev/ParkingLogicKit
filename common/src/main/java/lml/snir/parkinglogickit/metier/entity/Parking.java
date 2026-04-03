@@ -21,8 +21,6 @@ public class Parking implements Serializable {
     private boolean isFull;
     private int placeCount;
     private int totalPlace;
-    private int handicapCount;
-    private int totalHandicap;
 
     /**
      * Retourne L'Identifiant unique du Parking
@@ -181,22 +179,6 @@ public class Parking implements Serializable {
         str += "Max Place : " + totalPlace + " | ";
         str += "isFull? " + isFull;
         return str;
-    }
-
-    public int getHandicapCount() {
-        return handicapCount;
-    }
-
-    public void setHandicapCount(int handicapCount) {
-        this.handicapCount = handicapCount;
-    }
-
-    public int getTotalHandicap() {
-        return totalHandicap;
-    }
-
-    public void setTotalHandicap(int totalHandicap) {
-        this.totalHandicap = totalHandicap;
     }
 
     public void setPlaceCount(int placeCount) {

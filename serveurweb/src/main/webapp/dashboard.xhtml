@@ -36,11 +36,6 @@
                     <div class="stat-label">Places occupées</div>
                 </div>
 
-                <div class="stat-card stat-handi">
-                    <div class="stat-value">#{dashboardBean.placesHandicap}</div>
-                    <div class="stat-label">Places handicap</div>
-                </div>
-
             </div>
 
             <h3 class="section-subtitle">État des places</h3>
@@ -72,9 +67,6 @@
                     </p:column>
                     <p:column headerText="Places dispo">
                         <h:outputText value="#{parking.placeCount} / #{parking.totalPlace}" />
-                    </p:column>
-                    <p:column headerText="Handicap">
-                        <h:outputText value="#{parking.handicapCount} / #{parking.totalHandicap}" />
                     </p:column>
                     <p:column headerText="Complet">
                         <h:outputText value="#{parking.isFull ? 'Oui' : 'Non'}" />

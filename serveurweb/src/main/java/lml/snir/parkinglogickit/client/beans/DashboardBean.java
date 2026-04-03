@@ -22,7 +22,6 @@ public class DashboardBean implements Serializable {
     private long totalPlaces;
     private long placesLibres;
     private long placesOccupees;
-    private long placesHandicap;
     private boolean parkingPlein;
 
     @PostConstruct
@@ -36,7 +35,6 @@ public class DashboardBean implements Serializable {
 
             if (!parkings.isEmpty()) {
                 Parking p = parkings.get(0);
-                placesHandicap = p.getTotalHandicap();
                 parkingPlein = p.isIsFull();
             }
         } catch (Exception e) {
@@ -63,10 +61,6 @@ public class DashboardBean implements Serializable {
 
     public long getPlacesOccupees() {
         return placesOccupees;
-    }
-
-    public long getPlacesHandicap() {
-        return placesHandicap;
     }
 
     public boolean isParkingPlein() {
