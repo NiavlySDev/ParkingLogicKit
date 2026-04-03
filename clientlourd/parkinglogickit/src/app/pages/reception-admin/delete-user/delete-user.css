@@ -1,0 +1,282 @@
+/* =========================
+   RESET + BASE
+   ========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* =========================
+     PAGE ET CARTE
+     ========================= */
+.sign-up {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa, #e4ecf5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  position: relative;
+  color: #2c3e50;
+}
+
+/* CARD */
+.sign-up-card {
+  background: #fff;
+  width: 100%;
+  max-width: 600px;
+  padding: 50px 45px;
+  border-radius: 18px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+}
+
+/* TITRE */
+.sign-up-title {
+  font-size: clamp(1.8rem, 5vw, 2.2rem);
+  margin-bottom: 35px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* FORMULAIRE */
+.sign-up-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* GROUPE CHAMPS */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: clamp(0.9rem, 2vw, 0.95rem);
+  font-weight: 600;
+}
+
+/* INPUT & SELECT */
+.form-input {
+  padding: 13px 18px;
+  font-size: clamp(0.95rem, 2.5vw, 1rem);
+  color: #2c3e50; /* Couleur du texte bien visible */
+  border: 2px solid #e4ecf5;
+  border-radius: 10px;
+  background-color: #f8fafc; /* Fond clair mais pas blanc pur */
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.form-input::placeholder {
+  color: #94a3b8; /* Couleur placeholder légèrement grisée */
+}
+
+.form-input:focus {
+  border-color: #3b82f6;
+  background-color: #ffffff; /* blanc au focus, texte sombre */
+  color: #2c3e50; /* texte bien visible au focus */
+  box-shadow: 0 0 0 4px rgba(59,130,246,0.1);
+  transform: translateY(-1px);
+}
+
+
+/* SELECT arrow */
+select.form-input {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='%232c3e50' d='M7 10L2 5h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+  padding-right: 45px;
+}
+
+/* PASSWORD ROW */
+.password-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.password-input-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrapper .form-input {
+  width: 100%;
+  padding-right: 42px;
+}
+
+.btn-eye {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0;
+  line-height: 1;
+}
+
+.btn-sm {
+  flex-shrink: 0;
+  padding: 8px 12px;
+  font-size: 1rem;
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-sm:hover {
+  background: #2563eb;
+}
+
+/* BOUTON SUBMIT */
+.form-actions {
+  margin-top: 15px;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 15px 30px;
+  font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+  font-weight: 600;
+  color: #fff;
+  background: #3b82f6;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-submit:hover:not(:disabled) {
+  transform: translateY(-3px);
+  background: #eb2525;
+  box-shadow: 0 12px 28px rgba(59, 130, 246, 0.4);
+}
+
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* MESSAGES */
+.message {
+  margin-top: 25px;
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-size: clamp(0.9rem, 2vw, 0.95rem);
+  font-weight: 500;
+  text-align: center;
+}
+
+.message-success {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.message-error {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* =========================
+     BOUTON HOME (LOGO PNG)
+     ========================= */
+.home-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background-color: #3b82f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.home-button:hover {
+  transform: translateY(-2px);
+  background-color: #2563eb;
+}
+
+.home-logo {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.home-button:hover {
+  transform: translateY(-2px);
+  background-color: #2563eb;
+}
+
+.home-logo {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+/* =========================
+     RESPONSIVE
+     ========================= */
+@media (max-width: 768px) {
+  .sign-up-card {
+    padding: 40px 30px;
+  }
+  .home-button {
+    top: 15px;
+    left: 15px;
+    width: 40px;
+    height: 40px;
+  }
+  .home-logo {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sign-up-card {
+    padding: 30px 20px;
+  }
+  .sign-up-title {
+    font-size: 1.6rem;
+    margin-bottom: 25px;
+  }
+  .form-input {
+    padding: 11px 14px;
+    font-size: 0.95rem;
+  }
+  .btn-submit {
+    padding: 13px 22px;
+    font-size: 0.95rem;
+  }
+  .home-button {
+    top: 10px;
+    left: 10px;
+    width: 36px;
+    height: 36px;
+  }
+  .home-logo {
+    width: 18px;
+    height: 18px;
+  }
+}
+
