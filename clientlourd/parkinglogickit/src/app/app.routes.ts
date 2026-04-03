@@ -8,6 +8,9 @@ import { AuthGuard } from '../Auth/auth.guard';
 import { RoleGuard } from '../Auth/role.guard'
 import { DeleteUser } from './pages/reception-admin/delete-user/delete-user';
 import { ModifyUser } from './pages/reception-admin/modify-user/modify-user';
+import { DeleteVehicle } from './pages/reception-admin/delete-vehicle/delete-vehicle';
+import { ModifyVehicle } from './pages/reception-admin/modify-vehicle/modify-vehicle';
+import { AddVehicle } from './pages/reception-admin/add-vehicle/add-vehicle';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -17,5 +20,8 @@ export const routes: Routes = [
   { path: 'reception-admin', component: ReceptionAdmin, canActivate: [AuthGuard, RoleGuard] },
   { path: 'delete-user', component: DeleteUser, canActivate: [AuthGuard, RoleGuard] },
   { path: 'modify-user', component: ModifyUser, canActivate: [AuthGuard, RoleGuard] },
+  { path: 'delete-vehicle', component: DeleteVehicle, canActivate: [AuthGuard, RoleGuard] },
+  { path: 'modify-vehicle', component: ModifyVehicle, canActivate: [AuthGuard, RoleGuard] },
+  { path: 'add-vehicle', component: AddVehicle, canActivate: [AuthGuard, RoleGuard] },
   { path: '**', redirectTo: '' },
 ];
