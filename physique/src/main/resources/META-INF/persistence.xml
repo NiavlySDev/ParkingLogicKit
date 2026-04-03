@@ -3,15 +3,12 @@
   <persistence-unit name="lml.snir.ParkingLogicKitCommon_jar_1.0PU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>lml.snir.parkinglogickit.metier.entity.Admin</class>
-    <class>lml.snir.parkinglogickit.metier.entity.Maintenance</class>
     <class>lml.snir.parkinglogickit.metier.entity.Driver</class>
     <class>lml.snir.parkinglogickit.metier.entity.Associate</class>
     <class>lml.snir.parkinglogickit.metier.entity.Badge</class>
     <class>lml.snir.parkinglogickit.metier.entity.Vehicle</class>
     <class>lml.snir.parkinglogickit.metier.entity.Parking</class>
-    <class>lml.snir.parkinglogickit.metier.entity.Places</class>
     <class>lml.snir.parkinglogickit.metier.entity.Access</class>
-    <class>lml.snir.parkinglogickit.metier.entity.Event</class>
     
     <properties>
       <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/parkinglogickit?zeroDateTimeBehavior=convertToNull"/>
