@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RestServer } from '../../../../Rest/RestServer';
@@ -6,14 +6,13 @@ import { Driver } from '../../../../Auth/Driver.js';
 import { Router } from '@angular/router';
 import { PrimengModule } from '../../../shared/primeng.module';
 
-
 @Component({
   selector: 'app-modify-user',
   imports: [FormsModule, CommonModule, PrimengModule],
   templateUrl: './modify-user.html',
   styleUrl: './modify-user.css',
 })
-export class ModifyUser {
+export class ModifyUser implements OnInit {
 
   firstname: string = '';
   lastName: string = '';
@@ -34,12 +33,16 @@ export class ModifyUser {
   constructor(
     private restServer: RestServer,
     private router: Router,
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone,
   ) {}
 
   ngOnInit() {
     this.restServer.getDriverService().getAll().subscribe({
       next: (drivers: any[]) => {
-        this.drivers = drivers.map(d => ({ ...d, fullName: `${d.firstName} ${d.lastName}` }));
+        this.ngZone.run(() => {
+          this.drivers = drivers.map(d => ({ ...d, fullName: `${d.firstName} ${d.lastName}` }));
+        });
       }
     });
   }
@@ -47,6 +50,7 @@ export class ModifyUser {
   goHome(): void {
     this.router.navigate(['/reception-admin']);
   }
+
   onSubmit(): void {
     if (
       !this.selectedDriver ||
@@ -75,6 +79,7 @@ export class ModifyUser {
         : this.DriverType === 1
           ? 'lml.snir.parkinglogickit.metier.entity.Maintenance'
           : 'lml.snir.parkinglogickit.metier.entity.Driver';
+
     const DriverData: any = {
       id: this.selectedDriver.id,
       firstName: this.firstname,
@@ -86,20 +91,24 @@ export class ModifyUser {
       class: DriverClass,
     };
 
-    console.log('JSON envoyé :', DriverData);
-
     this.restServer
       .getDriverService()
       .update(DriverData as Driver)
       .subscribe({
         next: () => {
-          this.isLoading = false;
-          this.setMessage('Modification réussie ✅', 'success');
-          this.resetForm();
+          this.ngZone.run(() => {
+            this.isLoading = false;
+            this.setMessage('Modification réussie ✅', 'success');
+            this.resetForm();
+            this.cdr.detectChanges();
+          });
         },
         error: (error: any) => {
-          this.isLoading = false;
-          this.setMessage(error?.error?.message || "Une erreur s'est produite", 'error');
+          this.ngZone.run(() => {
+            this.isLoading = false;
+            this.setMessage(error?.error?.message || "Une erreur s'est produite", 'error');
+            this.cdr.detectChanges();
+          });
         },
       });
   }
@@ -117,21 +126,34 @@ export class ModifyUser {
     this.age = null;
     this.isMale = null;
     this.DriverType = null;
+    this.selectedDriver = null;
   }
 
   changeDriver(): void {
-    if (!this.selectedDriver) {
-      this.setMessage('Veuillez sélectionner un Driver', 'error');
-      return;
-    }
+    this.ngZone.run(() => {
+      if (!this.selectedDriver) {
+        this.setMessage('Veuillez sélectionner un Driver', 'error');
+        return;
+      }
 
-    this.firstname = this.selectedDriver.firstName;
-    this.lastName = this.selectedDriver.lastName;
-    this.username = this.selectedDriver.username;
-    this.password = ''; // Ne pas pré-remplir le mot de passe pour des raisons de sécurité
-    this.age = this.selectedDriver.age;
-    this.isMale = this.selectedDriver.isMale === true || this.selectedDriver.isMale === 1 || this.selectedDriver.masculin === 1;
-    this.DriverType = this.selectedDriver.class === 'lml.snir.parkinglogickit.metier.entity.Admin' ? 0 : this.selectedDriver.class === 'lml.snir.parkinglogickit.metier.entity.Maintenance' ? 1 : 2;
+      this.firstname = this.selectedDriver.firstName;
+      this.lastName = this.selectedDriver.lastName;
+      this.username = this.selectedDriver.username;
+      this.password = '';
+      this.age = this.selectedDriver.age;
+      this.isMale =
+        this.selectedDriver.isMale === true ||
+        this.selectedDriver.isMale === 1 ||
+        this.selectedDriver.masculin === 1;
+      this.DriverType =
+        this.selectedDriver.class === 'lml.snir.parkinglogickit.metier.entity.Admin'
+          ? 0
+          : this.selectedDriver.class === 'lml.snir.parkinglogickit.metier.entity.Maintenance'
+            ? 1
+            : 2;
+
+      this.cdr.detectChanges();
+    });
   }
 
   generateMdp(): void {
@@ -139,7 +161,6 @@ export class ModifyUser {
       this.setMessage('Veuillez sélectionner un Driver', 'error');
       return;
     }
-
     this.password = this.generateRandomPassword();
   }
 
@@ -160,13 +181,10 @@ export class ModifyUser {
 
     navigator.clipboard.writeText(this.password).then(() => {
       this.setMessage('Le mot de passe a été copié dans le presse-papier', 'success');
+      this.cdr.detectChanges();
     }).catch(() => {
       this.setMessage('Échec de la copie du mot de passe', 'error');
+      this.cdr.detectChanges();
     });
   }
-}
-
-interface City {
-  name: string;
-  code: string;
 }
