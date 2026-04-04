@@ -12,13 +12,13 @@ import lml.snir.parkinglogickit.physique.data.PhysiqueDataFactory;
  * @author Phily Seck
  */
 public final class AssociateServiceImpl implements AssociateService {
-    private final  AssociateDataService  AssociateDataSrv;
+
+    private final AssociateDataService AssociateDataSrv;
 
     public AssociateServiceImpl() throws Exception {
         this.AssociateDataSrv = PhysiqueDataFactory.getAssociateDataService();
     }
 
-   
     @Override
     public Associate add(Associate t) throws Exception {
         return this.AssociateDataSrv.add(t);
@@ -31,34 +31,37 @@ public final class AssociateServiceImpl implements AssociateService {
 
     @Override
     public void update(Associate t) throws Exception {
-         this.AssociateDataSrv.update(t);
+        this.AssociateDataSrv.update(t);
     }
+
     @Override
     public Associate getById(Long id) throws Exception {
-       return this.AssociateDataSrv.getById(id);
+        return this.AssociateDataSrv.getById(id);
     }
 
     @Override
     public long getCount() throws Exception {
         return this.AssociateDataSrv.getCount();
     }
+
     @Override
     public List<Associate> getAll() throws Exception {
-         return this.AssociateDataSrv.getAll();
+        return this.AssociateDataSrv.getAll();
     }
 
     @Override
     public List<Associate> getAll(int begin, int count) throws Exception {
-        return this.AssociateDataSrv.getAll(begin,count);
+        return this.AssociateDataSrv.getAll(begin, count);
     }
 
     @Override
     public Associate getByBadge(Badge badge) throws Exception {
-         return this.AssociateDataSrv.getByBadge(badge);
+        return this.AssociateDataSrv.getByBadge(badge);
     }
+
     @Override
     public Associate getByUtilisateur(Driver drv) throws Exception {
         return this.AssociateDataSrv.getByUtilisateur(drv);
     }
-  
+
 }

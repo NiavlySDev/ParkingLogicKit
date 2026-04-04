@@ -17,9 +17,6 @@ public class AssociateServiceClientRESTImpl extends ClientRest<Associate> implem
         super.init("AssociateService", new RestServerLocalConfiguration());
     }
 
-
-
-
     @Override
     public void remove(Associate t) throws Exception {
         super.setPath("");

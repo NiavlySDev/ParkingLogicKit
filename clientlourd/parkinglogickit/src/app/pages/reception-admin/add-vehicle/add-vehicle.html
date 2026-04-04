@@ -1,1 +1,78 @@
-<p>add-vehicle works!</p>
+<div class="add-vehicle">
+  <button class="home-button" (click)="goHome()" aria-label="Accueil">
+    <img src="logo-home.png" alt="Accueil" class="home-logo" />
+  </button>
+
+  <div class="add-vehicle-card">
+    <h1 class="add-vehicle-title">Création vehicle</h1>
+
+    <form class="add-vehicle-form" (ngSubmit)="onSubmit()">
+      <!-- Brand -->
+      <div class="form-group">
+        <label for="firstName">Brand</label>
+        <input
+          type="text"
+          id="firstName"
+          class="form-input"
+          [(ngModel)]="firstname"
+          name="firstName"
+          placeholder="Entrez le prénom"
+          required
+        />
+      </div>
+
+      <!-- Number plate -->
+      <div class="form-group">
+        <label for="lastName">Number plate</label>
+        <input
+          type="text"
+          id="lastName"
+          class="form-input"
+          [(ngModel)]="lastName"
+          name="lastName"
+          placeholder="Entrez le nom"
+          required
+        />
+      </div>
+
+      <!-- Type -->
+      <div class="form-group">
+        <label for="DriverType">Type</label>
+        <select
+          id="DriverType"
+          class="form-input"
+          [(ngModel)]="DriverType"
+          name="DriverType"
+          required
+        >
+          <option [ngValue]="null" disabled>Sélectionnez un type</option>
+          <option [ngValue]="0">Admin</option>
+          <option [ngValue]="1">Driver</option>
+        </select>
+      </div>
+
+      <!-- Ajouter un véhicule 
+      <div class="form-group">
+        <label for="addCar">Ajouter un véhicule</label>
+        <select id="addCar" class="form-input" [(ngModel)]="addCar" name="addCar" required>
+          <option [ngValue]="null" disabled>Sélectionnez un véhicule</option>
+          <option [ngValue]="VehicleType.Car">Voiture</option>
+          <option [ngValue]="VehicleType.Motorcycle">Moto</option>
+          <option [ngValue]="VehicleType.Van">Camionnette</option>
+        </select>
+      </div>
+-->
+      <!-- Bouton Submit -->
+      <div class="form-actions">
+        <button type="submit" class="btn-submit" [disabled]="isLoading">
+          {{ isLoading ? 'Chargement...' : "S'inscrire" }}
+        </button>
+      </div>
+    </form>
+
+    <!-- Messages -->
+    <div *ngIf="message" class="message" [ngClass]="'message-' + messageType">
+      {{ message }}
+    </div>
+  </div>
+</div>

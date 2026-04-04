@@ -99,4 +99,14 @@ public class VehicleServiceRestServeurImpl {
         }
     }
 
+    @GET
+    @Path("/getByContent/{content}")
+    public Vehicle getByusername(@PathParam("content") String content) throws Exception {
+        try {
+            return this.VehicleSrv.getByContent(content);
+        } catch (Exception ex) {
+            throw new RestException(500, ex.getMessage());
+        }
+    }
+
 }

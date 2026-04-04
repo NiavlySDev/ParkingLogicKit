@@ -20,7 +20,6 @@ public class AccessServiceImpl implements AccessService {
     @Override
     public Access getByDriver(String contenu) throws Exception {
         return this.accessDataSrv.getByDriver(contenu);
-
     }
 
     @Override
