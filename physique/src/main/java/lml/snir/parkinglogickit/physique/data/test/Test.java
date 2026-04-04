@@ -69,6 +69,24 @@ public class Test {
         drv.setPassword("secret");
         this.usrSrv.add(drv);
 
+        drv = new Admin();
+        drv.setAge(20);
+        drv.setFirstName("Virgile");
+        drv.setIsMale(true);
+        drv.setUsername("VA");
+        drv.setLastName("Alar");
+        drv.setPassword("vivi");
+        this.usrSrv.add(drv);
+
+        drv = new Admin();
+        drv.setAge(50);
+        drv.setFirstName("Test");
+        drv.setIsMale(true);
+        drv.setUsername("TT");
+        drv.setLastName("test");
+        drv.setPassword("test");
+        this.usrSrv.add(drv);
+
         Badge b = new Badge();
         b.setContent("0014511054");
         this.badgeSrv.add(b);
@@ -81,6 +99,26 @@ public class Test {
         b.setContent("0009966230");
         this.badgeSrv.add(b);
 
+        b = new Badge();
+        b.setContent("0009966120");
+        this.badgeSrv.add(b);
+
+        b = new Badge();
+        b.setContent("0009969730");
+        this.badgeSrv.add(b);
+
+        b = new Badge();
+        b.setContent("0009966370");
+        this.badgeSrv.add(b);
+
+        b = new Badge();
+        b.setContent("0009960730");
+        this.badgeSrv.add(b);
+
+        b = new Badge();
+        b.setContent("0009966294");
+        this.badgeSrv.add(b);
+
         drv = new Driver();
         drv.setAge(25);
         drv.setFirstName("Marge");
@@ -88,6 +126,15 @@ public class Test {
         drv.setUsername("MS");
         drv.setLastName("Simpson");
         drv.setPassword("secret");
+        this.usrSrv.add(drv);
+
+        drv = new Driver();
+        drv.setAge(20);
+        drv.setFirstName("LEV");
+        drv.setIsMale(false);
+        drv.setUsername("LE");
+        drv.setLastName("ELV");
+        drv.setPassword("levivi");
         this.usrSrv.add(drv);
 
         Vehicle l = new Vehicle();
@@ -106,6 +153,30 @@ public class Test {
         l.setNumberPlate("TT-435-CC");
         l.setBrand("Citroen");
         l.setType(VehicleType.Moto);
+        this.vehicleSrv.add(l);
+
+        l = new Vehicle();
+        l.setNumberPlate("TT-859-CC");
+        l.setBrand("Citroen");
+        l.setType(VehicleType.Moto);
+        this.vehicleSrv.add(l);
+
+        l = new Vehicle();
+        l.setNumberPlate("WW-411-TT");
+        l.setBrand("Renault");
+        l.setType(VehicleType.Camionnette);
+        this.vehicleSrv.add(l);
+
+        l = new Vehicle();
+        l.setNumberPlate("WW-265-TT");
+        l.setBrand("Renault");
+        l.setType(VehicleType.Voiture);
+        this.vehicleSrv.add(l);
+
+        l = new Vehicle();
+        l.setNumberPlate("WW-715-TT");
+        l.setBrand("Renault");
+        l.setType(VehicleType.Voiture);
         this.vehicleSrv.add(l);
 
         Associate asso = new Associate();
