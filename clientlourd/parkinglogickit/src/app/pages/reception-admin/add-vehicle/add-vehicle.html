@@ -9,13 +9,13 @@
     <form class="add-vehicle-form" (ngSubmit)="onSubmit()">
       <!-- Brand -->
       <div class="form-group">
-        <label for="firstName">Brand</label>
+        <label for="brand">Brand</label>
         <input
           type="text"
-          id="firstName"
+          id="brand"
           class="form-input"
-          [(ngModel)]="firstname"
-          name="firstName"
+          [(ngModel)]="brand"
+          name="brand"
           placeholder="Entrez le prénom"
           required
         />
@@ -23,13 +23,13 @@
 
       <!-- Number plate -->
       <div class="form-group">
-        <label for="lastName">Number plate</label>
+        <label for="numberPlate">Number plate</label>
         <input
           type="text"
-          id="lastName"
+          id="numberPlate"
           class="form-input"
-          [(ngModel)]="lastName"
-          name="lastName"
+          [(ngModel)]="numberPlate"
+          name="numberPlate"
           placeholder="Entrez le nom"
           required
         />
@@ -37,17 +37,19 @@
 
       <!-- Type -->
       <div class="form-group">
-        <label for="DriverType">Type</label>
+        <label for="VehicleType">Type</label>
         <select
-          id="DriverType"
+          id="VehicleType"
           class="form-input"
-          [(ngModel)]="DriverType"
-          name="DriverType"
+          [(ngModel)]="VehicleType"
+          name="VehicleType"
           required
         >
           <option [ngValue]="null" disabled>Sélectionnez un type</option>
-          <option [ngValue]="0">Admin</option>
-          <option [ngValue]="1">Driver</option>
+          <option [ngValue]="0">Moto</option>
+          <option [ngValue]="1">Voiture</option>
+          <option [ngValue]="2">Camionette</option>
+          <option [ngValue]="3">Camion</option>
         </select>
       </div>
 

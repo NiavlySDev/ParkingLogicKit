@@ -2,7 +2,7 @@ import { Component, ChangeDetectorRef, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RestServer } from '../../../../Rest/RestServer';
-import { Driver } from '../../../../Auth/Driver.js';
+import { Vehicle } from '../../../../Auth/Vehicle.js';
 import { Router } from '@angular/router';
 
 // author Ethan
@@ -14,13 +14,9 @@ import { Router } from '@angular/router';
   styleUrl: './add-vehicle.css',
 })
 export class AddVehicle {
-  firstname: string = '';
-  lastName: string = '';
-  username: string = '';
-  password: string = '';
-  age: number | null = null;
-  isMale: boolean | null = null;
-  DriverType: number | null = null;
+  brand: string = '';
+  numberPlate: string = '';
+  VehicleType: number | null = null;
   isLoading: boolean = false;
   message: string = '';
   messageType: 'success' | 'error' = 'success';
@@ -38,44 +34,32 @@ export class AddVehicle {
 
   onSubmit(): void {
     if (
-      !this.firstname ||
-      !this.lastName ||
-      !this.username ||
-      !this.password ||
-      this.age === null ||
-      this.isMale === null ||
-      this.DriverType === null
+      !this.brand ||
+      !this.numberPlate ||
+      this.VehicleType === null
     ) {
       this.setMessage('Tous les champs sont obligatoires', 'error');
-      return;
-    }
-
-    if (this.age < 1 || this.age > 120) {
-      this.setMessage("L'âge doit être compris entre 1 et 120 ans", 'error');
       return;
     }
 
     this.isLoading = true;
     this.message = '';
 
-    const DriverClass =
-      this.DriverType === 0
-        ? 'lml.snir.parkinglogickit.metier.entity.Admin'
-        : 'lml.snir.parkinglogickit.metier.entity.Driver';
+    const VehicleClass =
+      this.VehicleType === 0
+        ? 'lml.snir.parkinglogickit.metier.entity.Vehicle'
+        : 'lml.snir.parkinglogickit.metier.entity.VehicleType';
 
-    const DriverData: any = {
-      firstName: this.firstname,
-      lastName: this.lastName,
-      username: this.username,
-      password: this.password,
-      age: this.age,
-      isMale: this.isMale,
-      class: DriverClass,
+    const VehicleData: any = {
+      brand: this.brand,
+      numberPlate: this.numberPlate,
+      VehicleType: this.VehicleType,
+      class: VehicleClass,
     };
 
     this.restServer
-      .getDriverService()
-      .add(DriverData as Driver)
+      .getVehicleService()
+      .add(VehicleData as Vehicle)
       .subscribe({
         next: () => {
           this.ngZone.run(() => {
@@ -101,12 +85,8 @@ export class AddVehicle {
   }
 
   private resetForm(): void {
-    this.firstname = '';
-    this.lastName = '';
-    this.username = '';
-    this.password = '';
-    this.age = null;
-    this.isMale = null;
-    this.DriverType = null;
+    this.brand = '';
+    this.numberPlate = '';
+    this.VehicleType = null;
   }
 }
