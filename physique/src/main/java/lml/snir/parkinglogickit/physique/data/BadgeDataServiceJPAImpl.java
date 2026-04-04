@@ -21,8 +21,8 @@ public class BadgeDataServiceJPAImpl extends AbstracCrudServiceJPA<Badge> implem
         Badge badge;
         try {
             this.open();
-            Query query = em.createQuery("SELECT b FROM Badge b WHERE b.contenu = fcontenu");
-            query.setParameter("fcontenu", contenu);
+            Query query = em.createQuery("SELECT b FROM Badge b WHERE b.content = :fcontent");
+            query.setParameter("fcontent", contenu);
             badge = (Badge) query.getSingleResult();
         } catch (NoResultException ex) {
             return null;

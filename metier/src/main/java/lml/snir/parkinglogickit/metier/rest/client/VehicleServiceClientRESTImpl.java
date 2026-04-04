@@ -25,46 +25,43 @@ public class VehicleServiceClientRESTImpl extends ClientRest<Vehicle> implements
     @Override
     public List<Vehicle> getByAssociate(boolean attribue) throws Exception {
         super.setPath("getByAssociate/" + attribue);
-        return null;
+        return (List<Vehicle>) super.getEntity();
     }
 
     @Override
     public Vehicle add(Vehicle t) throws Exception {
-       super.setPath("");
+        super.setPath("");
         return super.addEntity(t);
     }
 
     @Override
     public void remove(Vehicle t) throws Exception {
-          super.setPath("");
+        super.setPath("");
         super.removeEntity(t);
     }
 
     @Override
     public void update(Vehicle t) throws Exception {
-          super.setPath("");
+        super.setPath("");
         super.updateEntity(t);
     }
 
     @Override
     public Vehicle getById(Long id) throws Exception {
-       super.setPath("" + id);
+        super.setPath("" + id);
         return super.getEntity();
-
     }
 
     @Override
     public long getCount() throws Exception {
         super.setPath("Count");
         return super.getCountEntity();
-
     }
 
     @Override
     public List<Vehicle> getAll() throws Exception {
         super.setPath("");
         return super.getEntitys();
-
     }
 
     @Override
