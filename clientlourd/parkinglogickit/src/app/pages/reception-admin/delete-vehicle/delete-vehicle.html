@@ -1,1 +1,31 @@
-<p>delete-vehicle works!</p>
+<div class="delete-vehicle">
+  <button class="home-button" (click)="goHome()" aria-label="Accueil">
+    <img src="logo-home.png" alt="Accueil" class="home-logo" />
+  </button>
+
+  <div class="delete-vehicle-card">
+    <h1 class="delete-vehicle-title">Supprimer un vehicle</h1>
+
+    <form class="delete-vehicle-form" (ngSubmit)="onSubmit()">
+      <!-- Selection Vehicle -->
+      <div class="form-group">
+        <label for="firstName">Choisir</label>
+        <div class="card flex justify-center">
+            <p-select [options]="Vehicles" [(ngModel)]="selectedVehicle" name="selectedVehicle" optionLabel="fullName" placeholder="Choisir un Vehicle" (onChange)="changeVehicle()" />
+        </div>
+      </div>
+
+      <!-- Bouton Submit -->
+      <div class="form-actions">
+        <button type="submit" class="btn-submit" [disabled]="isLoading">
+          {{ isLoading ? 'Chargement...' : "Confirmer la suppression" }}
+        </button>
+      </div>
+    </form>
+
+    <!-- Messages -->
+    <div *ngIf="message" class="message" [ngClass]="'message-' + messageType">
+      {{ message }}
+    </div>
+  </div>
+</div>
