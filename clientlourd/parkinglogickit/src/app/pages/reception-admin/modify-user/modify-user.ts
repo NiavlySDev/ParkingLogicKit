@@ -5,6 +5,7 @@ import { RestServer } from '../../../../Rest/RestServer';
 import { Driver } from '../../../../Auth/Driver.js';
 import { Router } from '@angular/router';
 import { PrimengModule } from '../../../shared/primeng.module';
+import { PrimeIcons } from 'primeng/api';
 
 @Component({
   selector: 'app-modify-user',
