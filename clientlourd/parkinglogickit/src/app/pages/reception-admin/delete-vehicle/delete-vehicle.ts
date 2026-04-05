@@ -37,7 +37,7 @@ export class DeleteVehicle implements OnInit {
     this.restServer.getVehicleService().getAll().subscribe({
       next: (Vehicles: any[]) => {
         this.ngZone.run(() => {
-          this.Vehicles = Vehicles.map(d => ({ ...d, fullName: `${d.brand} ${d.numberPlate}` }));
+          this.Vehicles = Vehicles.map(d => ({ ...d, fullName: `${d.brand} | ${d.numberPlate} | ${d.type}` }));
         });
       }
     });

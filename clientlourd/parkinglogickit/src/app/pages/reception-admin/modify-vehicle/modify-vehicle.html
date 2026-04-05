@@ -1,1 +1,77 @@
-<p>modify-vehicle works!</p>
+<div class="modify-vehicle">
+  <button class="home-button" (click)="goHome()" aria-label="Accueil">
+    <img src="logo-home.png" alt="Accueil" class="home-logo" />
+  </button>
+
+  <div class="modify-vehicle-card">
+    <h1 class="modify-vehicle-title">Modification Driver</h1>
+
+    <form class="modify-vehicle-form" (ngSubmit)="onSubmit()">
+      <!-- Selection Driver -->
+      <div class="form-group">
+        <label for="firstName">Choisir</label>
+        <div class="card flex justify-center">
+            <p-select [options]="vehicles" [(ngModel)]="selectedVehicle" name="selectedDriver" optionLabel="fullName" placeholder="Choisir un Vehicle" (onChange)="changeVehicle()" />
+        </div>
+      </div>
+
+      <!-- Prénom -->
+      <div class="form-group">
+        <label for="brand">Brand</label>
+        <input
+          type="text"
+          id="brand"
+          class="form-input"
+          [(ngModel)]="brand"
+          name="brand"
+          placeholder="Entrez le prénom"
+          required
+        />
+      </div>
+
+      <!-- Nom -->
+      <div class="form-group">
+        <label for="numberPlate">numberPlate</label>
+        <input
+          type="text"
+          id="numberPlate"
+          class="form-input"
+          [(ngModel)]="numberPlate"
+          name="numberPlate"
+          placeholder="Entrez le nom"
+          required
+        />
+      </div>
+
+      <!-- Type utilisateur -->
+      <div class="form-group">
+        <label for="VehicleType">Type de vehicle</label>
+        <select
+          id="VehicleType"
+          class="form-input"
+          [(ngModel)]="Type"
+          name="VehicleType"
+          required
+        >
+          <option [ngValue]="null" disabled>Sélectionnez un type</option>
+          <option [ngValue]="0">Moto</option>
+          <option [ngValue]="1">Voiture</option>
+          <option [ngValue]="2">Camionette</option>
+          <option [ngValue]="3">Camion</option>
+        </select>
+      </div>
+
+      <!-- Bouton Submit -->
+      <div class="form-actions">
+        <button type="submit" class="btn-submit" [disabled]="isLoading">
+          {{ isLoading ? 'Chargement...' : "Confirmer Modification" }}
+        </button>
+      </div>
+    </form>
+
+    <!-- Messages -->
+    <div *ngIf="message" class="message" [ngClass]="'message-' + messageType">
+      {{ message }}
+    </div>
+  </div>
+</div>
