@@ -18,8 +18,8 @@ export class Vehicle {
     age: number = 0,
     masculin: number = 0,
     type: VehicleType = VehicleType.Voiture,
-    class_: string = ''
-  ){
+    class_: string = '',
+  ) {
     this.id = id;
     this.brand = brand;
     this.numberPlate = numberPlate;
@@ -34,11 +34,15 @@ export class Vehicle {
     return this.brand;
   }
 
+  getVehicleType(): VehicleType {
+    return this.type;
+  }
+
   getNumberPlate(): string {
     return this.numberPlate;
   }
 
-    setVehicleType(vehicleType: VehicleType) {
-      this.type = vehicleType;
-    }
+  setVehicleType(vehicleType: VehicleType) {
+    this.type = vehicleType;
+  }
 }
