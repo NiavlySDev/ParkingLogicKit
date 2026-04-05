@@ -13,10 +13,6 @@ export class Vehicle {
     id: number,
     brand: string,
     numberPlate: string,
-    login: string,
-    password: string = '',
-    age: number = 0,
-    masculin: number = 0,
     type: VehicleType = VehicleType.Voiture,
     class_: string = '',
   ) {
