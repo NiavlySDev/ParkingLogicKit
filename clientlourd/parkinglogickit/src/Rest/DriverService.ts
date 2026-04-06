@@ -46,6 +46,6 @@ export class DriverService {
   }
 
   public getByUsername(username: string): Observable<Driver> {
-    return this.http.get<Driver>(`${this.apiUrl}/getByUsername/${username}`);
+    return this.http.get<Driver>(`${this.apiUrl}/getByUsername/${username}?login=PLK&pass=PASSPLK`);
   }
 }
