@@ -8,6 +8,8 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.UriInfo;
 import java.util.List;
 import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 import lml.snir.parkinglogickit.metier.entity.Driver;
@@ -102,8 +104,9 @@ public class DriverServiceRestServeurImpl {
 
     @GET
     @Path("/getByUsername/{username}")
-    public Driver getByusername(@PathParam("username") String username) throws Exception {
+    public Driver getByusername(@Context UriInfo uriInfo, @PathParam("username") String username) throws Exception {
         try {
+                        Authenticate.authenticate(uriInfo.getQueryParameters());
             return this.DriverSrv.getByUsername(username);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
