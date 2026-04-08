@@ -1,27 +1,38 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import * as CryptoJS from 'crypto-js';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private timeoutId: any;
-  private readonly TIMEOUT_DURATION = 60 * 1000; // 15 minutes
+  private readonly TIMEOUT_DURATION = 60 * 1000;
+  private Key = 'vfm#PGcp810zSkjPv3H2';
 
   constructor(private router: Router) {}
 
   /**
-   * Stocke le token JWT ou pseudo-token sécurisé
-   * @param token : token reçu du backend après login
+   * Stocke le token JWT chiffré
    */
   setToken(token: string): void {
-    localStorage.setItem('authToken', token);
+    const encrypted = CryptoJS.AES.encrypt(token, this.Key).toString();
+    localStorage.setItem('authToken', encrypted);
     this.startTimeout();
   }
 
   /**
-   * Récupère le token depuis le localStorage
+   * Récupère et déchiffre le token
    */
   getToken(): string | null {
-    return localStorage.getItem('authToken');
+    const encrypted = localStorage.getItem('authToken');
+    if (!encrypted) return null;
+
+    try {
+      const bytes = CryptoJS.AES.decrypt(encrypted, this.Key);
+      const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+      return decrypted || null;
+    } catch {
+      return null;
+    }
   }
 
   /**
@@ -65,6 +76,7 @@ export class AuthService {
   isLoggedIn(): boolean {
     const token = this.getToken();
     if (!token) return false;
+
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
       return Date.now() < (payload.exp ?? 0) * 1000;
@@ -83,7 +95,7 @@ export class AuthService {
   }
 
   /**
-   * Reset du timeout (par ex. quand l'utilisateur interagit)
+   * Reset du timeout
    */
   resetTimeout(): void {
     clearTimeout(this.timeoutId);
@@ -91,7 +103,7 @@ export class AuthService {
   }
 
   /**
-   * Timeout automatique après 15 minutes d'inactivité
+   * Timeout automatique après inactivité
    */
   private startTimeout(): void {
     this.timeoutId = setTimeout(() => {
