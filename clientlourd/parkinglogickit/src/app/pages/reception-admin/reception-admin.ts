@@ -21,10 +21,7 @@ export class ReceptionAdmin {
   placesLibres: number = 42;
   tauxOccupation: number = 0;
 
-  constructor(
-    private router: Router,
-    private authService: AuthService
-  ) {
+  constructor(private router: Router, private authService: AuthService) {
     this.username = this.authService.getUsername();
     this.tauxOccupation = Math.round((this.placesOccupees / this.placesTotal) * 100);
   }

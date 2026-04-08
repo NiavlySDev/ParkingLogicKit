@@ -11,14 +11,21 @@
       <div class="form-group">
         <label for="firstName">Choisir</label>
         <div class="card flex justify-center">
-            <p-select [options]="drivers" [(ngModel)]="selectedDriver" name="selectedDriver" optionLabel="fullName" placeholder="Choisir un Driver" (onChange)="changeDriver()" />
+          <p-select
+            [options]="drivers"
+            [(ngModel)]="selectedDriver"
+            name="selectedDriver"
+            optionLabel="fullName"
+            placeholder="Choisir un Driver"
+            (onChange)="changeDriver()"
+          />
         </div>
       </div>
 
       <!-- Bouton Submit -->
       <div class="form-actions">
         <button type="submit" class="btn-submit" [disabled]="isLoading">
-          {{ isLoading ? 'Chargement...' : "Confirmer la suppression" }}
+          {{ isLoading ? 'Chargement...' : 'Confirmer la suppression' }}
         </button>
       </div>
     </form>

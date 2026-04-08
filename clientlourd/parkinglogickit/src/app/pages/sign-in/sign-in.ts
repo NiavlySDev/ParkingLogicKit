@@ -2,12 +2,11 @@ import { Component, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, NgClass } from '@angular/common';
 import { DriverService } from '../../../Rest/DriverService';
-import { Driver } from '../../../Auth/Driver';
 import { Router } from '@angular/router';
 import { PrimengModule } from '../../shared/primeng.module';
 import { MessageService } from 'primeng/api';
 import { AuthService } from '../../../Auth/auth.service';
-// author Ethan
+
 @Component({
   selector: 'app-sign-in',
   standalone: true,
@@ -37,21 +36,15 @@ export class SignIn {
 
   onSubmit(): void {
     if (!this.username && !this.password) {
-      this.message = "Nom d'utilisateur et mot de passe obligatoires";
-      this.messageType = 'error';
-      this.cdr.detectChanges();
+      this.setMessage("Nom d'utilisateur et mot de passe obligatoires", 'error');
       return;
     }
     if (!this.username) {
-      this.message = "Nom d'utilisateur obligatoire";
-      this.messageType = 'error';
-      this.cdr.detectChanges();
+      this.setMessage("Nom d'utilisateur obligatoire", 'error');
       return;
     }
     if (!this.password) {
-      this.message = 'Mot de passe obligatoire';
-      this.messageType = 'error';
-      this.cdr.detectChanges();
+      this.setMessage('Mot de passe obligatoire', 'error');
       return;
     }
 
@@ -61,24 +54,36 @@ export class SignIn {
     this.driverService.getByUsername(this.username).subscribe({
       next: (driver: any) => {
         this.isLoading = false;
+
         if (driver.password === this.password) {
-          this.authService.setUser(this.username, driver.class);
-          if (driver.class.includes('Admin')) {
+          const tokenPayload = {
+            username: driver.username,
+            role: driver.class.includes('Admin') ? 'Admin' : 'Driver',
+            exp: Math.floor(Date.now() / 1000) + 60 * 60,
+          };
+
+          const token =
+            btoa(JSON.stringify({})) +
+            '.' +
+            btoa(JSON.stringify(tokenPayload)) +
+            '.' +
+            btoa('signature');
+
+          this.authService.setToken(token);
+
+          // Redirection basée sur le token stocké via authService
+          if (this.authService.isAdmin()) {
             this.router.navigate(['/reception-admin']);
           } else {
             this.router.navigate(['/reception']);
           }
         } else {
-          this.message = 'Mot de passe incorrect';
-          this.messageType = 'error';
-          this.cdr.detectChanges();
+          this.setMessage('Mot de passe incorrect', 'error');
         }
       },
-      error: (err) => {
+      error: () => {
         this.isLoading = false;
-        this.message = 'Utilisateur introuvable';
-        this.messageType = 'error';
-        this.cdr.detectChanges();
+        this.setMessage('Utilisateur introuvable', 'error');
       },
     });
   }
@@ -86,5 +91,6 @@ export class SignIn {
   private setMessage(message: string, type: 'success' | 'error'): void {
     this.message = message;
     this.messageType = type;
+    this.cdr.detectChanges();
   }
 }
