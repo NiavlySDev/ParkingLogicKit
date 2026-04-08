@@ -80,7 +80,7 @@ public class VehicleServiceRestServeurImpl {
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
         }
-    }
+    } 
     @GET
     @Path("/")
     public List<Vehicle> getAll(@Context UriInfo uriInfo) throws Exception {
