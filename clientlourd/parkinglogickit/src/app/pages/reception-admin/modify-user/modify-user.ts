@@ -14,7 +14,6 @@ import { PrimeIcons } from 'primeng/api';
   styleUrl: './modify-user.css',
 })
 export class ModifyUser implements OnInit {
-
   firstname: string = '';
   lastName: string = '';
   username: string = '';
@@ -35,17 +34,20 @@ export class ModifyUser implements OnInit {
     private restServer: RestServer,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private ngZone: NgZone,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit() {
-    this.restServer.getDriverService().getAll().subscribe({
-      next: (drivers: any[]) => {
-        this.ngZone.run(() => {
-          this.drivers = drivers.map(d => ({ ...d, fullName: `${d.firstName} ${d.lastName}` }));
-        });
-      }
-    });
+    this.restServer
+      .getDriverService()
+      .getAll()
+      .subscribe({
+        next: (drivers: any[]) => {
+          this.ngZone.run(() => {
+            this.drivers = drivers.map((d) => ({ ...d, fullName: `${d.firstName} ${d.lastName}` }));
+          });
+        },
+      });
   }
 
   goHome(): void {
@@ -78,8 +80,8 @@ export class ModifyUser implements OnInit {
       this.DriverType === 0
         ? 'lml.snir.parkinglogickit.metier.entity.Admin'
         : this.DriverType === 1
-          ? 'lml.snir.parkinglogickit.metier.entity.Maintenance'
-          : 'lml.snir.parkinglogickit.metier.entity.Driver';
+        ? 'lml.snir.parkinglogickit.metier.entity.Maintenance'
+        : 'lml.snir.parkinglogickit.metier.entity.Driver';
 
     const DriverData: any = {
       id: this.selectedDriver.id,
@@ -150,8 +152,8 @@ export class ModifyUser implements OnInit {
         this.selectedDriver.class === 'lml.snir.parkinglogickit.metier.entity.Admin'
           ? 0
           : this.selectedDriver.class === 'lml.snir.parkinglogickit.metier.entity.Maintenance'
-            ? 1
-            : 2;
+          ? 1
+          : 2;
 
       this.cdr.detectChanges();
     });
@@ -180,12 +182,15 @@ export class ModifyUser implements OnInit {
       return;
     }
 
-    navigator.clipboard.writeText(this.password).then(() => {
-      this.setMessage('Le mot de passe a été copié dans le presse-papier', 'success');
-      this.cdr.detectChanges();
-    }).catch(() => {
-      this.setMessage('Échec de la copie du mot de passe', 'error');
-      this.cdr.detectChanges();
-    });
+    navigator.clipboard
+      .writeText(this.password)
+      .then(() => {
+        this.setMessage('Le mot de passe a été copié dans le presse-papier', 'success');
+        this.cdr.detectChanges();
+      })
+      .catch(() => {
+        this.setMessage('Échec de la copie du mot de passe', 'error');
+        this.cdr.detectChanges();
+      });
   }
 }

@@ -1,0 +1,43 @@
+ [Utilisateur ouvre l'application]
+            │
+            ▼
+      [Page de login]
+            │
+            │ --- Login réussi ---> Backend renvoie un TOKEN signé
+            │      { username, role, exp }
+            │
+            ▼
+   [AuthService.setToken(token)]
+            │
+            │ Stocke le token dans localStorage
+            │ Démarre le timeout de session
+            ▼
+[Navigation vers une page protégée]
+            │
+            │
+      [AuthGuard]
+      ┌───────────────────┐
+      │ isLoggedIn() ?    │
+      │ (token présent &   │
+      │  non expiré)       │
+      └─────────┬─────────┘
+                │ Oui
+                ▼
+            [RoleGuard]
+      ┌─────────────────────────┐
+      │ getRole() depuis token  │
+      │ Vérifie data.role de la │
+      │ route (ex: 'Admin')     │
+      └─────────┬──────────────┘
+                │ Oui
+                ▼
+          [Page affichée]
+                │
+                │ Utilisateur interagit
+                │ → resetTimeout() est appelé
+                ▼
+          [Logout automatique après 15 min]
+                │
+                ▼
+      localStorage.removeItem('authToken')
+      redirection vers /sign-in

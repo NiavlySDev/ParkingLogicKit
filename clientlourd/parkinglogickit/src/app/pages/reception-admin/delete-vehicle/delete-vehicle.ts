@@ -13,7 +13,6 @@ import { Vehicle } from '../../../../Auth/Vehicle';
   styleUrl: './delete-vehicle.css',
 })
 export class DeleteVehicle implements OnInit {
-
   brand: string = '';
   numberPlate: string = '';
   VehicleType: number | null = null;
@@ -30,17 +29,23 @@ export class DeleteVehicle implements OnInit {
     private restServer: RestServer,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private ngZone: NgZone,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit() {
-    this.restServer.getVehicleService().getAll().subscribe({
-      next: (Vehicles: any[]) => {
-        this.ngZone.run(() => {
-          this.Vehicles = Vehicles.map(d => ({ ...d, fullName: `${d.brand} | ${d.numberPlate} | ${d.type}` }));
-        });
-      }
-    });
+    this.restServer
+      .getVehicleService()
+      .getAll()
+      .subscribe({
+        next: (Vehicles: any[]) => {
+          this.ngZone.run(() => {
+            this.Vehicles = Vehicles.map((d) => ({
+              ...d,
+              fullName: `${d.brand} | ${d.numberPlate} | ${d.type}`,
+            }));
+          });
+        },
+      });
   }
 
   goHome(): void {
@@ -48,12 +53,7 @@ export class DeleteVehicle implements OnInit {
   }
 
   onSubmit(): void {
-    if (
-      !this.selectedVehicle ||
-      !this.brand ||
-      !this.numberPlate ||
-      this.VehicleType === null
-    ) {
+    if (!this.selectedVehicle || !this.brand || !this.numberPlate || this.VehicleType === null) {
       this.setMessage('Tous les champs sont obligatoires', 'error');
       return;
     }
@@ -65,8 +65,8 @@ export class DeleteVehicle implements OnInit {
       this.VehicleType === 0
         ? 'lml.snir.parkinglogickit.metier.entity.Admin'
         : this.VehicleType === 1
-          ? 'lml.snir.parkinglogickit.metier.entity.VehicleType'
-          : 'lml.snir.parkinglogickit.metier.entity.Vehicle';
+        ? 'lml.snir.parkinglogickit.metier.entity.VehicleType'
+        : 'lml.snir.parkinglogickit.metier.entity.Vehicle';
 
     const VehicleData: any = {
       id: this.selectedVehicle.id,
@@ -74,28 +74,26 @@ export class DeleteVehicle implements OnInit {
       lastName: this.numberPlate,
       class: VehicleClass,
     };
-        this.restServer
-          .getVehicleService()
-          .remove(VehicleData as Vehicle)
-          .subscribe({
-            next: () => {
-              this.ngZone.run(() => {          
-                this.isLoading = false;
-                this.setMessage('Vehicle supprimé avec succès 🎉', 'success');
-                this.resetForm();
-                this.cdr.detectChanges();      
-              });
-            },
-            error: (error: any) => {
-              this.ngZone.run(() => {          
-                this.isLoading = false;
-                this.setMessage(error?.error?.message || "Une erreur s'est produite", 'error');
-                this.cdr.detectChanges();       
-              });
-            },
+    this.restServer
+      .getVehicleService()
+      .remove(VehicleData as Vehicle)
+      .subscribe({
+        next: () => {
+          this.ngZone.run(() => {
+            this.isLoading = false;
+            this.setMessage('Vehicle supprimé avec succès 🎉', 'success');
+            this.resetForm();
+            this.cdr.detectChanges();
           });
-      
-
+        },
+        error: (error: any) => {
+          this.ngZone.run(() => {
+            this.isLoading = false;
+            this.setMessage(error?.error?.message || "Une erreur s'est produite", 'error');
+            this.cdr.detectChanges();
+          });
+        },
+      });
   }
 
   private setMessage(message: string, type: 'success' | 'error'): void {
@@ -116,12 +114,11 @@ export class DeleteVehicle implements OnInit {
         this.selectedVehicle.class === 'lml.snir.parkinglogickit.metier.entity.vehicle'
           ? 0
           : this.selectedVehicle.class === 'lml.snir.parkinglogickit.metier.entity.Maintenance'
-            ? 1
-            : 2;
+          ? 1
+          : 2;
 
       this.cdr.detectChanges();
     });
-    
   }
 
   private resetForm(): void {
@@ -129,5 +126,4 @@ export class DeleteVehicle implements OnInit {
     this.numberPlate = '';
     this.VehicleType = null;
   }
-
 }

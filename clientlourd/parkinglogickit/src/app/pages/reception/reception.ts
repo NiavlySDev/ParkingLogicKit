@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule, NgClass } from '@angular/common';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { PrimengModule } from '../../shared/primeng.module';
+import { AuthService } from '../../../Auth/auth.service';
 
 @Component({
   selector: 'app-reception',
@@ -20,8 +21,8 @@ export class Reception {
   tauxOccupation: number = 0;
   showUserMenu: boolean = false;
 
-  constructor(private route: ActivatedRoute, private router: Router) {
-    this.username = this.route.snapshot.queryParamMap.get('username') ?? '';
+  constructor(private router: Router, private authService: AuthService) {
+    this.username = this.authService.getUsername();
     this.tauxOccupation = Math.round((this.placesOccupees / this.placesTotal) * 100);
   }
 
@@ -31,13 +32,10 @@ export class Reception {
 
   logout(): void {
     this.showUserMenu = false;
-    this.router.navigate(['/sign-in']);
+    this.authService.logout();
   }
 
   goHome(): void {
-    this.router.navigate(['/reception'], {
-      queryParams: { username: this.username },
-    });
+    this.router.navigate(['/reception']);
   }
 }
-
