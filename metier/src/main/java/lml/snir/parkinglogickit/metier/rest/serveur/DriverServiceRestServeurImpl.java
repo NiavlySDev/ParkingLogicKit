@@ -64,8 +64,9 @@ public class DriverServiceRestServeurImpl {
 
     @GET
     @Path("/{id}")
-    public Driver getById(@PathParam("id") Long id) throws Exception {
+    public Driver getById(@Context UriInfo uriInfo, @PathParam("id") Long id) throws Exception {
         try {
+             Authenticate.authenticate(uriInfo.getQueryParameters());
             return this.DriverSrv.getById(id);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
@@ -99,14 +100,14 @@ public class DriverServiceRestServeurImpl {
             return this.DriverSrv.getAll(begin, count);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
-        }
+        } 
     }
 
     @GET
     @Path("/getByUsername/{username}")
     public Driver getByusername(@Context UriInfo uriInfo, @PathParam("username") String username) throws Exception {
         try {
-                        Authenticate.authenticate(uriInfo.getQueryParameters());
+         Authenticate.authenticate(uriInfo.getQueryParameters());
             return this.DriverSrv.getByUsername(username);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());

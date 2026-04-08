@@ -8,6 +8,8 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.UriInfo;
 import java.util.List;
 import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 import lml.snir.parkinglogickit.metier.entity.Associate;
@@ -61,8 +63,9 @@ public class AssociateServiceRestServeurImpl {
 
     @GET
     @Path("/{id}")
-    public Associate getById(@PathParam("id") Long id) throws Exception {
+    public Associate getById(@Context UriInfo uriInfo, @PathParam("id") Long id) throws Exception {
         try {
+              Authenticate.authenticate(uriInfo.getQueryParameters());
             return this.AssociateSrv.getById(id);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());

@@ -8,6 +8,8 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.UriInfo;
 import java.util.List;
 import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 import lml.snir.parkinglogickit.metier.entity.Badge;
@@ -61,8 +63,9 @@ public class BadgeServiceRestServeurImpl {
 
     @GET
     @Path("/{id}")
-    public Badge getById(@PathParam("id") Long id) throws Exception {
+    public Badge getById(@Context UriInfo uriInfo, @PathParam("id") Long id) throws Exception {
         try {
+              Authenticate.authenticate(uriInfo.getQueryParameters());
             return this.badgeSrv.getById(id);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
@@ -101,8 +104,9 @@ public class BadgeServiceRestServeurImpl {
 
     @GET
     @Path("/getByContent/{content}")
-    public Badge getByContent(@PathParam("content") String content) throws Exception {
+    public Badge getByContent(@Context UriInfo uriInfo,@PathParam("content") String content) throws Exception {
         try {
+             Authenticate.authenticate(uriInfo.getQueryParameters());
             return this.badgeSrv.getByContent(content);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
