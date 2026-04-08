@@ -8,6 +8,8 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.UriInfo;
 import java.util.List;
 import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 import lml.snir.parkinglogickit.metier.entity.Vehicle;
@@ -61,8 +63,9 @@ public class VehicleServiceRestServeurImpl {
 
     @GET
     @Path("/{id}")
-    public Vehicle getById(@PathParam("id") Long id) throws Exception {
+    public Vehicle getById(@Context UriInfo uriInfo,@PathParam("id") Long id) throws Exception {
         try {
+              Authenticate.authenticate(uriInfo.getQueryParameters());
             return this.VehicleSrv.getById(id);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
@@ -78,11 +81,11 @@ public class VehicleServiceRestServeurImpl {
             throw new RestException(500, ex.getMessage());
         }
     }
-
     @GET
     @Path("/")
-    public List<Vehicle> getAll() throws Exception {
+    public List<Vehicle> getAll(@Context UriInfo uriInfo) throws Exception {
         try {
+            Authenticate.authenticate(uriInfo.getQueryParameters());
             return this.VehicleSrv.getAll();
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
@@ -101,8 +104,9 @@ public class VehicleServiceRestServeurImpl {
 
     @GET
     @Path("/getByContent/{content}")
-    public Vehicle getByContent(@PathParam("content") String content) throws Exception {
+    public Vehicle getByContent(@Context UriInfo uriInfo, @PathParam("content") String content) throws Exception {
         try {
+              Authenticate.authenticate(uriInfo.getQueryParameters());
             return this.VehicleSrv.getByContent(content);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
