@@ -85,8 +85,9 @@ public class DriverServiceRestServeurImpl {
 
     @GET
     @Path("/")
-    public List<Driver> getAll() throws Exception {
+    public List<Driver> getAll(@Context UriInfo uriInfo) throws Exception {
         try {
+            Authenticate.authenticate(uriInfo.getQueryParameters());
             return this.DriverSrv.getAll();
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
