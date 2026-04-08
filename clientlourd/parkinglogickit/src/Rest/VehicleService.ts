@@ -38,7 +38,7 @@ export class VehicleService {
   }
 
   public getAll(): Observable<Vehicle[]> {
-    return this.http.get<Vehicle[]>(`${this.apiUrl}/`);
+    return this.http.get<Vehicle[]>(`${this.apiUrl}/?login=PLK&pass=PASSPLK`);
   }
 
   public getAllPaginated(begin: number, count: number): Observable<Vehicle[]> {
@@ -46,6 +46,6 @@ export class VehicleService {
   }
 
   public getByContent(content: string): Observable<Vehicle> {
-    return this.http.get<Vehicle>(`${this.apiUrl}/getByUsername/${content}`);
+    return this.http.get<Vehicle>(`${this.apiUrl}/getByUsername/${content}?login=PLK&pass=PASSPLK`);
   }
 }

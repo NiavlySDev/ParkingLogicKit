@@ -38,7 +38,7 @@ export class DriverService {
   }
 
   public getAll(): Observable<Driver[]> {
-    return this.http.get<Driver[]>(`${this.apiUrl}/`);
+    return this.http.get<Driver[]>(`${this.apiUrl}/?login=PLK&pass=PASSPLK`);
   }
 
   public getAllPaginated(begin: number, count: number): Observable<Driver[]> {
