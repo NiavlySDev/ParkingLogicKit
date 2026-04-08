@@ -38,7 +38,7 @@ export class ParkingService {
   }
 
   public getAll(): Observable<Parking[]> {
-    return this.http.get<Parking[]>(`${this.apiUrl}/`);
+    return this.http.get<Parking[]>(`${this.apiUrl}/?login=PLK&pass=PASSPLK`);
   }
 
   public getAllPaginated(begin: number, count: number): Observable<Parking[]> {
