@@ -11,7 +11,14 @@
       <div class="form-group">
         <label for="firstName">Choisir</label>
         <div class="card flex justify-center">
-            <p-select [options]="drivers" [(ngModel)]="selectedDriver" name="selectedDriver" optionLabel="fullName" placeholder="Choisir un Driver" (onChange)="changeDriver()" />
+          <p-select
+            [options]="drivers"
+            [(ngModel)]="selectedDriver"
+            name="selectedDriver"
+            optionLabel="fullName"
+            placeholder="Choisir un Driver"
+            (onChange)="changeDriver()"
+          />
         </div>
       </div>
 
@@ -58,11 +65,18 @@
               readonly
               required
             />
-            <button type="button" class="btn-eye" (click)="showPassword = !showPassword" title="Afficher/Masquer">
+            <button
+              type="button"
+              class="btn-eye"
+              (click)="showPassword = !showPassword"
+              title="Afficher/Masquer"
+            >
               {{ showPassword ? '🙈' : '👁️' }}
             </button>
           </div>
-          <button type="button" class="btn-sm" (click)="generateMdp()" title="Générer">&#x1F504;</button>
+          <button type="button" class="btn-sm" (click)="generateMdp()" title="Générer">
+            &#x1F504;
+          </button>
           <button type="button" class="btn-sm" (click)="copyMdp()" title="Copier">&#x1F4CB;</button>
         </div>
       </div>
@@ -112,7 +126,7 @@
       <!-- Bouton Submit -->
       <div class="form-actions">
         <button type="submit" class="btn-submit" [disabled]="isLoading">
-          {{ isLoading ? 'Chargement...' : "Confirmer Modification" }}
+          {{ isLoading ? 'Chargement...' : 'Confirmer Modification' }}
         </button>
       </div>
     </form>

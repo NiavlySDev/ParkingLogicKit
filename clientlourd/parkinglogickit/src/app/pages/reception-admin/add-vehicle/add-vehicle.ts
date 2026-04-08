@@ -33,11 +33,7 @@ export class AddVehicle {
   }
 
   onSubmit(): void {
-    if (
-      !this.brand ||
-      !this.numberPlate ||
-      this.VehicleType === null
-    ) {
+    if (!this.brand || !this.numberPlate || this.VehicleType === null) {
       this.setMessage('Tous les champs sont obligatoires', 'error');
       return;
     }

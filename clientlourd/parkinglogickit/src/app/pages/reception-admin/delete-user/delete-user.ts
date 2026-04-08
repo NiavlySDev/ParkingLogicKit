@@ -13,7 +13,6 @@ import { Driver } from '../../../../Auth/Driver';
   styleUrl: './delete-user.css',
 })
 export class DeleteUser implements OnInit {
-
   firstname: string = '';
   lastName: string = '';
   DriverType: number | null = null;
@@ -30,17 +29,20 @@ export class DeleteUser implements OnInit {
     private restServer: RestServer,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private ngZone: NgZone,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit() {
-    this.restServer.getDriverService().getAll().subscribe({
-      next: (drivers: any[]) => {
-        this.ngZone.run(() => {
-          this.drivers = drivers.map(d => ({ ...d, fullName: `${d.firstName} ${d.lastName}` }));
-        });
-      }
-    });
+    this.restServer
+      .getDriverService()
+      .getAll()
+      .subscribe({
+        next: (drivers: any[]) => {
+          this.ngZone.run(() => {
+            this.drivers = drivers.map((d) => ({ ...d, fullName: `${d.firstName} ${d.lastName}` }));
+          });
+        },
+      });
   }
 
   goHome(): void {
@@ -48,12 +50,7 @@ export class DeleteUser implements OnInit {
   }
 
   onSubmit(): void {
-    if (
-      !this.selectedDriver ||
-      !this.firstname ||
-      !this.lastName ||
-      this.DriverType === null
-    ) {
+    if (!this.selectedDriver || !this.firstname || !this.lastName || this.DriverType === null) {
       this.setMessage('Tous les champs sont obligatoires', 'error');
       return;
     }
@@ -65,8 +62,8 @@ export class DeleteUser implements OnInit {
       this.DriverType === 0
         ? 'lml.snir.parkinglogickit.metier.entity.Admin'
         : this.DriverType === 1
-          ? 'lml.snir.parkinglogickit.metier.entity.Maintenance'
-          : 'lml.snir.parkinglogickit.metier.entity.Driver';
+        ? 'lml.snir.parkinglogickit.metier.entity.Maintenance'
+        : 'lml.snir.parkinglogickit.metier.entity.Driver';
 
     const DriverData: any = {
       id: this.selectedDriver.id,
@@ -74,28 +71,28 @@ export class DeleteUser implements OnInit {
       lastName: this.lastName,
       class: DriverClass,
     };
-        this.restServer
-          .getDriverService()
-          .remove(DriverData as Driver)
-          .subscribe({
-            next: () => {
-              this.ngZone.run(() => {           // 👈 ajout
-                this.isLoading = false;
-                this.setMessage('Driver supprimé avec succès 🎉', 'success');
-                this.resetForm();
-                this.cdr.detectChanges();       // 👈 ajout
-              });
-            },
-            error: (error: any) => {
-              this.ngZone.run(() => {           // 👈 ajout
-                this.isLoading = false;
-                this.setMessage(error?.error?.message || "Une erreur s'est produite", 'error');
-                this.cdr.detectChanges();       // 👈 ajout
-              });
-            },
+    this.restServer
+      .getDriverService()
+      .remove(DriverData as Driver)
+      .subscribe({
+        next: () => {
+          this.ngZone.run(() => {
+            // 👈 ajout
+            this.isLoading = false;
+            this.setMessage('Driver supprimé avec succès 🎉', 'success');
+            this.resetForm();
+            this.cdr.detectChanges(); // 👈 ajout
           });
-      
-
+        },
+        error: (error: any) => {
+          this.ngZone.run(() => {
+            // 👈 ajout
+            this.isLoading = false;
+            this.setMessage(error?.error?.message || "Une erreur s'est produite", 'error');
+            this.cdr.detectChanges(); // 👈 ajout
+          });
+        },
+      });
   }
 
   private setMessage(message: string, type: 'success' | 'error'): void {
@@ -116,12 +113,11 @@ export class DeleteUser implements OnInit {
         this.selectedDriver.class === 'lml.snir.parkinglogickit.metier.entity.Admin'
           ? 0
           : this.selectedDriver.class === 'lml.snir.parkinglogickit.metier.entity.Maintenance'
-            ? 1
-            : 2;
+          ? 1
+          : 2;
 
       this.cdr.detectChanges();
     });
-    
   }
 
   private resetForm(): void {
@@ -129,5 +125,4 @@ export class DeleteUser implements OnInit {
     this.lastName = '';
     this.DriverType = null;
   }
-
 }
