@@ -8,6 +8,8 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.UriInfo;
 import java.util.List;
 import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 import lml.snir.parkinglogickit.metier.entity.Access;
@@ -61,8 +63,9 @@ public class AccessServiceRestServeurImpl {
 
     @GET
     @Path("/{id}")
-    public Access getById(@PathParam("id") Long id) throws Exception {
+    public Access getById(@Context UriInfo uriInfo, @PathParam("id") Long id) throws Exception {
         try {
+              Authenticate.authenticate(uriInfo.getQueryParameters());
             return this.AccessSrv.getById(id);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
@@ -101,8 +104,9 @@ public class AccessServiceRestServeurImpl {
 
     @GET
     @Path("/getByBadge/{Badge}")
-    public Access getByBadge(@PathParam("Badge") String Badge) throws Exception {
+    public Access getByBadge(@Context UriInfo uriInfo,@PathParam("Badge") String Badge) throws Exception {
         try {
+              Authenticate.authenticate(uriInfo.getQueryParameters());
             return this.AccessSrv.getByBadge(Badge);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
@@ -111,8 +115,9 @@ public class AccessServiceRestServeurImpl {
 
     @GET
     @Path("/getByDriver/{Driver}")
-    public Access getByDriver(@PathParam("Driver") String Driver) throws Exception {
+    public Access getByDriver(@Context UriInfo uriInfo,@PathParam("Driver") String Driver) throws Exception {
         try {
+              Authenticate.authenticate(uriInfo.getQueryParameters());
             return this.AccessSrv.getByDriver(Driver);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
@@ -121,8 +126,9 @@ public class AccessServiceRestServeurImpl {
 
     @GET
     @Path("/getByDateTime/{DateTime}")
-    public Access getByDateTime(@PathParam("DateTime") String DateTime) throws Exception {
+    public Access getByDateTime(@Context UriInfo uriInfo, @PathParam("DateTime") String DateTime) throws Exception {
         try {
+              Authenticate.authenticate(uriInfo.getQueryParameters());
             return this.AccessSrv.getByDateTime(DateTime);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
