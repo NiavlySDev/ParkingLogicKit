@@ -45,18 +45,11 @@ public class Test {
     }
 
     private void populate() throws Exception {
-        this.deleteDatabase();
         this.populateDriver();
         this.populateParking();
     }
 
-    private void deleteDatabase() throws Exception {
-        List<Driver> drivers = this.usrSrv.getAll();
-        for (Driver d : drivers) {
-            this.usrSrv.remove(d);
-        }
-    }
-
+    
     private void populateDriver() throws Exception {
         Driver drv;
 
