@@ -1,3 +1,6 @@
+<!--
+Author: Sylvain Crocquevieille
+-->
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -14,7 +17,6 @@
                                  onclick="PF('dlgCreerVehicule').show()"/>
             </div>
 
-            <!-- Tableau véhicules -->
             <p:dataTable id="tableVehicules"
                          var="vehicule"
                          value="#{vehiculesBean.vehicules}"
@@ -59,7 +61,6 @@
                 </p:column>
             </p:dataTable>
 
-            <!-- Dialog : Créer véhicule -->
             <p:dialog header="Nouveau véhicule" widgetVar="dlgCreerVehicule"
                       minHeight="220" width="400" showEffect="fade" modal="true">
                 <h:panelGroup id="panelCreerVehicule" layout="block">
@@ -98,7 +99,6 @@
                 </f:facet>
             </p:dialog>
 
-            <!-- Dialog : Modifier véhicule -->
             <p:dialog header="Modifier véhicule" widgetVar="dlgModifierVehicule"
                       minHeight="220" width="400" showEffect="fade" modal="true">
                 <h:panelGroup id="panelModifierVehicule" rendered="#{vehiculesBean.selectedVehicle != null}">

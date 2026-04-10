@@ -14,7 +14,7 @@ public interface AccessService extends CrudService<Access> {
     public Access getByContenu(String contenu) throws Exception;
 
     public Access getByDateTime(String date) throws Exception;
-    
+
     public Access getByBadge(String date) throws Exception;
 
 }

@@ -14,6 +14,11 @@ public enum VehicleType {
 
     private String name;
 
+    /**
+     * Constructeur de la Classe
+     *
+     * @param name : Le nom du véhicule
+     */
     private VehicleType(String name) {
         this.name = name;
     }
