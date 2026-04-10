@@ -21,7 +21,7 @@ public class VehicleDataServiceJPAImpl extends AbstracCrudServiceJPA<Vehicle> im
         Vehicle vehicle;
         try {
             this.open();
-            Query query = em.createQuery("SELECT n FROM Vehicle n WHERE n.numberPlate = :fnumberPlate");                       //PAS FINI
+            Query query = em.createQuery("SELECT n FROM Vehicle n WHERE n.numberPlate = :fnumberPlate");
             query.setParameter("fnumberPlate", content);
             vehicle = (Vehicle) query.getSingleResult();
         } catch (NoResultException ex) {
