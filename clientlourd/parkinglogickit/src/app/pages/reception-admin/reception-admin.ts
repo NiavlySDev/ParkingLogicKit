@@ -43,4 +43,5 @@ export class ReceptionAdmin {
     this.menuOpen = false;
     this.router.navigate(['/']);
   }
+
 }

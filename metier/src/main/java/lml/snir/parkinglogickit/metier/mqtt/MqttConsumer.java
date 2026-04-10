@@ -2,11 +2,7 @@ package lml.snir.parkinglogickit.metier.mqtt;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.util.Date;
 import java.util.UUID;
-import lml.snir.parkinglogickit.metier.entity.Access;
-import lml.snir.parkinglogickit.metier.entity.Admin;
-import lml.snir.parkinglogickit.physique.data.PhysiqueDataFactory;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -15,8 +11,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 /**
- * [foo] {"value":17.8,"local":{"numero":458}}
- * @author fanou
+ * @author Stéphane Alonso
  */
 public class MqttConsumer implements MqttCallback {
     private final GsonBuilder builder = new GsonBuilder();
@@ -50,7 +45,7 @@ public class MqttConsumer implements MqttCallback {
     public void connectionLost(Throwable cause) {
         cause.printStackTrace();
     }
-//
+
 ////    @Override
 //    public void messageArrived(String topic, MqttMessage message) throws Exception {
 //        System.out.println("[" + topic + "] " + message);
