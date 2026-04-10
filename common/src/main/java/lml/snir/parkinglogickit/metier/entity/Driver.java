@@ -133,12 +133,6 @@ public class Driver implements Serializable {
     }
 
     /**
-     * Récupérer l'objet Voiture (Vehicle)
-     *
-     * @return vehicle : l'objet Voiture (Vehicle)
-     */
-
-    /**
      * Retourne un identifiant unique correspondant au Conducteur (Driver)
      * uniquement
      *
@@ -206,14 +200,22 @@ public class Driver implements Serializable {
         return Objects.equals(this.password, other.password);
     }
 
+    /**
+     * Retourne l'age du Driver
+     *
+     * @return age : L'age du Driver
+     */
     public int getAge() {
         return age;
     }
 
+    /**
+     * Modifie l'age du Driver
+     *
+     * @param age : L'Age à modifier
+     */
     public void setAge(int age) {
         this.age = age;
     }
-    
-    
 
 }
