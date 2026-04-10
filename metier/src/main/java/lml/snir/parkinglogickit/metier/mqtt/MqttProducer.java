@@ -2,20 +2,12 @@ package lml.snir.parkinglogickit.metier.mqtt;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.util.Date;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.UUID;
-import lml.snir.parkinglogickit.metierfactory.MetierFactory;
-import lml.snir.parkinglogickit.metier.entity.Admin;
-import lml.snir.parkinglogickit.metier.entity.Access;
-import lml.snir.parkinglogickit.metier.entity.Associate;
-import lml.snir.parkinglogickit.metier.entity.Badge;
-import lml.snir.parkinglogickit.metier.entity.Parking;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 public class MqttProducer implements MqttCallback {
