@@ -1,3 +1,7 @@
+<!--
+Author: Sylvain Crocquevieille
+-->
+
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -71,7 +75,6 @@
                 </f:facet>
             </p:dialog>
 
-            <!-- Dialog : Supprimer badge -->
             <p:dialog header="Supprimer badge" widgetVar="dlgSupprimerBadge"
                       minHeight="80" width="360" showEffect="fade" modal="true">
                 <h:panelGroup rendered="#{badgesBean.selectedBadge != null}">
@@ -96,7 +99,6 @@
                 </f:facet>
             </p:dialog>
 
-            <!-- ===== SECTION ASSOCIATIONS ===== -->
             <div class="dashboard-header" style="margin-top:40px;">
                 <h2 class="section-title">Associations Badge ↔ Conducteur ↔ Véhicule</h2>
                 <p:commandButton value="Nouvelle association"

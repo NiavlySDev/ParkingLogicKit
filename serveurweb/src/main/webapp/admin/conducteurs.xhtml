@@ -1,3 +1,6 @@
+<!--
+Author: Sylvain Crocquevieille
+-->
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -150,7 +153,6 @@
                 </f:facet>
             </p:dialog>
 
-            <!-- Dialog : Modifier conducteur -->
             <p:dialog header="Modifier conducteur" widgetVar="dlgModifierConducteur"
                       minHeight="300" width="420" showEffect="fade" modal="true">
                 <h:panelGroup id="panelModifierConducteur" rendered="#{conducteursBean.selectedDriver != null}">
@@ -194,7 +196,6 @@
                 </f:facet>
             </p:dialog>
 
-            <!-- Dialog : Supprimer conducteur -->
             <p:dialog header="Supprimer conducteur" widgetVar="dlgSupprimerConducteur"
                       minHeight="80" width="380" showEffect="fade" modal="true">
                 <h:panelGroup rendered="#{conducteursBean.selectedDriver != null}">

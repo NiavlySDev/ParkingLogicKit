@@ -1,3 +1,6 @@
+<!--
+Author: Sylvain Crocquevieille
+-->
 <?xml version = "1.0" encoding = "UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -12,7 +15,6 @@
         <title>ParkingLogicKit</title>
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css" />
         <script type="text/javascript">
-            //<![CDATA[
             (function () {
                 if (localStorage.getItem('plk-theme') === 'dark') {
                     document.documentElement.setAttribute('data-theme', 'dark');
@@ -29,11 +31,9 @@
                     localStorage.setItem('plk-theme', 'dark');
                 }
             }
-            //]]>
         </script>
     </h:head>
     <h:body>
-        <!-- Bouton toggle Dark / Light (fixe, visible partout) -->
         <button class="theme-toggle" onclick="toggleTheme()" title="Basculer le thème">
             <span class="toggle-track">
                 <span class="toggle-thumb"></span>
