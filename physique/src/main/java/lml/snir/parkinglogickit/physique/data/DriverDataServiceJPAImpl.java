@@ -14,7 +14,7 @@ public class DriverDataServiceJPAImpl extends AbstracCrudServiceJPA<Driver> impl
     public DriverDataServiceJPAImpl(String PU) {
         super(PU);
     }
-    
+
     @Override
     public Driver getByUsername(String username) throws Exception {
         Driver user = null;

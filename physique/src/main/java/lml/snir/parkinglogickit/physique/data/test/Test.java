@@ -49,7 +49,6 @@ public class Test {
         this.populateParking();
     }
 
-    
     private void populateDriver() throws Exception {
         Driver drv;
 
