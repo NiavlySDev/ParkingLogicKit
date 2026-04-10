@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { RestServer } from '../../../../Rest/RestServer';
 import { Vehicle } from '../../../../Auth/Vehicle.js';
 import { Router } from '@angular/router';
-
 // author Ethan
 @Component({
   selector: 'app-sign-up',
@@ -37,20 +36,15 @@ export class AddVehicle {
       this.setMessage('Tous les champs sont obligatoires', 'error');
       return;
     }
-
     this.isLoading = true;
     this.message = '';
 
-    const VehicleClass =
-      this.VehicleType === 0
-        ? 'lml.snir.parkinglogickit.metier.entity.Vehicle'
-        : 'lml.snir.parkinglogickit.metier.entity.VehicleType';
-
+    const vehicleTypeNames = ['Moto', 'Voiture', 'Camionette', 'Camion'];
     const VehicleData: any = {
       brand: this.brand,
       numberPlate: this.numberPlate,
-      VehicleType: this.VehicleType,
-      class: VehicleClass,
+      type: vehicleTypeNames[this.VehicleType!],
+      class: 'lml.snir.parkinglogickit.metier.entity.Vehicle',
     };
 
     this.restServer
@@ -60,7 +54,7 @@ export class AddVehicle {
         next: () => {
           this.ngZone.run(() => {
             this.isLoading = false;
-            this.setMessage('Inscription réussie 🎉', 'success');
+            this.setMessage('Véhicule ajouté 🎉', 'success');
             this.resetForm();
             this.cdr.detectChanges();
           });
