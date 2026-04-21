@@ -1,12 +1,13 @@
 import { Component, ChangeDetectorRef, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RestServer } from '../../../../Rest/RestServer';
-import { Vehicle } from '../../../../Auth/Vehicle.js';
+import { Vehicle } from '../../../../Auth/Vehicle';
 import { Router } from '@angular/router';
+import { AssociateService } from '../../../../Rest/AssociateService';
+
 // author Ethan
 @Component({
-  selector: 'app-sign-up',
+  selector: 'app-add-vehicle',
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './add-vehicle.html',
@@ -21,10 +22,10 @@ export class AddVehicle {
   messageType: 'success' | 'error' = 'success';
 
   constructor(
-    private restServer: RestServer,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private associateService: AssociateService
   ) {}
 
   goHome(): void {
@@ -36,10 +37,19 @@ export class AddVehicle {
       this.setMessage('Tous les champs sont obligatoires', 'error');
       return;
     }
+
+    const driver = JSON.parse(localStorage.getItem('driver')!);
+
+    if (!driver) {
+      this.setMessage('Aucun driver trouvé', 'error');
+      return;
+    }
+
     this.isLoading = true;
     this.message = '';
 
     const vehicleTypeNames = ['Moto', 'Voiture', 'Camionette', 'Camion'];
+
     const VehicleData: any = {
       brand: this.brand,
       numberPlate: this.numberPlate,
@@ -47,25 +57,43 @@ export class AddVehicle {
       class: 'lml.snir.parkinglogickit.metier.entity.Vehicle',
     };
 
-    this.restServer
-      .getVehicleService()
-      .add(VehicleData as Vehicle)
-      .subscribe({
-        next: () => {
-          this.ngZone.run(() => {
-            this.isLoading = false;
-            this.setMessage('Véhicule ajouté 🎉', 'success');
-            this.resetForm();
-            this.cdr.detectChanges();
+    fetch('/ParkingLogicKit/rest/VehicleService/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(VehicleData)
+    })
+      .then(res => res.json())
+      .then((createdVehicle) => {
+
+        this.ngZone.run(() => {
+
+          this.associateService.add({
+            driverId: driver.id,
+            vehicleId: createdVehicle.id
+          }).subscribe({
+            next: () => {
+              this.setMessage('Driver associé au véhicule 🎯', 'success');
+            },
+            error: () => {
+              this.setMessage('Erreur lors de l’association', 'error');
+            }
           });
-        },
-        error: (error: any) => {
-          this.ngZone.run(() => {
-            this.isLoading = false;
-            this.setMessage(error?.error?.message || "Une erreur s'est produite", 'error');
-            this.cdr.detectChanges();
-          });
-        },
+
+          localStorage.removeItem('driver');
+
+          this.isLoading = false;
+          this.setMessage('Véhicule ajouté 🎉', 'success');
+          console.log('Véhicule créé:', );
+
+          this.resetForm();
+          this.cdr.detectChanges();
+        });
+
+      })
+      .catch(() => {
+        this.isLoading = false;
+        this.setMessage("Une erreur s'est produite", 'error');
+        this.cdr.detectChanges();
       });
   }
 

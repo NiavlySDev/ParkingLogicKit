@@ -16,11 +16,19 @@
             │
             │
       [AuthGuard]
-      ┌───────────────────┐
-      │ isLoggedIn() ?    │
+<<<<<<< Updated upstream
+      ┌────────────────────┐
+      │ isLoggedIn() ?     │
       │ (token présent &   │
       │  non expiré)       │
+      └─────────┬──────────┘
+=======
+      ┌───────────────────┐
+      │ isLoggedIn() ?    │
+      │ (token présent &  │
+      │  non expiré)      │
       └─────────┬─────────┘
+>>>>>>> Stashed changes
                 │ Oui
                 ▼
             [RoleGuard]
@@ -28,7 +36,7 @@
       │ getRole() depuis token  │
       │ Vérifie data.role de la │
       │ route (ex: 'Admin')     │
-      └─────────┬──────────────┘
+      └─────────┬───────────────┘
                 │ Oui
                 ▼
           [Page affichée]
