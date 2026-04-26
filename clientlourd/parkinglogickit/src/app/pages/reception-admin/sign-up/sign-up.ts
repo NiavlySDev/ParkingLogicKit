@@ -77,10 +77,13 @@ export class SignUp {
       .getDriverService()
       .add(DriverData as Driver)
       .subscribe({
-        next: () => {
+        next: (createdDriver: any) => {
           this.ngZone.run(() => {
             this.isLoading = false;
+            localStorage.setItem('driver', JSON.stringify(createdDriver));
             this.setMessage('Inscription réussie 🎉', 'success');
+            this.router.navigate(['/add-vehicle']);
+        
             this.resetForm();
             this.cdr.detectChanges();
           });
