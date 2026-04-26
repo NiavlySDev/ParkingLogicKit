@@ -16,6 +16,31 @@ public class VehicleServiceClientRESTImpl extends ClientRest<Vehicle> implements
         super.init("VehicleService", new RestServerLocalConfiguration());
     }
 
+    /**
+     * Ajoute un Vehicle de la Base de Données
+     *
+     * @param vehicle : Vehicle a ajouter
+     * @return : Logs Méthode Parente
+     * @throws java.lang.Exception
+     */
+    @Override
+    public Vehicle add(Vehicle vehicle) throws Exception {
+        super.setPath("");
+        return super.addEntity(vehicle);
+    }
+
+    @Override
+    public void remove(Vehicle vehicle) throws Exception {
+        super.setPath("");
+        super.removeEntity(vehicle);
+    }
+
+    @Override
+    public void update(Vehicle vehicle) throws Exception {
+        super.setPath("");
+        super.updateEntity(vehicle);
+    }
+
     @Override
     public Vehicle getByContent(String contenu) throws Exception {
         super.setPath("getByContent/" + contenu);
@@ -26,24 +51,6 @@ public class VehicleServiceClientRESTImpl extends ClientRest<Vehicle> implements
     public List<Vehicle> getByAssociate(boolean attribue) throws Exception {
         super.setPath("getByAssociate/" + attribue);
         return (List<Vehicle>) super.getEntity();
-    }
-
-    @Override
-    public Vehicle add(Vehicle t) throws Exception {
-        super.setPath("");
-        return super.addEntity(t);
-    }
-
-    @Override
-    public void remove(Vehicle t) throws Exception {
-        super.setPath("");
-        super.removeEntity(t);
-    }
-
-    @Override
-    public void update(Vehicle t) throws Exception {
-        super.setPath("");
-        super.updateEntity(t);
     }
 
     @Override
