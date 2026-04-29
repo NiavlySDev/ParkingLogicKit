@@ -5,13 +5,12 @@ import { RestServer } from '../../../../Rest/RestServer';
 import { Driver } from '../../../../Auth/Driver.js';
 import { Router } from '@angular/router';
 
-// author Ethan
 @Component({
   selector: 'app-sign-up',
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './sign-up.html',
-  styleUrl: './sign-up.css',
+  styleUrls: ['./sign-up.css'], // Correction ici
 })
 export class SignUp {
   firstname: string = '';
@@ -21,6 +20,7 @@ export class SignUp {
   age: number | null = null;
   isMale: boolean | null = null;
   DriverType: number | null = null;
+  addCar: string | null = null; // Ajout de la propriété pour le champ "addCar"
   isLoading: boolean = false;
   message: string = '';
   messageType: 'success' | 'error' = 'success';
@@ -37,6 +37,7 @@ export class SignUp {
   }
 
   onSubmit(): void {
+    // Validation des champs
     if (
       !this.firstname ||
       !this.lastName ||
@@ -44,7 +45,8 @@ export class SignUp {
       !this.password ||
       this.age === null ||
       this.isMale === null ||
-      this.DriverType === null
+      this.DriverType === null ||
+      this.addCar === null // Validation pour le champ "addCar"
     ) {
       this.setMessage('Tous les champs sont obligatoires', 'error');
       return;
@@ -83,7 +85,7 @@ export class SignUp {
             localStorage.setItem('driver', JSON.stringify(createdDriver));
             this.setMessage('Inscription réussie 🎉', 'success');
             this.router.navigate(['/add-vehicle']);
-        
+
             this.resetForm();
             this.cdr.detectChanges();
           });
@@ -91,6 +93,7 @@ export class SignUp {
         error: (error: any) => {
           this.ngZone.run(() => {
             this.isLoading = false;
+            console.error('Erreur lors de l’inscription :', error); // Journalisation de l'erreur
             this.setMessage(error?.error?.message || "Une erreur s'est produite", 'error');
             this.cdr.detectChanges();
           });
@@ -111,5 +114,6 @@ export class SignUp {
     this.age = null;
     this.isMale = null;
     this.DriverType = null;
+    this.addCar = null; // Réinitialisation du champ "addCar"
   }
 }
