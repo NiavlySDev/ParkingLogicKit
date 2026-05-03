@@ -10,17 +10,13 @@ public final class PhysiqueDataFactory {
     }
 
     private static final String PU = "lml.snir.ParkingLogicKitCommon_jar_1.0PU";
-    private static final boolean JDBC = false;
 
     private static DriverDataService usrSrv = null;
 
     public static synchronized DriverDataService getDriverDataService() throws Exception {
         if (usrSrv == null) {
-            if (JDBC) {
-//                usrSrv = new UtilisateurDataServiceDBCImpl();
-            } else {
-                usrSrv = new DriverDataServiceJPAImpl(PU);
-            }
+
+            usrSrv = new DriverDataServiceJPAImpl(PU);
         }
 
         return usrSrv;
@@ -30,11 +26,8 @@ public final class PhysiqueDataFactory {
 
     public static synchronized BadgeDataService getBadgeDataService() throws Exception {
         if (badgeSrv == null) {
-            if (JDBC) {
-                //badgeSrv = new BadgeDataServiceJDBCImpl();
-            } else {
-                badgeSrv = new BadgeDataServiceJPAImpl(PU);
-            }
+
+            badgeSrv = new BadgeDataServiceJPAImpl(PU);
         }
 
         return badgeSrv;
@@ -44,11 +37,8 @@ public final class PhysiqueDataFactory {
 
     public static synchronized AssociateDataService getAssociateDataService() throws Exception {
         if (associateSrv == null) {
-            if (JDBC) {
-                //associateSrv = new AssociateDataServiceJPAImpl();
-            } else {
-                associateSrv = new AssociateDataServiceJPAImpl(PU);
-            }
+
+            associateSrv = new AssociateDataServiceJPAImpl(PU);
         }
 
         return associateSrv;
@@ -57,9 +47,8 @@ public final class PhysiqueDataFactory {
     private static VehicleDataService vehicleSrv = null;
 
     public static synchronized VehicleDataService getVehicleDataService() throws Exception {
-        if (JDBC) {
-            //vehicleSrv = new VehicleDataServiceJDBCImpl();
-        } else {
+        if (vehicleSrv == null) {
+
             vehicleSrv = new VehicleDataServiceJPAImpl(PU);
         }
 
@@ -69,9 +58,8 @@ public final class PhysiqueDataFactory {
     private static ParkingDataService parkingSrv = null;
 
     public static synchronized ParkingDataService getParkingDataService() throws Exception {
-        if (JDBC) {
-            //parkingSrv = new ParkingDataServiceJDBCImpl();
-        } else {
+        if (parkingSrv == null) {
+
             parkingSrv = new ParkingDataServiceJPAImpl(PU);
         }
 
@@ -81,9 +69,8 @@ public final class PhysiqueDataFactory {
     private static AccessDataService AccessSrv = null;
 
     public static synchronized AccessDataService getAccessDataService() throws Exception {
-        if (JDBC) {
-            //AccessSrv = new ParkingDataServiceJDBCImpl();
-        } else {
+        if (AccessSrv == null) {
+            
             AccessSrv = new AccessDataServiceJPAImpl(PU);
         }
 
