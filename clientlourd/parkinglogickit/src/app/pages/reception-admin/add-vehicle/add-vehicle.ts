@@ -1,13 +1,11 @@
 import { Component, ChangeDetectorRef, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RestServer } from '../../../../Rest/RestServer';
-import { Vehicle } from '../../../../Auth/Vehicle.js';
 import { Router } from '@angular/router';
+import { AssociateService } from '../../../../Rest/AssociateService';
 
-// author Ethan
 @Component({
-  selector: 'app-sign-up',
+  selector: 'app-add-vehicle',
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './add-vehicle.html',
@@ -22,10 +20,10 @@ export class AddVehicle {
   messageType: 'success' | 'error' = 'success';
 
   constructor(
-    private restServer: RestServer,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private associateService: AssociateService,
   ) {}
 
   goHome(): void {
@@ -38,40 +36,72 @@ export class AddVehicle {
       return;
     }
 
+    const driver = JSON.parse(localStorage.getItem('driver')!);
+
+    if (!driver) {
+      this.setMessage('Aucun driver trouvé', 'error');
+      return;
+    }
+
     this.isLoading = true;
     this.message = '';
 
-    const VehicleClass =
-      this.VehicleType === 0
-        ? 'lml.snir.parkinglogickit.metier.entity.Vehicle'
-        : 'lml.snir.parkinglogickit.metier.entity.VehicleType';
+    const vehicleTypeNames = ['Moto', 'Voiture', 'Camionette', 'Camion'];
 
     const VehicleData: any = {
       brand: this.brand,
       numberPlate: this.numberPlate,
-      VehicleType: this.VehicleType,
-      class: VehicleClass,
+      type: vehicleTypeNames[this.VehicleType],
+      class: 'lml.snir.parkinglogickit.metier.entity.Vehicle',
     };
 
-    this.restServer
-      .getVehicleService()
-      .add(VehicleData as Vehicle)
-      .subscribe({
-        next: () => {
-          this.ngZone.run(() => {
-            this.isLoading = false;
-            this.setMessage('Inscription réussie 🎉', 'success');
-            this.resetForm();
-            this.cdr.detectChanges();
-          });
-        },
-        error: (error: any) => {
-          this.ngZone.run(() => {
-            this.isLoading = false;
-            this.setMessage(error?.error?.message || "Une erreur s'est produite", 'error');
-            this.cdr.detectChanges();
-          });
-        },
+    fetch('/ParkingLogicKit/rest/VehicleService/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(VehicleData),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Erreur HTTP création véhicule: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((createdVehicle) => {
+        if (!createdVehicle || !createdVehicle.id) {
+          this.setMessage('Erreur: véhicule non valide', 'error');
+          this.isLoading = false;
+          return;
+        }
+
+        this.ngZone.run(() => {
+          this.associateService
+            .add({
+              driverId: Number(driver.id),
+              vehicleId: Number(createdVehicle.id),
+            })
+            .subscribe({
+              next: () => {
+                this.setMessage('Driver associé au véhicule avec succès!', 'success');
+                localStorage.removeItem('driver');
+                this.resetForm();
+                this.isLoading = false;
+                this.cdr.detectChanges();
+              },
+              error: (err) => {
+                console.error('Erreur association:', err);
+                console.error('Détail erreur:', err?.error);
+                this.setMessage('Erreur lors de l’association', 'error');
+                this.isLoading = false;
+                this.cdr.detectChanges();
+              },
+            });
+        });
+      })
+      .catch((err) => {
+        console.error('Erreur création véhicule:', err);
+        this.isLoading = false;
+        this.setMessage("Une erreur s'est produite", 'error');
+        this.cdr.detectChanges();
       });
   }
 

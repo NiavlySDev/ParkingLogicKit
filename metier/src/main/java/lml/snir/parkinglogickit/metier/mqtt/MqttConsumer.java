@@ -2,7 +2,6 @@ package lml.snir.parkinglogickit.metier.mqtt;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.util.Date;
 import java.util.UUID;
 import lml.snir.parkinglogickit.metier.entity.Access;
 import lml.snir.parkinglogickit.metier.entity.Vehicle;

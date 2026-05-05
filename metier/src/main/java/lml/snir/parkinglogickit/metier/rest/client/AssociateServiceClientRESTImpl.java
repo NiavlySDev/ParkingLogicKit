@@ -17,58 +17,118 @@ public class AssociateServiceClientRESTImpl extends ClientRest<Associate> implem
         super.init("AssociateService", new RestServerLocalConfiguration());
     }
 
+    /**
+     * Ajoute une Associate de la Base de Données
+     *
+     * @param associate : Associate a ajouter
+     * @return : Logs Méthode Parente
+     * @throws java.lang.Exception
+     */
     @Override
-    public void remove(Associate t) throws Exception {
+    public Associate add(Associate associate) throws Exception {
         super.setPath("");
-        super.removeEntity(t);
+        return super.addEntity(associate);
     }
 
+    /**
+     * Retire une Associate de la Base de Données
+     *
+     * @param associate : Associate a retirer
+     * @throws java.lang.Exception
+     */
     @Override
-    public void update(Associate t) throws Exception {
+    public void remove(Associate associate) throws Exception {
         super.setPath("");
-        super.updateEntity(t);
+        super.removeEntity(associate);
     }
 
+    /**
+     * Modifie une Associate de la Base de Données
+     *
+     * @param associate : Associate a retirer
+     * @throws java.lang.Exception
+     */
+    @Override
+    public void update(Associate associate) throws Exception {
+        super.setPath("");
+        super.updateEntity(associate);
+    }
+
+    /**
+     * Retourne une Associate à partir de son ID
+     *
+     * @param id : ID
+     * @return : l'Associate à partir de son ID
+     * @throws java.lang.Exception
+     */
     @Override
     public Associate getById(Long id) throws Exception {
         super.setPath("" + id);
         return super.getEntity();
     }
 
+    /**
+     * Retourne le nombre d'Associate dans la Base de Données
+     *
+     * @return : Le nombre
+     * @throws java.lang.Exception
+     */
     @Override
     public long getCount() throws Exception {
         super.setPath("getCount");
         return super.getCountEntity();
     }
 
+    /**
+     * Retourne tous les Associate dans la Base de Données
+     *
+     * @return : Liste de tous les Associate
+     * @throws java.lang.Exception
+     */
     @Override
     public List<Associate> getAll() throws Exception {
-         super.setPath("");
+        super.setPath("");
         return super.getEntitys();
     }
 
+    /**
+     * Retourne tous les Associate dans la Base de Données, paginé
+     *
+     * @param begin : Début de la Pagination
+     * @param count : Nombre à paginer
+     * @return : Liste de tous les Associate
+     * @throws java.lang.Exception
+     */
     @Override
     public List<Associate> getAll(int begin, int count) throws Exception {
         super.setPath("" + begin + "/" + count);
         return super.getEntitys();
     }
 
+    /**
+     * Retourne les Associates reliés à un Badge
+     *
+     * @param badge : Badge
+     * @return : Liste de tous les Associate associé au Badge
+     * @throws java.lang.Exception
+     */
     @Override
     public Associate getByBadge(Badge badge) throws Exception {
-          super.setPath("getByBadge/" + badge);
+        super.setPath("getByBadge/" + badge);
         return super.getEntity();
     }
 
+    /**
+     * Retourne les Associates reliés à un Driver
+     *
+     * @param driver : Driver
+     * @return : Liste de tous les Associate associé au Driver
+     * @throws java.lang.Exception
+     */
     @Override
-    public Associate getByUtilisateur(Driver drv) throws Exception {
-         super.setPath("getByUtilisateur/" + drv);
+    public Associate getByUtilisateur(Driver driver) throws Exception {
+        super.setPath("getByUtilisateur/" + driver);
         return super.getEntity();
-    }
-
-    @Override
-    public Associate add(Associate t) throws Exception {
-           super.setPath("");
-        return super.addEntity(t);
     }
 
 }

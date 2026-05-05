@@ -1,14 +1,8 @@
-/* ================================================================
-   PARKINGLOGICKIT — MODERN GLASSMORPHISM
-   Design System v3 — Violet / Blanc / Gradient
-   Mode clair natif, toggle vers mode sombre via [data-theme="dark"]
-   ================================================================ */
-
+/*
+Author: Sylvain Crocquevieille
+*/
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-/* ================================================================
-   1. TOKENS
-   ================================================================ */
 :root {
     --bg-0:      #f0f2ff;
     --bg-1:      #f7f8ff;
@@ -25,7 +19,6 @@
     --accent-dim:    #e055ae;
     --accent-glow:   rgba(255,107,202,0.18);
 
-    /* Aliases pour compat avec l'ancien CSS */
     --cyan:      #6c63ff;
     --cyan-dim:  #5a52e0;
     --cyan-glow: rgba(108,99,255,0.18);
@@ -67,7 +60,6 @@
     --ease:  cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Mode sombre */
 [data-theme="dark"] {
     --bg-0:      #0f0e1a;
     --bg-1:      #16152a;
@@ -107,11 +99,6 @@
     --glow-orange:  0 0 24px rgba(255,138,212,0.30);
 }
 
-/* ================================================================
-   2. RESET & BASE
-   ================================================================ */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; background: var(--bg-0); }
 
 body {
@@ -140,9 +127,6 @@ p { color: var(--txt-mid); margin: 0 0 8px; }
 strong { color: var(--txt-hi); font-weight: 700; }
 ::selection { background: var(--primary-glow); color: var(--primary); }
 
-/* ================================================================
-   3. TYPOGRAPHIE
-   ================================================================ */
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-disp);
     font-weight: 700;
@@ -181,9 +165,6 @@ h4 {
     font-weight: 400;
 }
 
-/* ================================================================
-   4. TOGGLE THÈME
-   ================================================================ */
 .theme-toggle {
     position: fixed;
     top: 14px;
@@ -245,15 +226,10 @@ h4 {
 [data-theme="dark"] .toggle-label-light { display: none; }
 [data-theme="dark"] .toggle-label-dark  { display: inline; }
 
-/* ================================================================
-   5. CONTENEURS
-   ================================================================ */
 .main-container {
     max-width: 1400px;
     margin: 24px auto 40px;
     background: var(--bg-panel);
-    /* backdrop-filter supprimé : il créait un stacking context qui piégeait
-       les p:dialog et les faisait passer sous l'overlay modal */
     border: 1px solid var(--line);
     border-radius: var(--r-lg);
     padding: 0 0 56px;
@@ -330,9 +306,6 @@ h4 {
 
 .admin-page { padding: 0; }
 
-/* ================================================================
-   6. NAVIGATION — TabMenu PrimeFaces
-   ================================================================ */
 .ui-tabmenu,
 .ui-tabmenu.ui-widget {
     background: transparent !important;
@@ -413,9 +386,6 @@ h4 {
 .ui-tabmenu .ui-tabmenu-nav li.ui-state-disabled a span { display: none !important; }
 .ui-tabmenu .ui-menuitem-icon { font-size: 13px !important; }
 
-/* ================================================================
-   7. BOUTONS
-   ================================================================ */
 .ui-button {
     border-radius: var(--r-sm) !important;
     font-family: var(--font-body) !important;
@@ -520,9 +490,6 @@ h4 {
     pointer-events: none !important;
 }
 
-/* ================================================================
-   8. CHAMPS DE SAISIE
-   ================================================================ */
 .ui-inputtext, .ui-inputfield,
 input[type="text"], input[type="password"],
 input[type="email"], input[type="number"], input[type="search"] {
@@ -621,9 +588,6 @@ label, .ui-outputlabel {
     letter-spacing: .06em !important;
 }
 
-/* ================================================================
-   9. TABLEAUX DE DONNÉES
-   ================================================================ */
 .ui-datatable, .ui-datatable.ui-widget {
     border-radius: var(--r-md) !important;
     overflow: hidden !important;
@@ -692,9 +656,6 @@ label, .ui-outputlabel {
     color: var(--txt-hi) !important;
 }
 
-/* ================================================================
-   10. PAGINATEUR
-   ================================================================ */
 .ui-paginator, .ui-paginator.ui-widget-header {
     background: var(--bg-3) !important;
     border: none !important;
@@ -749,9 +710,6 @@ label, .ui-outputlabel {
 }
 .ui-paginator .ui-icon { color: var(--txt-lo) !important; font-size: 12px !important; }
 
-/* ================================================================
-   11. DIALOGUES
-   ================================================================ */
 .ui-dialog {
     border-radius: var(--r-xl) !important;
     border: 1px solid var(--line) !important;
@@ -802,10 +760,7 @@ label, .ui-outputlabel {
 }
 .ui-widget-overlay {
     background: rgba(26,21,53,0.55) !important;
-    /* backdrop-filter retiré : il créait un stacking context qui plaçait
-       le dialogue derrière l'overlay, bloquant toutes les interactions */
 }
-/* Garantir que le dialogue est toujours au-dessus du masque modal */
 .ui-dialog {
     z-index: 1001 !important;
 }
@@ -825,9 +780,6 @@ label, .ui-outputlabel {
 }
 .ui-panelgrid .ui-widget-content { background: transparent !important; border: none !important; }
 
-/* ================================================================
-   12. MESSAGES & GROWL
-   ================================================================ */
 .ui-messages:not(:has(.ui-messages-info,.ui-messages-warn,.ui-messages-error,.ui-messages-fatal)) {
     display: none !important;
 }
@@ -867,9 +819,6 @@ label, .ui-outputlabel {
 }
 .ui-growl-title, .ui-growl-message { color: var(--txt-hi) !important; }
 
-/* ================================================================
-   13. PANNEAUX
-   ================================================================ */
 .ui-panel {
     border-radius: var(--r-md) !important;
     border: 1px solid var(--line) !important;
@@ -894,9 +843,6 @@ label, .ui-outputlabel {
     padding: 16px !important;
 }
 
-/* ================================================================
-   14. DASHBOARD
-   ================================================================ */
 .dashboard-header {
     display: flex;
     align-items: center;
@@ -939,7 +885,6 @@ label, .ui-outputlabel {
     border-radius: 2px;
 }
 
-/* Barre statut */
 .dashboard-status-bar {
     display: flex;
     align-items: center;
@@ -963,7 +908,6 @@ label, .ui-outputlabel {
 }
 .status-icon { font-size: 1.2rem; }
 
-/* Grille stats */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
@@ -1018,15 +962,9 @@ label, .ui-outputlabel {
     letter-spacing: .10em;
 }
 
-/* ================================================================
-   15. COULEURS LIGNES
-   ================================================================ */
 .row-free td, .row-enter td { background-color: rgba(16,185,129,0.06) !important; }
 .row-occupied td, .row-exit td { background-color: rgba(239,68,68,0.06) !important; }
 
-/* ================================================================
-   16. BARRE D'ACTIONS
-   ================================================================ */
 .actions-bar {
     display: flex;
     gap: 10px;
@@ -1036,14 +974,8 @@ label, .ui-outputlabel {
     border-top: 1px solid var(--line-sep);
 }
 
-/* ================================================================
-   17. ICÔNES
-   ================================================================ */
 .pi, .ui-icon { color: inherit !important; }
 
-/* ================================================================
-   18. UI-WIDGET
-   ================================================================ */
 .ui-widget, .ui-widget-content, .ui-widget-header { font-family: var(--font-body) !important; }
 .ui-widget-content {
     background: var(--bg-2) !important;
@@ -1059,17 +991,11 @@ label, .ui-outputlabel {
 .ui-corner-top    { border-radius: var(--r-sm) var(--r-sm) 0 0 !important; }
 .ui-corner-bottom { border-radius: 0 0 var(--r-sm) var(--r-sm) !important; }
 
-/* ================================================================
-   19. SCROLLBAR
-   ================================================================ */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg-0); }
 ::-webkit-scrollbar-thumb { background: var(--line-hi); border-radius: 50px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
-/* ================================================================
-   20. RESPONSIVE
-   ================================================================ */
 @media (max-width: 768px) {
     .main-container { margin: 0; border-radius: 0; border: none; margin-top: 0; }
     .main-card, .login-card, .account-card { margin: 16px; padding: 28px 20px; }

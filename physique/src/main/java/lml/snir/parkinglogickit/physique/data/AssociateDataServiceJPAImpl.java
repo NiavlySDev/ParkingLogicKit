@@ -51,12 +51,4 @@ public class AssociateDataServiceJPAImpl extends AbstracCrudServiceJPA<Associate
         return associate;
     }
 
-    public Boolean isBadgeAttribue(Driver driver) throws Exception {
-        return (this.getByUtilisateur(driver) != null);
-    }
-
-    public Boolean isBadgeAttribue(Badge badge) throws Exception {
-        return (this.getByBadge(badge) != null);
-    }
-
 }
