@@ -16,17 +16,44 @@ public class ParkingDataServiceJPAImpl extends AbstracCrudServiceJPA<Parking> im
     }
 
     @Override
-    public Parking getByUsername(String contenu) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public Parking getByIsFull(boolean isFull) throws Exception {
-           Parking parking = null;
+        Parking parking = null;
         try {
             this.open();
             Query query = em.createQuery("SELECT p FROM Parking p WHERE p.isFull = :fisFull");
             query.setParameter("fisFull", isFull);
+            parking = (Parking) query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        } finally {
+            this.close();
+        }
+        return parking;
+    }
+
+    @Override
+    public Parking getByPlaceCount(int placeCount) throws Exception {
+        Parking parking = null;
+        try {
+            this.open();
+            Query query = em.createQuery("SELECT p FROM Parking p WHERE p.placeCount = :fplaceCount");
+            query.setParameter("fplaceCount", placeCount);
+            parking = (Parking) query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        } finally {
+            this.close();
+        }
+        return parking;
+    }
+
+    @Override
+    public Parking getByTotalPlace(int totalPlace) throws Exception {
+        Parking parking = null;
+        try {
+            this.open();
+            Query query = em.createQuery("SELECT p FROM Parking p WHERE p.totalPlace = :ftotalPlace");
+            query.setParameter("ftotalPlace", totalPlace);
             parking = (Parking) query.getSingleResult();
         } catch (NoResultException ex) {
             return null;
