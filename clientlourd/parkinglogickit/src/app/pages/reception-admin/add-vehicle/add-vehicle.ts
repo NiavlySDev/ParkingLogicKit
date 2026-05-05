@@ -1,11 +1,9 @@
 import { Component, ChangeDetectorRef, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Vehicle } from '../../../../Auth/Vehicle';
 import { Router } from '@angular/router';
 import { AssociateService } from '../../../../Rest/AssociateService';
 
-// author Ethan
 @Component({
   selector: 'app-add-vehicle',
   standalone: true,
@@ -25,7 +23,7 @@ export class AddVehicle {
     private router: Router,
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
-    private associateService: AssociateService
+    private associateService: AssociateService,
   ) {}
 
   goHome(): void {
@@ -53,44 +51,54 @@ export class AddVehicle {
     const VehicleData: any = {
       brand: this.brand,
       numberPlate: this.numberPlate,
-      type: vehicleTypeNames[this.VehicleType!],
+      type: vehicleTypeNames[this.VehicleType],
       class: 'lml.snir.parkinglogickit.metier.entity.Vehicle',
     };
 
     fetch('/ParkingLogicKit/rest/VehicleService/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(VehicleData)
+      body: JSON.stringify(VehicleData),
     })
-      .then(res => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Erreur HTTP création véhicule: ${res.status}`);
+        }
+        return res.json();
+      })
       .then((createdVehicle) => {
+        if (!createdVehicle || !createdVehicle.id) {
+          this.setMessage('Erreur: véhicule non valide', 'error');
+          this.isLoading = false;
+          return;
+        }
 
         this.ngZone.run(() => {
-
-          this.associateService.add({
-            driverId: driver.id,
-            vehicleId: createdVehicle.id
-          }).subscribe({
-            next: () => {
-              this.setMessage('Driver associé au véhicule 🎯', 'success');
-            },
-            error: () => {
-              this.setMessage('Erreur lors de l’association', 'error');
-            }
-          });
-
-          localStorage.removeItem('driver');
-
-          this.isLoading = false;
-          this.setMessage('Véhicule ajouté 🎉', 'success');
-          console.log('Véhicule créé:', );
-
-          this.resetForm();
-          this.cdr.detectChanges();
+          this.associateService
+            .add({
+              driverId: Number(driver.id),
+              vehicleId: Number(createdVehicle.id),
+            })
+            .subscribe({
+              next: () => {
+                this.setMessage('Driver associé au véhicule avec succès!', 'success');
+                localStorage.removeItem('driver');
+                this.resetForm();
+                this.isLoading = false;
+                this.cdr.detectChanges();
+              },
+              error: (err) => {
+                console.error('Erreur association:', err);
+                console.error('Détail erreur:', err?.error);
+                this.setMessage('Erreur lors de l’association', 'error');
+                this.isLoading = false;
+                this.cdr.detectChanges();
+              },
+            });
         });
-
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error('Erreur création véhicule:', err);
         this.isLoading = false;
         this.setMessage("Une erreur s'est produite", 'error');
         this.cdr.detectChanges();
