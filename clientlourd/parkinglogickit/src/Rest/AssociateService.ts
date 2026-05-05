@@ -6,13 +6,13 @@ export interface Associate {
   id?: number;
   driverId: number;
   vehicleId: number;
+  class?: string;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class AssociateService {
-
   private apiUrl: string = '/ParkingLogicKit/rest/AssociateService';
 
   constructor(private http: HttpClient) {}
@@ -26,9 +26,7 @@ export class AssociateService {
   }
 
   public remove(associate: Associate): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/`, {
-      body: associate,
-    });
+    return this.http.delete<void>(`${this.apiUrl}/`, { body: associate });
   }
 
   public update(associate: Associate): Observable<void> {

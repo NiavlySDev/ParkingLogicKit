@@ -4,14 +4,21 @@
   </button>
 
   <div class="modify-vehicle-card">
-    <h1 class="modify-vehicle-title">Modification Driver</h1>
+    <h1 class="modify-vehicle-title">Modification Vehicle</h1>
 
     <form class="modify-vehicle-form" (ngSubmit)="onSubmit()">
       <!-- Selection Driver -->
       <div class="form-group">
         <label for="firstName">Choisir</label>
         <div class="card flex justify-center">
-            <p-select [options]="vehicles" [(ngModel)]="selectedVehicle" name="selectedDriver" optionLabel="fullName" placeholder="Choisir un Vehicle" (onChange)="changeVehicle()" />
+          <p-select
+            [options]="vehicles"
+            [(ngModel)]="selectedVehicle"
+            name="selectedDriver"
+            optionLabel="fullName"
+            placeholder="Choisir un Vehicle"
+            (onChange)="changeVehicle()"
+          />
         </div>
       </div>
 
@@ -46,13 +53,7 @@
       <!-- Type utilisateur -->
       <div class="form-group">
         <label for="VehicleType">Type de vehicle</label>
-        <select
-          id="VehicleType"
-          class="form-input"
-          [(ngModel)]="Type"
-          name="VehicleType"
-          required
-        >
+        <select id="VehicleType" class="form-input" [(ngModel)]="Type" name="VehicleType" required>
           <option [ngValue]="null" disabled>Sélectionnez un type</option>
           <option [ngValue]="0">Moto</option>
           <option [ngValue]="1">Voiture</option>
@@ -64,7 +65,7 @@
       <!-- Bouton Submit -->
       <div class="form-actions">
         <button type="submit" class="btn-submit" [disabled]="isLoading">
-          {{ isLoading ? 'Chargement...' : "Confirmer Modification" }}
+          {{ isLoading ? 'Chargement...' : 'Confirmer Modification' }}
         </button>
       </div>
     </form>

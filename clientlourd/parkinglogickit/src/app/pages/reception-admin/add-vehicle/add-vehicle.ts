@@ -23,7 +23,7 @@ export class AddVehicle {
     private router: Router,
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
-    private associateService: AssociateService,
+    private associateService: AssociateService
   ) {}
 
   goHome(): void {
@@ -37,7 +37,6 @@ export class AddVehicle {
     }
 
     const driver = JSON.parse(localStorage.getItem('driver')!);
-
     if (!driver) {
       this.setMessage('Aucun driver trouvé', 'error');
       return;
@@ -47,7 +46,6 @@ export class AddVehicle {
     this.message = '';
 
     const vehicleTypeNames = ['Moto', 'Voiture', 'Camionette', 'Camion'];
-
     const VehicleData: any = {
       brand: this.brand,
       numberPlate: this.numberPlate,
@@ -76,9 +74,11 @@ export class AddVehicle {
         this.ngZone.run(() => {
           this.associateService
             .add({
-              driverId: Number(driver.id),
-              vehicleId: Number(createdVehicle.id),
-            })
+              driver: { id: Number(driver.id) },
+              vehicle: { id: Number(createdVehicle.id) },
+              badge: { id: 1 },
+              class: 'lml.snir.parkinglogickit.metier.entity.Associate',
+            } as any)
             .subscribe({
               next: () => {
                 this.setMessage('Driver associé au véhicule avec succès!', 'success');
@@ -89,8 +89,7 @@ export class AddVehicle {
               },
               error: (err) => {
                 console.error('Erreur association:', err);
-                console.error('Détail erreur:', err?.error);
-                this.setMessage('Erreur lors de l’association', 'error');
+                this.setMessage("Erreur lors de l'association", 'error');
                 this.isLoading = false;
                 this.cdr.detectChanges();
               },
