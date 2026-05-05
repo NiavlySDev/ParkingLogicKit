@@ -65,7 +65,7 @@ public class ParkingServiceRestServeurImpl {
     @Path("/{id}")
     public Parking getById(@Context UriInfo uriInfo, @PathParam("id") Long id) throws Exception {
         try {
-              Authenticate.authenticate(uriInfo.getQueryParameters());
+            Authenticate.authenticate(uriInfo.getQueryParameters());
             return this.ParkingSrv.getById(id);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
@@ -104,10 +104,32 @@ public class ParkingServiceRestServeurImpl {
 
     @GET
     @Path("/getByIsFull/{IsFull}")
-    public Parking getByIsFull(@Context UriInfo uriInfo,@PathParam("IsFull") boolean isFull) throws Exception {
+    public Parking getByIsFull(@Context UriInfo uriInfo, @PathParam("IsFull") boolean isFull) throws Exception {
         try {
-              Authenticate.authenticate(uriInfo.getQueryParameters());
+            Authenticate.authenticate(uriInfo.getQueryParameters());
             return this.ParkingSrv.getByIsFull(isFull);
+        } catch (Exception ex) {
+            throw new RestException(500, ex.getMessage());
+        }
+    }
+
+    @GET
+    @Path("/getByPlaceCount/{PlaceCount}")
+    public Parking getByPlaceCount(@Context UriInfo uriInfo, @PathParam("PlaceCount") int placeCount) throws Exception {
+        try {
+            Authenticate.authenticate(uriInfo.getQueryParameters());
+            return this.ParkingSrv.getByPlaceCount(placeCount);
+        } catch (Exception ex) {
+            throw new RestException(500, ex.getMessage());
+        }
+    }
+    
+    @GET
+    @Path("/getByTotalPlace/{TotalPlace}")
+    public Parking getByTotalPlace(@Context UriInfo uriInfo, @PathParam("TotalPlace") int totalPlace) throws Exception {
+        try {
+            Authenticate.authenticate(uriInfo.getQueryParameters());
+            return this.ParkingSrv.getByTotalPlace(totalPlace);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
         }
