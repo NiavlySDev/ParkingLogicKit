@@ -9,7 +9,7 @@ import jakarta.ws.rs.core.MultivaluedMap;
 
 /**
  *
- * @author Viralu
+ * @author Phily Seck
  */
 
 public class Authenticate {

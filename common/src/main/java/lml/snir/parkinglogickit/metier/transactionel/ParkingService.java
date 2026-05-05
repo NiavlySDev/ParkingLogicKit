@@ -9,8 +9,8 @@ import lml.snir.persistence.CrudService;
  */
 public interface ParkingService extends CrudService<Parking> {
 
-    public Parking getByUsername(String username) throws Exception;
-
     public Parking getByIsFull(boolean isFull) throws Exception;
+    public Parking getByPlaceCount(int placeCount) throws Exception;
+    public Parking getByTotalPlace(int totalPlace) throws Exception;
 
 }

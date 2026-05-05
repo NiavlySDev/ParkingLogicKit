@@ -53,25 +53,6 @@ public class ParkingServiceClientRESTImpl extends ClientRest<Parking> implements
     }
 
     /**
-     * Alors, je sais pas ce que ça fous la, mais azy hassoul On y touche pas
-     * car si on touche à ça ça pète toute la partie Physique...Phily je sais
- pas ce que t'as foutu mais tu l'as bien foutu Donc azy on touche pas à
- cette méthode, on fais comme si elle existait pas Et puis comme disait un
- proverbe Chinois: Never touch your code if it works, even if you don't
- know how
-     *
-     * @param username : Le nom d'utilisateur d'un Parking (carrément le Parking
-     * il s'appelle ErosDev35)
-     * @return 
-     * @throws java.lang.Exception
-     */
-    @Override
-    public Parking getByUsername(String username) throws Exception {
-        super.setPath("getByUsername/" + username);
-        return super.getEntity();
-    }
-
-    /**
      * Retourne les Parkings pleins
      *
      * @param isfull : Login
@@ -84,6 +65,18 @@ public class ParkingServiceClientRESTImpl extends ClientRest<Parking> implements
         return super.getEntity();
     }
 
+    @Override
+    public Parking getByPlaceCount(int placeCount) throws Exception {
+        super.setPath("getByPlaceCount/" + placeCount);
+        return super.getEntity();
+    }
+
+    @Override
+    public Parking getByTotalPlace(int totalPlace) throws Exception {
+        super.setPath("getByTotalPlace/" + totalPlace);
+        return super.getEntity();    
+    }
+    
     /**
      * Retourne un Parking à partir de son ID
      *

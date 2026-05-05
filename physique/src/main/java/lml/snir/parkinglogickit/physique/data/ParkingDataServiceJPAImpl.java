@@ -16,11 +16,6 @@ public class ParkingDataServiceJPAImpl extends AbstracCrudServiceJPA<Parking> im
     }
 
     @Override
-    public Parking getByUsername(String contenu) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public Parking getByIsFull(boolean isFull) throws Exception {
            Parking parking = null;
         try {
@@ -34,6 +29,16 @@ public class ParkingDataServiceJPAImpl extends AbstracCrudServiceJPA<Parking> im
             this.close();
         }
         return parking;
+    }
+
+    @Override
+    public Parking getByPlaceCount(int placeCount) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Parking getByTotalPlace(int totalPlace) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }
