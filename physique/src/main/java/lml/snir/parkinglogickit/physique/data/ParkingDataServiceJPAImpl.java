@@ -1,5 +1,7 @@
 package lml.snir.parkinglogickit.physique.data;
 
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.Query;
 import lml.snir.parkinglogickit.metier.entity.Parking;
 import lml.snir.persistence.jpa.AbstracCrudServiceJPA;
 
@@ -19,8 +21,19 @@ public class ParkingDataServiceJPAImpl extends AbstracCrudServiceJPA<Parking> im
     }
 
     @Override
-    public Parking getByIsFull(boolean attribue) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Parking getByIsFull(boolean isFull) throws Exception {
+           Parking parking = null;
+        try {
+            this.open();
+            Query query = em.createQuery("SELECT p FROM Parking p WHERE p.isFull = :fisFull");
+            query.setParameter("fisFull", isFull);
+            parking = (Parking) query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        } finally {
+            this.close();
+        }
+        return parking;
     }
 
 }
