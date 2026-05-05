@@ -45,8 +45,7 @@ export class SignUp {
       !this.password ||
       this.age === null ||
       this.isMale === null ||
-      this.DriverType === null ||
-      this.addCar === null // Validation pour le champ "addCar"
+      this.DriverType === null
     ) {
       this.setMessage('Tous les champs sont obligatoires', 'error');
       return;
@@ -114,6 +113,6 @@ export class SignUp {
     this.age = null;
     this.isMale = null;
     this.DriverType = null;
-    this.addCar = null; // Réinitialisation du champ "addCar"
+    this.addCar = null;
   }
 }
