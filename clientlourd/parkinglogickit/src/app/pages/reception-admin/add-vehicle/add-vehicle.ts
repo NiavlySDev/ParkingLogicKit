@@ -81,7 +81,7 @@ export class AddVehicle {
             })
             .subscribe({
               next: () => {
-                this.setMessage('Driver associé au véhicule 🎯', 'success');
+                this.setMessage('Driver associé au véhicule avec succès!', 'success');
                 localStorage.removeItem('driver');
                 this.resetForm();
                 this.isLoading = false;
