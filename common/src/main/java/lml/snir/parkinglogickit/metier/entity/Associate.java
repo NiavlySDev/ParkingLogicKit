@@ -21,7 +21,7 @@ public class Associate implements Serializable {
     private Long id;
 
     @OneToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = true)
     private Badge badge;
 
     @OneToOne

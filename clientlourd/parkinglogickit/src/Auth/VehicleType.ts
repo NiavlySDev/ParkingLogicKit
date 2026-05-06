@@ -1,6 +1,6 @@
 export enum VehicleType {
   Moto,
   Voiture,
-  Camionette,
+  Camionnette,
   Camion,
 }

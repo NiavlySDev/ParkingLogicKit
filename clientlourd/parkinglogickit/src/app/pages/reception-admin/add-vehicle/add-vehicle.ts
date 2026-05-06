@@ -14,7 +14,7 @@ import { AssociateService } from '../../../../Rest/AssociateService';
 export class AddVehicle {
   brand: string = '';
   numberPlate: string = '';
-  VehicleType: number | null = null;
+  selectedVehicleType: number | null = null;
   isLoading: boolean = false;
   message: string = '';
   messageType: 'success' | 'error' = 'success';
@@ -31,7 +31,7 @@ export class AddVehicle {
   }
 
   onSubmit(): void {
-    if (!this.brand || !this.numberPlate || this.VehicleType === null) {
+    if (!this.brand || !this.numberPlate || this.selectedVehicleType === null) {
       this.setMessage('Tous les champs sont obligatoires', 'error');
       return;
     }
@@ -45,11 +45,10 @@ export class AddVehicle {
     this.isLoading = true;
     this.message = '';
 
-    const vehicleTypeNames = ['Moto', 'Voiture', 'Camionette', 'Camion'];
     const VehicleData: any = {
       brand: this.brand,
       numberPlate: this.numberPlate,
-      type: vehicleTypeNames[this.VehicleType],
+      type: this.selectedVehicleType,
       class: 'lml.snir.parkinglogickit.metier.entity.Vehicle',
     };
 
@@ -112,6 +111,6 @@ export class AddVehicle {
   private resetForm(): void {
     this.brand = '';
     this.numberPlate = '';
-    this.VehicleType = null;
+    this.selectedVehicleType = null;
   }
 }
