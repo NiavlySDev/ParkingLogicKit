@@ -45,10 +45,12 @@ export class AddVehicle {
     this.isLoading = true;
     this.message = '';
 
+    const vehicleTypeNames = ['Moto', 'Voiture', 'Camionnette', 'Camion'];
+
     const VehicleData: any = {
       brand: this.brand,
       numberPlate: this.numberPlate,
-      type: this.selectedVehicleType,
+      type: vehicleTypeNames[this.selectedVehicleType],
       class: 'lml.snir.parkinglogickit.metier.entity.Vehicle',
     };
 

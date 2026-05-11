@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Vehicle } from '../Auth/Vehicle';
 
@@ -9,43 +9,49 @@ import { Vehicle } from '../Auth/Vehicle';
 export class VehicleService {
   private apiUrl: string = '/ParkingLogicKit/rest/VehicleService';
 
+  private headers = new HttpHeaders({
+    'X-Login': 'PLK',
+    'X-Pass': 'PASSPLK',
+  });
+
   constructor(private http: HttpClient) {}
 
   public setApiUrl(baseUrl: string): void {
     this.apiUrl = `${baseUrl}/VehicleService`;
   }
 
-  public add(Vehicle: Vehicle): Observable<Vehicle> {
-    return this.http.post<Vehicle>(`${this.apiUrl}/`, Vehicle);
+  public add(vehicle: Vehicle): Observable<Vehicle> {
+    return this.http.post<Vehicle>(`${this.apiUrl}/`, vehicle, { headers: this.headers });
   }
 
-  public remove(Vehicle: Vehicle): Observable<void> {
+  public remove(vehicle: Vehicle): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/`, {
-      body: Vehicle,
+      headers: this.headers,
+      body: vehicle,
     });
   }
 
-  public update(Vehicle: Vehicle): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/`, Vehicle);
+  public update(vehicle: Vehicle): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/`, vehicle, { headers: this.headers });
   }
 
   public getById(id: number): Observable<Vehicle> {
-    return this.http.get<Vehicle>(`${this.apiUrl}/${id}`);
+    return this.http.get<Vehicle>(`${this.apiUrl}/${id}`, { headers: this.headers });
   }
 
   public getCount(): Observable<number> {
-    return this.http.get<number>(`${this.apiUrl}/Count`);
+    return this.http.get<number>(`${this.apiUrl}/Count`, { headers: this.headers });
   }
 
   public getAll(): Observable<Vehicle[]> {
-    return this.http.get<Vehicle[]>(`${this.apiUrl}/?login=PLK&pass=PASSPLK`);
+    return this.http.get<Vehicle[]>(`${this.apiUrl}/`, { headers: this.headers });
   }
 
   public getAllPaginated(begin: number, count: number): Observable<Vehicle[]> {
-    return this.http.get<Vehicle[]>(`${this.apiUrl}/${begin}/${count}`);
+    return this.http.get<Vehicle[]>(`${this.apiUrl}/${begin}/${count}`, { headers: this.headers });
   }
 
   public getByContent(content: string): Observable<Vehicle> {
-    return this.http.get<Vehicle>(`${this.apiUrl}/getByUsername/${content}?login=PLK&pass=PASSPLK`);
+    return this.http.get<Vehicle>(`${this.apiUrl}/getByContent/${content}`, { headers: this.headers });
   }
 }
