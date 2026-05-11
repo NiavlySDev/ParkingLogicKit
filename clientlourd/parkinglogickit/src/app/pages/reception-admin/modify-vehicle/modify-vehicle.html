@@ -7,9 +7,9 @@
     <h1 class="modify-vehicle-title">Modification Vehicle</h1>
 
     <form class="modify-vehicle-form" (ngSubmit)="onSubmit()">
-      <!-- Selection Driver -->
+      <!-- Selection Vehicle -->
       <div class="form-group">
-        <label for="firstName">Choisir</label>
+        <label for="Vehicle">Choisir</label>
         <div class="card flex justify-center">
           <p-select
             [options]="vehicles"
@@ -22,7 +22,7 @@
         </div>
       </div>
 
-      <!-- Prénom -->
+      <!-- Marque -->
       <div class="form-group">
         <label for="brand">Brand</label>
         <input
@@ -31,12 +31,12 @@
           class="form-input"
           [(ngModel)]="brand"
           name="brand"
-          placeholder="Entrez le prénom"
+          placeholder="Entrez la marque"
           required
         />
       </div>
 
-      <!-- Nom -->
+      <!-- NumberPlate -->
       <div class="form-group">
         <label for="numberPlate">numberPlate</label>
         <input
@@ -45,12 +45,12 @@
           class="form-input"
           [(ngModel)]="numberPlate"
           name="numberPlate"
-          placeholder="Entrez le nom"
+          placeholder="Entrez la plaque d'immatriculation"
           required
         />
       </div>
 
-      <!-- Type utilisateur -->
+      <!-- Type vehicle -->
       <div class="form-group">
         <label for="VehicleType">Type de vehicle</label>
         <select id="VehicleType" class="form-input" [(ngModel)]="Type" name="VehicleType" required>

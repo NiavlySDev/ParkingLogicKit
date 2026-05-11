@@ -9,6 +9,8 @@ import { Driver } from '../Auth/Driver';
 export class DriverService {
   private apiUrl: string = '/ParkingLogicKit/rest/DriverService';
 
+  public headers = '?login=PLK&pass=PASSPLK';
+
   constructor(private http: HttpClient) {}
 
   public setApiUrl(baseUrl: string): void {
@@ -30,22 +32,22 @@ export class DriverService {
   }
 
   public getById(id: number): Observable<Driver> {
-    return this.http.get<Driver>(`${this.apiUrl}/${id}`);
+    return this.http.get<Driver>(`${this.apiUrl}/${id}/${this.headers}`);
   }
 
   public getCount(): Observable<number> {
-    return this.http.get<number>(`${this.apiUrl}/Count`);
+    return this.http.get<number>(`${this.apiUrl}/Count/${this.headers}`);
   }
 
   public getAll(): Observable<Driver[]> {
-    return this.http.get<Driver[]>(`${this.apiUrl}/?login=PLK&pass=PASSPLK`);
+    return this.http.get<Driver[]>(`${this.apiUrl}${this.headers}`);
   }
 
   public getAllPaginated(begin: number, count: number): Observable<Driver[]> {
-    return this.http.get<Driver[]>(`${this.apiUrl}/${begin}/${count}`);
+    return this.http.get<Driver[]>(`${this.apiUrl}/${begin}/${count}${this.headers}`);
   }
 
   public getByUsername(username: string): Observable<Driver> {
-    return this.http.get<Driver>(`${this.apiUrl}/getByUsername/${username}?login=PLK&pass=PASSPLK`);
+    return this.http.get<Driver>(`${this.apiUrl}/getByUsername/${username}${this.headers}`);
   }
 }
