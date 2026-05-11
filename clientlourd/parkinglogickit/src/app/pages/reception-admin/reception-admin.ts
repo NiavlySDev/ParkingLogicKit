@@ -36,6 +36,7 @@ export class ReceptionAdmin {
 
   goProfile(): void {
     this.menuOpen = false;
+    this.router.navigate(['/user-profile']);
   }
 
   logout(): void {

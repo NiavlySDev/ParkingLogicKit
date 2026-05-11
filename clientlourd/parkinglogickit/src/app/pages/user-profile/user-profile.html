@@ -1,0 +1,110 @@
+<nav class="navbar">
+    <div class="navbar-brand" (click)="goHome()">
+      <img src="assets/logo.png" alt="Logo" class="navbar-logo">
+      <span class="navbar-title">ParkingLogic</span>
+    </div>
+  
+    <div class="navbar-links">
+      <button class="nav-btn" (click)="goHome()">
+        <i class="pi pi-home"></i> Accueil
+      </button>
+      <button class="nav-btn active">
+        <i class="pi pi-user"></i> Mon Profil
+      </button>
+    </div>
+  
+    <div class="navbar-user">
+      <i class="pi pi-user-edit" style="margin-right: 8px;"></i>
+      <span>{{ username }}</span>
+    </div>
+  </nav>
+  
+  <div class="container">
+    <div class="header-content">
+      <h1>Mon Profil</h1>
+      <p class="subtitle">Gérez vos informations et vos véhicules personnels</p>
+    </div>
+  
+    <div class="dashboard">
+      <div class="card card-info-bg">
+        <i class="pi pi-id-card card-icon"></i>
+        <div class="card-info">
+          <span class="card-label">Identifiant</span>
+          <span class="card-value">{{ username }}</span>
+        </div>
+      </div>
+      <div class="card card-success">
+        <i class="pi pi-car card-icon"></i>
+        <div class="card-info">
+          <span class="card-label">Véhicules</span>
+          <span class="card-value">{{ vehicles.length }} / 2</span>
+        </div>
+      </div>
+    </div>
+  
+    <hr class="divider">
+  
+    <div class="section">
+      <h2 class="section-title"><i class="pi pi-list"></i> Mes Véhicules Enregistrés</h2>
+      
+      <div class="vehicle-list" *ngIf="vehicles.length > 0; else noVehicles">
+        <div class="vehicle-item-card" *ngFor="let v of vehicles">
+          <div class="v-avatar">
+            <i [class]="v.type === 'Moto' ? 'pi pi-directions' : 'pi pi-car'"></i>
+          </div>
+          <div class="v-details">
+            <span class="v-brand">{{ v.brand }}</span>
+            <span class="v-plate">{{ v.numberPlate }}</span>
+          </div>
+          <span class="v-badge">
+            <i class="pi pi-tag" style="font-size: 0.7rem;"></i> {{ v.type }}
+          </span>
+        </div>
+      </div>
+  
+      <ng-template #noVehicles>
+        <div class="empty-card">
+          <i class="pi pi-info-circle" style="font-size: 2rem; margin-bottom: 10px;"></i>
+          <p>Aucun véhicule enregistré pour le moment.</p>
+        </div>
+      </ng-template>
+    </div>
+  
+    <div class="section" *ngIf="vehicles.length < 2">
+      <h2 class="section-title"><i class="pi pi-plus-circle"></i> Ajouter un véhicule</h2>
+      
+      <form (ngSubmit)="onSubmit()" class="profile-form">
+        <div class="form-group">
+          <label>Marque</label>
+          <div class="input-with-icon">
+            <i class="pi pi-bookmark"></i>
+            <input type="text" [(ngModel)]="brand" name="brand" placeholder="Ex: Audi" required>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label>Plaque</label>
+          <div class="input-with-icon">
+            <i class="pi pi-credit-card"></i>
+            <input type="text" [(ngModel)]="numberPlate" name="numberPlate" placeholder="AA-123-BB" required>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label>Type</label>
+          <div class="input-with-icon">
+            <i class="pi pi-cog"></i>
+            <select [(ngModel)]="selectedType" name="selectedType">
+              <option [ngValue]="1">Voiture</option>
+              <option [ngValue]="0">Moto</option>
+            </select>
+          </div>
+        </div>
+  
+        <button type="submit" class="nav-btn active btn-submit" [disabled]="isLoading">
+          <i [class]="isLoading ? 'pi pi-spin pi-spinner' : 'pi pi-check-circle'"></i>
+          {{ isLoading ? 'Enregistrement...' : 'Enregistrer' }}
+        </button>
+      </form>
+    </div>
+  </div>
