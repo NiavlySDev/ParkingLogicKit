@@ -19,7 +19,7 @@ export class Reception {
   placesOccupees: number = 18;
   placesLibres: number = 42;
   tauxOccupation: number = 0;
-  showUserMenu: boolean = false;
+  menuOpen: boolean = false;
 
   constructor(private router: Router, private authService: AuthService) {
     this.username = this.authService.getUsername();
@@ -27,12 +27,18 @@ export class Reception {
   }
 
   toggleUserMenu(): void {
-    this.showUserMenu = !this.showUserMenu;
+    this.menuOpen = !this.menuOpen;
+  }
+
+  goProfile(): void {
+    this.menuOpen = false;
+    this.router.navigate(['/user-profile']);
   }
 
   logout(): void {
-    this.showUserMenu = false;
+    this.menuOpen = false;
     this.authService.logout();
+    this.router.navigate(['/sign-in']);
   }
 
   goHome(): void {
