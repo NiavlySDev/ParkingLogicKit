@@ -5,11 +5,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.io.Serializable;
+import org.eclipse.persistence.annotations.Cache;
+import org.eclipse.persistence.annotations.CacheType;
 
 /**
  *
  * @author Virgile Alari, Sylvain Crocquevieille
  */
+@Cache(type = CacheType.NONE)
 @Entity
 public class Parking implements Serializable {
 

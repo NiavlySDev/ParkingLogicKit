@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { PrimengModule } from '../../shared/primeng.module';
 import { AuthService } from '../../../Auth/auth.service';
+import { ParkingService } from '../../../Rest/ParkingService';
+import { Parking } from '../../../Auth/Parking';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-reception',
@@ -12,18 +15,54 @@ import { AuthService } from '../../../Auth/auth.service';
   templateUrl: './reception.html',
   styleUrls: ['./reception.css'],
 })
-export class Reception {
+export class Reception implements OnInit, OnDestroy {
   username: string = '';
   activeTab: string = 'dashboard';
-  placesTotal: number = 60;
-  placesOccupees: number = 18;
-  placesLibres: number = 42;
+  placesTotal: number = 0;
+  placesOccupees: number = 0;
+  placesLibres: number = 0;
   tauxOccupation: number = 0;
   menuOpen: boolean = false;
 
-  constructor(private router: Router, private authService: AuthService) {
+  private subscription: Subscription = new Subscription();
+
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private parkingService: ParkingService,
+    private ngZone: NgZone,
+    private cdr: ChangeDetectorRef
+  ) {
     this.username = this.authService.getUsername();
-    this.tauxOccupation = Math.round((this.placesOccupees / this.placesTotal) * 100);
+  }
+
+  ngOnInit(): void {
+    const loadParking = () => {
+      this.parkingService.getAll().subscribe({
+        next: (parkings: Parking[]) => {
+          this.ngZone.run(() => {
+            if (parkings && parkings.length > 0) {
+              const parking = parkings[0];
+              this.placesTotal = Number(parking.totalPlace);
+              this.placesOccupees = Number(parking.placeCount);
+              this.placesLibres = this.placesTotal - this.placesOccupees;
+              this.tauxOccupation = Math.round((this.placesOccupees / this.placesTotal) * 100);
+              this.cdr.detectChanges();
+            }
+          });
+        },
+        error: (err) => {
+          console.error('Erreur chargement parking:', err);
+        },
+      });
+    };
+
+    loadParking();
+    this.subscription = interval(5000).subscribe(() => loadParking());
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   toggleUserMenu(): void {
