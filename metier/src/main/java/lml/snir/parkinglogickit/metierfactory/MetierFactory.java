@@ -1,6 +1,7 @@
 package lml.snir.parkinglogickit.metierfactory;
 
 //import lml.snir.gestiontemperature.metier.mqtt.MqttConsumer;
+import lml.snir.parkinglogickit.metier.mqtt.MqttConsumer;
 import lml.snir.parkinglogickit.metier.rest.client.AccessServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.AdminServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.AssociateServiceClientRESTImpl;
@@ -47,14 +48,14 @@ public class MetierFactory {
         return TOPIC;
     }
 
-//    private static MqttConsumer consumer = null;
+    private static MqttConsumer consumer = null;
 
-//    public static synchronized void launchMqttConsumer() {
-//        if (consumer == null) {
-//            consumer = new MqttConsumer(TOPIC);
-//            consumer.doDemo();
-//        }
-//    }
+    public static synchronized void launchMqttConsumer() {
+       if (consumer == null) {
+           consumer = new MqttConsumer(TOPIC);
+           consumer.doDemo();
+     }
+    }
 
     private static DriverService DriverSrv = null;
 

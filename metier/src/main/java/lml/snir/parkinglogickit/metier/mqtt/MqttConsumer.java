@@ -3,6 +3,9 @@ package lml.snir.parkinglogickit.metier.mqtt;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.util.UUID;
+import lml.snir.parkinglogickit.metier.entity.Access;
+import lml.snir.parkinglogickit.metier.entity.Vehicle;
+import lml.snir.parkinglogickit.physique.data.PhysiqueDataFactory;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -11,9 +14,10 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 /**
- * @author Stéphane Alonso
+ * @author phily
  */
 public class MqttConsumer implements MqttCallback {
+
     private final GsonBuilder builder = new GsonBuilder();
     private final Gson gson = builder.create();
 
@@ -46,22 +50,22 @@ public class MqttConsumer implements MqttCallback {
         cause.printStackTrace();
     }
 
-////    @Override
-//    public void messageArrived(String topic, MqttMessage message) throws Exception {
-//        System.out.println("[" + topic + "] " + message);
-//        Temperature temp = gson.fromJson(message.toString(), Mesure.class);
-//        temp.setDate(new Date());
-//        PhysiqueDataFactory.getTemperatureDataService().add(temp);
-//    }
-
     @Override
-    public void deliveryComplete(IMqttDeliveryToken token) {
-        System.out.println("Delivery complete...");
+    public void messageArrived(String topic, MqttMessage message) throws Exception {
+        System.out.println("[" + topic + "] " + message);
+
+        Vehicle v = gson.fromJson(message.toString(), Vehicle.class);
+
+        Access a = gson.fromJson(message.toString(), Access.class);
+
+        System.out.println("ID: " + v.getId());
+        System.out.println("Badge: " + a.getBadge());
+        System.out.println("Driver: " + a.getDriver());
     }
 
     @Override
-    public void messageArrived(String string, MqttMessage mm) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void deliveryComplete(IMqttDeliveryToken imdt) {
+        System.out.println("Delivery complete...");
     }
 
 }

@@ -8,9 +8,12 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.UUID;
+import lml.snir.parkinglogickit.metierfactory.MetierFactory;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 public class MqttProducer implements MqttCallback {
+
     private final GsonBuilder builder = new GsonBuilder();
     private final Gson gson = builder.create();
 
@@ -24,55 +27,43 @@ public class MqttProducer implements MqttCallback {
     }
 
     public void doDemo() {
-//        try {
+        try {
             String uri = "tcp://localhost:1883";
             String clientID = UUID.randomUUID().toString();
             MemoryPersistence persistence = new MemoryPersistence();
             System.out.println("*** uri = " + uri);
             System.out.println("*** UUID = " + clientID);
-//            client = new MqttClient(uri, clientID, persistence);
-
-//            client.connect();
+            client = new MqttClient(uri, clientID, persistence);
+            client.connect();
             client.setCallback(this);
 
             MqttMessage message = new MqttMessage();
+
+            String json = "{ \"id\":1, \"brand\":\"Citroen\", \"numberPlate\":\"TT-458-CC\", \"type\":1 }";
+
+            message.setPayload(json.getBytes());
+            System.out.println("*** message envoyé : " + json);
+            client.publish(MetierFactory.getTopic(), message);
+
+            client.disconnect();
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void connectionLost(Throwable cause) {
+        cause.printStackTrace();
+    }
+
+    @Override
+    public void messageArrived(String topic, MqttMessage message) throws Exception {
+        System.out.println("[" + topic + "] " + message);
+    }
+
+    @Override
+    public void deliveryComplete(IMqttDeliveryToken token) {
+        System.out.println("Delivery complete...");
+    }
+
 }
-
-//            Local l = new Local();
-//            l.setNumero(458L);
-//
-//            Temperature temp = new Mesure();
-//            //temp.setDate(new Date());
-//            temp.setLocal(l);
-//            temp.setValue(17.8F);
-            
-//            String json = gson.toJson(temp);
-
-//            message.setPayload(json.getBytes());
-//            System.out.println("*** msgId = " + message.getId());
-//            client.publish(MetierFactory.getTopic(), message);
-//
-//            client.disconnect();
-//        } catch (MqttException e) {
-//            e.printStackTrace();
-//        }
-
-    @Override
-    public void connectionLost(Throwable thrwbl) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void messageArrived(String string, MqttMessage mm) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void deliveryComplete(IMqttDeliveryToken imdt) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
- }
-    
-
-
