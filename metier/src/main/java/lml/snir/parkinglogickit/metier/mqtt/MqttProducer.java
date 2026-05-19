@@ -8,6 +8,8 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.UUID;
+import lml.snir.parkinglogickit.metierfactory.MetierFactory;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 public class MqttProducer implements MqttCallback {
