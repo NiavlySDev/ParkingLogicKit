@@ -75,7 +75,6 @@ body {
   border-radius: 30px;
   font-size: 0.82rem;
 
-  /* 🔥 FIX PRINCIPAL */
   flex-shrink: 1;
   min-width: 0;
   max-width: 140px;

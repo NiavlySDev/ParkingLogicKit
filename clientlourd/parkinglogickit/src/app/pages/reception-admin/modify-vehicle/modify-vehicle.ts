@@ -2,49 +2,79 @@ import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RestServer } from '../../../../Rest/RestServer';
-import { Vehicle } from '../../../../Auth/Vehicle.js';
 import { Router } from '@angular/router';
 import { PrimengModule } from '../../../shared/primeng.module';
+import { Vehicle } from '../../../../Auth/Vehicle';
 
 @Component({
   selector: 'app-modify-vehicle',
+  standalone: true,
   imports: [FormsModule, CommonModule, PrimengModule],
   templateUrl: './modify-vehicle.html',
   styleUrl: './modify-vehicle.css',
 })
 export class ModifyVehicle implements OnInit {
-
+  // Champs du formulaire
   brand: string = '';
   numberPlate: string = '';
-  Type: number | null = null;
+  selectedVehicleType: number | null = null;
 
   isLoading: boolean = false;
   message: string = '';
   messageType: 'success' | 'error' = 'success';
 
+  // Données pour PrimeNG
   vehicles: any[] = [];
   selectedVehicle: any;
-  showPassword: boolean = false;
 
   constructor(
     private restServer: RestServer,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private ngZone: NgZone,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit() {
-    this.restServer.getVehicleService().getAll().subscribe({
-      next: (vehicles: any[]) => {
-        this.ngZone.run(() => {
-          this.vehicles = vehicles.map(d => ({ ...d, fullName: `${d.brand} | ${d.numberPlate} | ${d.type}` }));
-        });
-      }
-    });
+    this.loadVehicles();
   }
 
-  goHome(): void {
-    this.router.navigate(['/reception-admin']);
+  loadVehicles(): void {
+    this.restServer
+      .getVehicleService()
+      .getAll()
+      .subscribe({
+        next: (data: any[]) => {
+          this.ngZone.run(() => {
+            this.vehicles = (data || []).map((v) => ({
+              ...v,
+              fullName: `${v.brand} | ${v.numberPlate} | ${v.type}`,
+            }));
+            this.cdr.detectChanges();
+          });
+        },
+        error: (err) => {
+          console.error('Erreur lors du chargement des véhicules', err);
+        },
+      });
+  }
+
+  changeVehicle(): void {
+    this.ngZone.run(() => {
+      if (!this.selectedVehicle) {
+        this.resetForm();
+        return;
+      }
+
+      this.brand = this.selectedVehicle.brand;
+      this.numberPlate = this.selectedVehicle.numberPlate;
+
+      // Moto = 0, Voiture = 1, Camionnette = 2, Camion = 3
+      const typeList = ['Moto', 'Voiture', 'Camionnette', 'Camion'];
+      const index = typeList.indexOf(this.selectedVehicle.type);
+      this.selectedVehicleType = index !== -1 ? index : 1;
+
+      this.cdr.detectChanges();
+    });
   }
 
   onSubmit(): void {
@@ -52,7 +82,7 @@ export class ModifyVehicle implements OnInit {
       !this.selectedVehicle ||
       !this.brand ||
       !this.numberPlate ||
-      this.Type === null
+      this.selectedVehicleType === null
     ) {
       this.setMessage('Tous les champs sont obligatoires', 'error');
       return;
@@ -61,40 +91,42 @@ export class ModifyVehicle implements OnInit {
     this.isLoading = true;
     this.message = '';
 
-    const VehicleClass =
-      this.Type === 0
-        ? 'lml.snir.parkinglogickit.metier.entity.vehicle'
-        : this.Type === 1
-          ? 'lml.snir.parkinglogickit.metier.entity.VehicleType'
-          : 'lml.snir.parkinglogickit.metier.entity.Vehicle';
+    const javaClassName = 'lml.snir.parkinglogickit.metier.entity.Vehicle';
 
-    const VehicleData: any = {
+    const vehicleToUpdate: any = {
       id: this.selectedVehicle.id,
       brand: this.brand,
       numberPlate: this.numberPlate,
-      class: VehicleClass,
+      type: this.getVehicleTypeName(this.selectedVehicleType),
+      class: javaClassName,
     };
 
     this.restServer
       .getVehicleService()
-      .update(VehicleData as Vehicle)
+      .update(vehicleToUpdate as Vehicle)
       .subscribe({
         next: () => {
           this.ngZone.run(() => {
             this.isLoading = false;
-            this.setMessage('Modification réussie ✅', 'success');
-            this.resetForm();
+            this.setMessage('Modification effectuée avec succès ✅', 'success');
+            this.loadVehicles();
             this.cdr.detectChanges();
           });
         },
         error: (error: any) => {
           this.ngZone.run(() => {
             this.isLoading = false;
-            this.setMessage(error?.error?.message || "Une erreur s'est produite", 'error');
+            console.error('Erreur update:', error);
+            this.setMessage('Erreur serveur lors de la mise à jour', 'error');
             this.cdr.detectChanges();
           });
         },
       });
+  }
+
+  private getVehicleTypeName(index: number): string {
+    const types = ['Moto', 'Voiture', 'Camionnette', 'Camion'];
+    return types[index] || 'Voiture';
   }
 
   private setMessage(message: string, type: 'success' | 'error'): void {
@@ -105,27 +137,11 @@ export class ModifyVehicle implements OnInit {
   private resetForm(): void {
     this.brand = '';
     this.numberPlate = '';
-    this.Type = null;
+    this.selectedVehicleType = null;
     this.selectedVehicle = null;
   }
 
-  changeVehicle(): void {
-    this.ngZone.run(() => {
-      if (!this.selectedVehicle) {
-        this.setMessage('Veuillez sélectionner un Vehicle', 'error');
-        return;
-      }
-
-      this.brand = this.selectedVehicle.brand;
-      this.numberPlate = this.selectedVehicle.numberPlate;
-      this.Type =
-        this.selectedVehicle.class === 'lml.snir.parkinglogickit.metier.entity.vehicle'
-          ? 0
-          : this.selectedVehicle.class === 'lml.snir.parkinglogickit.metier.entity.VehicleType'
-            ? 1
-            : 2;
-
-      this.cdr.detectChanges();
-    });
+  goHome(): void {
+    this.router.navigate(['/reception-admin']);
   }
 }

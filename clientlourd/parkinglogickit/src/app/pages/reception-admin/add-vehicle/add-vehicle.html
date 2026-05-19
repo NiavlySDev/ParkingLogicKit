@@ -2,11 +2,10 @@
   <button class="home-button" (click)="goHome()" aria-label="Accueil">
     <img src="logo-home.png" alt="Accueil" class="home-logo" />
   </button>
-
   <div class="add-vehicle-card">
     <h1 class="add-vehicle-title">Création vehicle</h1>
-
     <form class="add-vehicle-form" (ngSubmit)="onSubmit()">
+
       <!-- Brand -->
       <div class="form-group">
         <label for="brand">Brand</label>
@@ -37,39 +36,29 @@
 
       <!-- Type -->
       <div class="form-group">
-        <label for="VehicleType">Type</label>
+        <label for="selectedVehicleType">Type</label>
         <select
-          id="VehicleType"
+          id="selectedVehicleType"
           class="form-input"
-          [(ngModel)]="VehicleType"
-          name="VehicleType"
+          [(ngModel)]="selectedVehicleType"
+          name="selectedVehicleType"
           required
         >
           <option [ngValue]="null" disabled>Sélectionnez un type</option>
           <option [ngValue]="0">Moto</option>
           <option [ngValue]="1">Voiture</option>
-          <option [ngValue]="2">Camionette</option>
+          <option [ngValue]="2">Camionnette</option>
           <option [ngValue]="3">Camion</option>
         </select>
       </div>
 
-      <!-- Ajouter un véhicule 
-      <div class="form-group">
-        <label for="addCar">Ajouter un véhicule</label>
-        <select id="addCar" class="form-input" [(ngModel)]="addCar" name="addCar" required>
-          <option [ngValue]="null" disabled>Sélectionnez un véhicule</option>
-          <option [ngValue]="VehicleType.Car">Voiture</option>
-          <option [ngValue]="VehicleType.Motorcycle">Moto</option>
-          <option [ngValue]="VehicleType.Van">Camionnette</option>
-        </select>
-      </div>
--->
       <!-- Bouton Submit -->
       <div class="form-actions">
         <button type="submit" class="btn-submit" [disabled]="isLoading">
           {{ isLoading ? 'Chargement...' : "S'inscrire" }}
         </button>
       </div>
+
     </form>
 
     <!-- Messages -->

@@ -14,7 +14,7 @@ import { AssociateService } from '../../../../Rest/AssociateService';
 export class AddVehicle {
   brand: string = '';
   numberPlate: string = '';
-  VehicleType: number | null = null;
+  selectedVehicleType: number | null = null;
   isLoading: boolean = false;
   message: string = '';
   messageType: 'success' | 'error' = 'success';
@@ -23,7 +23,7 @@ export class AddVehicle {
     private router: Router,
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
-    private associateService: AssociateService,
+    private associateService: AssociateService
   ) {}
 
   goHome(): void {
@@ -31,13 +31,12 @@ export class AddVehicle {
   }
 
   onSubmit(): void {
-    if (!this.brand || !this.numberPlate || this.VehicleType === null) {
+    if (!this.brand || !this.numberPlate || this.selectedVehicleType === null) {
       this.setMessage('Tous les champs sont obligatoires', 'error');
       return;
     }
 
     const driver = JSON.parse(localStorage.getItem('driver')!);
-
     if (!driver) {
       this.setMessage('Aucun driver trouvé', 'error');
       return;
@@ -46,12 +45,12 @@ export class AddVehicle {
     this.isLoading = true;
     this.message = '';
 
-    const vehicleTypeNames = ['Moto', 'Voiture', 'Camionette', 'Camion'];
+    const vehicleTypeNames = ['Moto', 'Voiture', 'Camionnette', 'Camion'];
 
     const VehicleData: any = {
       brand: this.brand,
       numberPlate: this.numberPlate,
-      type: vehicleTypeNames[this.VehicleType],
+      type: vehicleTypeNames[this.selectedVehicleType],
       class: 'lml.snir.parkinglogickit.metier.entity.Vehicle',
     };
 
@@ -76,9 +75,11 @@ export class AddVehicle {
         this.ngZone.run(() => {
           this.associateService
             .add({
-              driverId: Number(driver.id),
-              vehicleId: Number(createdVehicle.id),
-            })
+              driver: { id: Number(driver.id) },
+              vehicle: { id: Number(createdVehicle.id) },
+              badge: { id: 1 },
+              class: 'lml.snir.parkinglogickit.metier.entity.Associate',
+            } as any)
             .subscribe({
               next: () => {
                 this.setMessage('Driver associé au véhicule avec succès!', 'success');
@@ -89,8 +90,7 @@ export class AddVehicle {
               },
               error: (err) => {
                 console.error('Erreur association:', err);
-                console.error('Détail erreur:', err?.error);
-                this.setMessage('Erreur lors de l’association', 'error');
+                this.setMessage("Erreur lors de l'association", 'error');
                 this.isLoading = false;
                 this.cdr.detectChanges();
               },
@@ -113,6 +113,6 @@ export class AddVehicle {
   private resetForm(): void {
     this.brand = '';
     this.numberPlate = '';
-    this.VehicleType = null;
+    this.selectedVehicleType = null;
   }
 }

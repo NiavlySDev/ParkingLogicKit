@@ -1,1 +1,153 @@
-@import "primeicons/primeicons.css";
+@import 'primeicons/primeicons.css';
+@import url('../node_modules/primeicons/primeicons.css');
+
+/* =========================
+   RESET GLOBAL
+   ========================= */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================
+   VARIABLES GLOBALES
+   ========================= */
+
+:root {
+  --bg: #dfe9f5;
+  --bg-secondary: #d6e4f2;
+
+  --white: #ffffff;
+
+  --text: #1e293b;
+  --muted: #64748b;
+
+  --primary: #3b82f6;
+  --primary-dark: #2563eb;
+
+  --success: #22c55e;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+
+  --border: #dbe3ee;
+
+  --shadow-sm: 0 4px 12px rgba(15, 23, 42, 0.05);
+
+  --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.08);
+
+  --shadow-lg: 0 20px 45px rgba(15, 23, 42, 0.12);
+
+  --radius: 18px;
+}
+
+/* =========================
+   HTML / BODY
+   ========================= */
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-secondary) 100%);
+
+  color: var(--text);
+
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  overflow-x: hidden;
+}
+
+/* =========================
+   TYPO
+   ========================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text);
+}
+
+p,
+span,
+label,
+small {
+  color: inherit;
+}
+
+/* =========================
+   INPUTS
+   ========================= */
+
+input,
+select,
+textarea {
+  font: inherit;
+  color: var(--text);
+  background: white;
+  outline: none;
+}
+
+/* =========================
+   LINKS
+   ========================= */
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* =========================
+   IMAGES
+   ========================= */
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* =========================
+   PRIME ICONS
+   ========================= */
+
+.pi {
+  line-height: 1;
+}
+
+/* =========================
+   PRIME NG FIX
+   ========================= */
+
+.p-component {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.p-inputtext {
+  background: white !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+}
+
+.p-dropdown {
+  background: white !important;
+  color: var(--text) !important;
+}
+
+.p-card {
+  background: white !important;
+  color: var(--text) !important;
+}

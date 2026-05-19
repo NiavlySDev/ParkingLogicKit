@@ -77,11 +77,10 @@ export class DeleteUser implements OnInit {
       .subscribe({
         next: () => {
           this.ngZone.run(() => {
-            // 👈 ajout
             this.isLoading = false;
             this.setMessage('Driver supprimé avec succès 🎉', 'success');
             this.resetForm();
-            this.cdr.detectChanges(); // 👈 ajout
+            this.cdr.detectChanges();
           });
         },
         error: (error: any) => {

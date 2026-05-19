@@ -1,0 +1,470 @@
+/* =========================
+   RESET + BASE
+   ========================= */
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* =========================
+     PAGE
+     ========================= */
+  body {
+    min-height: 100vh;
+    background: #e4ecf5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* =========================
+     NAVBAR
+     ========================= */
+  .navbar {
+    width: 100%;
+    background: #ffffff;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  
+  .navbar-logo {
+    width: 26px;
+    height: 26px;
+  }
+  
+  .navbar-title {
+    display: none;
+  }
+  
+  .navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+  }
+  
+  .navbar-user {
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    color: #1e293b;
+    background: #f1f5f9;
+    padding: 6px 10px;
+    border-radius: 30px;
+    font-size: 0.82rem;
+    flex-shrink: 1;
+    min-width: 0;
+    max-width: 140px;
+  }
+  
+  .navbar-user span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  /* =========================
+     NAV BUTTONS
+     ========================= */
+  .nav-btn {
+    padding: 7px 12px;
+    border: none;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    background: #f1f5f9;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+  
+  .nav-btn:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+  }
+  
+  .nav-btn.active {
+    background: #3b82f6;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+  
+  /* =========================
+     CONTAINER
+     ========================= */
+  .container {
+    background: #ffffff;
+    width: calc(100% - 32px);
+    max-width: 1200px;
+    padding: 20px 16px;
+    border-radius: 18px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 16px;
+  }
+  
+  /* =========================
+     HEADER
+     ========================= */
+  .header-content {
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1e293b;
+  }
+  
+  .subtitle {
+    color: #64748b;
+    font-size: 0.85rem;
+    margin-top: 4px;
+  }
+  
+  /* =========================
+     DASHBOARD CARDS
+     ========================= */
+  .dashboard {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    width: 100%;
+  }
+  
+  .card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+  
+  .card-icon {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+  }
+  
+  .card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  .card-label {
+    font-size: 0.7rem;
+    color: #64748b;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  
+  .card-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #1e293b;
+  }
+  
+  .card-success  { background: #d1fae5; }
+  .card-danger   { background: #fee2e2; }
+  .card-info-bg  { background: #dbeafe; }
+  .card-warning  { background: #fef9c3; }
+  
+  /* =========================
+     DIVIDER
+     ========================= */
+  .divider {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    width: 100%;
+  }
+  
+  /* =========================
+     SECTIONS
+     ========================= */
+  .section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+  
+  .section-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  /* =========================
+     VEHICLE LIST
+     ========================= */
+  .vehicle-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .vehicle-item-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 10px 14px;
+    transition: background 0.2s ease;
+  }
+  
+  .vehicle-item-card:hover {
+    background: #f1f5f9;
+  }
+  
+  .v-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #dbeafe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #3b82f6;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+  
+  .v-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .v-brand {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #1e293b;
+  }
+  
+  .v-plate {
+    font-size: 0.78rem;
+    color: #64748b;
+  }
+  
+  .v-badge {
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: #e0f2fe;
+    color: #0369a1;
+    padding: 3px 9px;
+    border-radius: 999px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  /* =========================
+     EMPTY STATE
+     ========================= */
+  .empty-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 12px;
+    color: #64748b;
+    font-size: 0.88rem;
+    text-align: center;
+    gap: 6px;
+  }
+  
+  /* =========================
+     FORM
+     ========================= */
+  .profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .form-group label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #475569;
+  }
+  
+  .input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .input-with-icon i {
+    position: absolute;
+    left: 12px;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    pointer-events: none;
+  }
+  
+  .input-with-icon input,
+  .input-with-icon select {
+    width: 100%;
+    padding: 10px 12px 10px 34px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    color: #1e293b;
+    font-size: 0.88rem;
+    outline: none;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .input-with-icon input:focus,
+  .input-with-icon select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+    background: #ffffff;
+  }
+  
+  .btn-submit {
+    align-self: flex-start;
+    padding: 9px 20px;
+    border-radius: 30px;
+    font-size: 0.88rem;
+  }
+  
+  .btn-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  /* =========================
+     RESPONSIVE — DESKTOP
+     ========================= */
+  @media (min-width: 600px) {
+    .navbar {
+      padding: 12px 30px;
+    }
+  
+    .navbar-title {
+      display: block;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+  
+    .nav-btn {
+      padding: 9px 18px;
+      font-size: 0.88rem;
+    }
+  
+    .navbar-user {
+      max-width: 220px;
+      font-size: 0.88rem;
+    }
+  
+    /* Container tient en hauteur d'écran */
+    .container {
+      padding: 20px 36px;
+      margin: 12px auto;
+      gap: 12px;
+      width: calc(100% - 48px);
+    }
+  
+    h1 {
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+    }
+  
+    /* Layout desktop : 2 colonnes (liste véhicules | formulaire) */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      width: 100%;
+      align-items: start;
+    }
+  
+    .dashboard {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    .card-value {
+      font-size: 1.3rem;
+    }
+  
+    .vehicle-list {
+      gap: 8px;
+    }
+  
+    .profile-form {
+      gap: 10px;
+    }
+  
+    .btn-submit {
+      align-self: flex-end;
+    }
+  }
+  
+  @media (min-width: 900px) {
+    .container {
+      padding: 22px 50px;
+      margin: 12px auto;
+    }
+  
+    .dashboard {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    .header-content h1 {
+      font-size: 1.6rem;
+    }
+  
+    .subtitle {
+      font-size: 0.82rem;
+    }
+  }

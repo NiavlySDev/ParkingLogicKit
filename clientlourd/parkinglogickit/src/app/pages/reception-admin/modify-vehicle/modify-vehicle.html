@@ -4,72 +4,75 @@
   </button>
 
   <div class="modify-vehicle-card">
-    <h1 class="modify-vehicle-title">Modification Driver</h1>
+    <h1 class="modify-vehicle-title">Modification Véhicule</h1>
 
     <form class="modify-vehicle-form" (ngSubmit)="onSubmit()">
-      <!-- Selection Driver -->
       <div class="form-group">
-        <label for="firstName">Choisir</label>
+        <label for="Vehicle">Sélectionner un véhicule</label>
         <div class="card flex justify-center">
-            <p-select [options]="vehicles" [(ngModel)]="selectedVehicle" name="selectedDriver" optionLabel="fullName" placeholder="Choisir un Vehicle" (onChange)="changeVehicle()" />
+          <p-select
+            [options]="vehicles"
+            [(ngModel)]="selectedVehicle"
+            name="selectedVehicle" 
+            optionLabel="fullName"
+            placeholder="Choisir un Véhicule"
+            (onChange)="changeVehicle()"
+            [style]="{'width':'100%'}"
+          ></p-select>
         </div>
       </div>
 
-      <!-- Prénom -->
       <div class="form-group">
-        <label for="brand">Brand</label>
+        <label for="brand">Marque</label>
         <input
           type="text"
           id="brand"
           class="form-input"
           [(ngModel)]="brand"
           name="brand"
-          placeholder="Entrez le prénom"
+          placeholder="Entrez la marque"
           required
         />
       </div>
 
-      <!-- Nom -->
       <div class="form-group">
-        <label for="numberPlate">numberPlate</label>
+        <label for="numberPlate">Plaque d'immatriculation</label>
         <input
           type="text"
           id="numberPlate"
           class="form-input"
           [(ngModel)]="numberPlate"
           name="numberPlate"
-          placeholder="Entrez le nom"
+          placeholder="Ex: AB-123-CD"
           required
         />
       </div>
 
-      <!-- Type utilisateur -->
       <div class="form-group">
-        <label for="VehicleType">Type de vehicle</label>
-        <select
-          id="VehicleType"
-          class="form-input"
-          [(ngModel)]="Type"
-          name="VehicleType"
+        <label for="VehicleType">Type de véhicule</label>
+        <select 
+          id="VehicleType" 
+          class="form-input" 
+          [(ngModel)]="selectedVehicleType" 
+          name="selectedVehicleType" 
           required
         >
           <option [ngValue]="null" disabled>Sélectionnez un type</option>
           <option [ngValue]="0">Moto</option>
           <option [ngValue]="1">Voiture</option>
-          <option [ngValue]="2">Camionette</option>
+          <option [ngValue]="2">Camionnette</option>
           <option [ngValue]="3">Camion</option>
         </select>
       </div>
 
-      <!-- Bouton Submit -->
       <div class="form-actions">
         <button type="submit" class="btn-submit" [disabled]="isLoading">
-          {{ isLoading ? 'Chargement...' : "Confirmer Modification" }}
+          <span *ngIf="isLoading">Chargement...</span>
+          <span *ngIf="!isLoading">Confirmer Modification</span>
         </button>
       </div>
     </form>
 
-    <!-- Messages -->
     <div *ngIf="message" class="message" [ngClass]="'message-' + messageType">
       {{ message }}
     </div>

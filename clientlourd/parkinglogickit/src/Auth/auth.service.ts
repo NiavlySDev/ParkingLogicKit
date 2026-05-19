@@ -5,7 +5,7 @@ import * as CryptoJS from 'crypto-js';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private timeoutId: any;
-  private readonly TIMEOUT_DURATION = 60 * 1000;
+  private readonly TIMEOUT_DURATION = 10 * 60 * 1000;
   private Key = 'vfm#PGcp810zSkjPv3H2';
 
   constructor(private router: Router) {}

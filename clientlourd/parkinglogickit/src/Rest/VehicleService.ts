@@ -8,6 +8,7 @@ import { Vehicle } from '../Auth/Vehicle';
 })
 export class VehicleService {
   private apiUrl: string = '/ParkingLogicKit/rest/VehicleService';
+  public headers = '?login=PLK&pass=PASSPLK';
 
   constructor(private http: HttpClient) {}
 
@@ -15,37 +16,37 @@ export class VehicleService {
     this.apiUrl = `${baseUrl}/VehicleService`;
   }
 
-  public add(Vehicle: Vehicle): Observable<Vehicle> {
-    return this.http.post<Vehicle>(`${this.apiUrl}/`, Vehicle);
+  public add(vehicle: Vehicle): Observable<Vehicle> {
+    return this.http.post<Vehicle>(`${this.apiUrl}/`, vehicle);
   }
 
-  public remove(Vehicle: Vehicle): Observable<void> {
+  public remove(vehicle: Vehicle): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/`, {
-      body: Vehicle,
+      body: vehicle,
     });
   }
 
-  public update(Vehicle: Vehicle): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/`, Vehicle);
+  public update(vehicle: Vehicle): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/`, vehicle);
   }
 
   public getById(id: number): Observable<Vehicle> {
-    return this.http.get<Vehicle>(`${this.apiUrl}/${id}`);
+    return this.http.get<Vehicle>(`${this.apiUrl}/${id}/${this.headers}`);
   }
 
   public getCount(): Observable<number> {
-    return this.http.get<number>(`${this.apiUrl}/Count`);
+    return this.http.get<number>(`${this.apiUrl}/Count/${this.headers}`);
   }
 
   public getAll(): Observable<Vehicle[]> {
-    return this.http.get<Vehicle[]>(`${this.apiUrl}/?login=PLK&pass=PASSPLK`);
+    return this.http.get<Vehicle[]>(`${this.apiUrl}${this.headers}`);
   }
 
   public getAllPaginated(begin: number, count: number): Observable<Vehicle[]> {
-    return this.http.get<Vehicle[]>(`${this.apiUrl}/${begin}/${count}`);
+    return this.http.get<Vehicle[]>(`${this.apiUrl}/${begin}/${count}${this.headers}`);
   }
 
   public getByContent(content: string): Observable<Vehicle> {
-    return this.http.get<Vehicle>(`${this.apiUrl}/getByUsername/${content}?login=PLK&pass=PASSPLK`);
+    return this.http.get<Vehicle>(`${this.apiUrl}/getByContent/${content}${this.headers}`);
   }
 }
