@@ -32,11 +32,11 @@ export class ReceptionAdmin implements OnInit, OnDestroy {
     private parkingService: ParkingService,
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef
-  ) {
-    this.username = this.authService.getUsername();
-  }
+  ) {} // Constructeur nettoyé et léger
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.username = (await this.authService.getUsername()) || 'Administrateur';
+
     const loadParking = () => {
       this.parkingService.getAll().subscribe({
         next: (parkings: Parking[]) => {

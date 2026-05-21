@@ -18,8 +18,8 @@ export class App {
   @HostListener('document:click')
   @HostListener('document:keypress')
   @HostListener('document:touchstart')
-  onUserActivity(): void {
-    if (this.authService.isLoggedIn()) {
+  async onUserActivity(): Promise<void> {
+    if (await this.authService.isLoggedIn()) {
       this.authService.resetTimeout();
     }
   }

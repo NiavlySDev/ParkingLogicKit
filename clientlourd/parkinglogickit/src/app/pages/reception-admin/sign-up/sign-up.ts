@@ -2,15 +2,16 @@ import { Component, ChangeDetectorRef, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RestServer } from '../../../../Rest/RestServer';
-import { Driver } from '../../../../Auth/Driver.js';
+import { Driver } from '../../../../Auth/Driver';
 import { Router } from '@angular/router';
+import { Capacitor } from '@capacitor/core'; // Pour la détection de la plateforme
 
 @Component({
   selector: 'app-sign-up',
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './sign-up.html',
-  styleUrls: ['./sign-up.css'], // Correction ici
+  styleUrls: ['./sign-up.css'],
 })
 export class SignUp {
   firstname: string = '';
@@ -20,7 +21,7 @@ export class SignUp {
   age: number | null = null;
   isMale: boolean | null = null;
   DriverType: number | null = null;
-  addCar: string | null = null; // Ajout de la propriété pour le champ "addCar"
+  addCar: string | null = null;
   isLoading: boolean = false;
   message: string = '';
   messageType: 'success' | 'error' = 'success';
@@ -37,7 +38,6 @@ export class SignUp {
   }
 
   onSubmit(): void {
-    // Validation des champs
     if (
       !this.firstname ||
       !this.lastName ||
@@ -65,9 +65,9 @@ export class SignUp {
         : 'lml.snir.parkinglogickit.metier.entity.Driver';
 
     const DriverData: any = {
-      firstName: this.firstname,
-      lastName: this.lastName,
-      username: this.username,
+      firstName: this.firstname.trim(),
+      lastName: this.lastName.trim(),
+      username: this.username.trim(),
       password: this.password,
       age: this.age,
       isMale: this.isMale,
@@ -79,20 +79,28 @@ export class SignUp {
       .add(DriverData as Driver)
       .subscribe({
         next: (createdDriver: any) => {
-          this.ngZone.run(() => {
+          this.ngZone.run(async () => {
             this.isLoading = false;
-            localStorage.setItem('driver', JSON.stringify(createdDriver));
             this.setMessage('Inscription réussie 🎉', 'success');
-            this.router.navigate(['/add-vehicle']);
 
+            if (Capacitor.isNativePlatform()) {
+              const { SecureStoragePlugin } = await import('capacitor-secure-storage-plugin');
+              await SecureStoragePlugin.set({
+                key: 'selected_driver',
+                value: JSON.stringify(createdDriver),
+              });
+            } else {
+              localStorage.setItem('driver', JSON.stringify(createdDriver));
+            }
+
+            this.router.navigate(['/add-vehicle']);
             this.resetForm();
-            this.cdr.detectChanges();
           });
         },
         error: (error: any) => {
           this.ngZone.run(() => {
             this.isLoading = false;
-            console.error('Erreur lors de l’inscription :', error); // Journalisation de l'erreur
+            console.error('Erreur lors de l’inscription :', error);
             this.setMessage(error?.error?.message || "Une erreur s'est produite", 'error');
             this.cdr.detectChanges();
           });
@@ -114,5 +122,6 @@ export class SignUp {
     this.isMale = null;
     this.DriverType = null;
     this.addCar = null;
+    this.cdr.detectChanges();
   }
 }
