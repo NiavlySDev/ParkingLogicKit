@@ -6,34 +6,43 @@ Author: Sylvain Crocquevieille
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="jakarta.faces.core">
-        <div class="account-card">
-            <h1>Bienvenue #{loginBean.driver.username}</h1>
-            <p:commandButton value="Se Déconnecter"
+    <div class="account-card">
+        <h2>Compte</h2>
+        <p class="section-description">Connecté en tant que #{loginBean.driver.username}.</p>
+
+        <div class="actions-bar">
+            <p:commandButton value="Changer le mot de passe" type="button" icon="pi pi-file-edit"
+                             styleClass="rounded-button ui-button-warning"
+                             onclick="PF('changementMdp').show()"/>
+            <p:commandButton value="Se déconnecter"
                              icon="pi pi-sign-out"
                              styleClass="rounded-button ui-button-danger"
                              action="#{loginBean.logout()}"
                              update="index:fragmentPanel messageindex message index:tabMenu"/>
-            <br/><br/>
-            <div id="changement_mdp">
-                <h2 style="color:#1976d2; font-size:1.2rem;">Changement de Mot de Passe:</h2>
-                <p:commandButton value="Changement Mot de Passe" type="button" icon="pi pi-file-edit"
-                                 styleClass="rounded-button ui-button-warning"
-                                 onclick="PF('changemenet_mdp').show()"/>
-                <p:dialog header="Changement Mot de Passe" widgetVar="changemenet_mdp" minHeight="40" width="350" showEffect="fade" modal="true">
-                    <h4>Mot de Passe Actuel</h4>
-                    <p:password value="#{mdpChangeBean.currentPassword}" toggleMask="true" redisplay="true" required="false"/><br/><br/>
-                    <h4>Nouveau Mot de Passe</h4>
-                    <p:password value="#{mdpChangeBean.newPassword}" toggleMask="true" redisplay="true" required="false"/><br/><br/>
-                    <h4>Confirmation Nouveau Mot de Passe</h4>
-                    <p:password value="#{mdpChangeBean.newPasswordConfirmation}" toggleMask="true" redisplay="true" required="false"/><br/><br/>
-                    <f:facet name="footer">
-                        <p:commandButton value="Changer Mot de Passe"
-                                         icon="pi pi-check"
-                                         styleClass="rounded-button ui-button-success"
-                                         action="#{mdpChangeBean.change()}"
-                                         update="index:fragmentPanel messageindex message index:tabMenu"/>
-                    </f:facet>
-                </p:dialog>
-            </div>
         </div>
+
+        <p:dialog header="Changement de mot de passe" widgetVar="changementMdp"
+                  minHeight="120" width="420" showEffect="fade" modal="true">
+            <h:panelGroup id="panelMdp" layout="block">
+                <div class="dialog-form">
+                    <h:panelGrid columns="1" cellpadding="8" styleClass="form-grid">
+                        <h:outputLabel value="Mot de passe actuel"/>
+                        <p:password value="#{mdpChangeBean.currentPassword}" toggleMask="true" redisplay="true" required="false"/>
+                        <h:outputLabel value="Nouveau mot de passe"/>
+                        <p:password value="#{mdpChangeBean.newPassword}" toggleMask="true" redisplay="true" required="false"/>
+                        <h:outputLabel value="Confirmation"/>
+                        <p:password value="#{mdpChangeBean.newPasswordConfirmation}" toggleMask="true" redisplay="true" required="false"/>
+                    </h:panelGrid>
+                </div>
+            </h:panelGroup>
+            <f:facet name="footer">
+                <p:commandButton value="Enregistrer"
+                                 icon="pi pi-check"
+                                 styleClass="rounded-button ui-button-success"
+                                 action="#{mdpChangeBean.change()}"
+                                 process="panelMdp @this"
+                                 update="index:fragmentPanel messageindex message index:tabMenu"/>
+            </f:facet>
+        </p:dialog>
+    </div>
 </ui:composition>

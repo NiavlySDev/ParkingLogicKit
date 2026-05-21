@@ -1,0 +1,133 @@
+<!--
+Author: Sylvain Crocquevieille
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="jakarta.faces.core">
+    <div class="admin-page">
+
+        <div class="page-header">
+            <div>
+                <h2 class="section-title">Associations</h2>
+                <p class="section-description">Liaison entre un conducteur, son badge RFID et son véhicule.</p>
+            </div>
+            <p:commandButton value="Nouvelle association"
+                             icon="pi pi-link"
+                             styleClass="rounded-button ui-button-success"
+                             type="button"
+                             onclick="PF('dlgCreerAssoc').show()"/>
+        </div>
+
+        <p:dataTable id="tableAssociations"
+                     var="assoc"
+                     value="#{associationsBean.associations}"
+                     selectionMode="single"
+                     selection="#{associationsBean.selectedAssociation}"
+                     rowKey="#{assoc.id}"
+                     paginator="true"
+                     rows="10"
+                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                     emptyMessage="Aucune association enregistrée.">
+
+            <p:column headerText="ID" style="width:70px;">
+                <h:outputText value="#{assoc.id}" />
+            </p:column>
+            <p:column headerText="Conducteur">
+                <h:outputText value="#{assoc.driver != null ? assoc.driver.firstName.concat(' ').concat(assoc.driver.lastName) : '-'}" />
+            </p:column>
+            <p:column headerText="Badge">
+                <h:outputText value="#{assoc.badge != null ? assoc.badge.content : '-'}" />
+            </p:column>
+            <p:column headerText="Véhicule">
+                <h:outputText value="#{assoc.vehicle != null ? assoc.vehicle.brand.concat(' (').concat(assoc.vehicle.numberPlate).concat(')') : '-'}" />
+            </p:column>
+            <p:column headerText="Actions" style="width:90px;">
+                <p:commandButton icon="pi pi-trash"
+                                 styleClass="rounded-button ui-button-danger"
+                                 title="Supprimer"
+                                 action="#{associationsBean.selectionnerAssociation(assoc)}"
+                                 process="@this"
+                                 update="@form"
+                                 oncomplete="PF('dlgSupprimerAssoc').show()"/>
+            </p:column>
+        </p:dataTable>
+
+        <p:dialog header="Nouvelle association" widgetVar="dlgCreerAssoc"
+                  minHeight="240" width="480" showEffect="fade" modal="true">
+            <h:panelGroup id="panelCreerAssoc" layout="block">
+                <div class="dialog-form">
+                    <h:panelGrid columns="1" cellpadding="8" styleClass="form-grid">
+                        <h:outputLabel value="Conducteur"/>
+                        <p:selectOneMenu value="#{associationsBean.newDriverId}" required="true">
+                            <f:selectItem itemValue="#{null}" itemLabel="Choisir un conducteur" noSelectionOption="true"/>
+                            <f:selectItems value="#{associationsBean.drivers}"
+                                           var="d"
+                                           itemValue="#{d.id}"
+                                           itemLabel="#{d.firstName} #{d.lastName} (#{d.username})"/>
+                        </p:selectOneMenu>
+
+                        <h:outputLabel value="Badge"/>
+                        <p:selectOneMenu value="#{associationsBean.newBadgeId}" required="true">
+                            <f:selectItem itemValue="#{null}" itemLabel="Choisir un badge" noSelectionOption="true"/>
+                            <f:selectItems value="#{associationsBean.badges}"
+                                           var="b"
+                                           itemValue="#{b.id}"
+                                           itemLabel="#{b.content}"/>
+                        </p:selectOneMenu>
+
+                        <h:outputLabel value="Véhicule"/>
+                        <p:selectOneMenu value="#{associationsBean.newVehicleId}" required="true">
+                            <f:selectItem itemValue="#{null}" itemLabel="Choisir un véhicule" noSelectionOption="true"/>
+                            <f:selectItems value="#{associationsBean.vehicules}"
+                                           var="v"
+                                           itemValue="#{v.id}"
+                                           itemLabel="#{v.brand} #{v.numberPlate}"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                </div>
+            </h:panelGroup>
+            <f:facet name="footer">
+                <p:commandButton value="Associer"
+                                 icon="pi pi-check"
+                                 styleClass="rounded-button ui-button-success"
+                                 action="#{associationsBean.creerAssociation()}"
+                                 process="panelCreerAssoc @this"
+                                 update="tableAssociations messageindex message"
+                                 oncomplete="if(!args.validationFailed) PF('dlgCreerAssoc').hide()"/>
+                <p:commandButton value="Annuler"
+                                 icon="pi pi-times"
+                                 styleClass="rounded-button ui-button-secondary"
+                                 type="button"
+                                 onclick="PF('dlgCreerAssoc').hide()"/>
+            </f:facet>
+        </p:dialog>
+
+        <p:dialog header="Supprimer association" widgetVar="dlgSupprimerAssoc"
+                  minHeight="90" width="420" showEffect="fade" modal="true">
+            <h:panelGroup rendered="#{associationsBean.selectedAssociation != null}">
+                <p>Confirmer la suppression de l'association du conducteur
+                    <strong>#{associationsBean.selectedAssociation.driver != null ? associationsBean.selectedAssociation.driver.username : '?'}</strong>
+                    avec le badge
+                    <strong>#{associationsBean.selectedAssociation.badge != null ? associationsBean.selectedAssociation.badge.content : '?'}</strong> ?
+                </p>
+            </h:panelGroup>
+            <f:facet name="footer">
+                <p:commandButton value="Supprimer"
+                                 icon="pi pi-trash"
+                                 styleClass="rounded-button ui-button-danger"
+                                 action="#{associationsBean.supprimerAssociation()}"
+                                 process="@this"
+                                 update="tableAssociations messageindex message"
+                                 oncomplete="PF('dlgSupprimerAssoc').hide()"/>
+                <p:commandButton value="Annuler"
+                                 icon="pi pi-times"
+                                 styleClass="rounded-button ui-button-secondary"
+                                 type="button"
+                                 onclick="PF('dlgSupprimerAssoc').hide()"/>
+            </f:facet>
+        </p:dialog>
+
+    </div>
+</ui:composition>
