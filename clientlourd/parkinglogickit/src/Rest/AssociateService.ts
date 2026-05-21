@@ -6,6 +6,8 @@ export interface Associate {
   id?: number;
   driverId: number;
   vehicleId: number;
+  vehicle?: { id: number; class?: string };
+  driver?: { id: number };
   class?: string;
 }
 

@@ -50,7 +50,10 @@
             <span class="v-brand">{{ v.brand }}</span>
             <span class="v-plate">{{ v.numberPlate }}</span>
           </div>
-          <span class="v-badge"> <i class="pi pi-tag"></i> {{ v.type }} </span>
+          <span class="v-badge"><i class="pi pi-tag"></i> {{ v.type }}</span>
+          <button class="btn-delete" (click)="deleteVehicle(v)" title="Supprimer ce véhicule">
+            <i class="pi pi-trash"></i>
+          </button>
         </div>
       </div>
       <ng-template #noVehicles>

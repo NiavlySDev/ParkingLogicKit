@@ -5,6 +5,7 @@ import { RestServer } from '../../../../Rest/RestServer';
 import { Router } from '@angular/router';
 import { PrimengModule } from '../../../shared/primeng.module';
 import { Driver } from '../../../../Auth/Driver';
+import { switchMap, from, concatMap } from 'rxjs';
 
 @Component({
   selector: 'app-delete-user',
@@ -16,11 +17,9 @@ export class DeleteUser implements OnInit {
   firstname: string = '';
   lastName: string = '';
   DriverType: number | null = null;
-
   isLoading: boolean = false;
   message: string = '';
   messageType: 'success' | 'error' = 'success';
-
   drivers: any[] = [];
   selectedDriver: any;
   showPassword: boolean = false;
@@ -71,9 +70,40 @@ export class DeleteUser implements OnInit {
       lastName: this.lastName,
       class: DriverClass,
     };
+
     this.restServer
-      .getDriverService()
-      .remove(DriverData as Driver)
+      .getAssociateService()
+      .getAll()
+      .pipe(
+        switchMap((associates) => {
+          const linked = associates.filter((a: any) => a.driver?.id === this.selectedDriver.id);
+          console.log('Associations trouvées :', linked);
+          console.log('Driver ID :', this.selectedDriver.id);
+          console.log('Toutes les associations :', associates);
+
+          if (linked.length === 0) {
+            return this.restServer.getDriverService().remove(DriverData as Driver);
+          }
+
+          return from(linked).pipe(
+            concatMap((assoc: any) => {
+              console.log('Suppression association :', assoc);
+              return this.restServer
+                .getAssociateService()
+                .remove(assoc)
+                .pipe(
+                  switchMap(() => {
+                    console.log('Association supprimée, suppression véhicule :', assoc.vehicle);
+                    return this.restServer
+                      .getVehicleService()
+                      .remove({ id: assoc.vehicle?.id, class: assoc.vehicle?.class } as any);
+                  })
+                );
+            }),
+            switchMap(() => this.restServer.getDriverService().remove(DriverData as Driver))
+          );
+        })
+      )
       .subscribe({
         next: () => {
           this.ngZone.run(() => {
@@ -85,10 +115,9 @@ export class DeleteUser implements OnInit {
         },
         error: (error: any) => {
           this.ngZone.run(() => {
-            // 👈 ajout
             this.isLoading = false;
             this.setMessage(error?.error?.message || "Une erreur s'est produite", 'error');
-            this.cdr.detectChanges(); // 👈 ajout
+            this.cdr.detectChanges();
           });
         },
       });

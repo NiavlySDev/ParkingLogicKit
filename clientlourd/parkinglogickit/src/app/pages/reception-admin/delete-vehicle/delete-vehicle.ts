@@ -74,6 +74,67 @@ export class DeleteVehicle implements OnInit {
       lastName: this.numberPlate,
       class: VehicleClass,
     };
+
+    // 1. Récupérer toutes les associations
+    this.restServer
+      .getAssociateService()
+      .getAll()
+      .subscribe({
+        next: (associates) => {
+          // 2. Filtrer celles liées à ce véhicule
+          const linked = associates.filter((a) => a.vehicle?.id === this.selectedVehicle.id);
+          console.log('Associations trouvées :', linked);
+          console.log('Vehicle ID :', this.selectedVehicle.id);
+          console.log('Toutes les associations :', associates);
+
+          if (linked.length === 0) {
+            // Pas d'association, on supprime directement
+            this.deleteVehicle(VehicleData);
+            return;
+          }
+
+          // 3. Supprimer chaque association
+          let deleted = 0;
+          for (const assoc of linked) {
+            this.restServer
+              .getAssociateService()
+              .remove(assoc)
+              .subscribe({
+                next: () => {
+                  deleted++;
+                  if (deleted === linked.length) {
+                    // 4. Toutes supprimées, on supprime le véhicule
+                    this.deleteVehicle(VehicleData);
+                  }
+                },
+                error: (error: any) => {
+                  this.ngZone.run(() => {
+                    this.isLoading = false;
+                    this.setMessage(
+                      error?.error?.message || "Erreur lors de la suppression de l'association",
+                      'error'
+                    );
+                    this.cdr.detectChanges();
+                  });
+                },
+              });
+          }
+        },
+        error: (error: any) => {
+          this.ngZone.run(() => {
+            this.isLoading = false;
+            this.setMessage(
+              error?.error?.message || 'Erreur lors de la récupération des associations',
+              'error'
+            );
+            this.cdr.detectChanges();
+          });
+        },
+      });
+  }
+
+  // Méthode extraite pour éviter la duplication
+  private deleteVehicle(VehicleData: any): void {
     this.restServer
       .getVehicleService()
       .remove(VehicleData as Vehicle)
