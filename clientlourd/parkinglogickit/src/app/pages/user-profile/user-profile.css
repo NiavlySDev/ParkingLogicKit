@@ -8,9 +8,27 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
   
+  /* CORRECTIF RADICAL POUR LES ICÔNES CASSÉES (GLYPHES/CARACTÈRES BIZARRES)
+    On force la police de PrimeIcons pour annuler le conflit avec l'étoile (*) ci-dessus.
+  */
+  .pi {
+    font-family: 'primeicons' !important;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
   /* =========================
-     PAGE
-     ========================= */
+       PAGE
+       ========================= */
   body {
     min-height: 100vh;
     background: #e4ecf5;
@@ -20,8 +38,8 @@
   }
   
   /* =========================
-     NAVBAR
-     ========================= */
+       NAVBAR
+       ========================= */
   .navbar {
     width: 100%;
     background: #ffffff;
@@ -46,6 +64,7 @@
   .navbar-logo {
     width: 26px;
     height: 26px;
+    object-fit: contain;
   }
   
   .navbar-title {
@@ -86,8 +105,8 @@
   }
   
   /* =========================
-     NAV BUTTONS
-     ========================= */
+       NAV BUTTONS
+       ========================= */
   .nav-btn {
     padding: 7px 12px;
     border: none;
@@ -116,8 +135,8 @@
   }
   
   /* =========================
-     CONTAINER
-     ========================= */
+       CONTAINER
+       ========================= */
   .container {
     background: #ffffff;
     width: calc(100% - 32px);
@@ -132,8 +151,8 @@
   }
   
   /* =========================
-     HEADER
-     ========================= */
+       HEADER
+       ========================= */
   .header-content {
     text-align: center;
   }
@@ -151,8 +170,8 @@
   }
   
   /* =========================
-     DASHBOARD CARDS
-     ========================= */
+       DASHBOARD CARDS
+       ========================= */
   .dashboard {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -195,14 +214,14 @@
     color: #1e293b;
   }
   
-  .card-success  { background: #d1fae5; }
-  .card-danger   { background: #fee2e2; }
-  .card-info-bg  { background: #dbeafe; }
-  .card-warning  { background: #fef9c3; }
+  .card-success { background: #d1fae5; }
+  .card-danger { background: #fee2e2; }
+  .card-info-bg { background: #dbeafe; }
+  .card-warning { background: #fef9c3; }
   
   /* =========================
-     DIVIDER
-     ========================= */
+       DIVIDER
+       ========================= */
   .divider {
     border: none;
     border-top: 1px solid #e2e8f0;
@@ -210,8 +229,8 @@
   }
   
   /* =========================
-     SECTIONS
-     ========================= */
+       SECTIONS
+       ========================= */
   .section {
     display: flex;
     flex-direction: column;
@@ -229,8 +248,8 @@
   }
   
   /* =========================
-     VEHICLE LIST
-     ========================= */
+       VEHICLE LIST
+       ========================= */
   .vehicle-list {
     display: flex;
     flex-direction: column;
@@ -261,7 +280,7 @@
     align-items: center;
     justify-content: center;
     color: #3b82f6;
-    font-size: 1rem;
+    font-size: 1.1rem;
     flex-shrink: 0;
   }
   
@@ -298,8 +317,8 @@
   }
   
   /* =========================
-     EMPTY STATE
-     ========================= */
+       EMPTY STATE
+       ========================= */
   .empty-card {
     display: flex;
     flex-direction: column;
@@ -316,8 +335,8 @@
   }
   
   /* =========================
-     FORM
-     ========================= */
+       FORM
+       ========================= */
   .profile-form {
     display: flex;
     flex-direction: column;
@@ -343,18 +362,22 @@
     align-items: center;
   }
   
-  .input-with-icon i {
+  /* POSITIONNEMENT ET CONFIGURATION DE TOUTES LES ICÔNES DANS LES INPUTS */
+  .input-with-icon i.pi {
     position: absolute;
     left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
     color: #94a3b8;
     font-size: 0.9rem;
     pointer-events: none;
+    margin: 0;
   }
   
   .input-with-icon input,
   .input-with-icon select {
     width: 100%;
-    padding: 10px 12px 10px 34px;
+    padding: 10px 12px 10px 36px;
     border-radius: 10px;
     border: 1px solid #e2e8f0;
     background: #f8fafc;
@@ -362,6 +385,26 @@
     font-size: 0.88rem;
     outline: none;
     transition: border 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  /* CORRECTIF UNIQUE POUR LE MENU SELECT (Supprime la flèche doublée du navigateur) */
+  .input-with-icon select {
+    padding-right: 32px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  
+  /* Injecte une flèche propre et sur-mesure à droite du select */
+  .input-with-icon:has(select)::after {
+    content: "▼";
+    font-size: 0.6rem;
+    color: #94a3b8;
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
   }
   
   .input-with-icon input:focus,
@@ -384,8 +427,8 @@
   }
   
   /* =========================
-     RESPONSIVE — DESKTOP
-     ========================= */
+       RESPONSIVE — DESKTOP
+       ========================= */
   @media (min-width: 600px) {
     .navbar {
       padding: 12px 30px;
@@ -408,7 +451,6 @@
       font-size: 0.88rem;
     }
   
-    /* Container tient en hauteur d'écran */
     .container {
       padding: 20px 36px;
       margin: 12px auto;
@@ -420,7 +462,6 @@
       font-size: clamp(1.4rem, 3vw, 1.9rem);
     }
   
-    /* Layout desktop : 2 colonnes (liste véhicules | formulaire) */
     .main-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -466,5 +507,23 @@
   
     .subtitle {
       font-size: 0.82rem;
+    }
+  
+    .btn-delete {
+      background: none;
+      border: none;
+      color: #e74c3c;
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 0.3rem 0.5rem;
+      border-radius: 6px;
+      transition: background 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+  
+    .btn-delete:hover {
+      background: #fdecea;
     }
   }

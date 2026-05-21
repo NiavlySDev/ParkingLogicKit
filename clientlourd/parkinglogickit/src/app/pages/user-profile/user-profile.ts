@@ -7,16 +7,16 @@ import { AuthService } from '../../../Auth/auth.service';
 import { Vehicle } from '../../../Auth/Vehicle';
 import { Associate } from '../../../Rest/AssociateService';
 import { PrimengModule } from '../../shared/primeng.module';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-user-profile',
   standalone: true,
   imports: [CommonModule, FormsModule, PrimengModule],
   templateUrl: './user-profile.html',
-  styleUrl: './user-profile.css'
+  styleUrl: './user-profile.css',
 })
 export class UserProfile implements OnInit {
-
   menuOpen: boolean = false;
   username: string = '';
   role: string = '';
@@ -66,22 +66,25 @@ export class UserProfile implements OnInit {
 
   // 1. Récupère le driverId depuis la liste des drivers, puis charge les véhicules
   loadDriverThenVehicles(): void {
-    this.restServer.getDriverService().getAll().subscribe({
-      next: (drivers: any[]) => {
-        const driver = drivers.find(
-          (d: any) => d.login === this.username || d.username === this.username || d.name === this.username
-        );
-        if (driver) {
-          this.driverId = driver.id;
-          this.loadVehiclesAndAssociations();
-        } else {
-          console.error('Driver introuvable pour le login :', this.username);
-        }
-      },
-      error: (err) => console.error('Erreur récupération drivers :', err)
-    });
+    this.restServer
+      .getDriverService()
+      .getAll()
+      .subscribe({
+        next: (drivers: any[]) => {
+          const driver = drivers.find(
+            (d: any) =>
+              d.login === this.username || d.username === this.username || d.name === this.username
+          );
+          if (driver) {
+            this.driverId = driver.id;
+            this.loadVehiclesAndAssociations();
+          } else {
+            console.error('Driver introuvable pour le login :', this.username);
+          }
+        },
+        error: (err) => console.error('Erreur récupération drivers :', err),
+      });
   }
-
 
   goProfile(): void {
     this.menuOpen = false;
@@ -91,34 +94,63 @@ export class UserProfile implements OnInit {
   // 2. Charge tous les véhicules + toutes les associations,
   //    puis filtre ceux associés au driver connecté
   loadVehiclesAndAssociations(): void {
-    this.restServer.getVehicleService().getAll().subscribe({
-      next: (allVehicles: any[]) => {
-        this.allVehicles = allVehicles || [];
+    this.restServer
+      .getVehicleService()
+      .getAll()
+      .subscribe({
+        next: (allVehicles: any[]) => {
+          this.allVehicles = allVehicles || [];
 
-        this.restServer.getAssociateService().getAll().subscribe({
-          next: (allAssociations: Associate[]) => {
-            this.ngZone.run(() => {
-              // On garde uniquement les associations du driver connecté
-              this.associations = (allAssociations || []).filter(
-                (a: any) => a.driver?.id === this.driverId || a.driverId === this.driverId
-              );
+          this.restServer
+            .getAssociateService()
+            .getAll()
+            .subscribe({
+              next: (allAssociations: Associate[]) => {
+                this.ngZone.run(() => {
+                  // On garde uniquement les associations du driver connecté
+                  this.associations = (allAssociations || []).filter(
+                    (a: any) => a.driver?.id === this.driverId || a.driverId === this.driverId
+                  );
 
-              // On reconstruit la liste des véhicules associés
-              this.vehicles = this.associations
-                .map((a: any) => {
-                  const vehicleId = a.vehicle?.id ?? a.vehicleId;
-                  return this.allVehicles.find((v) => v.id === vehicleId);
-                })
-                .filter((v) => v !== undefined);
+                  // On reconstruit la liste des véhicules associés
+                  this.vehicles = this.associations
+                    .map((a: any) => {
+                      const vehicleId = a.vehicle?.id ?? a.vehicleId;
+                      return this.allVehicles.find((v) => v.id === vehicleId);
+                    })
+                    .filter((v) => v !== undefined);
 
-              this.cdr.detectChanges();
+                  this.cdr.detectChanges();
+                });
+              },
+              error: (err) => console.error('Erreur récupération associations :', err),
             });
-          },
-          error: (err) => console.error('Erreur récupération associations :', err)
-        });
-      },
-      error: (err) => console.error('Erreur récupération véhicules :', err)
-    });
+        },
+        error: (err) => console.error('Erreur récupération véhicules :', err),
+      });
+  }
+
+  deleteVehicle(vehicle: any): void {
+    const assoc = this.associations.find((a: any) => (a.vehicle?.id ?? a.vehicleId) === vehicle.id);
+
+    if (!assoc) {
+      console.error('Association introuvable pour ce véhicule');
+      return;
+    }
+
+    this.restServer
+      .getAssociateService()
+      .remove(assoc)
+      .pipe(switchMap(() => this.restServer.getVehicleService().remove(vehicle)))
+      .subscribe({
+        next: () => {
+          this.ngZone.run(() => {
+            this.loadVehiclesAndAssociations();
+            this.cdr.detectChanges();
+          });
+        },
+        error: (err) => console.error('Erreur suppression véhicule :', err),
+      });
   }
 
   // 3. Ajoute un véhicule ET crée l'association derrière
@@ -135,48 +167,54 @@ export class UserProfile implements OnInit {
       numberPlate: this.numberPlate,
       type: this.vehicleTypeNames[this.selectedType],
       owner: this.username,
-      class: 'lml.snir.parkinglogickit.metier.entity.Vehicle'
+      class: 'lml.snir.parkinglogickit.metier.entity.Vehicle',
     };
 
     // Étape 1 : créer le véhicule
-    this.restServer.getVehicleService().add(vehicleData as Vehicle).subscribe({
-      next: (createdVehicle: any) => {
-        const vehicleId = createdVehicle?.id;
+    this.restServer
+      .getVehicleService()
+      .add(vehicleData as Vehicle)
+      .subscribe({
+        next: (createdVehicle: any) => {
+          const vehicleId = createdVehicle?.id;
 
-        if (!vehicleId) {
-          console.error('Véhicule créé mais ID manquant');
-          this.isLoading = false;
-          return;
-        }
-
-        // Étape 2 : créer l'association driver <-> véhicule
-        const association: any = {
-          driver: { id: Number(this.driverId) },
-          vehicle: { id: Number(vehicleId) },
-          badge: { id: 1 },
-          class: 'lml.snir.parkinglogickit.metier.entity.Associate'
-        };
-
-        this.restServer.getAssociateService().add(association).subscribe({
-          next: () => {
-            this.ngZone.run(() => {
-              this.isLoading = false;
-              this.brand = '';
-              this.numberPlate = '';
-              this.selectedType = null;
-              this.loadVehiclesAndAssociations(); // Rafraîchit la liste
-            });
-          },
-          error: (err) => {
+          if (!vehicleId) {
+            console.error('Véhicule créé mais ID manquant');
             this.isLoading = false;
-            console.error("Erreur lors de la création de l'association :", err);
+            return;
           }
-        });
-      },
-      error: (err) => {
-        this.isLoading = false;
-        console.error("Erreur lors de l'ajout du véhicule :", err);
-      }
-    });
+
+          // Étape 2 : créer l'association driver <-> véhicule
+          const association: any = {
+            driver: { id: Number(this.driverId) },
+            vehicle: { id: Number(vehicleId) },
+            badge: { id: 1 },
+            class: 'lml.snir.parkinglogickit.metier.entity.Associate',
+          };
+
+          this.restServer
+            .getAssociateService()
+            .add(association)
+            .subscribe({
+              next: () => {
+                this.ngZone.run(() => {
+                  this.isLoading = false;
+                  this.brand = '';
+                  this.numberPlate = '';
+                  this.selectedType = null;
+                  this.loadVehiclesAndAssociations(); // Rafraîchit la liste
+                });
+              },
+              error: (err) => {
+                this.isLoading = false;
+                console.error("Erreur lors de la création de l'association :", err);
+              },
+            });
+        },
+        error: (err) => {
+          this.isLoading = false;
+          console.error("Erreur lors de l'ajout du véhicule :", err);
+        },
+      });
   }
 }
