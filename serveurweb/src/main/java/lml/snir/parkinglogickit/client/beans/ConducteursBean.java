@@ -21,12 +21,18 @@ import lml.snir.parkinglogickit.metier.transactionel.VehicleService;
 import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 
 /**
+ * Bean de gestion des conducteurs.
+ * Il permet d'afficher, créer, modifier et supprimer les conducteurs depuis
+ * l'interface d'administration. Il peut aussi créer automatiquement un badge,
+ * un véhicule et leur association lors de la création d'un conducteur.
  *
  * @author Sylvain Crocquevieille
  */
 @Named
 @ViewScoped
 public class ConducteursBean implements Serializable {
+
+    private static final String BADGE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     private List<Driver> conducteurs = new ArrayList<>();
     private Driver selectedDriver;
@@ -51,14 +57,20 @@ public class ConducteursBean implements Serializable {
         charger();
     }
 
+    /**
+     * Recharge la liste des conducteurs affichés dans le tableau.
+     */
     public void charger() {
         try {
             conducteurs = MetierFactory.getDriverService().getAll();
         } catch (Exception e) {
-            addError("Erreur chargement conducteurs : " + e.getMessage());
+            addError("Erreur lors du chargement des conducteurs : " + e.getMessage());
         }
     }
 
+    /**
+     * Crée un conducteur et, si demandé, les éléments liés à son accès parking.
+     */
     public void creer() {
         try {
             DriverService ds = MetierFactory.getDriverService();
@@ -77,14 +89,8 @@ public class ConducteursBean implements Serializable {
 
             Badge b = null;
             if (creationBadge) {
-                String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-                StringBuilder result = new StringBuilder();
-                Random rng = new Random();
-                for (int i = 0; i < 11; i++) {
-                    result.append(CHARS.charAt(rng.nextInt(CHARS.length())));
-                }
                 b = new Badge();
-                b.setContent(result.toString());
+                b.setContent(genererContenuBadge());
                 bs.add(b);
             }
 
@@ -109,10 +115,13 @@ public class ConducteursBean implements Serializable {
             resetForm();
             charger();
         } catch (Exception e) {
-            addError("Erreur création : " + e.getMessage());
+            addError("Erreur lors de la création : " + e.getMessage());
         }
     }
 
+    /**
+     * Enregistre les modifications faites sur le conducteur sélectionné.
+     */
     public void modifier() {
         if (selectedDriver == null) {
             return;
@@ -122,24 +131,26 @@ public class ConducteursBean implements Serializable {
             addInfo("Conducteur mis à jour.");
             charger();
         } catch (Exception e) {
-            addError("Erreur modification : " + e.getMessage());
+            addError("Erreur lors de la modification : " + e.getMessage());
         }
     }
 
+    /**
+     * Supprime le conducteur sélectionné.
+     */
     public void supprimer() {
         if (selectedDriver == null) {
             return;
         }
         try {
-            DriverService ds = MetierFactory.getDriverService();
-            
-            ds.remove(selectedDriver);
-            
+            String username = selectedDriver.getUsername();
+            MetierFactory.getDriverService().remove(selectedDriver);
+
             selectedDriver = null;
             charger();
-            addInfo("Conducteur " + newUsername + " supprimés, Badge et Assiciation également.");
+            addInfo("Conducteur " + username + " supprimé.");
         } catch (Exception e) {
-            addError("Erreur suppression : " + e.getMessage());
+            addError("Erreur lors de la suppression : " + e.getMessage());
         }
     }
 
@@ -160,6 +171,15 @@ public class ConducteursBean implements Serializable {
         newBrand = null;
         newNumberPlate = null;
         newVehicleType = VehicleType.Voiture;
+    }
+
+    private String genererContenuBadge() {
+        StringBuilder result = new StringBuilder();
+        Random rng = new Random();
+        for (int i = 0; i < 11; i++) {
+            result.append(BADGE_CHARS.charAt(rng.nextInt(BADGE_CHARS.length())));
+        }
+        return result.toString();
     }
 
     private void addInfo(String msg) {
