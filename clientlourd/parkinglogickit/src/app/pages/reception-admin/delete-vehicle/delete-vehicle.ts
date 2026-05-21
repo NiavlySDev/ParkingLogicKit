@@ -8,6 +8,7 @@ import { Vehicle } from '../../../../Auth/Vehicle';
 
 @Component({
   selector: 'app-delete-vehicle',
+  standalone: true, // Sécurise le comportement Standalone d'Angular
   imports: [FormsModule, CommonModule, PrimengModule],
   templateUrl: './delete-vehicle.html',
   styleUrl: './delete-vehicle.css',
@@ -32,19 +33,28 @@ export class DeleteVehicle implements OnInit {
     private ngZone: NgZone
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.loadVehicles();
+  }
+
+  /**
+   * Charge et rafraîchit la liste des véhicules
+   */
+  private loadVehicles(): void {
     this.restServer
       .getVehicleService()
       .getAll()
       .subscribe({
         next: (Vehicles: any[]) => {
           this.ngZone.run(() => {
-            this.Vehicles = Vehicles.map((d) => ({
-              ...d,
-              fullName: `${d.brand} | ${d.numberPlate} | ${d.type}`,
+            this.Vehicles = (Vehicles || []).map((v) => ({
+              ...v,
+              fullName: `${v.brand} | ${v.numberPlate} | ${v.type}`,
             }));
+            this.cdr.detectChanges();
           });
         },
+        error: (err) => console.error('Erreur chargement véhicules :', err),
       });
   }
 
@@ -61,17 +71,13 @@ export class DeleteVehicle implements OnInit {
     this.isLoading = true;
     this.message = '';
 
-    const VehicleClass =
-      this.VehicleType === 0
-        ? 'lml.snir.parkinglogickit.metier.entity.Admin'
-        : this.VehicleType === 1
-        ? 'lml.snir.parkinglogickit.metier.entity.VehicleType'
-        : 'lml.snir.parkinglogickit.metier.entity.Vehicle';
+    const VehicleClass = 'lml.snir.parkinglogickit.metier.entity.Vehicle';
 
     const VehicleData: any = {
       id: this.selectedVehicle.id,
-      brand: this.brand,
-      lastName: this.numberPlate,
+      brand: this.brand.trim(),
+      numberPlate: this.numberPlate.trim().toUpperCase(),
+      type: this.selectedVehicle.type, // Conserve le type d'origine
       class: VehicleClass,
     };
 
@@ -82,18 +88,16 @@ export class DeleteVehicle implements OnInit {
       .subscribe({
         next: (associates) => {
           // 2. Filtrer celles liées à ce véhicule
-          const linked = associates.filter((a) => a.vehicle?.id === this.selectedVehicle.id);
-          console.log('Associations trouvées :', linked);
-          console.log('Vehicle ID :', this.selectedVehicle.id);
-          console.log('Toutes les associations :', associates);
+          const linked = (associates || []).filter(
+            (a) => a.vehicle?.id === this.selectedVehicle.id
+          );
 
           if (linked.length === 0) {
-            // Pas d'association, on supprime directement
             this.deleteVehicle(VehicleData);
             return;
           }
 
-          // 3. Supprimer chaque association
+          // 3. Supprimer chaque association en cascade
           let deleted = 0;
           for (const assoc of linked) {
             this.restServer
@@ -103,7 +107,6 @@ export class DeleteVehicle implements OnInit {
                 next: () => {
                   deleted++;
                   if (deleted === linked.length) {
-                    // 4. Toutes supprimées, on supprime le véhicule
                     this.deleteVehicle(VehicleData);
                   }
                 },
@@ -133,7 +136,6 @@ export class DeleteVehicle implements OnInit {
       });
   }
 
-  // Méthode extraite pour éviter la duplication
   private deleteVehicle(VehicleData: any): void {
     this.restServer
       .getVehicleService()
@@ -142,15 +144,18 @@ export class DeleteVehicle implements OnInit {
         next: () => {
           this.ngZone.run(() => {
             this.isLoading = false;
-            this.setMessage('Vehicle supprimé avec succès 🎉', 'success');
+            this.setMessage('Véhicule supprimé avec succès 🎉', 'success');
             this.resetForm();
-            this.cdr.detectChanges();
+            this.loadVehicles();
           });
         },
         error: (error: any) => {
           this.ngZone.run(() => {
             this.isLoading = false;
-            this.setMessage(error?.error?.message || "Une erreur s'est produite", 'error');
+            this.setMessage(
+              error?.error?.message || "Une erreur s'est produite lors de la suppression",
+              'error'
+            );
             this.cdr.detectChanges();
           });
         },
@@ -165,18 +170,16 @@ export class DeleteVehicle implements OnInit {
   changeVehicle(): void {
     this.ngZone.run(() => {
       if (!this.selectedVehicle) {
-        this.setMessage('Veuillez sélectionner un Vehicle', 'error');
+        this.setMessage('Veuillez sélectionner un Véhicule', 'error');
         return;
       }
 
       this.brand = this.selectedVehicle.brand;
       this.numberPlate = this.selectedVehicle.numberPlate;
-      this.VehicleType =
-        this.selectedVehicle.class === 'lml.snir.parkinglogickit.metier.entity.vehicle'
-          ? 0
-          : this.selectedVehicle.class === 'lml.snir.parkinglogickit.metier.entity.Maintenance'
-          ? 1
-          : 2;
+
+      const vehicleTypeNames = ['Moto', 'Voiture', 'Camionnette', 'Camion'];
+      const index = vehicleTypeNames.indexOf(this.selectedVehicle.type);
+      this.VehicleType = index !== -1 ? index : 1; // Par défaut 'Voiture' si non trouvé
 
       this.cdr.detectChanges();
     });
@@ -186,5 +189,7 @@ export class DeleteVehicle implements OnInit {
     this.brand = '';
     this.numberPlate = '';
     this.VehicleType = null;
+    this.selectedVehicle = null;
+    this.cdr.detectChanges();
   }
 }
