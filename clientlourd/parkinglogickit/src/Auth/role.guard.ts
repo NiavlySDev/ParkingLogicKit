@@ -9,7 +9,6 @@ export class RoleGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): boolean {
     const expectedRole = route.data['role'];
     const userRole = this.authService.getRole();
-    console.log('RoleGuard - role attendu:', expectedRole, '- role user:', userRole);
     if (userRole === expectedRole) {
       this.authService.resetTimeout();
       return true;
