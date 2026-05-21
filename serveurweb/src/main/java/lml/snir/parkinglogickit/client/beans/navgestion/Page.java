@@ -1,139 +1,194 @@
 package lml.snir.parkinglogickit.client.beans.navgestion;
 
-import lml.snir.parkinglogickit.client.beans.comptegestion.LoggedType;
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import lml.snir.parkinglogickit.client.beans.comptegestion.LoggedType;
 
 /**
+ * Enumération des pages disponibles dans le menu principal.
+ * Le but est de pouvoir déplacer ou désactiver une page sans devoir recalculer
+ * tous les index à la main dans le reste du projet.
+ * Pour masquer une page depuis le code, il suffit d'utiliser un constructeur
+ * avec le paramètre disabled à true.
  *
  * @author Sylvain Crocquevieille
  */
-@Named
-@ViewScoped
 public enum Page {
     Accueil(
-            0,
             "/accueil.xhtml"
     ),
     Dashboard(
-            1,
             "/dashboard.xhtml",
             Arrays.asList(
                     LoggedType.LoggedInOnly
             )
     ),
-    Journal(
-            2,
-            "/journal.xhtml",
-            Arrays.asList(
-                    LoggedType.LoggedInOnly
-            )
-    ),
+//    Journal(
+//            "/journal.xhtml",
+//            Arrays.asList(
+//                    LoggedType.LoggedInOnly
+//            )
+//    ),
     Separateur1(
             "|",
-            3,
             "",
             Arrays.asList(
                     LoggedType.Affichage
-            )
+            ),
+            true
     ),
     Conducteurs(
-            4,
             "/admin/conducteurs.xhtml",
             Arrays.asList(
                     LoggedType.AdminOnly
             )
     ),
     Vehicules(
-            5,
             "/admin/vehicules.xhtml",
             Arrays.asList(
                     LoggedType.AdminOnly
             )
     ),
     Badges(
-            6,
             "/admin/badges.xhtml",
+            Arrays.asList(
+                    LoggedType.AdminOnly
+            )
+    ),
+    Associations(
+            "/admin/associations.xhtml",
             Arrays.asList(
                     LoggedType.AdminOnly
             )
     ),
     Separateur2(
             "|",
-            7,
             "",
             Arrays.asList(
                     LoggedType.Affichage,
                     LoggedType.LoggedInOnly
-            )
+            ),
+            true
     ),
     Connexion(
-            8,
             "/compte/login.xhtml",
             Arrays.asList(
                     LoggedType.LoggedOutOnly
-            )
+            ),
+            false,
+            "Compte"
     ),
     Compte(
-            8,
             "/compte/compte.xhtml",
             Arrays.asList(
                     LoggedType.LoggedInOnly
-            )
+            ),
+            false,
+            "Compte"
     ),;
 
     private final String nom;
-    private final Integer id;
     private final String path;
     private final List<LoggedType> loggedTypes;
+    private final boolean separator;
+    private final boolean disabled;
+    private final String activeGroup;
 
-    private Page(Integer id, String path) {
+    private Page(String path) {
         this.nom = this.name();
-        this.id = id;
         this.path = path;
         this.loggedTypes = new ArrayList<>();
+        this.separator = false;
+        this.disabled = false;
+        this.activeGroup = this.name();
     }
 
-    private Page(String nom, Integer id, String path) {
-        this.nom = nom;
-        this.id = id;
+    private Page(String path, boolean disabled) {
+        this.nom = this.name();
         this.path = path;
         this.loggedTypes = new ArrayList<>();
+        this.separator = false;
+        this.disabled = disabled;
+        this.activeGroup = this.name();
     }
 
-    private Page(Integer id, String path, List<LoggedType> loggedTypes) {
+    private Page(String path, List<LoggedType> loggedTypes) {
         this.nom = this.name();
-        this.id = id;
         this.path = path;
         this.loggedTypes = loggedTypes;
+        this.separator = false;
+        this.disabled = false;
+        this.activeGroup = this.name();
     }
 
-    private Page(String nom, Integer id, String path, List<LoggedType> loggedTypes) {
+    private Page(String path, List<LoggedType> loggedTypes, boolean disabled) {
+        this.nom = this.name();
+        this.path = path;
+        this.loggedTypes = loggedTypes;
+        this.separator = false;
+        this.disabled = disabled;
+        this.activeGroup = this.name();
+    }
+
+    private Page(String path, List<LoggedType> loggedTypes, boolean disabled, String activeGroup) {
+        this.nom = this.name();
+        this.path = path;
+        this.loggedTypes = loggedTypes;
+        this.separator = false;
+        this.disabled = disabled;
+        this.activeGroup = activeGroup;
+    }
+
+    private Page(String nom, String path, List<LoggedType> loggedTypes, boolean separator) {
         this.nom = nom;
-        this.id = id;
         this.path = path;
         this.loggedTypes = loggedTypes;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getPath() {
-        return path;
+        this.separator = separator;
+        this.disabled = false;
+        this.activeGroup = this.name();
     }
 
     public String getNom() {
         return nom;
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    /**
+     * Ancien accesseur conservé pour éviter les erreurs lors d'un redéploiement
+     * si une ancienne version de NavBean est encore chargée par le serveur.
+     *
+     * @return position de la page dans l'enum
+     */
+    public Integer getId() {
+        return this.ordinal();
+    }
+
     public List<LoggedType> getLoggedTypes() {
         return loggedTypes;
     }
 
+    public boolean isSeparator() {
+        return separator;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public String getActiveGroup() {
+        return activeGroup;
+    }
+
+    /**
+     * Indique si la page demande un type de connexion particulier.
+     *
+     * @param type règle d'affichage à vérifier
+     * @return true si la règle est présente sur la page
+     */
     public boolean verifLoggedType(LoggedType type) {
         return this.getLoggedTypes().contains(type);
     }

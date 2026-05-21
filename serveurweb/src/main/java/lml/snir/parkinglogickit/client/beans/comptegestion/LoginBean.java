@@ -10,6 +10,9 @@ import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 import org.primefaces.PrimeFaces;
 
 /**
+ * Bean de session utilisé pour la connexion.
+ * Il conserve l'utilisateur connecté et permet aux pages JSF de savoir si
+ * l'utilisateur est simple conducteur ou administrateur.
  *
  * @author Sylvain Crocquevieille
  */
@@ -54,16 +57,19 @@ public class LoginBean implements Serializable {
         return driver instanceof Admin;
     }
 
+    /**
+     * Vérifie les identifiants saisis et ouvre la session utilisateur.
+     */
     public void login() {
         try {
             DriverService ds = MetierFactory.getDriverService();
             if (ds.getByUsername(username) == null) {
-                System.out.println("FallBack : Wrong Username");
+                System.out.println("Connexion impossible : utilisateur inconnu");
                 return;
             }
             Driver driverDS = ds.getByUsername(username);
             if (!driverDS.getPassword().equals(password)) {
-                System.out.println("FallBack : Wrong Password");
+                System.out.println("Connexion impossible : mot de passe incorrect");
                 return;
             }
 
@@ -72,11 +78,14 @@ public class LoginBean implements Serializable {
             this.setUsername(this.driver.getUsername());
             this.setPassword(this.driver.getPassword());
         } catch (Exception ex) {
-            System.out.println("FallBack - Error: " + ex);
+            System.out.println("Erreur pendant la connexion : " + ex);
         }
         PrimeFaces.current().executeScript("location.reload();");
     }
 
+    /**
+     * Ferme la session courante et revient à un état déconnecté.
+     */
     public void logout() {
         this.driver = null;
         this.setLogged(false);
