@@ -93,6 +93,9 @@ public enum Page {
                     LoggedType.LoggedInOnly
             )
     ),
+    Guide(
+            "/pages/public/guide/guide.xhtml"
+    ),
     Themes(
             "/pages/compte/themes/themes.xhtml",
             Arrays.asList(
@@ -197,6 +200,8 @@ public enum Page {
 
     public String getIcon() {
         switch (this) {
+            case Guide:
+                return "pi pi-book";
             case Dashboard:
                 return "pi pi-chart-line";
             case Conducteurs:
@@ -222,6 +227,8 @@ public enum Page {
 
     public String getDescription() {
         switch (this) {
+            case Guide:
+                return "Consulter le guide complet d'utilisation de ParkingLogicKit.";
             case Dashboard:
                 return "Consulter les places disponibles et l'état des parkings.";
             case Conducteurs:
