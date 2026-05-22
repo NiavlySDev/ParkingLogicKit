@@ -11,9 +11,9 @@ import lml.snir.parkinglogickit.metier.transactionel.DriverService;
 import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 
 /**
- * Bean utilisé pour changer le mot de passe du compte connecté.
- * Les messages sont gardés dans le Bean afin que la page puisse afficher un
- * retour simple à l'utilisateur après la tentative de changement.
+ * Bean utilisé pour changer le mot de passe du compte connecté. Les messages
+ * sont gardés dans le Bean afin que la page puisse afficher un retour simple à
+ * l'utilisateur après la tentative de changement.
  *
  * @author Sylvain Crocquevieille
  */

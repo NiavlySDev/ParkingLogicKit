@@ -1,0 +1,16 @@
+.col-id {
+    width: 60px;
+}
+
+.col-actions-wide {
+    width: 140px;
+}
+
+.dialog-grid {
+    width: 100%;
+}
+
+.field-md,
+.field-md.ui-selectonemenu {
+    width: 200px !important;
+}

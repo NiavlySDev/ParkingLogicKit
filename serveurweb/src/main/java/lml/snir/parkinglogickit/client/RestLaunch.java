@@ -9,7 +9,6 @@ import java.util.Set;
 import lml.snir.parkinglogickit.metier.rest.serveur.*;
 
 /**
- *
  * @author Virgile Alari
  */
 @ApplicationPath("rest")

@@ -1,0 +1,45 @@
+.account-page {
+    padding: 24px;
+}
+
+.account-card {
+    width: min(520px, calc(100% - 40px));
+    margin: 64px auto;
+    padding: 34px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.account-card .actions-bar {
+    margin-top: 22px;
+}
+
+.profile-grid {
+    display: grid;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+.profile-row {
+    display: grid;
+    grid-template-columns: 110px 1fr 42px;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-muted);
+}
+
+.profile-row span {
+    color: var(--text-secondary);
+    font-weight: 700;
+}
+
+.backend-note {
+    color: var(--warning);
+    font-size: 0.82rem;
+    font-weight: 700;
+}

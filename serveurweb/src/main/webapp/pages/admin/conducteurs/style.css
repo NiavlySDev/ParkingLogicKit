@@ -1,0 +1,45 @@
+.col-id {
+    width: 60px;
+}
+
+.col-age {
+    width: 70px;
+}
+
+.col-small {
+    width: 80px;
+}
+
+.col-actions-wide {
+    width: 140px;
+}
+
+.dialog-grid {
+    width: 100%;
+}
+
+.field-md,
+.field-md.ui-selectonemenu {
+    width: 200px !important;
+}
+
+.field-lg,
+.field-lg.ui-selectonemenu {
+    width: 220px !important;
+}
+
+.vehicle-section {
+    display: block;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+}
+
+.vehicle-section-title {
+    margin: 0 0 8px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}

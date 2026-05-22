@@ -12,9 +12,9 @@ import lml.snir.parkinglogickit.metier.entity.Badge;
 import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 
 /**
- * Bean de gestion des badges RFID.
- * Cette classe alimente la page d'administration des badges et regroupe les
- * actions simples : afficher, créer et supprimer un badge.
+ * Bean de gestion des badges RFID. Cette classe alimente la page
+ * d'administration des badges et regroupe les actions simples : afficher, créer
+ * et supprimer un badge.
  *
  * @author Sylvain Crocquevieille
  */

@@ -15,9 +15,9 @@ import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.MenuModel;
 
 /**
- * Bean chargé de construire le menu principal de l'application.
- * Les onglets sont créés à partir de l'enum Page afin de centraliser la
- * navigation et de rendre l'ordre des pages plus simple à maintenir.
+ * Bean chargé de construire le menu principal de l'application. Les onglets
+ * sont créés à partir de l'enum Page afin de centraliser la navigation et de
+ * rendre l'ordre des pages plus simple à maintenir.
  *
  * @author Sylvain Crocquevieille
  */
@@ -91,6 +91,24 @@ public class NavBean implements Serializable {
 
     public int getActiveIndex() {
         return activeIndex;
+    }
+
+    /**
+     * Retourne les pages affichées sous forme de cartes sur l'accueil.
+     * Les séparateurs et la page Accueil sont exclus pour ne garder que les
+     * destinations utiles à l'utilisateur connecté.
+     *
+     * @return pages accessibles depuis l'accueil
+     */
+    public List<Page> getAccueilPages() {
+        List<Page> pages = new ArrayList<>();
+        for (Page page : visiblePages) {
+            if (page.isSeparator() || page == Page.Accueil) {
+                continue;
+            }
+            pages.add(page);
+        }
+        return pages;
     }
 
     private List<Page> getVisiblePages() {

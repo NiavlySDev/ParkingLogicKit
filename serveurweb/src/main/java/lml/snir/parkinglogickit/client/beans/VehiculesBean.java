@@ -13,9 +13,9 @@ import lml.snir.parkinglogickit.metier.entity.VehicleType;
 import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 
 /**
- * Bean de gestion des véhicules.
- * Il fournit les actions d'administration classiques pour les véhicules :
- * consultation, création, modification et suppression.
+ * Bean de gestion des véhicules. Il fournit les actions d'administration
+ * classiques pour les véhicules : consultation, création, modification et
+ * suppression.
  *
  * @author Sylvain Crocquevieille
  */

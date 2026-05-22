@@ -5,8 +5,7 @@ import jakarta.inject.Named;
 import java.io.Serializable;
 
 /**
- *
- * @author fanou
+ * @author Stéphane Alonso
  */
 @Named
 @ViewScoped

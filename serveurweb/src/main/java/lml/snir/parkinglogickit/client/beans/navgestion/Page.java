@@ -6,30 +6,30 @@ import java.util.List;
 import lml.snir.parkinglogickit.client.beans.comptegestion.LoggedType;
 
 /**
- * Enumération des pages disponibles dans le menu principal.
- * Le but est de pouvoir déplacer ou désactiver une page sans devoir recalculer
- * tous les index à la main dans le reste du projet.
- * Pour masquer une page depuis le code, il suffit d'utiliser un constructeur
- * avec le paramètre disabled à true.
+ * Enumération des pages disponibles dans le menu principal. Le but est de
+ * pouvoir déplacer ou désactiver une page sans devoir recalculer tous les index
+ * à la main dans le reste du projet. Pour masquer une page depuis le code, il
+ * suffit d'utiliser un constructeur avec le paramètre disabled à true.
  *
  * @author Sylvain Crocquevieille
  */
 public enum Page {
     Accueil(
-            "/accueil.xhtml"
+            "/pages/public/accueil/accueil.xhtml"
     ),
     Dashboard(
-            "/dashboard.xhtml",
+            "/pages/dashboard/dashboard.xhtml",
             Arrays.asList(
                     LoggedType.LoggedInOnly
             )
     ),
-//    Journal(
-//            "/journal.xhtml",
-//            Arrays.asList(
-//                    LoggedType.LoggedInOnly
-//            )
-//    ),
+    Journal(
+            "/pages/journal/journal.xhtml",
+            Arrays.asList(
+                    LoggedType.LoggedInOnly
+            ),
+            true // Disabled
+    ),
     Separateur1(
             "|",
             "",
@@ -39,25 +39,25 @@ public enum Page {
             true
     ),
     Conducteurs(
-            "/admin/conducteurs.xhtml",
+            "/pages/admin/conducteurs/conducteurs.xhtml",
             Arrays.asList(
                     LoggedType.AdminOnly
             )
     ),
     Vehicules(
-            "/admin/vehicules.xhtml",
+            "/pages/admin/vehicules/vehicules.xhtml",
             Arrays.asList(
                     LoggedType.AdminOnly
             )
     ),
     Badges(
-            "/admin/badges.xhtml",
+            "/pages/admin/badges/badges.xhtml",
             Arrays.asList(
                     LoggedType.AdminOnly
             )
     ),
     Associations(
-            "/admin/associations.xhtml",
+            "/pages/admin/associations/associations.xhtml",
             Arrays.asList(
                     LoggedType.AdminOnly
             )
@@ -72,7 +72,7 @@ public enum Page {
             true
     ),
     Connexion(
-            "/compte/login.xhtml",
+            "/pages/compte/login/login.xhtml",
             Arrays.asList(
                     LoggedType.LoggedOutOnly
             ),
@@ -80,12 +80,24 @@ public enum Page {
             "Compte"
     ),
     Compte(
-            "/compte/compte.xhtml",
+            "/pages/compte/compte/compte.xhtml",
             Arrays.asList(
                     LoggedType.LoggedInOnly
             ),
             false,
             "Compte"
+    ),
+    Parametres(
+            "/pages/compte/parametres/parametres.xhtml",
+            Arrays.asList(
+                    LoggedType.LoggedInOnly
+            )
+    ),
+    Themes(
+            "/pages/compte/themes/themes.xhtml",
+            Arrays.asList(
+                    LoggedType.LoggedInOnly
+            )
     ),;
 
     private final String nom;
@@ -181,6 +193,56 @@ public enum Page {
 
     public String getActiveGroup() {
         return activeGroup;
+    }
+
+    public String getIcon() {
+        switch (this) {
+            case Dashboard:
+                return "pi pi-chart-line";
+            case Conducteurs:
+                return "pi pi-users";
+            case Vehicules:
+                return "pi pi-car";
+            case Badges:
+                return "pi pi-id-card";
+            case Associations:
+                return "pi pi-link";
+            case Connexion:
+                return "pi pi-sign-in";
+            case Compte:
+                return "pi pi-user";
+            case Parametres:
+                return "pi pi-cog";
+            case Themes:
+                return "pi pi-palette";
+            default:
+                return "pi pi-home";
+        }
+    }
+
+    public String getDescription() {
+        switch (this) {
+            case Dashboard:
+                return "Consulter les places disponibles et l'état des parkings.";
+            case Conducteurs:
+                return "Gérer les conducteurs et leurs informations de connexion.";
+            case Vehicules:
+                return "Ajouter, modifier ou supprimer les véhicules enregistrés.";
+            case Badges:
+                return "Créer et suivre les badges RFID disponibles.";
+            case Associations:
+                return "Associer un conducteur à un badge et à un véhicule.";
+            case Connexion:
+                return "Se connecter pour accéder aux fonctionnalités du parking.";
+            case Compte:
+                return "Consulter le compte connecté et modifier le mot de passe.";
+            case Parametres:
+                return "Ajuster les préférences locales de l'interface.";
+            case Themes:
+                return "Choisir un thème de couleurs pour personnaliser l'application.";
+            default:
+                return "Retourner à la page d'accueil de ParkingLogicKit.";
+        }
     }
 
     /**

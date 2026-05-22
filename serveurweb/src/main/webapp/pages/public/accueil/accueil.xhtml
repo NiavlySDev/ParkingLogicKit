@@ -1,0 +1,36 @@
+<!--
+Author: Sylvain Crocquevieille
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/pages/public/accueil/style.css" />
+
+    <div class="home-page">
+        <div class="home-hero">
+            <h1>ParkingLogicKit</h1>
+            <div class="subtitle">Gestion simple des conducteurs, badges, véhicules et accès parking.</div>
+        </div>
+
+        <div class="home-grid">
+            <ui:repeat value="#{navBean.accueilPages}" var="page">
+                <p:commandLink styleClass="home-card"
+                               action="#{navBean.onTabChange(page.name())}"
+                               process="@this"
+                               update="index:fragmentPanel messageindex message index:tabMenu">
+                    <span class="home-card-icon">
+                        <i class="#{page.icon}"></i>
+                    </span>
+                    <span class="home-card-body">
+                        <span class="home-card-title">#{page.nom}</span>
+                        <span class="home-card-text">#{page.description}</span>
+                    </span>
+                    <span class="home-card-arrow">
+                        <i class="pi pi-arrow-right"></i>
+                    </span>
+                </p:commandLink>
+            </ui:repeat>
+        </div>
+    </div>
+</ui:composition>
