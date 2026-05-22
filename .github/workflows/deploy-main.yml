@@ -22,7 +22,8 @@ jobs:
       DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
       DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
       DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
-      DEPLOY_PATH: /opt/sites/projet/ParkingLogicKit
+      WILDFLY_HOME: /home/minecraft/wildfly
+      DEPLOY_PATH: /home/minecraft/wildfly/standalone/deployments
       DEPLOY_RESTART_COMMAND: ${{ secrets.DEPLOY_RESTART_COMMAND }}
 
     steps:
@@ -89,13 +90,18 @@ jobs:
               if [ -n '$DEPLOY_RESTART_COMMAND' ]; then
                 $DEPLOY_RESTART_COMMAND
               elif command -v systemctl >/dev/null 2>&1 && systemctl --user list-unit-files | grep -q '^wildfly'; then
-                systemctl --user restart wildfly
+                systemctl --user restart wildfly || systemctl --user start wildfly
               elif command -v sudo >/dev/null 2>&1 && sudo -n systemctl status wildfly >/dev/null 2>&1; then
-                sudo -n systemctl restart wildfly
-              elif [ -x /opt/wildfly/bin/jboss-cli.sh ]; then
-                /opt/wildfly/bin/jboss-cli.sh --connect command=':shutdown(restart=true)'
-              elif [ -x /opt/sites/projet/ParkingLogicKit/bin/jboss-cli.sh ]; then
-                /opt/sites/projet/ParkingLogicKit/bin/jboss-cli.sh --connect command=':shutdown(restart=true)'
+                sudo -n systemctl restart wildfly || sudo -n systemctl start wildfly
+              elif [ -x '$WILDFLY_HOME/bin/jboss-cli.sh' ] && '$WILDFLY_HOME/bin/jboss-cli.sh' --connect command=':shutdown(restart=true)'; then
+                echo 'WildFly redémarré avec jboss-cli.'
+              elif [ -x '$WILDFLY_HOME/bin/standalone.sh' ]; then
+                if pgrep -u '$DEPLOY_USER' -f '$WILDFLY_HOME.*standalone' >/dev/null 2>&1; then
+                  pkill -u '$DEPLOY_USER' -f '$WILDFLY_HOME.*standalone'
+                  sleep 5
+                fi
+                nohup '$WILDFLY_HOME/bin/standalone.sh' -b 0.0.0.0 > '$WILDFLY_HOME/standalone/log/standalone.out' 2>&1 &
+                echo 'WildFly démarré en arrière-plan.'
               else
                 echo 'Aucune commande de redémarrage WildFly trouvée. Ajoute le secret DEPLOY_RESTART_COMMAND.'
                 exit 1
