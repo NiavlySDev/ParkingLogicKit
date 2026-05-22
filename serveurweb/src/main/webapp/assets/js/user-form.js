@@ -1,3 +1,6 @@
+/**
+ * @author Sylvain Crocquevieille
+ */
 function getInputBySuffix(idSuffix) {
     return document.querySelector('[id$=":' + idSuffix + '"]');
 }

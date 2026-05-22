@@ -108,13 +108,13 @@ Author: Sylvain Crocquevieille
                     <h:panelGrid columns="2" cellpadding="8" styleClass="dialog-grid">
                         <h:outputLabel value="Marque :"/>
                         <p:inputText value="#{vehiculesBean.selectedVehicle.brand}"
-                                         styleClass="field-md"/>
+                                     styleClass="field-md"/>
                         <h:outputLabel value="Immatriculation :"/>
                         <p:inputText value="#{vehiculesBean.selectedVehicle.numberPlate}"
-                                         styleClass="field-md"/>
+                                     styleClass="field-md"/>
                         <h:outputLabel value="Type :"/>
-                            <p:selectOneMenu value="#{vehiculesBean.selectedVehicle.type}"
-                                             styleClass="field-md">
+                        <p:selectOneMenu value="#{vehiculesBean.selectedVehicle.type}"
+                                         styleClass="field-md">
                             <f:selectItems value="#{vehiculesBean.vehicleTypes}"
                                            var="vt"
                                            itemValue="#{vt}"
