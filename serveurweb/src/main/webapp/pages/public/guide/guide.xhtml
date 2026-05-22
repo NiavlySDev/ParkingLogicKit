@@ -1,0 +1,126 @@
+<!--
+Author: Sylvain Crocquevieille
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:p="http://primefaces.org/ui">
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/pages/public/guide/style.css" />
+
+    <div class="guide-page">
+        <div class="page-header guide-header">
+            <div>
+                <h2 class="section-title">Guide d'utilisation</h2>
+                <p class="section-description">Guide complet pour utiliser l'interface web ParkingLogicKit.</p>
+            </div>
+            <h:outputLink value="#{request.contextPath}/assets/docs/guide-utilisation-plk.pdf"
+                          target="_blank"
+                          pt:download="Guide Utilisation PLK.pdf"
+                          styleClass="guide-download-button ui-button ui-widget ui-state-default ui-corner-all">
+                <i class="pi pi-download"></i>
+                <span>Télécharger le PDF</span>
+            </h:outputLink>
+        </div>
+
+        <p:accordionPanel multiple="true" activeIndex="0" styleClass="guide-accordion">
+            <p:tab title="Présentation générale">
+                <p>ParkingLogicKit permet de consulter l'état des parkings, de gérer les utilisateurs et de personnaliser l'affichage.</p>
+                <div class="guide-table">
+                    <div class="guide-row guide-head">
+                        <span>Rôle</span>
+                        <span>Pages accessibles</span>
+                        <span>Utilisation</span>
+                    </div>
+                    <div class="guide-row">
+                        <span>Utilisateur</span>
+                        <span>Accueil, Dashboard, Compte, Paramètres, Thèmes</span>
+                        <span>Consulter les informations et gérer son compte.</span>
+                    </div>
+                    <div class="guide-row">
+                        <span>Administrateur</span>
+                        <span>Pages utilisateur + Conducteurs, Véhicules, Badges, Associations</span>
+                        <span>Administrer les données utilisées par l'application.</span>
+                    </div>
+                </div>
+            </p:tab>
+
+            <p:tab title="Connexion">
+                <ol class="guide-list">
+                    <li>Aller sur la page Connexion.</li>
+                    <li>Saisir l'identifiant transmis par un administrateur.</li>
+                    <li>Saisir le mot de passe associé.</li>
+                    <li>Valider le formulaire pour entrer dans l'application.</li>
+                </ol>
+                <p class="guide-warning">En cas d'échec, vérifier les majuscules, les espaces en trop et demander à un administrateur de contrôler le compte.</p>
+            </p:tab>
+
+            <p:tab title="Compte utilisateur">
+                <div class="guide-columns">
+                    <section>
+                        <h3>Accueil</h3>
+                        <p>La page d'accueil affiche des cartes de navigation vers les pages autorisées.</p>
+                    </section>
+                    <section>
+                        <h3>Dashboard</h3>
+                        <p>Le dashboard affiche les places disponibles et l'état de chaque parking.</p>
+                    </section>
+                    <section>
+                        <h3>Compte</h3>
+                        <p>La page compte permet de modifier le prénom, le nom, l'identifiant, l'âge et le mot de passe.</p>
+                    </section>
+                    <section>
+                        <h3>Paramètres et thèmes</h3>
+                        <p>Ces pages servent à personnaliser l'interface sans modifier les données métier.</p>
+                    </section>
+                </div>
+            </p:tab>
+
+            <p:tab title="Administration">
+                <div class="guide-columns">
+                    <section>
+                        <h3>Conducteurs</h3>
+                        <p>Créer, modifier ou supprimer un utilisateur. La création peut aussi générer un badge, un véhicule et une association.</p>
+                    </section>
+                    <section>
+                        <h3>Véhicules</h3>
+                        <p>Ajouter, modifier ou supprimer les véhicules enregistrés : moto, voiture, camionnette ou camion.</p>
+                    </section>
+                    <section>
+                        <h3>Badges</h3>
+                        <p>Créer et supprimer les badges. Les associations sont gérées dans une page séparée.</p>
+                    </section>
+                    <section>
+                        <h3>Associations</h3>
+                        <p>Relier un conducteur, un badge et un véhicule pour rendre le lien plus clair.</p>
+                    </section>
+                </div>
+            </p:tab>
+
+            <p:tab title="Problèmes fréquents">
+                <div class="guide-table">
+                    <div class="guide-row guide-head">
+                        <span>Problème</span>
+                        <span>Solution conseillée</span>
+                    </div>
+                    <div class="guide-row two-cols">
+                        <span>Impossible de se connecter</span>
+                        <span>Vérifier l'identifiant, le mot de passe, puis contacter un administrateur.</span>
+                    </div>
+                    <div class="guide-row two-cols">
+                        <span>Une page n'apparaît pas</span>
+                        <span>Vérifier que le compte possède les permissions nécessaires.</span>
+                    </div>
+                    <div class="guide-row two-cols">
+                        <span>Une association ne se crée pas</span>
+                        <span>Vérifier qu'un conducteur, un badge et un véhicule sont disponibles.</span>
+                    </div>
+                    <div class="guide-row two-cols">
+                        <span>Le dashboard semble incorrect</span>
+                        <span>Rafraîchir les données avec le bouton prévu sur la page.</span>
+                    </div>
+                </div>
+            </p:tab>
+        </p:accordionPanel>
+    </div>
+</ui:composition>
