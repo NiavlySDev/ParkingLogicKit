@@ -25,6 +25,7 @@ jobs:
       WILDFLY_HOME: /home/minecraft/wildfly
       SOURCE_PATH: /opt/sites/projet/ParkingLogicKit
       WILDFLY_DEPLOY_PATH: /home/minecraft/wildfly/standalone/deployments
+      WILDFLY_JAVA_HOME: ${{ secrets.WILDFLY_JAVA_HOME }}
       DEPLOY_RESTART_COMMAND: ${{ secrets.DEPLOY_RESTART_COMMAND }}
 
     steps:
@@ -106,8 +107,13 @@ jobs:
               -p "$DEPLOY_PORT" \
               -o StrictHostKeyChecking=yes \
               "$DEPLOY_USER@$DEPLOY_HOST" \
-              "DEPLOY_RESTART_COMMAND='$DEPLOY_RESTART_COMMAND' WILDFLY_HOME='$WILDFLY_HOME' DEPLOY_USER='$DEPLOY_USER' bash -s" <<'REMOTE_SCRIPT'
+              "DEPLOY_RESTART_COMMAND='$DEPLOY_RESTART_COMMAND' WILDFLY_HOME='$WILDFLY_HOME' WILDFLY_JAVA_HOME='$WILDFLY_JAVA_HOME' DEPLOY_USER='$DEPLOY_USER' bash -s" <<'REMOTE_SCRIPT'
           set -e
+
+          if [ -n "$WILDFLY_JAVA_HOME" ]; then
+            export JAVA_HOME="$WILDFLY_JAVA_HOME"
+            export PATH="$JAVA_HOME/bin:$PATH"
+          fi
 
           if [ -n "$DEPLOY_RESTART_COMMAND" ]; then
             eval "$DEPLOY_RESTART_COMMAND"
