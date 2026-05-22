@@ -1,0 +1,182 @@
+<!--
+Author: Sylvain Crocquevieille
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="jakarta.faces.core">
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/pages/compte/compte/style.css" />
+    <script type="text/javascript" src="#{request.contextPath}/assets/js/user-form.js"></script>
+
+    <div class="account-page">
+        <div class="account-card">
+            <h2>Compte</h2>
+            <p class="section-description">Connecté en tant que #{loginBean.driver.username}.</p>
+
+            <div class="profile-grid">
+                <div class="profile-row">
+                    <span>Prénom</span>
+                    <strong>#{loginBean.driver.firstName}</strong>
+                    <p:commandButton icon="pi pi-pencil" title="Modifier le prénom"
+                                     styleClass="rounded-button ui-button-warning"
+                                     action="#{loginBean.preparerModificationCompte()}"
+                                     process="@this"
+                                     update="panelPrenom"
+                                     oncomplete="PF('dlgPrenom').show()"/>
+                </div>
+                <div class="profile-row">
+                    <span>Nom</span>
+                    <strong>#{loginBean.driver.lastName}</strong>
+                    <p:commandButton icon="pi pi-pencil" title="Modifier le nom"
+                                     styleClass="rounded-button ui-button-warning"
+                                     action="#{loginBean.preparerModificationCompte()}"
+                                     process="@this"
+                                     update="panelNom"
+                                     oncomplete="PF('dlgNom').show()"/>
+                </div>
+                <div class="profile-row">
+                    <span>Identifiant</span>
+                    <strong>#{loginBean.driver.username}</strong>
+                    <p:commandButton icon="pi pi-pencil" title="Modifier l'identifiant"
+                                     styleClass="rounded-button ui-button-warning"
+                                     action="#{loginBean.preparerModificationCompte()}"
+                                     process="@this"
+                                     update="panelIdentifiant"
+                                     oncomplete="PF('dlgIdentifiant').show()"/>
+                </div>
+                <div class="profile-row">
+                    <span>Âge</span>
+                    <strong>#{loginBean.driver.age}</strong>
+                    <p:commandButton icon="pi pi-pencil" title="Modifier l'âge"
+                                     styleClass="rounded-button ui-button-warning"
+                                     action="#{loginBean.preparerModificationCompte()}"
+                                     process="@this"
+                                     update="panelAge"
+                                     oncomplete="PF('dlgAge').show()"/>
+                </div>
+            </div>
+
+            <div class="actions-bar">
+                <p:commandButton value="Changer le mot de passe" type="button" icon="pi pi-file-edit"
+                                 styleClass="rounded-button ui-button-warning"
+                                 onclick="PF('changementMdp').show()"/>
+                <p:commandButton value="Se déconnecter"
+                                 icon="pi pi-sign-out"
+                                 styleClass="rounded-button ui-button-danger"
+                                 action="#{loginBean.logout()}"
+                                 update="index:fragmentPanel messageindex message index:tabMenu"/>
+            </div>
+        </div>
+
+        <p:dialog header="Modifier le prénom" widgetVar="dlgPrenom" width="420" showEffect="fade" modal="true">
+            <h:panelGroup id="panelPrenom" layout="block">
+                <h:panelGrid columns="1" cellpadding="8" styleClass="form-grid">
+                    <h:outputLabel value="Prénom"/>
+                    <p:inputText id="accountFirstName" value="#{loginBean.editFirstName}"
+                                 onkeyup="updateAutoUsername('accountFirstName', 'accountLastName', 'accountUsername')"/>
+                </h:panelGrid>
+            </h:panelGroup>
+            <f:facet name="footer">
+                <p:commandButton value="Enregistrer" icon="pi pi-check"
+                                 styleClass="rounded-button ui-button-success"
+                                 action="#{loginBean.changerPrenom()}"
+                                 process="panelPrenom @this"
+                                 update="index:fragmentPanel messageindex message"
+                                 oncomplete="PF('dlgPrenom').hide()"/>
+                <p:commandButton value="Annuler" icon="pi pi-times"
+                                 styleClass="rounded-button ui-button-secondary"
+                                 type="button" onclick="PF('dlgPrenom').hide()"/>
+            </f:facet>
+        </p:dialog>
+
+        <p:dialog header="Modifier le nom" widgetVar="dlgNom" width="420" showEffect="fade" modal="true">
+            <h:panelGroup id="panelNom" layout="block">
+                <h:panelGrid columns="1" cellpadding="8" styleClass="form-grid">
+                    <h:outputLabel value="Nom"/>
+                    <p:inputText id="accountLastName" value="#{loginBean.editLastName}"
+                                 onkeyup="updateAutoUsername('accountFirstName', 'accountLastName', 'accountUsername')"/>
+                </h:panelGrid>
+            </h:panelGroup>
+            <f:facet name="footer">
+                <p:commandButton value="Enregistrer" icon="pi pi-check"
+                                 styleClass="rounded-button ui-button-success"
+                                 action="#{loginBean.changerNom()}"
+                                 process="panelNom @this"
+                                 update="index:fragmentPanel messageindex message"
+                                 oncomplete="PF('dlgNom').hide()"/>
+                <p:commandButton value="Annuler" icon="pi pi-times"
+                                 styleClass="rounded-button ui-button-secondary"
+                                 type="button" onclick="PF('dlgNom').hide()"/>
+            </f:facet>
+        </p:dialog>
+
+        <p:dialog header="Modifier l'identifiant" widgetVar="dlgIdentifiant" width="420" showEffect="fade" modal="true">
+            <h:panelGroup id="panelIdentifiant" layout="block">
+                <h:panelGrid columns="1" cellpadding="8" styleClass="form-grid">
+                    <h:outputLabel value="Identifiant"/>
+                    <p:inputText id="accountUsername" value="#{loginBean.editUsername}"
+                                 oninput="markUsernameEdited('accountUsername')"/>
+                </h:panelGrid>
+            </h:panelGroup>
+            <f:facet name="footer">
+                <p:commandButton value="Enregistrer" icon="pi pi-check"
+                                 styleClass="rounded-button ui-button-success"
+                                 action="#{loginBean.changerIdentifiant()}"
+                                 process="panelIdentifiant @this"
+                                 update="index:fragmentPanel messageindex message index:tabMenu"
+                                 oncomplete="PF('dlgIdentifiant').hide()"/>
+                <p:commandButton value="Annuler" icon="pi pi-times"
+                                 styleClass="rounded-button ui-button-secondary"
+                                 type="button" onclick="PF('dlgIdentifiant').hide()"/>
+            </f:facet>
+        </p:dialog>
+
+        <p:dialog header="Modifier l'âge" widgetVar="dlgAge" width="420" showEffect="fade" modal="true">
+            <h:panelGroup id="panelAge" layout="block">
+                <h:panelGrid columns="1" cellpadding="8" styleClass="form-grid">
+                    <h:outputLabel value="Âge"/>
+                    <p:inputText value="#{loginBean.editAge}"/>
+                </h:panelGrid>
+            </h:panelGroup>
+            <f:facet name="footer">
+                <p:commandButton value="Enregistrer" icon="pi pi-check"
+                                 styleClass="rounded-button ui-button-success"
+                                 action="#{loginBean.changerAge()}"
+                                 process="panelAge @this"
+                                 update="index:fragmentPanel messageindex message"
+                                 oncomplete="PF('dlgAge').hide()"/>
+                <p:commandButton value="Annuler" icon="pi pi-times"
+                                 styleClass="rounded-button ui-button-secondary"
+                                 type="button" onclick="PF('dlgAge').hide()"/>
+            </f:facet>
+        </p:dialog>
+
+        <p:dialog header="Changement de mot de passe" widgetVar="changementMdp"
+                  minHeight="120" width="420" showEffect="fade" modal="true">
+            <h:panelGroup id="panelMdp" layout="block">
+                <div class="dialog-form">
+                    <h:panelGrid columns="1" cellpadding="8" styleClass="form-grid">
+                        <h:outputLabel value="Mot de passe actuel"/>
+                        <p:password value="#{mdpChangeBean.currentPassword}" toggleMask="true" redisplay="true" required="false"/>
+                        <h:outputLabel value="Nouveau mot de passe"/>
+                        <p:password value="#{mdpChangeBean.newPassword}" toggleMask="true" redisplay="true" required="false"/>
+                        <h:outputLabel value="Confirmation"/>
+                        <p:password value="#{mdpChangeBean.newPasswordConfirmation}" toggleMask="true" redisplay="true" required="false"/>
+                    </h:panelGrid>
+                </div>
+            </h:panelGroup>
+            <f:facet name="footer">
+                <p:commandButton value="Enregistrer"
+                                 icon="pi pi-check"
+                                 styleClass="rounded-button ui-button-success"
+                                 action="#{mdpChangeBean.change()}"
+                                 process="panelMdp @this"
+                                 update="index:fragmentPanel messageindex message index:tabMenu"/>
+                <p:commandButton value="Annuler" icon="pi pi-times"
+                                 styleClass="rounded-button ui-button-secondary"
+                                 type="button" onclick="PF('changementMdp').hide()"/>
+            </f:facet>
+        </p:dialog>
+    </div>
+</ui:composition>

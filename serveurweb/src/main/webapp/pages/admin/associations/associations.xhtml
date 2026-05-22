@@ -6,6 +6,8 @@ Author: Sylvain Crocquevieille
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="jakarta.faces.core">
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/pages/admin/associations/style.css" />
+
     <div class="admin-page">
 
         <div class="page-header">
@@ -31,7 +33,7 @@ Author: Sylvain Crocquevieille
                      paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                      emptyMessage="Aucune association enregistrée.">
 
-            <p:column headerText="ID" style="width:70px;">
+            <p:column headerText="ID" styleClass="col-id">
                 <h:outputText value="#{assoc.id}" />
             </p:column>
             <p:column headerText="Conducteur">
@@ -43,7 +45,7 @@ Author: Sylvain Crocquevieille
             <p:column headerText="Véhicule">
                 <h:outputText value="#{assoc.vehicle != null ? assoc.vehicle.brand.concat(' (').concat(assoc.vehicle.numberPlate).concat(')') : '-'}" />
             </p:column>
-            <p:column headerText="Actions" style="width:90px;">
+            <p:column headerText="Actions" styleClass="col-actions">
                 <p:commandButton icon="pi pi-trash"
                                  styleClass="rounded-button ui-button-danger"
                                  title="Supprimer"

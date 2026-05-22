@@ -10,9 +10,8 @@ import lml.snir.parkinglogickit.metier.entity.Parking;
 import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 
 /**
- * Bean du tableau de bord.
- * Il récupère les parkings et prépare les données nécessaires à l'affichage des
- * cartes de disponibilité.
+ * Bean du tableau de bord. Il récupère les parkings et prépare les données
+ * nécessaires à l'affichage des cartes de disponibilité.
  *
  * @author Sylvain Crocquevieille
  */

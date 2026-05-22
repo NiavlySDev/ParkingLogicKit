@@ -15,9 +15,9 @@ import lml.snir.parkinglogickit.metier.entity.Vehicle;
 import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 
 /**
- * Bean de gestion des associations entre conducteur, badge et véhicule.
- * Cette page a été séparée de la gestion des badges pour rendre l'application
- * plus claire pendant l'utilisation et la présentation du projet.
+ * Bean de gestion des associations entre conducteur, badge et véhicule. Cette
+ * page a été séparée de la gestion des badges pour rendre l'application plus
+ * claire pendant l'utilisation et la présentation du projet.
  *
  * @author Sylvain Crocquevieille
  */
@@ -55,7 +55,8 @@ public class AssociationsBean implements Serializable {
     }
 
     /**
-     * Crée une association complète entre un conducteur, un badge et un véhicule.
+     * Crée une association complète entre un conducteur, un badge et un
+     * véhicule.
      */
     public void creerAssociation() {
         if (newDriverId == null || newBadgeId == null || newVehicleId == null) {

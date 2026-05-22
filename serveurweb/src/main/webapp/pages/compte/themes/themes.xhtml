@@ -1,0 +1,42 @@
+<!--
+Author: Sylvain Crocquevieille
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/pages/compte/themes/style.css" />
+    <script type="text/javascript" src="#{request.contextPath}/assets/js/theme.js?v=2"></script>
+
+    <div class="themes-page">
+        <div class="page-header">
+            <div>
+                <h2 class="section-title">Thèmes</h2>
+                <p class="section-description">Choisir une palette de couleurs personnalisée.</p>
+            </div>
+        </div>
+
+        <div class="theme-grid">
+            <button type="button" class="theme-card theme-default" onclick="setColorTheme('default')">
+                <span>Classique</span>
+                <small>Bleu clair, neutre et professionnel.</small>
+            </button>
+            <button type="button" class="theme-card theme-ocean" onclick="setColorTheme('ocean')">
+                <span>Océan</span>
+                <small>Cyan moderne pour une interface plus fraîche.</small>
+            </button>
+            <button type="button" class="theme-card theme-forest" onclick="setColorTheme('forest')">
+                <span>Forêt</span>
+                <small>Vert sobre pour une ambiance plus calme.</small>
+            </button>
+            <button type="button" class="theme-card theme-sunset" onclick="setColorTheme('sunset')">
+                <span>Sunset</span>
+                <small>Orange énergique pour les écrans d'administration.</small>
+            </button>
+            <button type="button" class="theme-card theme-grape" onclick="setColorTheme('grape')">
+                <span>Grape</span>
+                <small>Violet contrasté, plus visuel.</small>
+            </button>
+        </div>
+    </div>
+</ui:composition>

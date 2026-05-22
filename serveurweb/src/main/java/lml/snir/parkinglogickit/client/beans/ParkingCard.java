@@ -1,9 +1,9 @@
 package lml.snir.parkinglogickit.client.beans;
 
 /**
- * Petit objet d'affichage utilisé par le tableau de bord.
- * Il permet de préparer les informations d'un parking avant de les envoyer à
- * la page JSF, sans mettre de calculs directement dans le XHTML.
+ * Petit objet d'affichage utilisé par le tableau de bord. Il permet de préparer
+ * les informations d'un parking avant de les envoyer à la page JSF, sans mettre
+ * de calculs directement dans le XHTML.
  *
  * @author Sylvain Crocquevieille
  */

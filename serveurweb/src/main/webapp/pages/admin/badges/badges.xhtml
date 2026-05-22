@@ -6,6 +6,8 @@ Author: Sylvain Crocquevieille
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="jakarta.faces.core">
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/pages/admin/badges/style.css" />
+
     <div class="admin-page">
 
         <div class="page-header">
@@ -32,13 +34,13 @@ Author: Sylvain Crocquevieille
                      emptyMessage="Aucun badge enregistré."
                      filterDelay="300">
 
-            <p:column headerText="ID" style="width:70px;">
+            <p:column headerText="ID" styleClass="col-id">
                 <h:outputText value="#{badge.id}" />
             </p:column>
             <p:column headerText="Contenu RFID" filterBy="#{badge.content}" filterMatchMode="contains">
                 <h:outputText value="#{badge.content}" />
             </p:column>
-            <p:column headerText="Actions" style="width:90px;">
+            <p:column headerText="Actions" styleClass="col-actions">
                 <p:commandButton icon="pi pi-trash"
                                  styleClass="rounded-button ui-button-danger"
                                  title="Supprimer"

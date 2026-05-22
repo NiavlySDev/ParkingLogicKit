@@ -1,7 +1,6 @@
-<?xml version = "1.0" encoding = "UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
+<!--
+Author: Sylvain Crocquevieille
+-->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -11,26 +10,8 @@
     <h:head>
         <title>ParkingLogicKit</title>
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css" />
-        <script type="text/javascript">
-            //<![CDATA[
-            (function () {
-                if (localStorage.getItem('plk-theme') === 'dark') {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                }
-            })();
-
-            function toggleTheme() {
-                var root = document.documentElement;
-                if (root.getAttribute('data-theme') === 'dark') {
-                    root.removeAttribute('data-theme');
-                    localStorage.removeItem('plk-theme');
-                } else {
-                    root.setAttribute('data-theme', 'dark');
-                    localStorage.setItem('plk-theme', 'dark');
-                }
-            }
-            //]]>
-        </script>
+        <script type="text/javascript" src="#{request.contextPath}/assets/js/theme.js?v=2"></script>
+        <script type="text/javascript" src="#{request.contextPath}/assets/js/settings.js?v=2"></script>
         <link rel="icon" type="image/png" href="#{request.contextPath}/favicon.png" />
     </h:head>
     <h:body>
@@ -46,8 +27,8 @@
         <div class="main-container">
             <h:form id="index">
                 <p:tabMenu id="tabMenu"
-                    model="#{navBean.model}"
-                    activeIndex="#{navBean.activeIndex}"/>
+                           model="#{navBean.model}"
+                           activeIndex="#{navBean.activeIndex}"/>
                 <p:messages id="messageindex" showDetail="true" closable="true" />
                 <p:growl id="message" showDetail="true" />
                 <h:panelGroup id="fragmentPanel" layout="block">
