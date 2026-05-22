@@ -2,13 +2,13 @@ import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RestServer } from '../../../../Rest/RestServer';
-import { Driver } from '../../../../Auth/Driver.js';
+import { Driver } from '../../../../Auth/Driver';
 import { Router } from '@angular/router';
 import { PrimengModule } from '../../../shared/primeng.module';
-import { PrimeIcons } from 'primeng/api';
 
 @Component({
   selector: 'app-modify-user',
+  standalone: true, // Sécurise le comportement Standalone d'Angular
   imports: [FormsModule, CommonModule, PrimengModule],
   templateUrl: './modify-user.html',
   styleUrl: './modify-user.css',
@@ -37,16 +37,28 @@ export class ModifyUser implements OnInit {
     private ngZone: NgZone
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.loadDrivers();
+  }
+
+  /**
+   * Charge et rafraîchit la liste des conducteurs
+   */
+  private loadDrivers(): void {
     this.restServer
       .getDriverService()
       .getAll()
       .subscribe({
         next: (drivers: any[]) => {
           this.ngZone.run(() => {
-            this.drivers = drivers.map((d) => ({ ...d, fullName: `${d.firstName} ${d.lastName}` }));
+            this.drivers = (drivers || []).map((d) => ({
+              ...d,
+              fullName: `${d.firstName} ${d.lastName}`,
+            }));
+            this.cdr.detectChanges();
           });
         },
+        error: (err) => console.error('Erreur chargement drivers :', err),
       });
   }
 
@@ -85,9 +97,9 @@ export class ModifyUser implements OnInit {
 
     const DriverData: any = {
       id: this.selectedDriver.id,
-      firstName: this.firstname,
-      lastName: this.lastName,
-      username: this.username,
+      firstName: this.firstname.trim(),
+      lastName: this.lastName.trim(),
+      username: this.username.trim(),
       ...(this.password ? { password: this.password } : {}),
       age: this.age,
       isMale: this.isMale,
@@ -103,7 +115,7 @@ export class ModifyUser implements OnInit {
             this.isLoading = false;
             this.setMessage('Modification réussie ✅', 'success');
             this.resetForm();
-            this.cdr.detectChanges();
+            this.loadDrivers();
           });
         },
         error: (error: any) => {
@@ -130,6 +142,7 @@ export class ModifyUser implements OnInit {
     this.isMale = null;
     this.DriverType = null;
     this.selectedDriver = null;
+    this.cdr.detectChanges();
   }
 
   changeDriver(): void {
@@ -182,15 +195,41 @@ export class ModifyUser implements OnInit {
       return;
     }
 
-    navigator.clipboard
-      .writeText(this.password)
-      .then(() => {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard
+        .writeText(this.password)
+        .then(() => {
+          this.setMessage('Le mot de passe a été copié dans le presse-papier', 'success');
+          this.cdr.detectChanges();
+        })
+        .catch(() => this.fallbackCopyText(this.password));
+    } else {
+      this.fallbackCopyText(this.password);
+    }
+  }
+
+  /**
+   * Méthode alternative robuste pour copier du texte (Webview Android / Contextes non-sécurisés HTTP)
+   */
+  private fallbackCopyText(text: string): void {
+    try {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed'; // Évite de faire défiler la page
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea);
+
+      if (successful) {
         this.setMessage('Le mot de passe a été copié dans le presse-papier', 'success');
-        this.cdr.detectChanges();
-      })
-      .catch(() => {
+      } else {
         this.setMessage('Échec de la copie du mot de passe', 'error');
-        this.cdr.detectChanges();
-      });
+      }
+    } catch (err) {
+      this.setMessage('Échec de la copie du mot de passe', 'error');
+    }
+    this.cdr.detectChanges();
   }
 }

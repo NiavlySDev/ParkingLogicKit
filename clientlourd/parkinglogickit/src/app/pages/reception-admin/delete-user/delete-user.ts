@@ -9,6 +9,7 @@ import { switchMap, from, concatMap } from 'rxjs';
 
 @Component({
   selector: 'app-delete-user',
+  standalone: true, // Ajout explicite pour sécuriser le comportement standalone
   imports: [FormsModule, CommonModule, PrimengModule],
   templateUrl: './delete-user.html',
   styleUrl: './delete-user.css',
@@ -31,16 +32,28 @@ export class DeleteUser implements OnInit {
     private ngZone: NgZone
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.loadDrivers();
+  }
+
+  /**
+   * Charge et rafraîchit la liste des conducteurs depuis le serveur Java
+   */
+  private loadDrivers(): void {
     this.restServer
       .getDriverService()
       .getAll()
       .subscribe({
         next: (drivers: any[]) => {
           this.ngZone.run(() => {
-            this.drivers = drivers.map((d) => ({ ...d, fullName: `${d.firstName} ${d.lastName}` }));
+            this.drivers = (drivers || []).map((d) => ({
+              ...d,
+              fullName: `${d.firstName} ${d.lastName}`,
+            }));
+            this.cdr.detectChanges();
           });
         },
+        error: (err) => console.error('Erreur chargement drivers :', err),
       });
   }
 
@@ -77,9 +90,6 @@ export class DeleteUser implements OnInit {
       .pipe(
         switchMap((associates) => {
           const linked = associates.filter((a: any) => a.driver?.id === this.selectedDriver.id);
-          console.log('Associations trouvées :', linked);
-          console.log('Driver ID :', this.selectedDriver.id);
-          console.log('Toutes les associations :', associates);
 
           if (linked.length === 0) {
             return this.restServer.getDriverService().remove(DriverData as Driver);
@@ -87,13 +97,11 @@ export class DeleteUser implements OnInit {
 
           return from(linked).pipe(
             concatMap((assoc: any) => {
-              console.log('Suppression association :', assoc);
               return this.restServer
                 .getAssociateService()
                 .remove(assoc)
                 .pipe(
                   switchMap(() => {
-                    console.log('Association supprimée, suppression véhicule :', assoc.vehicle);
                     return this.restServer
                       .getVehicleService()
                       .remove({ id: assoc.vehicle?.id, class: assoc.vehicle?.class } as any);
@@ -110,7 +118,7 @@ export class DeleteUser implements OnInit {
             this.isLoading = false;
             this.setMessage('Driver supprimé avec succès 🎉', 'success');
             this.resetForm();
-            this.cdr.detectChanges();
+            this.loadDrivers();
           });
         },
         error: (error: any) => {
@@ -152,5 +160,7 @@ export class DeleteUser implements OnInit {
     this.firstname = '';
     this.lastName = '';
     this.DriverType = null;
+    this.selectedDriver = null; // Nettoie la sélection de l'ancien utilisateur supprimé
+    this.cdr.detectChanges();
   }
 }
