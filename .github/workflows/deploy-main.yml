@@ -23,7 +23,8 @@ jobs:
       DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
       DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
       WILDFLY_HOME: /home/minecraft/wildfly
-      DEPLOY_PATH: /home/minecraft/wildfly/standalone/deployments
+      SOURCE_PATH: /opt/sites/projet/ParkingLogicKit
+      WILDFLY_DEPLOY_PATH: /home/minecraft/wildfly/standalone/deployments
       DEPLOY_RESTART_COMMAND: ${{ secrets.DEPLOY_RESTART_COMMAND }}
 
     steps:
@@ -58,19 +59,37 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -p "$DEPLOY_PORT" "$DEPLOY_HOST" >> ~/.ssh/known_hosts
 
-      - name: Upload WAR to server
+      - name: Upload source code to server
         run: |
           ssh -i ~/.ssh/deploy_key \
               -p "$DEPLOY_PORT" \
               -o StrictHostKeyChecking=yes \
               "$DEPLOY_USER@$DEPLOY_HOST" \
-              "mkdir -p '$DEPLOY_PATH'"
+              "mkdir -p '$SOURCE_PATH'"
+
+          tar \
+              --exclude='.git' \
+              --exclude='*/target' \
+              --exclude='target' \
+              -czf - . | ssh -i ~/.ssh/deploy_key \
+              -p "$DEPLOY_PORT" \
+              -o StrictHostKeyChecking=yes \
+              "$DEPLOY_USER@$DEPLOY_HOST" \
+              "tar -xzf - -C '$SOURCE_PATH'"
+
+      - name: Upload WAR to WildFly
+        run: |
+          ssh -i ~/.ssh/deploy_key \
+              -p "$DEPLOY_PORT" \
+              -o StrictHostKeyChecking=yes \
+              "$DEPLOY_USER@$DEPLOY_HOST" \
+              "mkdir -p '$WILDFLY_DEPLOY_PATH'"
 
           scp -i ~/.ssh/deploy_key \
               -P "$DEPLOY_PORT" \
               -o StrictHostKeyChecking=yes \
               "serveurweb/target/$WAR_NAME" \
-              "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/$WAR_NAME"
+              "$DEPLOY_USER@$DEPLOY_HOST:$WILDFLY_DEPLOY_PATH/$WAR_NAME"
 
       - name: Trigger WildFly deployment
         run: |
@@ -78,7 +97,7 @@ jobs:
               -p "$DEPLOY_PORT" \
               -o StrictHostKeyChecking=yes \
               "$DEPLOY_USER@$DEPLOY_HOST" \
-              "cd '$DEPLOY_PATH' && rm -f '$WAR_NAME'.failed '$WAR_NAME'.deployed '$WAR_NAME'.isdeploying && touch '$WAR_NAME'.dodeploy"
+              "cd '$WILDFLY_DEPLOY_PATH' && rm -f '$WAR_NAME'.failed '$WAR_NAME'.deployed '$WAR_NAME'.isdeploying && touch '$WAR_NAME'.dodeploy"
 
       - name: Restart WildFly
         run: |
