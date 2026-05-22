@@ -106,23 +106,26 @@ jobs:
               -p "$DEPLOY_PORT" \
               -o StrictHostKeyChecking=yes \
               "$DEPLOY_USER@$DEPLOY_HOST" \
-              "set -e
-              if [ -n '$DEPLOY_RESTART_COMMAND' ]; then
-                $DEPLOY_RESTART_COMMAND
-              elif command -v systemctl >/dev/null 2>&1 && systemctl --user list-unit-files | grep -q '^wildfly'; then
-                systemctl --user restart wildfly || systemctl --user start wildfly
-              elif command -v sudo >/dev/null 2>&1 && sudo -n systemctl status wildfly >/dev/null 2>&1; then
-                sudo -n systemctl restart wildfly || sudo -n systemctl start wildfly
-              elif [ -x '$WILDFLY_HOME/bin/jboss-cli.sh' ] && '$WILDFLY_HOME/bin/jboss-cli.sh' --connect command=':shutdown(restart=true)'; then
-                echo 'WildFly redémarré avec jboss-cli.'
-              elif [ -x '$WILDFLY_HOME/bin/standalone.sh' ]; then
-                if pgrep -u '$DEPLOY_USER' -f '$WILDFLY_HOME.*standalone' >/dev/null 2>&1; then
-                  pkill -u '$DEPLOY_USER' -f '$WILDFLY_HOME.*standalone'
-                  sleep 5
-                fi
-                nohup '$WILDFLY_HOME/bin/standalone.sh' -b 0.0.0.0 > '$WILDFLY_HOME/standalone/log/standalone.out' 2>&1 &
-                echo 'WildFly démarré en arrière-plan.'
-              else
-                echo 'Aucune commande de redémarrage WildFly trouvée. Ajoute le secret DEPLOY_RESTART_COMMAND.'
-                exit 1
-              fi"
+              "DEPLOY_RESTART_COMMAND='$DEPLOY_RESTART_COMMAND' WILDFLY_HOME='$WILDFLY_HOME' DEPLOY_USER='$DEPLOY_USER' bash -s" <<'REMOTE_SCRIPT'
+          set -e
+
+          if [ -n "$DEPLOY_RESTART_COMMAND" ]; then
+            eval "$DEPLOY_RESTART_COMMAND"
+          elif command -v systemctl >/dev/null 2>&1 && systemctl --user list-unit-files | grep -q '^wildfly'; then
+            systemctl --user restart wildfly || systemctl --user start wildfly
+          elif command -v sudo >/dev/null 2>&1 && sudo -n systemctl status wildfly >/dev/null 2>&1; then
+            sudo -n systemctl restart wildfly || sudo -n systemctl start wildfly
+          elif [ -x "$WILDFLY_HOME/bin/jboss-cli.sh" ] && "$WILDFLY_HOME/bin/jboss-cli.sh" --connect command=':shutdown(restart=true)'; then
+            echo 'WildFly redémarré avec jboss-cli.'
+          elif [ -x "$WILDFLY_HOME/bin/standalone.sh" ]; then
+            if pgrep -u "$DEPLOY_USER" -f "$WILDFLY_HOME.*standalone" >/dev/null 2>&1; then
+              pkill -u "$DEPLOY_USER" -f "$WILDFLY_HOME.*standalone"
+              sleep 5
+            fi
+            nohup "$WILDFLY_HOME/bin/standalone.sh" -b 0.0.0.0 > "$WILDFLY_HOME/standalone/log/standalone.out" 2>&1 &
+            echo 'WildFly démarré en arrière-plan.'
+          else
+            echo 'Aucune commande de redémarrage WildFly trouvée. Ajoute le secret DEPLOY_RESTART_COMMAND.'
+            exit 1
+          fi
+          REMOTE_SCRIPT
