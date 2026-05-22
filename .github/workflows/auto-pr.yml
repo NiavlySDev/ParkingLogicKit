@@ -7,6 +7,7 @@ on:
 permissions:
   contents: write        # nécessaire pour merger
   pull-requests: write   # nécessaire pour créer/éditer la PR
+  actions: write         # nécessaire pour lancer le workflow de déploiement
 
 jobs:
   pr:
@@ -45,3 +46,19 @@ jobs:
           # Active l'auto-merge (GitHub merge dès que CI OK + règles OK)
           # Si auto-merge n'est pas activé dans Settings, ça échouera.
           gh pr merge "$PR_NUMBER" --auto --merge
+
+          echo "Attente du merge de la PR #$PR_NUMBER..."
+          for i in $(seq 1 60); do
+            MERGED_AT=$(gh pr view "$PR_NUMBER" --json mergedAt -q '.mergedAt')
+            if [ -n "$MERGED_AT" ]; then
+              echo "PR #$PR_NUMBER mergée dans main."
+              gh workflow run deploy-main.yml --ref main
+              echo "Workflow de déploiement lancé sur main."
+              exit 0
+            fi
+
+            sleep 10
+          done
+
+          echo "La PR #$PR_NUMBER n'est pas encore mergée après 10 minutes."
+          exit 1
