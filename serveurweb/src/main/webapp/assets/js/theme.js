@@ -1,3 +1,6 @@
+/**
+ * @author Sylvain Crocquevieille
+ */
 (function () {
     var themeName = localStorage.getItem('plk-color-theme') || 'default';
     document.documentElement.setAttribute('data-color-theme', themeName);

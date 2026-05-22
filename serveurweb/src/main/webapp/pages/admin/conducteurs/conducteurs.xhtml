@@ -127,26 +127,26 @@ Author: Sylvain Crocquevieille
 
                     <h:panelGroup id="vehiculeSectionWrapper" layout="block">
                         <h:panelGroup id="vehiculeSection" rendered="#{conducteursBean.creationVehicule}" layout="block"
-                                  styleClass="vehicle-section">
-                        <h4 class="vehicle-section-title">Véhicule</h4>
-                        <h:panelGrid columns="2" cellpadding="8" styleClass="dialog-grid">
-                            <h:outputLabel value="Marque :"/>
-                            <p:inputText value="#{conducteursBean.newBrand}"
-                                         required="#{conducteursBean.creationVehicule}"
-                                         placeholder="Marque" styleClass="field-md"/>
-                            <h:outputLabel value="Immatriculation :"/>
-                            <p:inputText value="#{conducteursBean.newNumberPlate}"
-                                         required="#{conducteursBean.creationVehicule}"
-                                         placeholder="AB-123-CD" styleClass="field-md"/>
-                            <h:outputLabel value="Type :"/>
-                            <p:selectOneMenu value="#{conducteursBean.newVehicleType}" styleClass="field-md">
-                                <f:selectItems value="#{conducteursBean.vehicleTypes}"
-                                               var="vt"
-                                               itemValue="#{vt}"
-                                               itemLabel="#{vt.name}"/>
-                            </p:selectOneMenu>
-                        </h:panelGrid>
-                    </h:panelGroup>
+                                      styleClass="vehicle-section">
+                            <h4 class="vehicle-section-title">Véhicule</h4>
+                            <h:panelGrid columns="2" cellpadding="8" styleClass="dialog-grid">
+                                <h:outputLabel value="Marque :"/>
+                                <p:inputText value="#{conducteursBean.newBrand}"
+                                             required="#{conducteursBean.creationVehicule}"
+                                             placeholder="Marque" styleClass="field-md"/>
+                                <h:outputLabel value="Immatriculation :"/>
+                                <p:inputText value="#{conducteursBean.newNumberPlate}"
+                                             required="#{conducteursBean.creationVehicule}"
+                                             placeholder="AB-123-CD" styleClass="field-md"/>
+                                <h:outputLabel value="Type :"/>
+                                <p:selectOneMenu value="#{conducteursBean.newVehicleType}" styleClass="field-md">
+                                    <f:selectItems value="#{conducteursBean.vehicleTypes}"
+                                                   var="vt"
+                                                   itemValue="#{vt}"
+                                                   itemLabel="#{vt.name}"/>
+                                </p:selectOneMenu>
+                            </h:panelGrid>
+                        </h:panelGroup>
                     </h:panelGroup>
                 </div>
             </h:panelGroup>
@@ -185,8 +185,8 @@ Author: Sylvain Crocquevieille
                         <p:inputText value="#{conducteursBean.selectedDriver.age}"
                                      styleClass="field-lg"/>
                         <h:outputLabel value="Genre :"/>
-                            <p:selectOneMenu value="#{conducteursBean.selectedDriver.isMale}"
-                                             styleClass="field-lg">
+                        <p:selectOneMenu value="#{conducteursBean.selectedDriver.isMale}"
+                                         styleClass="field-lg">
                             <f:selectItem itemValue="true"  itemLabel="Homme"/>
                             <f:selectItem itemValue="false" itemLabel="Femme"/>
                         </p:selectOneMenu>

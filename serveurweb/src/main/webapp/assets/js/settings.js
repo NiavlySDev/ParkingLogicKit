@@ -1,3 +1,7 @@
+/**
+ * @author Sylvain Crocquevieille
+ */
+
 function setUserSetting(key, value) {
     localStorage.setItem('plk-setting-' + key, value);
     applyUserSettings();
