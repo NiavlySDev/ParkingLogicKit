@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { REST_API_URL } from './api.config';
 
 export interface Associate {
   id?: number;
@@ -15,7 +16,7 @@ export interface Associate {
   providedIn: 'root',
 })
 export class AssociateService {
-  private apiUrl: string = '/ParkingLogicKit/rest/AssociateService';
+  private apiUrl: string = `${REST_API_URL}/AssociateService`;
 
   constructor(private http: HttpClient) {}
 

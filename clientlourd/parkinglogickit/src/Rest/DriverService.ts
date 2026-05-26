@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Driver } from '../Auth/Driver';
+import { REST_API_URL } from './api.config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DriverService {
-  private apiUrl: string = '/ParkingLogicKit/rest/DriverService';
+  private apiUrl: string = `${REST_API_URL}/DriverService`;
 
   public headers = '?login=PLK&pass=PASSPLK';
 

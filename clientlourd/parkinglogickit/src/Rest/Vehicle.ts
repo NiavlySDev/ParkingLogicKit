@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Vehicle } from '../Auth/Vehicle';
+import { REST_API_URL } from './api.config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class VehicleService {
-  private apiUrl: string = '/ParkingLogicKit/rest/VehicleService';
+  private apiUrl: string = `${REST_API_URL}/VehicleService`;
 
   constructor(private http: HttpClient) {}
 

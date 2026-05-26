@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { REST_API_URL } from './api.config';
 
 export interface Badge {
   id: number;
@@ -13,7 +14,7 @@ export interface Badge {
   providedIn: 'root',
 })
 export class BadgeService {
-  private apiUrl: string = '/ParkingLogicKitServeur/rest/BadgeService';
+  private apiUrl: string = `${REST_API_URL}/BadgeService`;
 
   constructor(private http: HttpClient) {}
 
