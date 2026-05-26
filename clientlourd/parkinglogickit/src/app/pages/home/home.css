@@ -1,13 +1,13 @@
-/* =========================
+/* ========================
    RESET + BASE
-   ========================= */
+   ======================== */
    * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
-  
+
   /* =========================
        BODY - CENTRAGE GLOBAL
        ========================= */
@@ -21,7 +21,7 @@
     overflow-x: hidden;
     padding: 20px; /* Ajout pour mobile */
   }
-  
+
   /* =========================
        CONTAINER PRINCIPAL
        ========================= */
@@ -38,7 +38,7 @@
     justify-content: center;
     text-align: center;
   }
-  
+
   /* =========================
        TEXTES
        ========================= */
@@ -49,7 +49,7 @@
     line-height: 1.2;
     animation: slideDown 0.6s ease-out;
   }
-  
+
   .container p {
     font-size: clamp(0.95rem, 2.5vw, 1.1rem); /* Responsive font size */
     color: #6c7a89;
@@ -57,7 +57,7 @@
     line-height: 1.6;
     animation: fadeIn 0.8s ease-out 0.2s backwards;
   }
-  
+
   /* =========================
        ACTIONS / BOUTONS
        ========================= */
@@ -68,7 +68,7 @@
     flex-wrap: wrap; /* Permet le passage à la ligne */
     animation: fadeIn 0.8s ease-out 0.4s backwards;
   }
-  
+
   .actions a {
     text-decoration: none;
     padding: 14px 28px;
@@ -79,12 +79,12 @@
     transition: all 0.3s ease;
     box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
   }
-  
+
   .actions a:hover {
     transform: translateY(-3px);
     background: #2563eb;
   }
-  
+
   /* =========================
        STYLE BOUTONS PRIMENG
        ========================= */
@@ -96,20 +96,20 @@
     border: none;
     min-width: 160px;
   }
-  
+
   ::ng-deep .actions .p-button:hover:not(:disabled) {
     transform: translateY(-3px);
     box-shadow: 0 12px 28px rgba(59, 130, 246, 0.4);
   }
-  
+
   ::ng-deep .actions .p-button-success {
     box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3);
   }
-  
+
   ::ng-deep .actions .p-button-success:hover:not(:disabled) {
     box-shadow: 0 12px 28px rgba(34, 197, 94, 0.4);
   }
-  
+
   /* =========================
        ANIMATIONS
        ========================= */
@@ -123,7 +123,7 @@
       transform: translateY(0);
     }
   }
-  
+
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -132,7 +132,7 @@
       opacity: 1;
     }
   }
-  
+
   /* =========================
        RESPONSIVE TABLETTE
        ========================= */
@@ -141,16 +141,16 @@
       padding: 50px 40px;
       min-height: 70vh;
     }
-  
+
     .container h1 {
       margin-bottom: 12px;
     }
-  
+
     .container p {
       margin-bottom: 35px;
     }
   }
-  
+
   /* =========================
        RESPONSIVE MOBILE
        ========================= */
@@ -158,33 +158,33 @@
     body {
       padding: 15px;
     }
-  
+
     .container {
       min-height: auto;
       padding: 40px 25px;
       border-radius: 12px;
       width: 100%;
     }
-  
+
     .container h1 {
       margin-bottom: 12px;
     }
-  
+
     .container p {
       margin-bottom: 30px;
     }
-  
+
     .actions {
       flex-direction: column;
       gap: 15px;
       width: 100%;
     }
-  
+
     .actions a {
       width: 100%;
       padding: 14px 0;
     }
-  
+
     /* Boutons PrimeNG en pleine largeur sur mobile */
     ::ng-deep .actions .p-button {
       width: 100% !important;
@@ -193,7 +193,7 @@
       padding: 14px 20px !important;
     }
   }
-  
+
   /* =========================
        RESPONSIVE PETITS MOBILES
        ========================= */
@@ -201,31 +201,31 @@
     body {
       padding: 10px;
     }
-  
+
     .container {
       padding: 30px 20px;
       min-height: auto;
     }
-  
+
     .container h1 {
       font-size: 1.5rem;
     }
-  
+
     .container p {
       font-size: 0.95rem;
       margin-bottom: 25px;
     }
-  
+
     ::ng-deep .actions .p-button {
       padding: 12px 16px !important;
       font-size: 0.95rem;
     }
-  
+
     ::ng-deep .actions .p-button .p-button-icon {
       font-size: 1rem;
     }
   }
-  
+
   /* =========================
        RESPONSIVE GRANDS ÉCRANS
        ========================= */
@@ -234,13 +234,12 @@
       max-width: 1000px;
       padding: 70px 60px;
     }
-  
+
     .container h1 {
       font-size: 2.6rem;
     }
-  
+
     .container p {
       font-size: 1.2rem;
     }
   }
-  
