@@ -5,7 +5,7 @@ import { REST_API_URL } from './api.config';
 
 export interface Badge {
   id: number;
-  contenu?: string;
+  content?: string;
   attribue?: boolean;
   [key: string]: any;
 }
@@ -52,8 +52,8 @@ export class BadgeService {
     return this.http.get<Badge[]>(`${this.apiUrl}/${begin}/${count}`);
   }
 
-  public getByContenu(contenu: string): Observable<Badge> {
-    return this.http.get<Badge>(`${this.apiUrl}/getByContenu/${contenu}`);
+  public getBycontent(content: string): Observable<Badge> {
+    return this.http.get<Badge>(`${this.apiUrl}/getBycontent/${content}`);
   }
 
   public getByAttribution(attribue: boolean): Observable<Badge[]> {

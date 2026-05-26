@@ -8,7 +8,7 @@ import { Vehicle } from '../../../../Auth/Vehicle';
 
 @Component({
   selector: 'app-delete-vehicle',
-  standalone: true, // Sécurise le comportement Standalone d'Angular
+  standalone: true, 
   imports: [FormsModule, CommonModule, PrimengModule],
   templateUrl: './delete-vehicle.html',
   styleUrl: './delete-vehicle.css',
@@ -77,7 +77,7 @@ export class DeleteVehicle implements OnInit {
       id: this.selectedVehicle.id,
       brand: this.brand.trim(),
       numberPlate: this.numberPlate.trim().toUpperCase(),
-      type: this.selectedVehicle.type, // Conserve le type d'origine
+      type: this.selectedVehicle.type, 
       class: VehicleClass,
     };
 
@@ -87,9 +87,9 @@ export class DeleteVehicle implements OnInit {
       .getAll()
       .subscribe({
         next: (associates) => {
-          // 2. Filtrer celles liées à ce véhicule
+          // 2. CORRECTION : Filtrer en utilisant le champ plat 'vehicleId'
           const linked = (associates || []).filter(
-            (a) => a.vehicle?.id === this.selectedVehicle.id
+            (a) => a.vehicleId === this.selectedVehicle.id
           );
 
           if (linked.length === 0) {
@@ -179,7 +179,7 @@ export class DeleteVehicle implements OnInit {
 
       const vehicleTypeNames = ['Moto', 'Voiture', 'Camionnette', 'Camion'];
       const index = vehicleTypeNames.indexOf(this.selectedVehicle.type);
-      this.VehicleType = index !== -1 ? index : 1; // Par défaut 'Voiture' si non trouvé
+      this.VehicleType = index !== -1 ? index : 1; 
 
       this.cdr.detectChanges();
     });

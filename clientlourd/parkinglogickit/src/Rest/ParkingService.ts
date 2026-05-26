@@ -45,8 +45,4 @@ export class ParkingService {
   public getAllPaginated(begin: number, count: number): Observable<Parking[]> {
     return this.http.get<Parking[]>(`${this.apiUrl}/${begin}/${count}`);
   }
-
-  /**public getByUsername(contenu: string): Observable<Parking> {
-    return this.http.get<Parking>(`${this.apiUrl}/getBycontenu/${contenu}`);
-  }**/
 }

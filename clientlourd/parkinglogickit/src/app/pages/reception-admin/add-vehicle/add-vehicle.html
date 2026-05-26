@@ -3,10 +3,9 @@
     <img src="logo-home.png" alt="Accueil" class="home-logo" />
   </button>
   <div class="add-vehicle-card">
-    <h1 class="add-vehicle-title">Création vehicle</h1>
+    <h1 class="add-vehicle-title">Création véhicule</h1>
     <form class="add-vehicle-form" (ngSubmit)="onSubmit()">
 
-      <!-- Brand -->
       <div class="form-group">
         <label for="brand">Brand</label>
         <input
@@ -20,7 +19,6 @@
         />
       </div>
 
-      <!-- Number plate -->
       <div class="form-group">
         <label for="numberPlate">Number plate</label>
         <input
@@ -31,10 +29,9 @@
           name="numberPlate"
           placeholder="Entrez la plaque"
           required
-        />
+                />
       </div>
 
-      <!-- Type -->
       <div class="form-group">
         <label for="selectedVehicleType">Type</label>
         <select
@@ -52,7 +49,19 @@
         </select>
       </div>
 
-      <!-- Bouton Submit -->
+      <div class="form-group">
+        <label for="badgeContent">Numéro de Badge RFID</label>
+        <input
+          type="text"
+          id="badgeContent"
+          class="form-input"
+          [(ngModel)]="badgeContent"
+          name="badgeContent"
+          placeholder="Entrez le numéro de badge"
+          required
+        />
+      </div>
+
       <div class="form-actions">
         <button type="submit" class="btn-submit" [disabled]="isLoading">
           {{ isLoading ? 'Chargement...' : "S'inscrire" }}
@@ -61,7 +70,6 @@
 
     </form>
 
-    <!-- Messages -->
     <div *ngIf="message" class="message" [ngClass]="'message-' + messageType">
       {{ message }}
     </div>
