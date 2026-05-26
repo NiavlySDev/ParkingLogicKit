@@ -3,6 +3,8 @@ name: Deploy serveurweb to remote server
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - "serveurweb/**"
   workflow_dispatch:
 
 permissions:
