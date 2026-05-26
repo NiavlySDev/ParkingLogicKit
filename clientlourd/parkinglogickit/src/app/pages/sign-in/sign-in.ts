@@ -22,7 +22,7 @@ export class SignIn {
   message: string = '';
   messageType: 'success' | 'error' = 'success';
 
-  // FIX COMPILATION : Variable ajoutée pour piloter l'œil du mot de passe dans le HTML
+  // Variable pour piloter l'œil du mot de passe dans le HTML
   showPassword: boolean = false; 
 
   constructor(
@@ -38,6 +38,13 @@ export class SignIn {
   }
 
   async onSubmit(): Promise<void> {
+    // 1. BLOCAGE SI PAS INTERNET 🛡️
+    if (!navigator.onLine) {
+      this.setMessage("Connexion impossible : Vous n'êtes pas connecté à Internet. Veuillez vérifier votre réseau.", 'error');
+      return;
+    }
+
+    // 2. Vérification des champs remplis
     if (!this.username && !this.password) {
       this.setMessage("Nom d'utilisateur et mot de passe obligatoires", 'error');
       return;
