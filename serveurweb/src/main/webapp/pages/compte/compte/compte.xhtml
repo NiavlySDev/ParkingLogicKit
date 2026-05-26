@@ -9,53 +9,181 @@ Author: Sylvain Crocquevieille
     <link rel="stylesheet" type="text/css" href="#{request.contextPath}/pages/compte/compte/style.css" />
     <script type="text/javascript" src="#{request.contextPath}/assets/js/user-form.js"></script>
 
-    <div class="account-page">
-        <div class="account-card">
-            <h2>Compte</h2>
-            <p class="section-description">Connecté en tant que #{loginBean.driver.username}.</p>
+    <div class="profile-page">
+        <h:panelGroup layout="block" styleClass="profile-card">
+            <f:event type="preRenderComponent" listener="#{profilBean.actualiserAuRendu}"/>
+            <div class="profile-header">
+                <h2>Mon Profil</h2>
+                <p class="section-description">Gérez vos informations, badges et véhicules personnels</p>
+            </div>
 
-            <div class="profile-grid">
-                <div class="profile-row">
-                    <span>Prénom</span>
-                    <strong>#{loginBean.driver.firstName}</strong>
-                    <p:commandButton icon="pi pi-pencil" title="Modifier le prénom"
-                                     styleClass="rounded-button ui-button-warning"
-                                     action="#{loginBean.preparerModificationCompte()}"
-                                     process="@this"
-                                     update="panelPrenom"
-                                     oncomplete="PF('dlgPrenom').show()"/>
+            <div class="profile-summary">
+                <div class="summary-card identity">
+                    <i class="pi pi-id-card"></i>
+                    <div>
+                        <span>Identifiant</span>
+                        <strong>#{loginBean.driver.username}</strong>
+                    </div>
                 </div>
-                <div class="profile-row">
-                    <span>Nom</span>
-                    <strong>#{loginBean.driver.lastName}</strong>
-                    <p:commandButton icon="pi pi-pencil" title="Modifier le nom"
-                                     styleClass="rounded-button ui-button-warning"
-                                     action="#{loginBean.preparerModificationCompte()}"
-                                     process="@this"
-                                     update="panelNom"
-                                     oncomplete="PF('dlgNom').show()"/>
+                <div class="summary-card badge">
+                    <i class="pi pi-credit-card"></i>
+                    <div>
+                        <span>Badges</span>
+                        <strong>#{profilBean.badges.size()}</strong>
+                    </div>
                 </div>
-                <div class="profile-row">
-                    <span>Identifiant</span>
-                    <strong>#{loginBean.driver.username}</strong>
-                    <p:commandButton icon="pi pi-pencil" title="Modifier l'identifiant"
-                                     styleClass="rounded-button ui-button-warning"
-                                     action="#{loginBean.preparerModificationCompte()}"
-                                     process="@this"
-                                     update="panelIdentifiant"
-                                     oncomplete="PF('dlgIdentifiant').show()"/>
-                </div>
-                <div class="profile-row">
-                    <span>Âge</span>
-                    <strong>#{loginBean.driver.age}</strong>
-                    <p:commandButton icon="pi pi-pencil" title="Modifier l'âge"
-                                     styleClass="rounded-button ui-button-warning"
-                                     action="#{loginBean.preparerModificationCompte()}"
-                                     process="@this"
-                                     update="panelAge"
-                                     oncomplete="PF('dlgAge').show()"/>
+                <div class="summary-card vehicle">
+                    <i class="pi pi-car"></i>
+                    <div>
+                        <span>Véhicules</span>
+                        <strong>#{profilBean.vehicules.size()} / #{profilBean.maxVehicules}</strong>
+                    </div>
                 </div>
             </div>
+
+            <div class="profile-divider"></div>
+
+            <div class="linked-grid">
+                <section class="linked-section">
+                    <h3><i class="pi pi-id-card"></i> Mes badges liés</h3>
+                    <h:panelGroup layout="block" styleClass="badge-list" rendered="#{not empty profilBean.badges}">
+                        <ui:repeat value="#{profilBean.badges}" var="badge">
+                            <div class="badge-item">
+                                <i class="pi pi-credit-card"></i>
+                                <div>
+                                    <strong>Badge RFID</strong>
+                                    <span>#{badge.content}</span>
+                                </div>
+                                <p:commandButton value="Déclarer volé" icon="pi pi-exclamation-triangle"
+                                                 title="Déclarer ce badge volé"
+                                                 styleClass="stolen-button ui-button-danger"
+                                                 action="#{profilBean.selectionnerBadgeVole(badge)}"
+                                                 process="@this"
+                                                 update="panelBadgeVole messageindex message"
+                                                 oncomplete="PF('dlgBadgeVole').show()"/>
+                            </div>
+                        </ui:repeat>
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" styleClass="empty-profile" rendered="#{empty profilBean.badges}">
+                        <i class="pi pi-info-circle"></i>
+                        <span>Aucun badge attribué.</span>
+                    </h:panelGroup>
+                </section>
+
+                <section class="linked-section">
+                    <h3><i class="pi pi-car"></i> Mes véhicules enregistrés</h3>
+                    <h:panelGroup layout="block" styleClass="vehicle-list" rendered="#{not empty profilBean.vehicules}">
+                        <ui:repeat value="#{profilBean.associations}" var="association">
+                            <h:panelGroup layout="block" styleClass="vehicle-item" rendered="#{association.vehicle != null}">
+                                <i class="pi pi-car vehicle-icon"></i>
+                                <div class="vehicle-details">
+                                    <strong>#{association.vehicle.brand}</strong>
+                                    <span>#{association.vehicle.numberPlate}</span>
+                                </div>
+                                <span class="vehicle-type"><i class="pi pi-tag"></i> #{association.vehicle.type.name}</span>
+                                <div class="vehicle-actions">
+                                    <p:commandButton icon="pi pi-pencil" title="Modifier ce véhicule"
+                                                     styleClass="profile-edit ui-button-warning"
+                                                     action="#{profilBean.preparerModificationVehicule(association)}"
+                                                     process="@this"
+                                                     update="panelModifierVehiculeProfil messageindex message"
+                                                     oncomplete="PF('dlgModifierVehiculeProfil').show()"/>
+                                    <p:commandButton icon="pi pi-trash" title="Supprimer ce véhicule"
+                                                     styleClass="profile-delete ui-button-danger"
+                                                     action="#{profilBean.supprimerVehicule(association)}"
+                                                     process="@this"
+                                                     update="index:fragmentPanel messageindex message"/>
+                                </div>
+                            </h:panelGroup>
+                        </ui:repeat>
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" styleClass="empty-profile" rendered="#{empty profilBean.vehicules}">
+                        <i class="pi pi-info-circle"></i>
+                        <span>Aucun véhicule enregistré.</span>
+                    </h:panelGroup>
+                </section>
+            </div>
+
+            <h:panelGroup layout="block" styleClass="new-vehicle" rendered="#{profilBean.peutAjouterVehicule}">
+                <h3><i class="pi pi-plus-circle"></i> Ajouter un véhicule</h3>
+                <div class="vehicle-form">
+                    <div>
+                        <h:outputLabel for="profileVehicleBrand" value="Marque"/>
+                        <p:inputText id="profileVehicleBrand" value="#{profilBean.newBrand}"
+                                     required="true" requiredMessage="La marque est obligatoire."
+                                     placeholder="Ex : Audi"/>
+                    </div>
+                    <div>
+                        <h:outputLabel for="profileVehiclePlate" value="Plaque"/>
+                        <p:inputText id="profileVehiclePlate" value="#{profilBean.newNumberPlate}"
+                                     required="true" requiredMessage="La plaque est obligatoire."
+                                     placeholder="AA-123-BB">
+                            <f:validateRegex pattern="(?i)[A-Z]{2}-[0-9]{3}-[A-Z]{2}"/>
+                        </p:inputText>
+                    </div>
+                    <div>
+                        <h:outputLabel for="profileVehicleType" value="Type"/>
+                        <p:selectOneMenu id="profileVehicleType" value="#{profilBean.newVehicleType}">
+                            <f:selectItems value="#{profilBean.vehicleTypes}" var="type"
+                                           itemLabel="#{type.name}" itemValue="#{type}"/>
+                        </p:selectOneMenu>
+                    </div>
+                    <p:commandButton value="Enregistrer" icon="pi pi-check-circle"
+                                     styleClass="profile-save"
+                                     action="#{profilBean.ajouterVehicule()}"
+                                     process="profileVehicleBrand profileVehiclePlate profileVehicleType @this"
+                                     update="index:fragmentPanel messageindex message"/>
+                </div>
+                <p class="badge-hint"><i class="pi pi-info-circle"></i> Un badge sera visible ici après son attribution par l'administration.</p>
+            </h:panelGroup>
+
+            <div class="profile-divider"></div>
+
+            <section class="personal-section">
+                <h3><i class="pi pi-user-edit"></i> Mes informations personnelles</h3>
+                <div class="profile-grid">
+                    <div class="profile-row">
+                        <span>Prénom</span>
+                        <strong>#{loginBean.driver.firstName}</strong>
+                        <p:commandButton icon="pi pi-pencil" title="Modifier le prénom"
+                                         styleClass="rounded-button ui-button-warning"
+                                         action="#{loginBean.preparerModificationCompte()}"
+                                         process="@this"
+                                         update="panelPrenom"
+                                         oncomplete="PF('dlgPrenom').show()"/>
+                    </div>
+                    <div class="profile-row">
+                        <span>Nom</span>
+                        <strong>#{loginBean.driver.lastName}</strong>
+                        <p:commandButton icon="pi pi-pencil" title="Modifier le nom"
+                                         styleClass="rounded-button ui-button-warning"
+                                         action="#{loginBean.preparerModificationCompte()}"
+                                         process="@this"
+                                         update="panelNom"
+                                         oncomplete="PF('dlgNom').show()"/>
+                    </div>
+                    <div class="profile-row">
+                        <span>Identifiant</span>
+                        <strong>#{loginBean.driver.username}</strong>
+                        <p:commandButton icon="pi pi-pencil" title="Modifier l'identifiant"
+                                         styleClass="rounded-button ui-button-warning"
+                                         action="#{loginBean.preparerModificationCompte()}"
+                                         process="@this"
+                                         update="panelIdentifiant"
+                                         oncomplete="PF('dlgIdentifiant').show()"/>
+                    </div>
+                    <div class="profile-row">
+                        <span>Âge</span>
+                        <strong>#{loginBean.driver.age}</strong>
+                        <p:commandButton icon="pi pi-pencil" title="Modifier l'âge"
+                                         styleClass="rounded-button ui-button-warning"
+                                         action="#{loginBean.preparerModificationCompte()}"
+                                         process="@this"
+                                         update="panelAge"
+                                         oncomplete="PF('dlgAge').show()"/>
+                    </div>
+                </div>
+            </section>
 
             <div class="actions-bar">
                 <p:commandButton value="Changer le mot de passe" type="button" icon="pi pi-file-edit"
@@ -67,7 +195,62 @@ Author: Sylvain Crocquevieille
                                  action="#{loginBean.logout()}"
                                  update="index:fragmentPanel messageindex message index:tabMenu"/>
             </div>
-        </div>
+        </h:panelGroup>
+
+        <p:dialog header="Modifier mon véhicule" widgetVar="dlgModifierVehiculeProfil"
+                  minHeight="220" width="460" showEffect="fade" modal="true">
+            <h:panelGroup id="panelModifierVehiculeProfil" layout="block">
+                <h:panelGrid columns="1" cellpadding="8" styleClass="form-grid"
+                             rendered="#{profilBean.selectedAssociation != null}">
+                    <h:outputLabel value="Marque"/>
+                    <p:inputText value="#{profilBean.editBrand}" required="true"
+                                 requiredMessage="La marque est obligatoire."/>
+                    <h:outputLabel value="Plaque"/>
+                    <p:inputText value="#{profilBean.editNumberPlate}" required="true"
+                                 requiredMessage="La plaque est obligatoire.">
+                        <f:validateRegex pattern="(?i)[A-Z]{2}-[0-9]{3}-[A-Z]{2}"/>
+                    </p:inputText>
+                    <h:outputLabel value="Type"/>
+                    <p:selectOneMenu value="#{profilBean.editVehicleType}">
+                        <f:selectItems value="#{profilBean.vehicleTypes}" var="type"
+                                       itemLabel="#{type.name}" itemValue="#{type}"/>
+                    </p:selectOneMenu>
+                </h:panelGrid>
+            </h:panelGroup>
+            <f:facet name="footer">
+                <p:commandButton value="Enregistrer" icon="pi pi-check"
+                                 styleClass="rounded-button ui-button-success"
+                                 action="#{profilBean.modifierVehicule()}"
+                                 process="panelModifierVehiculeProfil @this"
+                                 update="index:fragmentPanel messageindex message"
+                                 oncomplete="if(!args.validationFailed) PF('dlgModifierVehiculeProfil').hide()"/>
+                <p:commandButton value="Annuler" icon="pi pi-times"
+                                 styleClass="rounded-button ui-button-secondary"
+                                 type="button" onclick="PF('dlgModifierVehiculeProfil').hide()"/>
+            </f:facet>
+        </p:dialog>
+
+        <p:dialog header="Déclarer le badge volé" widgetVar="dlgBadgeVole"
+                  minHeight="100" width="440" showEffect="fade" modal="true">
+            <h:panelGroup id="panelBadgeVole" layout="block">
+                <h:panelGroup rendered="#{profilBean.selectedBadge != null}">
+                    <p>Confirmez-vous la déclaration de vol du badge
+                        <strong>#{profilBean.selectedBadge.content}</strong> ?
+                        Il sera immédiatement désactivé.</p>
+                </h:panelGroup>
+            </h:panelGroup>
+            <f:facet name="footer">
+                <p:commandButton value="Déclarer volé" icon="pi pi-exclamation-triangle"
+                                 styleClass="rounded-button ui-button-danger"
+                                 action="#{profilBean.declarerBadgeVole()}"
+                                 process="@this"
+                                 update="index:fragmentPanel messageindex message"
+                                 oncomplete="PF('dlgBadgeVole').hide()"/>
+                <p:commandButton value="Annuler" icon="pi pi-times"
+                                 styleClass="rounded-button ui-button-secondary"
+                                 type="button" onclick="PF('dlgBadgeVole').hide()"/>
+            </f:facet>
+        </p:dialog>
 
         <p:dialog header="Modifier le prénom" widgetVar="dlgPrenom" width="420" showEffect="fade" modal="true">
             <h:panelGroup id="panelPrenom" layout="block">

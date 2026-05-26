@@ -3,6 +3,8 @@ name: Deploy serveurweb to remote server
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - "serveurweb/**"
   workflow_dispatch:
 
 permissions:
@@ -21,7 +23,9 @@ jobs:
       WAR_NAME: parkinglogickit-serveurweb-1.0.0-SNAPSHOT.war
       DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
       DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-      DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+      DEPLOY_PORT: ${{ secrets.DEPLOY_PORT || '22' }}
+      # Optional: use -6 only when the target is intentionally IPv6-only.
+      DEPLOY_SSH_IP_VERSION: ${{ secrets.DEPLOY_SSH_IP_VERSION || '-4' }}
       WILDFLY_HOME: /home/minecraft/wildfly
       SOURCE_PATH: /opt/sites/projet/ParkingLogicKit
       WILDFLY_DEPLOY_PATH: /home/minecraft/wildfly/standalone/deployments
@@ -52,61 +56,110 @@ jobs:
           chmod +x mvnw
           ./mvnw -B -U -DskipTests -pl serveurweb -am package
 
+      - name: Validate deployment configuration
+        run: |
+          set -euo pipefail
+
+          for variable in DEPLOY_HOST DEPLOY_USER DEPLOY_PORT; do
+            if [ -z "${!variable}" ]; then
+              echo "::error::Le secret GitHub Actions ${variable} est obligatoire."
+              exit 1
+            fi
+          done
+
+          if [ "$DEPLOY_SSH_IP_VERSION" != "-4" ] && [ "$DEPLOY_SSH_IP_VERSION" != "-6" ]; then
+            echo "::error::DEPLOY_SSH_IP_VERSION doit valoir -4 ou -6."
+            exit 1
+          fi
+
       - name: Configure SSH key
         run: |
+          set -euo pipefail
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
           printf '%s\n' "${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}" | sed 's/\\n/\n/g' | tr -d '\r' > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keygen -y -f ~/.ssh/deploy_key >/dev/null
-          ssh-keyscan -p "$DEPLOY_PORT" "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+
+      - name: Verify SSH network access
+        run: |
+          set -euo pipefail
+
+          echo "Resolution DNS/adresse visible depuis le runner :"
+          if [ "$DEPLOY_SSH_IP_VERSION" = "-4" ]; then
+            getent ahostsv4 "$DEPLOY_HOST" || true
+          else
+            getent ahostsv6 "$DEPLOY_HOST" || true
+          fi
+
+          if ! timeout 15 ssh-keyscan "$DEPLOY_SSH_IP_VERSION" -p "$DEPLOY_PORT" -H "$DEPLOY_HOST" > ~/.ssh/known_hosts; then
+            echo "::error::Impossible de joindre $DEPLOY_HOST:$DEPLOY_PORT en SSH avec $DEPLOY_SSH_IP_VERSION. Verifie l'adresse publique, le port et le pare-feu, ou utilise un runner self-hosted sur le reseau cible."
+            exit 1
+          fi
+
+          if [ "$DEPLOY_SSH_IP_VERSION" = "-4" ]; then
+            address_family="inet"
+          else
+            address_family="inet6"
+          fi
+
+          cat > ~/.ssh/config <<SSH_CONFIG
+          Host wildfly-deploy
+            HostName $DEPLOY_HOST
+            User $DEPLOY_USER
+            Port $DEPLOY_PORT
+            AddressFamily $address_family
+            IdentityFile ~/.ssh/deploy_key
+            IdentitiesOnly yes
+            BatchMode yes
+            StrictHostKeyChecking yes
+            ConnectTimeout 15
+            ServerAliveInterval 30
+            ServerAliveCountMax 4
+            ControlMaster auto
+            ControlPath ~/.ssh/deploy-control-%C
+            ControlPersist 30m
+          SSH_CONFIG
+          chmod 600 ~/.ssh/config
+
+          # Keep one SSH TCP connection open for every remaining deployment step.
+          ssh -MNf wildfly-deploy
+          ssh -O check wildfly-deploy
+          ssh wildfly-deploy "true"
 
       - name: Upload source code to server
         run: |
-          ssh -i ~/.ssh/deploy_key \
-              -p "$DEPLOY_PORT" \
-              -o StrictHostKeyChecking=yes \
-              "$DEPLOY_USER@$DEPLOY_HOST" \
+          set -euo pipefail
+
+          ssh wildfly-deploy \
               "mkdir -p '$SOURCE_PATH'"
 
           tar \
               --exclude='.git' \
               --exclude='*/target' \
               --exclude='target' \
-              -czf - . | ssh -i ~/.ssh/deploy_key \
-              -p "$DEPLOY_PORT" \
-              -o StrictHostKeyChecking=yes \
-              "$DEPLOY_USER@$DEPLOY_HOST" \
+              -czf - . | ssh wildfly-deploy \
               "tar -xzf - -C '$SOURCE_PATH'"
 
       - name: Upload WAR to WildFly
         run: |
-          ssh -i ~/.ssh/deploy_key \
-              -p "$DEPLOY_PORT" \
-              -o StrictHostKeyChecking=yes \
-              "$DEPLOY_USER@$DEPLOY_HOST" \
+          set -euo pipefail
+
+          ssh wildfly-deploy \
               "mkdir -p '$WILDFLY_DEPLOY_PATH'"
 
-          scp -i ~/.ssh/deploy_key \
-              -P "$DEPLOY_PORT" \
-              -o StrictHostKeyChecking=yes \
+          scp \
               "serveurweb/target/$WAR_NAME" \
-              "$DEPLOY_USER@$DEPLOY_HOST:$WILDFLY_DEPLOY_PATH/$WAR_NAME"
+              "wildfly-deploy:$WILDFLY_DEPLOY_PATH/$WAR_NAME"
 
       - name: Trigger WildFly deployment
         run: |
-          ssh -i ~/.ssh/deploy_key \
-              -p "$DEPLOY_PORT" \
-              -o StrictHostKeyChecking=yes \
-              "$DEPLOY_USER@$DEPLOY_HOST" \
+          ssh wildfly-deploy \
               "cd '$WILDFLY_DEPLOY_PATH' && rm -f '$WAR_NAME'.failed '$WAR_NAME'.deployed '$WAR_NAME'.isdeploying && touch '$WAR_NAME'.dodeploy"
 
       - name: Restart WildFly
         run: |
-          ssh -i ~/.ssh/deploy_key \
-              -p "$DEPLOY_PORT" \
-              -o StrictHostKeyChecking=yes \
-              "$DEPLOY_USER@$DEPLOY_HOST" \
+          ssh wildfly-deploy \
               "DEPLOY_RESTART_COMMAND='$DEPLOY_RESTART_COMMAND' WILDFLY_HOME='$WILDFLY_HOME' WILDFLY_JAVA_HOME='$WILDFLY_JAVA_HOME' DEPLOY_USER='$DEPLOY_USER' bash -s" <<'REMOTE_SCRIPT'
           set -e
 

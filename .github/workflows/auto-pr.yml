@@ -52,10 +52,24 @@ jobs:
             MERGED_AT=$(gh pr view "$PR_NUMBER" --json mergedAt -q '.mergedAt')
             if [ -n "$MERGED_AT" ]; then
               echo "PR #$PR_NUMBER mergée dans main."
-              gh workflow run deploy-main.yml --ref main
-              echo "Workflow de déploiement lancé sur main."
-              gh workflow run android-release.yml --ref main
-              echo "Workflow de release Android lancé sur main."
+
+              CHANGED_FILES=$(gh pr view "$PR_NUMBER" --json files --jq '.files[].path')
+              echo "Fichiers modifies dans la PR :"
+              printf '%s\n' "$CHANGED_FILES"
+
+              if printf '%s\n' "$CHANGED_FILES" | grep -q '^serveurweb/'; then
+                gh workflow run deploy-main.yml --ref main
+                echo "Workflow de deploiement serveurweb lance sur main."
+              else
+                echo "Aucun changement dans serveurweb/ : deploiement WildFly ignore."
+              fi
+
+              if printf '%s\n' "$CHANGED_FILES" | grep -q '^clientlourd/'; then
+                gh workflow run android-release.yml --ref main
+                echo "Workflow de release Android lance sur main."
+              else
+                echo "Aucun changement dans clientlourd/ : release Android ignoree."
+              fi
               exit 0
             fi
 
