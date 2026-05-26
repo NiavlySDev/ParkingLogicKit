@@ -18,11 +18,15 @@ export class AddVehicle implements OnInit {
   brand: string = '';
   numberPlate: string = '';
   selectedVehicleType: number | null = null;
+  
+  // Saisie du badge
+  badgeContent: string = '';
+
   isLoading: boolean = false;
   message: string = '';
   messageType: 'success' | 'error' = 'success';
 
-  // Contiendra les infos du driver à associer
+  // Infos du driver récupérées de la page précédente
   driver: any = null;
 
   constructor(
@@ -30,7 +34,7 @@ export class AddVehicle implements OnInit {
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
     private associateService: AssociateService,
-    private authService: AuthService // Injection indispensable
+    private authService: AuthService 
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -53,7 +57,8 @@ export class AddVehicle implements OnInit {
   }
 
   async onSubmit(): Promise<void> {
-    if (!this.brand || !this.numberPlate || this.selectedVehicleType === null) {
+    // Validation des champs obligatoires
+    if (!this.brand || !this.numberPlate || this.selectedVehicleType === null || !this.badgeContent.trim()) {
       this.setMessage('Tous les champs sont obligatoires', 'error');
       return;
     }
@@ -70,7 +75,7 @@ export class AddVehicle implements OnInit {
 
     const VehicleData: any = {
       brand: this.brand.trim(),
-      numberPlate: this.numberPlate.trim().toUpperCase(), // Assainissement
+      numberPlate: this.numberPlate.trim().toUpperCase(), 
       type: vehicleTypeNames[this.selectedVehicleType],
       class: 'lml.snir.parkinglogickit.metier.entity.Vehicle',
     };
@@ -78,11 +83,14 @@ export class AddVehicle implements OnInit {
     try {
       const token = await this.authService.getToken();
 
+      // ========================================================
+      // ÉTAPE 1 : CRÉATION DU VÉHICULE
+      // ========================================================
       const res = await fetch(`${REST_API_URL}/VehicleService/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`, // Protection contre le rejet du serveur Java
+          Authorization: `Bearer ${token}`, 
         },
         body: JSON.stringify(VehicleData),
       });
@@ -100,19 +108,61 @@ export class AddVehicle implements OnInit {
         return;
       }
 
+      // ========================================================
+      // ÉTAPE 2 : CRÉATION DU BADGE
+      // ========================================================
+      const BadgeData: any = {
+        content: this.badgeContent.trim(),
+        class: 'lml.snir.parkinglogickit.metier.entity.Badge',
+      };
+
+      const badgeRes = await fetch(`${REST_API_URL}/BadgeService/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(BadgeData),
+      });
+
+      if (!badgeRes.ok) {
+        throw new Error(`Erreur HTTP création badge: ${badgeRes.status}`);
+      }
+
+      const createdBadge = await badgeRes.json();
+
+      if (!createdBadge || !createdBadge.id) {
+        this.setMessage('Erreur: badge non valide', 'error');
+        this.isLoading = false;
+        this.cdr.detectChanges();
+        return;
+      }
+
+      // ========================================================
+      // ÉTAPE 3 : CRÉATION DE L'ASSOCIATION (FORMAT IMBRIQUÉ RELATIONNEL)
+      // ========================================================
       this.ngZone.run(async () => {
+        const rawDriverId = this.driver?.id || this.driver?.DRIVER_ID;
+
+        if (!rawDriverId) {
+          this.setMessage("Erreur : Impossible de lire l'identifiant du conducteur", 'error');
+          this.isLoading = false;
+          this.cdr.detectChanges();
+          return;
+        }
+
         this.associateService
           .add({
-            driver: { id: Number(this.driver.id) },
+            driver: { id: Number(rawDriverId) },
             vehicle: { id: Number(createdVehicle.id) },
-            badge: { id: 1 },
+            badge: { id: Number(createdBadge.id) },
             class: 'lml.snir.parkinglogickit.metier.entity.Associate',
           } as any)
           .subscribe({
             next: async () => {
-              this.setMessage('Driver associé au véhicule avec succès!', 'success');
+              this.setMessage('Driver, véhicule et badge associés avec succès ! 🎉', 'success');
 
-              // Nettoyage hybride sécurisé
+              // Nettoyage de la session
               if (Capacitor.isNativePlatform()) {
                 const { SecureStoragePlugin } = await import('capacitor-secure-storage-plugin');
                 await SecureStoragePlugin.remove({ key: 'selected_driver' });
@@ -123,6 +173,10 @@ export class AddVehicle implements OnInit {
               this.resetForm();
               this.isLoading = false;
               this.cdr.detectChanges();
+
+              setTimeout(() => {
+                this.goHome();
+              }, 1500);
             },
             error: (err) => {
               console.error('Erreur association:', err);
@@ -133,7 +187,7 @@ export class AddVehicle implements OnInit {
           });
       });
     } catch (err) {
-      console.error('Erreur création véhicule:', err);
+      console.error('Erreur processus:', err);
       this.isLoading = false;
       this.setMessage("Une erreur s'est produite", 'error');
       this.cdr.detectChanges();
@@ -149,5 +203,6 @@ export class AddVehicle implements OnInit {
     this.brand = '';
     this.numberPlate = '';
     this.selectedVehicleType = null;
+    this.badgeContent = '';
   }
 }
