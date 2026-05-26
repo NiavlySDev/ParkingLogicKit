@@ -101,3 +101,15 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.version.outputs.version }}
         run: gh release create "$VERSION" plk.apk --title "$VERSION" --generate-notes --target "$GITHUB_SHA"
+
+      - name: Send APK to Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_ANDROID_RELEASE }}
+          VERSION: ${{ steps.version.outputs.version }}
+          RELEASE_URL: ${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ steps.version.outputs.version }}
+        run: |
+          test -n "$DISCORD_WEBHOOK_URL"
+          curl --fail-with-body \
+            -F "payload_json={\"content\":\"Nouvelle release Android **${VERSION}** disponible : ${RELEASE_URL}\"}" \
+            -F "files[0]=@plk.apk;type=application/vnd.android.package-archive;filename=plk.apk" \
+            "$DISCORD_WEBHOOK_URL"
