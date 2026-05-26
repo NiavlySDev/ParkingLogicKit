@@ -95,64 +95,69 @@ jobs:
             exit 1
           fi
 
-          ssh "$DEPLOY_SSH_IP_VERSION" -i ~/.ssh/deploy_key \
-              -p "$DEPLOY_PORT" \
-              -o BatchMode=yes \
-              -o ConnectTimeout=15 \
-              -o StrictHostKeyChecking=yes \
-              "$DEPLOY_USER@$DEPLOY_HOST" \
-              "true"
+          if [ "$DEPLOY_SSH_IP_VERSION" = "-4" ]; then
+            address_family="inet"
+          else
+            address_family="inet6"
+          fi
+
+          cat > ~/.ssh/config <<SSH_CONFIG
+          Host wildfly-deploy
+            HostName $DEPLOY_HOST
+            User $DEPLOY_USER
+            Port $DEPLOY_PORT
+            AddressFamily $address_family
+            IdentityFile ~/.ssh/deploy_key
+            IdentitiesOnly yes
+            BatchMode yes
+            StrictHostKeyChecking yes
+            ConnectTimeout 15
+            ServerAliveInterval 30
+            ServerAliveCountMax 4
+            ControlMaster auto
+            ControlPath ~/.ssh/deploy-control-%C
+            ControlPersist 30m
+          SSH_CONFIG
+          chmod 600 ~/.ssh/config
+
+          # Keep one SSH TCP connection open for every remaining deployment step.
+          ssh -MNf wildfly-deploy
+          ssh -O check wildfly-deploy
+          ssh wildfly-deploy "true"
 
       - name: Upload source code to server
         run: |
           set -euo pipefail
 
-          ssh "$DEPLOY_SSH_IP_VERSION" -i ~/.ssh/deploy_key \
-              -p "$DEPLOY_PORT" \
-              -o StrictHostKeyChecking=yes \
-              "$DEPLOY_USER@$DEPLOY_HOST" \
+          ssh wildfly-deploy \
               "mkdir -p '$SOURCE_PATH'"
 
           tar \
               --exclude='.git' \
               --exclude='*/target' \
               --exclude='target' \
-              -czf - . | ssh "$DEPLOY_SSH_IP_VERSION" -i ~/.ssh/deploy_key \
-              -p "$DEPLOY_PORT" \
-              -o StrictHostKeyChecking=yes \
-              "$DEPLOY_USER@$DEPLOY_HOST" \
+              -czf - . | ssh wildfly-deploy \
               "tar -xzf - -C '$SOURCE_PATH'"
 
       - name: Upload WAR to WildFly
         run: |
           set -euo pipefail
 
-          ssh "$DEPLOY_SSH_IP_VERSION" -i ~/.ssh/deploy_key \
-              -p "$DEPLOY_PORT" \
-              -o StrictHostKeyChecking=yes \
-              "$DEPLOY_USER@$DEPLOY_HOST" \
+          ssh wildfly-deploy \
               "mkdir -p '$WILDFLY_DEPLOY_PATH'"
 
-          scp "$DEPLOY_SSH_IP_VERSION" -i ~/.ssh/deploy_key \
-              -P "$DEPLOY_PORT" \
-              -o StrictHostKeyChecking=yes \
+          scp \
               "serveurweb/target/$WAR_NAME" \
-              "$DEPLOY_USER@$DEPLOY_HOST:$WILDFLY_DEPLOY_PATH/$WAR_NAME"
+              "wildfly-deploy:$WILDFLY_DEPLOY_PATH/$WAR_NAME"
 
       - name: Trigger WildFly deployment
         run: |
-          ssh "$DEPLOY_SSH_IP_VERSION" -i ~/.ssh/deploy_key \
-              -p "$DEPLOY_PORT" \
-              -o StrictHostKeyChecking=yes \
-              "$DEPLOY_USER@$DEPLOY_HOST" \
+          ssh wildfly-deploy \
               "cd '$WILDFLY_DEPLOY_PATH' && rm -f '$WAR_NAME'.failed '$WAR_NAME'.deployed '$WAR_NAME'.isdeploying && touch '$WAR_NAME'.dodeploy"
 
       - name: Restart WildFly
         run: |
-          ssh "$DEPLOY_SSH_IP_VERSION" -i ~/.ssh/deploy_key \
-              -p "$DEPLOY_PORT" \
-              -o StrictHostKeyChecking=yes \
-              "$DEPLOY_USER@$DEPLOY_HOST" \
+          ssh wildfly-deploy \
               "DEPLOY_RESTART_COMMAND='$DEPLOY_RESTART_COMMAND' WILDFLY_HOME='$WILDFLY_HOME' WILDFLY_JAVA_HOME='$WILDFLY_JAVA_HOME' DEPLOY_USER='$DEPLOY_USER' bash -s" <<'REMOTE_SCRIPT'
           set -e
 
