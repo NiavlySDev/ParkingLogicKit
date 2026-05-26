@@ -1,48 +1,73 @@
 package lml.snir.parkinglogickit.metier.mqtt;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+
+
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-
 import java.util.UUID;
 import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 import org.eclipse.paho.client.mqttv3.MqttException;
+
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+import lml.snir.parkinglogickit.metierfactory.MetierFactory;
+
 
 public class MqttProducer implements MqttCallback {
-
-    private final GsonBuilder builder = new GsonBuilder();
-    private final Gson gson = builder.create();
-
+    
+      
+    private static final String TOPIC_IN  = "IR/in";
+    private static final String BROKER_URI = "tcp://localhost:1883";
     private MqttClient client;
 
-    public MqttProducer() {
-    }
-
+   
     public static void main(String[] args) {
-        new MqttProducer().doDemo();
+        MqttProducer producer = new MqttProducer();
+
+//     c'est des fausse plaque ect...
+        producer.envoyerPlaque("TT-458-CC");     
+        producer.envoyerRFID("RFID-001A");       
+        producer.envoyerBadge("BADGE-DUPONT");   
+        producer.envoyerPlaque("XX-000-ZZ");    
+        producer.envoyerRFID("RFID-INCONNU");   
+        producer.envoyerBadge("BADGE-INCONNU"); 
     }
 
-    public void doDemo() {
+    public void envoyerPlaque(String plaque) {
+        String json = buildJson("plaque", plaque);
+        publier(json);
+    }
+
+    public void envoyerRFID(String rfid) {
+        String json = buildJson("rfid", rfid);
+        publier(json);
+    }
+
+    public void envoyerBadge(String badge) {
+        String json = buildJson("badge", badge);
+        publier(json);
+    }
+
+ 
+    private String buildJson(String type, String valeur) {
+        return String.format("{ \"type\": \"%s\", \"valeur\": \"%s\" }", type, valeur);
+    }
+
+  
+    private void publier(String json) {
         try {
-            String uri = "tcp://localhost:1883";
-            String clientID = UUID.randomUUID().toString();
+            String clientID = "producer-" + UUID.randomUUID();
             MemoryPersistence persistence = new MemoryPersistence();
-            System.out.println("*** uri = " + uri);
-            System.out.println("*** UUID = " + clientID);
-            client = new MqttClient(uri, clientID, persistence);
-            client.connect();
+
+            client = new MqttClient(BROKER_URI, clientID, persistence);
             client.setCallback(this);
+            client.connect();
 
-            MqttMessage message = new MqttMessage();
+            MqttMessage message = new MqttMessage(json.getBytes());
+            message.setQos(1);
 
-            String json = "{ \"id\":1, \"brand\":\"Citroen\", \"numberPlate\":\"TT-458-CC\", \"type\":1 }";
-
-            message.setPayload(json.getBytes());
-            System.out.println("*** message envoyé : " + json);
+            System.out.println(" Envoi sur [" + TOPIC_IN + "] : " + json);
             client.publish(MetierFactory.getTopic(), message);
 
             client.disconnect();
@@ -51,6 +76,7 @@ public class MqttProducer implements MqttCallback {
         }
     }
 
+  
     @Override
     public void connectionLost(Throwable cause) {
         cause.printStackTrace();
@@ -63,7 +89,6 @@ public class MqttProducer implements MqttCallback {
 
     @Override
     public void deliveryComplete(IMqttDeliveryToken token) {
-        System.out.println("Delivery complete...");
+        System.out.println(" Delivery complete.");
     }
-
 }

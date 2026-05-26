@@ -1,7 +1,8 @@
 package lml.snir.parkinglogickit.metierfactory;
 
-//import lml.snir.gestiontemperature.metier.mqtt.MqttConsumer;
+
 import lml.snir.parkinglogickit.metier.mqtt.MqttConsumer;
+import lml.snir.parkinglogickit.metier.mqtt.MqttProducer;
 import lml.snir.parkinglogickit.metier.rest.client.AccessServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.AdminServiceClientRESTImpl;
 import lml.snir.parkinglogickit.metier.rest.client.AssociateServiceClientRESTImpl;
@@ -42,7 +43,7 @@ public class MetierFactory {
         return local;
     }
 
-    private static final String TOPIC = "MESURE_TEMPERATURE";
+    private static final String TOPIC = "IR/IN";
 
     public static String getTopic() {
         return TOPIC;
@@ -54,6 +55,15 @@ public class MetierFactory {
        if (consumer == null) {
            consumer = new MqttConsumer(TOPIC);
            consumer.doDemo();
+     }
+    }
+    
+     private static MqttConsumer producer = null;
+
+    public static synchronized void launchMqttProducer() {
+       if (producer == null) {
+           producer = new MqttConsumer(TOPIC);
+           producer.doDemo();
      }
     }
 
