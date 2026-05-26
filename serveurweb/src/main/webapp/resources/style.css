@@ -411,7 +411,7 @@ label,
 
 .theme-toggle {
     position: fixed;
-    top: 14px;
+    bottom: 16px;
     right: 16px;
     z-index: 10000;
     display: flex;
@@ -471,12 +471,22 @@ label,
     font-family: var(--font-body) !important;
 }
 
+.navigation-bar {
+    display: flex;
+    align-items: stretch;
+    min-height: 55px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-surface);
+}
+
 .ui-tabmenu,
 .ui-tabmenu.ui-widget {
+    flex: 1 1 auto;
+    min-width: 0;
     padding: 0 24px !important;
     background: var(--bg-surface) !important;
     border: 0 !important;
-    border-bottom: 1px solid var(--border) !important;
+    border-bottom: 0 !important;
 }
 
 .ui-tabmenu .ui-tabmenu-nav {
@@ -542,6 +552,71 @@ label,
 
 .ui-tabmenu .ui-tabmenu-nav li.ui-state-disabled span {
     display: none !important;
+}
+
+.account-dropdown {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 7px 18px 7px 8px;
+}
+
+.account-chip.ui-menubutton .ui-button,
+.account-chip .ui-button,
+.account-chip.ui-button {
+    min-height: 40px;
+    padding: 8px 14px !important;
+    color: var(--text-main) !important;
+    background: var(--bg-soft) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 999px !important;
+    box-shadow: none !important;
+}
+
+.account-chip.ui-menubutton .ui-button:hover,
+.account-chip .ui-button:hover,
+.account-chip.ui-button:hover {
+    color: var(--primary) !important;
+    background: var(--primary-soft) !important;
+}
+
+.ui-menu,
+.ui-menu.ui-widget,
+.ui-menu .ui-menu-list,
+.ui-menu.ui-widget .ui-menu-list {
+    color: var(--text-main) !important;
+    background: var(--bg-surface) !important;
+}
+
+.ui-menu,
+.ui-menu.ui-widget {
+    min-width: 190px;
+    padding: 6px !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+.ui-menu .ui-menuitem-link {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px;
+    padding: 10px 11px !important;
+    color: var(--text-main) !important;
+    background: transparent !important;
+    border-radius: var(--radius-sm) !important;
+}
+
+.ui-menu .ui-menuitem-link:hover,
+.ui-menu .ui-menuitem-link.ui-state-hover,
+.ui-menu .ui-menuitem.ui-menuitem-active > .ui-menuitem-link {
+    color: var(--primary) !important;
+    background: var(--primary-soft) !important;
+}
+
+.ui-menu .ui-menuitem-text,
+.ui-menu .ui-menuitem-icon {
+    color: inherit !important;
 }
 
 .ui-button,
@@ -856,6 +931,16 @@ input:focus {
     .ui-tabmenu {
         padding: 0 10px !important;
         overflow-x: auto !important;
+    }
+
+    .account-dropdown {
+        padding-right: 10px;
+    }
+
+    .account-chip .ui-button-label {
+        max-width: 96px;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .ui-datatable,

@@ -80,6 +80,7 @@ public enum Page {
             "Compte"
     ),
     Compte(
+            "Mon profil",
             "/pages/compte/compte/compte.xhtml",
             Arrays.asList(
                     LoggedType.LoggedInOnly
@@ -148,6 +149,15 @@ public enum Page {
 
     private Page(String path, List<LoggedType> loggedTypes, boolean disabled, String activeGroup) {
         this.nom = this.name();
+        this.path = path;
+        this.loggedTypes = loggedTypes;
+        this.separator = false;
+        this.disabled = disabled;
+        this.activeGroup = activeGroup;
+    }
+
+    private Page(String nom, String path, List<LoggedType> loggedTypes, boolean disabled, String activeGroup) {
+        this.nom = nom;
         this.path = path;
         this.loggedTypes = loggedTypes;
         this.separator = false;
@@ -242,7 +252,7 @@ public enum Page {
             case Connexion:
                 return "Se connecter pour accéder aux fonctionnalités du parking.";
             case Compte:
-                return "Consulter le compte connecté et modifier le mot de passe.";
+                return "Consulter votre profil, vos badges et vos véhicules personnels.";
             case Parametres:
                 return "Ajuster les préférences locales de l'interface.";
             case Themes:
