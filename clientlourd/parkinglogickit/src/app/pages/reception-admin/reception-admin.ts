@@ -18,7 +18,6 @@ import { interval, Subscription } from 'rxjs';
 export class ReceptionAdmin implements OnInit, OnDestroy {
   username: string = '';
   
-  // FIX : Changement de 'dashboard' à 'accueil' pour correspondre au nouveau HTML
   activeTab: string = 'accueil'; 
   
   menuOpen: boolean = false;
@@ -71,7 +70,7 @@ export class ReceptionAdmin implements OnInit, OnDestroy {
   }
 
   goHome(): void {
-    this.activeTab = 'accueil'; // Force le retour visuel sur l'accueil du parking
+    this.activeTab = 'accueil';
     this.router.navigate(['/reception-admin']);
   }
 
