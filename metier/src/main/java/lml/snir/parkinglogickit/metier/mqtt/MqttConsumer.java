@@ -6,7 +6,6 @@ import java.util.Set;
 import java.util.UUID;
 import lml.snir.parkinglogickit.metier.entity.Access;
 import lml.snir.parkinglogickit.metier.entity.Vehicle;
-import lml.snir.parkinglogickit.physique.data.PhysiqueDataFactory;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -27,21 +26,17 @@ public class MqttConsumer implements MqttCallback {
     public MqttConsumer(String TOPIC) {
     }
 
-//   test de fausse plaque avec rfid et badge
+//   test de fausse plaque et badge
     private static final Set<String> PLAQUES_AUTORISEES = Set.of(
-            "TT-458-CC",
-            "AB-123-CD",
-            "ZZ-999-AA"
+            "ww-238-PG",
+            "AH-722-YK"
+          
     );
 
-    private static final Set<String> RFID_AUTORISES = Set.of(
-            "RFID-001A",
-            "RFID-002B",
-            "RFID-003C"
-    );
+ 
 
     private static final Set<String> BADGES_AUTORISES = Set.of(
-            "BADGE-DUPONT",
+            "8310F2AA",
             "BADGE-MARTIN",
             "BADGE-DURAND"
     );
@@ -97,11 +92,8 @@ public class MqttConsumer implements MqttCallback {
         Access a = gson.fromJson(message.toString(), Access.class);
 
         System.out.println("ID: " + v.getId());
-
         System.out.println("Badge: " + a.getBadge());
-
         System.out.println("Driver: " + a.getDriver());
-
         System.out.println("─────────────────────────────────────");
         System.out.println(" Message reçu sur [" + topic + "] : " + payload);
 
@@ -122,7 +114,6 @@ public class MqttConsumer implements MqttCallback {
     private String detecterType(String json) {
         if (json.contains("\"type\"")) {
             if (json.toLowerCase().contains("plaque")) return "plaque";
-            if (json.toLowerCase().contains("rfid"))   return "rfid";
             if (json.toLowerCase().contains("badge"))  return "badge";
         }
         return "inconnu";
@@ -148,7 +139,6 @@ public class MqttConsumer implements MqttCallback {
         if (valeur.isEmpty()) return false;
         switch (type) {
             case "plaque" : return PLAQUES_AUTORISEES.contains(valeur.toUpperCase());
-            case "rfid"   : return RFID_AUTORISES.contains(valeur.toUpperCase());
             case "badge"  : return BADGES_AUTORISES.contains(valeur.toUpperCase());
             default       : return false;
         }
