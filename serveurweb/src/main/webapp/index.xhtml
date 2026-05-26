@@ -26,9 +26,27 @@ Author: Sylvain Crocquevieille
 
         <div class="main-container">
             <h:form id="index">
-                <p:tabMenu id="tabMenu"
-                           model="#{navBean.model}"
-                           activeIndex="#{navBean.activeIndex}"/>
+                <div class="navigation-bar">
+                    <p:tabMenu id="tabMenu"
+                               model="#{navBean.model}"
+                               activeIndex="#{navBean.activeIndex}"/>
+                    <h:panelGroup layout="block" styleClass="account-dropdown" rendered="#{loginBean.logged}">
+                        <p:menuButton value="#{loginBean.driver.username}"
+                                      icon="pi pi-user"
+                                      styleClass="account-chip">
+                            <p:menuitem value="Mon Compte"
+                                        icon="pi pi-user"
+                                        action="#{navBean.onTabChange('Compte')}"
+                                        process="@this"
+                                        update="index:fragmentPanel messageindex message index:tabMenu"/>
+                            <p:menuitem value="Se Déconnecter"
+                                        icon="pi pi-sign-out"
+                                        action="#{loginBean.logout()}"
+                                        process="@this"
+                                        update="index:fragmentPanel messageindex message index:tabMenu"/>
+                        </p:menuButton>
+                    </h:panelGroup>
+                </div>
                 <p:messages id="messageindex" showDetail="true" closable="true" />
                 <p:growl id="message" showDetail="true" />
                 <h:panelGroup id="fragmentPanel" layout="block">

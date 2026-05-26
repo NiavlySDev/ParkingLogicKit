@@ -114,7 +114,7 @@ public class NavBean implements Serializable {
     private List<Page> getVisiblePages() {
         List<Page> pages = new ArrayList<>();
         for (Page page : Page.values()) {
-            if (!peutAfficher(page)) {
+            if (!peutAfficher(page) || page == Page.Compte) {
                 continue;
             }
             pages.add(page);
@@ -142,6 +142,6 @@ public class NavBean implements Serializable {
                 return i;
             }
         }
-        return 0;
+        return -1;
     }
 }

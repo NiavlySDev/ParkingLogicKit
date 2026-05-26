@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import java.io.Serializable;
 import java.util.Objects;
@@ -20,11 +21,11 @@ public class Associate implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(nullable = true)
     private Badge badge;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(nullable = false)
     private Driver driver;
 
