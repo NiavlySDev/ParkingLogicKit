@@ -1,7 +1,8 @@
 {
   "/ParkingLogicKit": {
     "target": "https://plk.niavlysdev.fr",
-    "secure": false,
+    "secure": true,
+    "changeOrigin": true,
     "pathRewrite": {
       "^/ParkingLogicKit": "/ParkingLogicKitServeur"
     }
