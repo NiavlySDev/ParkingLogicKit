@@ -1,0 +1,60 @@
+npm install primeicons
+npm install crypto-js
+npm install capacitor-secure-storage-plugin
+npm install @capacitor/core
+
+NOTES :
+
+Synchrone (Bloquant) :
+Le processeur exécute la ligne 1. 
+Si la ligne 1 demande une information à un serveur distant, le processeur s'arrête complètement et 
+attend que le réseau réponde.
+Pendant ce temps (qui peut durer 2 secondes), l'interface graphique de l'application ne peut plus se mettre à jour : 
+l'écran est totalement gelé pour l'utilisateur.
+
+Asynchrone (async / await) :
+Le processeur lance la ligne 1 (la requête). 
+Grâce au mot-clé async, le système d'exploitation enregistre cette action en arrière-plan 
+et libère immédiatement le processeur.
+Le processeur passe tout de suite aux lignes suivantes pour continuer à faire tourner l'affichage et 
+capter les clics de l'utilisateur. Dès que la requête de la ligne 1 reçoit sa réponse,
+le mot-clé await ordonne au processeur de revenir exécuter la suite de la fonction avec la donnée reçue.
+
+AuthGuard : 
+Bloque l'affichage d'une page le temps que le processeur 
+lise de manière asynchrone le jeton de sécurité dans la mémoire du téléphone.
+
+UserProfile : 
+Empêche le chargement de l'interface du profil tant que l'identifiant unique de l'utilisateur
+connecté n'a pas été récupéré en tâche de fond.
+
+Reception & ReceptionAdmin : 
+Déplacent l'attente de la session en dehors de la phase de démarrage initial
+du composant pour éviter que l'écran blanc du chargement ne reste figé sur Android.
+
+AddVehicle : 
+Remplace les requêtes web standards (qui échouent sur mobile) 
+par des requêtes qui intègrent manuellement le jeton d'authentification 
+pour passer les barrières de sécurité du serveur Java.
+
+DeleteUser & DeleteVehicle : 
+Déclenchent l'envoi de plusieurs ordres successifs au serveur 
+(suppression des liaisons puis suppression de l'objet) et forcent le rechargement immédiat des tableaux à l'écran.
+
+ModifyUser : 
+Intègre un bloc de code de secours qui écrit directement 
+le mot de passe généré dans le composant système du presse-papier 
+d'Android lorsque l'API web classique est désactivée.
+
+ModifyVehicle :
+Applique les fonctions standards .trim() (retrait des espaces) et 
+.toUpperCase() (lettres capitales) sur la chaîne de caractères avant de l'envoyer à la base de données Java.
+
+SignUp :
+Convertit l'objet utilisateur créé en texte JSON 
+pour le sauvegarder dans la puce de stockage du téléphone, permettant au composant suivant d'y accéder.
+
+SignIn :
+Valide les identifiants, génère une chaîne chiffrée (le Token),
+attend sa copie physique dans la mémoire de l'appareil, 
+puis lit le rôle pour déclencher la fonction de redirection d'Angular.

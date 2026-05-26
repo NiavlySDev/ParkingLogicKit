@@ -34,7 +34,7 @@ export class ModifyVehicle implements OnInit {
     private ngZone: NgZone
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadVehicles();
   }
 
@@ -93,10 +93,11 @@ export class ModifyVehicle implements OnInit {
 
     const javaClassName = 'lml.snir.parkinglogickit.metier.entity.Vehicle';
 
+    // OPTIMISATION : Assainissement des chaînes pour éviter les doublons ou formats invalides
     const vehicleToUpdate: any = {
       id: this.selectedVehicle.id,
-      brand: this.brand,
-      numberPlate: this.numberPlate,
+      brand: this.brand.trim(),
+      numberPlate: this.numberPlate.trim().toUpperCase(),
       type: this.getVehicleTypeName(this.selectedVehicleType),
       class: javaClassName,
     };
@@ -109,8 +110,8 @@ export class ModifyVehicle implements OnInit {
           this.ngZone.run(() => {
             this.isLoading = false;
             this.setMessage('Modification effectuée avec succès ✅', 'success');
+            this.resetForm(); // OPTIMISATION : Remet à zéro l'affichage après traitement
             this.loadVehicles();
-            this.cdr.detectChanges();
           });
         },
         error: (error: any) => {
@@ -139,6 +140,7 @@ export class ModifyVehicle implements OnInit {
     this.numberPlate = '';
     this.selectedVehicleType = null;
     this.selectedVehicle = null;
+    this.cdr.detectChanges();
   }
 
   goHome(): void {

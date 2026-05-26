@@ -1,0 +1,141 @@
+name: Build Android APK Release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "clientlourd/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Create APK release
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: clientlourd/parkinglogickit
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine next release version
+        id: version
+        shell: bash
+        run: |
+          git fetch --tags --force
+          latest="$(git tag --list 'v1.*' --sort=-v:refname | head -n 1)"
+
+          if [[ -z "$latest" ]]; then
+            version="v1.0"
+            version_name="1.0"
+            version_code="10000"
+          elif [[ "$latest" == "v1.0" ]]; then
+            version="v1.0.1"
+            version_name="1.0.1"
+            version_code="10001"
+          elif [[ "$latest" =~ ^v1\.([0-9]+)\.([0-9]+)$ ]]; then
+            minor="${BASH_REMATCH[1]}"
+            patch="${BASH_REMATCH[2]}"
+            if (( patch < 9 )); then
+              ((patch += 1))
+            else
+              ((minor += 1))
+              patch=0
+            fi
+            version="v1.${minor}.${patch}"
+            version_name="1.${minor}.${patch}"
+            version_code="$((10000 + minor * 10 + patch))"
+          else
+            echo "Unsupported existing tag format: $latest" >&2
+            exit 1
+          fi
+
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "version_name=$version_name" >> "$GITHUB_OUTPUT"
+          echo "version_code=$version_code" >> "$GITHUB_OUTPUT"
+          echo "previous_tag=$latest" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: clientlourd/parkinglogickit/package-lock.json
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+
+      - name: Set up npm
+        run: npm install --global npm@11.6.2
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Angular application
+        run: npm run build
+
+      - name: Synchronize Capacitor Android project
+        run: npx cap sync android
+
+      - name: Build APK
+        working-directory: clientlourd/parkinglogickit/android
+        run: |
+          bash ./gradlew assembleDebug \
+            -PVERSION_NAME="${{ steps.version.outputs.version_name }}" \
+            -PVERSION_CODE="${{ steps.version.outputs.version_code }}"
+          cp app/build/outputs/apk/debug/app-debug.apk ../plk.apk
+
+      - name: Create release notes from commits
+        env:
+          PREVIOUS_TAG: ${{ steps.version.outputs.previous_tag }}
+        run: |
+          if [ -n "$PREVIOUS_TAG" ]; then
+            range="$PREVIOUS_TAG..$GITHUB_SHA"
+            heading="## Changements depuis $PREVIOUS_TAG"
+          else
+            range="$GITHUB_SHA"
+            heading="## Changements"
+          fi
+
+          {
+            echo "$heading"
+            echo
+            commits="$(git log --no-merges --pretty=format:'- %s (`%h`)' "$range")"
+            if [ -n "$commits" ]; then
+              printf '%s\n' "$commits"
+            else
+              echo "- Aucun commit hors merge depuis la version precedente."
+            fi
+          } > "$RUNNER_TEMP/release-notes.md"
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: gh release create "$VERSION" plk.apk --title "$VERSION" --notes-file "$RUNNER_TEMP/release-notes.md" --target "$GITHUB_SHA"
+
+      - name: Send APK to Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_ANDROID_RELEASE }}
+          VERSION: ${{ steps.version.outputs.version }}
+          RELEASE_URL: ${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ steps.version.outputs.version }}
+        run: |
+          test -n "$DISCORD_WEBHOOK_URL"
+          curl --fail-with-body \
+            -F "payload_json={\"content\":\"Nouvelle release Android **${VERSION}** disponible : ${RELEASE_URL}\"}" \
+            -F "files[0]=@plk.apk;type=application/vnd.android.package-archive;filename=plk.apk" \
+            "$DISCORD_WEBHOOK_URL"

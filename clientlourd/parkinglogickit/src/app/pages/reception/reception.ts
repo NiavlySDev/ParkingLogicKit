@@ -32,11 +32,13 @@ export class Reception implements OnInit, OnDestroy {
     private parkingService: ParkingService,
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef
-  ) {
-    this.username = this.authService.getUsername();
-  }
+  ) {} // On laisse le constructeur vide et propre
 
-  ngOnInit(): void {
+  // CORRECTIF : Passage en async pour pouvoir faire le await
+  async ngOnInit(): Promise<void> {
+    // Récupération sécurisée et asynchrone du username
+    this.username = (await this.authService.getUsername()) || 'Utilisateur';
+
     const loadParking = () => {
       this.parkingService.getAll().subscribe({
         next: (parkings: Parking[]) => {

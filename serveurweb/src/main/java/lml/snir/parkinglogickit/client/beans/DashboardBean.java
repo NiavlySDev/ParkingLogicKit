@@ -10,6 +10,8 @@ import lml.snir.parkinglogickit.metier.entity.Parking;
 import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 
 /**
+ * Bean du tableau de bord. Il récupère les parkings et prépare les données
+ * nécessaires à l'affichage des cartes de disponibilité.
  *
  * @author Sylvain Crocquevieille
  */
@@ -19,6 +21,8 @@ public class DashboardBean implements Serializable {
 
     private List<Parking> parkings = new ArrayList<>();
 
+    private List<ParkingCard> parkingsCard = new ArrayList<>();
+
     private long totalPlaces;
     private long placesLibres;
     private long placesOccupees;
@@ -26,30 +30,48 @@ public class DashboardBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        charger();
+    }
+
+    /**
+     * Recharge les parkings et recalcule les totaux affichés dans la page.
+     */
+    public void charger() {
         try {
             parkings = MetierFactory.getParkingService().getAll();
+            totalPlaces = 0;
+            placesLibres = 0;
+            placesOccupees = 0;
+            parkingPlein = false;
+            parkingsCard.clear();
 
-            totalPlaces = parkings.size();
-            placesOccupees = parkings.stream().filter(Parking::isIsFull).count();
-            placesLibres = totalPlaces - placesOccupees;
-
-            if (!parkings.isEmpty()) {
-                Parking p = parkings.get(0);
-                parkingPlein = p.isIsFull();
+            for (Parking parking : parkings) {
+                totalPlaces += parking.getTotalPlace();
+                placesLibres += parking.getPlaceCount();
+                parkingsCard.add(new ParkingCard(
+                        "Parking " + parking.getId(),
+                        parking.getTotalPlace(),
+                        parking.getPlaceCount()
+                ));
             }
+
+            placesOccupees = totalPlaces - placesLibres;
+            if (!parkings.isEmpty()) {
+                parkingPlein = parkings.stream().allMatch(Parking::isIsFull);
+            }
+
         } catch (Exception e) {
             System.err.println("DashboardBean.init() error: " + e.getMessage());
         }
     }
 
     public void refresh() {
-        init();
+        charger();
     }
 
     public List<Parking> getParkings() {
         return parkings;
     }
-
 
     public long getTotalPlaces() {
         return totalPlaces;
@@ -65,5 +87,9 @@ public class DashboardBean implements Serializable {
 
     public boolean isParkingPlein() {
         return parkingPlein;
+    }
+
+    public List<ParkingCard> getParkingsCard() {
+        return parkingsCard;
     }
 }

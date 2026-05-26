@@ -1,0 +1,28 @@
+<!--
+Author: Sylvain Crocquevieille
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/pages/compte/login/style.css" />
+
+    <div class="login-card">
+        <h2>Connexion</h2>
+        <p class="section-description">Accès à l'espace ParkingLogicKit.</p>
+
+        <h4>Nom d'utilisateur</h4>
+        <p:inputText value="#{loginBean.username}" />
+
+        <h4>Mot de passe</h4>
+        <p:password value="#{loginBean.password}" toggleMask="true" redisplay="true"/>
+
+        <div class="actions-bar">
+            <p:commandButton value="Se connecter"
+                             styleClass="rounded-button ui-button-success"
+                             icon="pi pi-sign-in"
+                             action="#{loginBean.login()}"
+                             update="index:fragmentPanel messageindex message index:tabMenu"/>
+        </div>
+    </div>
+</ui:composition>

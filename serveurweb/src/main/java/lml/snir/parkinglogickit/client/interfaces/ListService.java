@@ -3,7 +3,6 @@ package lml.snir.parkinglogickit.client.interfaces;
 import jakarta.faces.component.UIComponent;
 
 /**
- *
  * @author Sylvain Crocquevieille
  */
 public interface ListService {

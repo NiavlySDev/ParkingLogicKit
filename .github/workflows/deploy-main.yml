@@ -1,0 +1,190 @@
+name: Deploy serveurweb to remote server
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "serveurweb/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-main
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build and deploy WAR
+    runs-on: ubuntu-latest
+
+    env:
+      WAR_NAME: parkinglogickit-serveurweb-1.0.0-SNAPSHOT.war
+      DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+      DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+      DEPLOY_PORT: ${{ secrets.DEPLOY_PORT || '22' }}
+      # Optional: use -6 only when the target is intentionally IPv6-only.
+      DEPLOY_SSH_IP_VERSION: ${{ secrets.DEPLOY_SSH_IP_VERSION || '-4' }}
+      WILDFLY_HOME: /home/minecraft/wildfly
+      SOURCE_PATH: /opt/sites/projet/ParkingLogicKit
+      WILDFLY_DEPLOY_PATH: /home/minecraft/wildfly/standalone/deployments
+      WILDFLY_JAVA_HOME: ${{ secrets.WILDFLY_JAVA_HOME }}
+      DEPLOY_RESTART_COMMAND: ${{ secrets.DEPLOY_RESTART_COMMAND }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "23"
+          cache: maven
+
+      - name: Install LML dependencies
+        run: |
+          cd libs
+          mvn clean install -DskipTests -N
+          cd libLML
+          mvn clean install -DskipTests
+          cd ../..
+
+      - name: Build serveurweb
+        run: |
+          chmod +x mvnw
+          ./mvnw -B -U -DskipTests -pl serveurweb -am package
+
+      - name: Validate deployment configuration
+        run: |
+          set -euo pipefail
+
+          for variable in DEPLOY_HOST DEPLOY_USER DEPLOY_PORT; do
+            if [ -z "${!variable}" ]; then
+              echo "::error::Le secret GitHub Actions ${variable} est obligatoire."
+              exit 1
+            fi
+          done
+
+          if [ "$DEPLOY_SSH_IP_VERSION" != "-4" ] && [ "$DEPLOY_SSH_IP_VERSION" != "-6" ]; then
+            echo "::error::DEPLOY_SSH_IP_VERSION doit valoir -4 ou -6."
+            exit 1
+          fi
+
+      - name: Configure SSH key
+        run: |
+          set -euo pipefail
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}" | sed 's/\\n/\n/g' | tr -d '\r' > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keygen -y -f ~/.ssh/deploy_key >/dev/null
+
+      - name: Verify SSH network access
+        run: |
+          set -euo pipefail
+
+          echo "Resolution DNS/adresse visible depuis le runner :"
+          if [ "$DEPLOY_SSH_IP_VERSION" = "-4" ]; then
+            getent ahostsv4 "$DEPLOY_HOST" || true
+          else
+            getent ahostsv6 "$DEPLOY_HOST" || true
+          fi
+
+          if ! timeout 15 ssh-keyscan "$DEPLOY_SSH_IP_VERSION" -p "$DEPLOY_PORT" -H "$DEPLOY_HOST" > ~/.ssh/known_hosts; then
+            echo "::error::Impossible de joindre $DEPLOY_HOST:$DEPLOY_PORT en SSH avec $DEPLOY_SSH_IP_VERSION. Verifie l'adresse publique, le port et le pare-feu, ou utilise un runner self-hosted sur le reseau cible."
+            exit 1
+          fi
+
+          if [ "$DEPLOY_SSH_IP_VERSION" = "-4" ]; then
+            address_family="inet"
+          else
+            address_family="inet6"
+          fi
+
+          cat > ~/.ssh/config <<SSH_CONFIG
+          Host wildfly-deploy
+            HostName $DEPLOY_HOST
+            User $DEPLOY_USER
+            Port $DEPLOY_PORT
+            AddressFamily $address_family
+            IdentityFile ~/.ssh/deploy_key
+            IdentitiesOnly yes
+            BatchMode yes
+            StrictHostKeyChecking yes
+            ConnectTimeout 15
+            ServerAliveInterval 30
+            ServerAliveCountMax 4
+            ControlMaster auto
+            ControlPath ~/.ssh/deploy-control-%C
+            ControlPersist 30m
+          SSH_CONFIG
+          chmod 600 ~/.ssh/config
+
+          # Keep one SSH TCP connection open for every remaining deployment step.
+          ssh -MNf wildfly-deploy
+          ssh -O check wildfly-deploy
+          ssh wildfly-deploy "true"
+
+      - name: Upload source code to server
+        run: |
+          set -euo pipefail
+
+          ssh wildfly-deploy \
+              "mkdir -p '$SOURCE_PATH'"
+
+          tar \
+              --exclude='.git' \
+              --exclude='*/target' \
+              --exclude='target' \
+              -czf - . | ssh wildfly-deploy \
+              "tar -xzf - -C '$SOURCE_PATH'"
+
+      - name: Upload WAR to WildFly
+        run: |
+          set -euo pipefail
+
+          ssh wildfly-deploy \
+              "mkdir -p '$WILDFLY_DEPLOY_PATH'"
+
+          scp \
+              "serveurweb/target/$WAR_NAME" \
+              "wildfly-deploy:$WILDFLY_DEPLOY_PATH/$WAR_NAME"
+
+      - name: Trigger WildFly deployment
+        run: |
+          ssh wildfly-deploy \
+              "cd '$WILDFLY_DEPLOY_PATH' && rm -f '$WAR_NAME'.failed '$WAR_NAME'.deployed '$WAR_NAME'.isdeploying && touch '$WAR_NAME'.dodeploy"
+
+      - name: Restart WildFly
+        run: |
+          ssh wildfly-deploy \
+              "DEPLOY_RESTART_COMMAND='$DEPLOY_RESTART_COMMAND' WILDFLY_HOME='$WILDFLY_HOME' WILDFLY_JAVA_HOME='$WILDFLY_JAVA_HOME' DEPLOY_USER='$DEPLOY_USER' bash -s" <<'REMOTE_SCRIPT'
+          set -e
+
+          if [ -n "$WILDFLY_JAVA_HOME" ]; then
+            export JAVA_HOME="$WILDFLY_JAVA_HOME"
+            export PATH="$JAVA_HOME/bin:$PATH"
+          fi
+
+          if [ -n "$DEPLOY_RESTART_COMMAND" ]; then
+            eval "$DEPLOY_RESTART_COMMAND"
+          elif command -v systemctl >/dev/null 2>&1 && systemctl --user list-unit-files | grep -q '^wildfly'; then
+            systemctl --user restart wildfly || systemctl --user start wildfly
+          elif command -v sudo >/dev/null 2>&1 && sudo -n systemctl status wildfly >/dev/null 2>&1; then
+            sudo -n systemctl restart wildfly || sudo -n systemctl start wildfly
+          elif [ -x "$WILDFLY_HOME/bin/jboss-cli.sh" ] && "$WILDFLY_HOME/bin/jboss-cli.sh" --connect command=':shutdown(restart=true)'; then
+            echo 'WildFly redémarré avec jboss-cli.'
+          elif [ -x "$WILDFLY_HOME/bin/standalone.sh" ]; then
+            if pgrep -u "$DEPLOY_USER" -f "$WILDFLY_HOME.*standalone" >/dev/null 2>&1; then
+              pkill -u "$DEPLOY_USER" -f "$WILDFLY_HOME.*standalone"
+              sleep 5
+            fi
+            nohup "$WILDFLY_HOME/bin/standalone.sh" -b 0.0.0.0 > "$WILDFLY_HOME/standalone/log/standalone.out" 2>&1 &
+            echo 'WildFly démarré en arrière-plan.'
+          else
+            echo 'Aucune commande de redémarrage WildFly trouvée. Ajoute le secret DEPLOY_RESTART_COMMAND.'
+            exit 1
+          fi
+          REMOTE_SCRIPT

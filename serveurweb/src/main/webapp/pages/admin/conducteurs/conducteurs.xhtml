@@ -1,0 +1,244 @@
+<!--
+Author: Sylvain Crocquevieille
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="jakarta.faces.core">
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/pages/admin/conducteurs/style.css" />
+    <script type="text/javascript" src="#{request.contextPath}/assets/js/user-form.js"></script>
+
+    <div class="admin-page">
+
+        <div class="dashboard-header">
+            <h2 class="section-title">Gestion des conducteurs</h2>
+            <p:commandButton value="Nouveau conducteur"
+                             icon="pi pi-user-plus"
+                             styleClass="rounded-button ui-button-success"
+                             type="button"
+                             onclick="PF('dlgCreerConducteur').show()"/>
+        </div>
+
+        <p:dataTable id="tableConducteurs"
+                     var="conducteur"
+                     value="#{conducteursBean.conducteurs}"
+                     selectionMode="single"
+                     selection="#{conducteursBean.selectedDriver}"
+                     rowKey="#{conducteur.id}"
+                     paginator="true"
+                     rows="15"
+                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     rowsPerPageTemplate="10,15,30"
+                     emptyMessage="Aucun conducteur enregistré."
+                     filterDelay="300">
+
+            <p:column headerText="ID" styleClass="col-id" sortBy="#{conducteur.id}">
+                <h:outputText value="#{conducteur.id}" />
+            </p:column>
+            <p:column headerText="Prénom" filterBy="#{conducteur.firstName}" filterMatchMode="contains">
+                <h:outputText value="#{conducteur.firstName}" />
+            </p:column>
+            <p:column headerText="Nom" filterBy="#{conducteur.lastName}" filterMatchMode="contains">
+                <h:outputText value="#{conducteur.lastName}" />
+            </p:column>
+            <p:column headerText="Identifiant" filterBy="#{conducteur.username}" filterMatchMode="contains">
+                <h:outputText value="#{conducteur.username}" />
+            </p:column>
+            <p:column headerText="Âge" styleClass="col-age" sortBy="#{conducteur.age}">
+                <h:outputText value="#{conducteur.age}" />
+            </p:column>
+            <p:column headerText="Genre" styleClass="col-small">
+                <h:outputText value="#{conducteur.isMale ? 'M.' : 'Mme'}" />
+            </p:column>
+            <p:column headerText="Rôle" styleClass="col-small">
+                <h:outputText value="#{conducteur.class.simpleName}" />
+            </p:column>
+            <p:column headerText="Actions" styleClass="col-actions-wide">
+                <p:commandButton icon="pi pi-pencil"
+                                 styleClass="rounded-button ui-button-warning"
+                                 title="Modifier"
+                                 action="#{conducteursBean.selectionner(conducteur)}"
+                                 process="@this"
+                                 update="@form"
+                                 oncomplete="PF('dlgModifierConducteur').show()"/>
+                &#160;
+                <p:commandButton icon="pi pi-trash"
+                                 styleClass="rounded-button ui-button-danger"
+                                 title="Supprimer"
+                                 action="#{conducteursBean.selectionner(conducteur)}"
+                                 process="@this"
+                                 update="@form"
+                                 oncomplete="PF('dlgSupprimerConducteur').show()"/>
+            </p:column>
+        </p:dataTable>
+
+        <p:dialog header="Nouveau conducteur" widgetVar="dlgCreerConducteur"
+                  minHeight="300" width="460" showEffect="fade" modal="true"
+                  dynamic="true">
+            <h:panelGroup id="panelCreerConducteur" layout="block">
+                <div class="dialog-form">
+                    <h:panelGrid columns="2" cellpadding="8" styleClass="dialog-grid">
+                        <h:outputLabel value="Prénom :"/>
+                        <p:inputText id="newFirstName" value="#{conducteursBean.newFirstName}" required="true"
+                                     placeholder="Prénom" styleClass="field-lg auto-username-first"
+                                     onkeyup="updateAutoUsername('newFirstName', 'newLastName', 'newUsername')"/>
+                        <h:outputLabel value="Nom :"/>
+                        <p:inputText id="newLastName" value="#{conducteursBean.newLastName}" required="true"
+                                     placeholder="Nom" styleClass="field-lg auto-username-last"
+                                     onkeyup="updateAutoUsername('newFirstName', 'newLastName', 'newUsername')"/>
+                        <h:outputLabel value="Identifiant :"/>
+                        <p:inputText id="newUsername" value="#{conducteursBean.newUsername}" required="true"
+                                     placeholder="username" styleClass="field-lg auto-username-target"
+                                     oninput="markUsernameEdited('newUsername')"/>
+                        <h:outputLabel value="Mot de passe :"/>
+                        <p:password value="#{conducteursBean.newPassword}" required="true"
+                                    toggleMask="true" redisplay="true" styleClass="field-lg"/>
+                        <h:outputLabel value="Âge :"/>
+                        <p:inputText value="#{conducteursBean.newAge}"
+                                     placeholder="Âge" styleClass="field-lg"/>
+                        <h:outputLabel value="Genre :"/>
+                        <p:selectOneMenu value="#{conducteursBean.newIsMale}" styleClass="field-lg">
+                            <f:selectItem itemValue="true"  itemLabel="Homme"/>
+                            <f:selectItem itemValue="false" itemLabel="Femme"/>
+                        </p:selectOneMenu>
+                        <h:outputLabel value="Rôle :"/>
+                        <p:selectOneMenu value="#{conducteursBean.newIsAdmin}" styleClass="field-lg">
+                            <f:selectItem itemValue="false" itemLabel="Driver"/>
+                            <f:selectItem itemValue="true" itemLabel="Admin"/>
+                        </p:selectOneMenu>
+                        <h:outputText value="Créer badge auto :"/>
+                        <p:selectBooleanCheckbox value="#{conducteursBean.creationBadge}" itemLabel="">
+                            <p:ajax update="creationAssociationAuto"
+                                    oncomplete="PF('dlgCreerConducteur').initPosition();"/>
+                        </p:selectBooleanCheckbox>
+
+                        <h:outputText value="Créer un véhicule :"/>
+                        <p:selectBooleanCheckbox value="#{conducteursBean.creationVehicule}" itemLabel="">
+                            <p:ajax update="creationAssociationAuto vehiculeSectionWrapper"
+                                    oncomplete="PF('dlgCreerConducteur').initPosition();"/>
+                        </p:selectBooleanCheckbox>
+
+                        <h:outputText value="Créer association auto :"/>
+                        <p:selectBooleanCheckbox id="creationAssociationAuto"
+                                                 value="#{conducteursBean.creationAssocation}" itemLabel=""
+                                                 disabled="#{!conducteursBean.creationBadge or !conducteursBean.creationVehicule}"/>
+                    </h:panelGrid>
+
+                    <h:panelGroup id="vehiculeSectionWrapper" layout="block">
+                        <h:panelGroup id="vehiculeSection" rendered="#{conducteursBean.creationVehicule}" layout="block"
+                                      styleClass="vehicle-section">
+                            <h4 class="vehicle-section-title">Véhicule</h4>
+                            <h:panelGrid columns="2" cellpadding="8" styleClass="dialog-grid">
+                                <h:outputLabel value="Marque :"/>
+                                <p:inputText value="#{conducteursBean.newBrand}"
+                                             required="#{conducteursBean.creationVehicule}"
+                                             placeholder="Marque" styleClass="field-md"/>
+                                <h:outputLabel value="Immatriculation :"/>
+                                <p:inputText value="#{conducteursBean.newNumberPlate}"
+                                             required="#{conducteursBean.creationVehicule}"
+                                             placeholder="AB-123-CD" styleClass="field-md"/>
+                                <h:outputLabel value="Type :"/>
+                                <p:selectOneMenu value="#{conducteursBean.newVehicleType}" styleClass="field-md">
+                                    <f:selectItems value="#{conducteursBean.vehicleTypes}"
+                                                   var="vt"
+                                                   itemValue="#{vt}"
+                                                   itemLabel="#{vt.name}"/>
+                                </p:selectOneMenu>
+                            </h:panelGrid>
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </div>
+            </h:panelGroup>
+            <f:facet name="footer"> 
+                <p:commandButton value="Créer"
+                                 icon="pi pi-check"
+                                 styleClass="rounded-button ui-button-success"
+                                 action="#{conducteursBean.creer()}"
+                                 process="panelCreerConducteur @this"
+                                 update="tableConducteurs messageindex message"
+                                 oncomplete="if(!args.validationFailed) PF('dlgCreerConducteur').hide()"/>
+                &#160;
+                <p:commandButton value="Annuler"
+                                 icon="pi pi-times"
+                                 styleClass="rounded-button ui-button-secondary"
+                                 type="button"
+                                 onclick="PF('dlgCreerConducteur').hide()"/>
+            </f:facet>
+        </p:dialog>
+
+        <p:dialog header="Modifier conducteur" widgetVar="dlgModifierConducteur"
+                  minHeight="300" width="420" showEffect="fade" modal="true">
+            <h:panelGroup id="panelModifierConducteur" rendered="#{conducteursBean.selectedDriver != null}">
+                <div class="dialog-form">
+                    <h:panelGrid columns="2" cellpadding="8" styleClass="dialog-grid">
+                        <h:outputLabel value="Prénom :"/>
+                        <p:inputText value="#{conducteursBean.selectedDriver.firstName}"
+                                     styleClass="field-lg"/>
+                        <h:outputLabel value="Nom :"/>
+                        <p:inputText value="#{conducteursBean.selectedDriver.lastName}"
+                                     styleClass="field-lg"/>
+                        <h:outputLabel value="Identifiant :"/>
+                        <p:inputText value="#{conducteursBean.selectedDriver.username}"
+                                     styleClass="field-lg"/>
+                        <h:outputLabel value="Âge :"/>
+                        <p:inputText value="#{conducteursBean.selectedDriver.age}"
+                                     styleClass="field-lg"/>
+                        <h:outputLabel value="Genre :"/>
+                        <p:selectOneMenu value="#{conducteursBean.selectedDriver.isMale}"
+                                         styleClass="field-lg">
+                            <f:selectItem itemValue="true"  itemLabel="Homme"/>
+                            <f:selectItem itemValue="false" itemLabel="Femme"/>
+                        </p:selectOneMenu>
+                        <h:outputLabel value="Rôle :"/>
+                        <p:selectOneMenu value="#{conducteursBean.selectedIsAdmin}"
+                                         styleClass="field-lg">
+                            <f:selectItem itemValue="false" itemLabel="Driver"/>
+                            <f:selectItem itemValue="true" itemLabel="Admin"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                </div>
+            </h:panelGroup>
+            <f:facet name="footer">
+                <p:commandButton value="Enregistrer"
+                                 icon="pi pi-check"
+                                 styleClass="rounded-button ui-button-warning"
+                                 action="#{conducteursBean.modifier()}"
+                                 process="panelModifierConducteur @this"
+                                 update="tableConducteurs messageindex message"
+                                 oncomplete="PF('dlgModifierConducteur').hide()"/>
+                &#160;
+                <p:commandButton value="Annuler"
+                                 icon="pi pi-times"
+                                 styleClass="rounded-button ui-button-secondary"
+                                 type="button"
+                                 onclick="PF('dlgModifierConducteur').hide()"/>
+            </f:facet>
+        </p:dialog>
+
+        <p:dialog header="Supprimer conducteur" widgetVar="dlgSupprimerConducteur"
+                  minHeight="80" width="380" showEffect="fade" modal="true">
+            <h:panelGroup rendered="#{conducteursBean.selectedDriver != null}">
+                <p>Confirmer la suppression de
+                    <strong>#{conducteursBean.selectedDriver.firstName}
+                        #{conducteursBean.selectedDriver.lastName}</strong> ?
+                </p>
+            </h:panelGroup>
+            <f:facet name="footer">
+                <p:commandButton value="Supprimer"
+                                 icon="pi pi-trash"
+                                 styleClass="rounded-button ui-button-danger"
+                                 action="#{conducteursBean.supprimer()}"
+                                 process="@this"
+                                 update="tableConducteurs messageindex message"
+                                 oncomplete="PF('dlgSupprimerConducteur').hide()"/>
+                <p:commandButton value="Annuler"
+                                 icon="pi pi-times"
+                                 styleClass="rounded-button ui-button-secondary"
+                                 type="button"
+                                 onclick="PF('dlgSupprimerConducteur').hide()"/>
+            </f:facet>
+        </p:dialog>
+
+    </div>
+</ui:composition>

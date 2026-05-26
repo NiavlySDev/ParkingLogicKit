@@ -1,0 +1,63 @@
+<!--
+Author: Sylvain Crocquevieille
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="jakarta.faces.core">
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/pages/dashboard/style.css" />
+
+    <div class="admin-page">
+
+        <div class="page-header">
+            <div>
+                <h2 class="section-title">Tableau de bord</h2>
+                <p class="section-description">Vue rapide sur la disponibilité des parkings.</p>
+            </div>
+            <p:commandButton value="Rafraîchir"
+                             icon="pi pi-refresh"
+                             styleClass="rounded-button"
+                             action="#{dashboardBean.refresh()}"
+                             update="index:fragmentPanel messageindex message"/>
+        </div>
+
+        <div class="stats-grid">
+            <ui:repeat value="#{dashboardBean.parkingsCard}" var="parking">
+                <p:card styleClass="parking-card #{parking.complet ? 'card-full' : 'card-free'}">
+                    <f:facet name="title">
+                        #{parking.nom}
+                    </f:facet>
+                    <div class="card-content">
+                        <div class="places-value">
+                            #{parking.placesLibres} / #{parking.totalPlaces}
+                        </div>
+                        <div class="places-status">
+                            <span class="status-dot #{parking.complet ? 'dot-full' : 'dot-free'}"></span>
+                            #{parking.complet ? 'Complet' : 'Disponible'}
+                        </div>
+                    </div>
+                </p:card>
+            </ui:repeat>
+        </div>
+
+        <h:panelGroup rendered="#{not empty dashboardBean.parkings}">
+            <h3 class="section-subtitle">Informations parking</h3>
+            <p:dataTable id="tableauParking"
+                         var="parking"
+                         value="#{dashboardBean.parkings}"
+                         emptyMessage="Aucun parking enregistré.">
+                <p:column headerText="ID">
+                    <h:outputText value="#{parking.id}" />
+                </p:column>
+                <p:column headerText="Places disponibles">
+                    <h:outputText value="#{parking.placeCount} / #{parking.totalPlace}" />
+                </p:column>
+                <p:column headerText="Etat">
+                    <h:outputText value="#{parking.isFull ? 'Complet' : 'Disponible'}" />
+                </p:column>
+            </p:dataTable>
+        </h:panelGroup>
+
+    </div>
+</ui:composition>

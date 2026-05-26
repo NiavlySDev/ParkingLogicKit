@@ -3,7 +3,6 @@ package lml.snir.parkinglogickit.client.interfaces;
 import java.util.Random;
 
 /**
- *
  * @author Sylvain Crocquevieille
  */
 public interface AMSDriverService {

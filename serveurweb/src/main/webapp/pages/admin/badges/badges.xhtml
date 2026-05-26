@@ -1,0 +1,106 @@
+<!--
+Author: Sylvain Crocquevieille
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="jakarta.faces.core">
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/pages/admin/badges/style.css" />
+
+    <div class="admin-page">
+
+        <div class="page-header">
+            <div>
+                <h2 class="section-title">Gestion des badges</h2>
+                <p class="section-description">Création et suivi des badges RFID disponibles.</p>
+            </div>
+            <p:commandButton value="Nouveau badge"
+                             icon="pi pi-id-card"
+                             styleClass="rounded-button ui-button-success"
+                             type="button"
+                             onclick="PF('dlgCreerBadge').show()"/>
+        </div>
+
+        <p:dataTable id="tableBadges"
+                     var="badge"
+                     value="#{badgesBean.badges}"
+                     selectionMode="single"
+                     selection="#{badgesBean.selectedBadge}"
+                     rowKey="#{badge.id}"
+                     paginator="true"
+                     rows="10"
+                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                     emptyMessage="Aucun badge enregistré."
+                     filterDelay="300">
+
+            <p:column headerText="ID" styleClass="col-id">
+                <h:outputText value="#{badge.id}" />
+            </p:column>
+            <p:column headerText="Contenu RFID" filterBy="#{badge.content}" filterMatchMode="contains">
+                <h:outputText value="#{badge.content}" />
+            </p:column>
+            <p:column headerText="Actions" styleClass="col-actions">
+                <p:commandButton icon="pi pi-trash"
+                                 styleClass="rounded-button ui-button-danger"
+                                 title="Supprimer"
+                                 action="#{badgesBean.selectionnerBadge(badge)}"
+                                 process="@this"
+                                 update="@form"
+                                 oncomplete="PF('dlgSupprimerBadge').show()"/>
+            </p:column>
+        </p:dataTable>
+
+        <p:dialog header="Nouveau badge" widgetVar="dlgCreerBadge"
+                  minHeight="120" width="420" showEffect="fade" modal="true">
+            <h:panelGroup id="panelCreerBadge" layout="block">
+                <div class="dialog-form">
+                    <h:panelGrid columns="1" cellpadding="8" styleClass="form-grid">
+                        <h:outputLabel value="Contenu RFID"/>
+                        <p:inputText value="#{badgesBean.newBadgeContent}"
+                                     required="true"
+                                     placeholder="Ex : A1B2C3D4"/>
+                    </h:panelGrid>
+                </div>
+            </h:panelGroup>
+            <f:facet name="footer">
+                <p:commandButton value="Créer"
+                                 icon="pi pi-check"
+                                 styleClass="rounded-button ui-button-success"
+                                 action="#{badgesBean.creerBadge()}"
+                                 process="panelCreerBadge @this"
+                                 update="tableBadges messageindex message"
+                                 oncomplete="if(!args.validationFailed) PF('dlgCreerBadge').hide()"/>
+                <p:commandButton value="Annuler"
+                                 icon="pi pi-times"
+                                 styleClass="rounded-button ui-button-secondary"
+                                 type="button"
+                                 onclick="PF('dlgCreerBadge').hide()"/>
+            </f:facet>
+        </p:dialog>
+
+        <p:dialog header="Supprimer badge" widgetVar="dlgSupprimerBadge"
+                  minHeight="80" width="380" showEffect="fade" modal="true">
+            <h:panelGroup rendered="#{badgesBean.selectedBadge != null}">
+                <p>Confirmer la suppression du badge
+                    <strong>#{badgesBean.selectedBadge.content}</strong> ?
+                </p>
+            </h:panelGroup>
+            <f:facet name="footer">
+                <p:commandButton value="Supprimer"
+                                 icon="pi pi-trash"
+                                 styleClass="rounded-button ui-button-danger"
+                                 action="#{badgesBean.supprimerBadge()}"
+                                 process="@this"
+                                 update="tableBadges messageindex message"
+                                 oncomplete="PF('dlgSupprimerBadge').hide()"/>
+                <p:commandButton value="Annuler"
+                                 icon="pi pi-times"
+                                 styleClass="rounded-button ui-button-secondary"
+                                 type="button"
+                                 onclick="PF('dlgSupprimerBadge').hide()"/>
+            </f:facet>
+        </p:dialog>
+
+    </div>
+</ui:composition>

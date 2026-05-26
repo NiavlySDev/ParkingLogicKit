@@ -1,0 +1,58 @@
+/*
+Author: Sylvain Crocquevieille
+*/
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    padding: 24px 30px;
+}
+
+.parking-card {
+    border-top: 4px solid var(--success) !important;
+}
+
+.parking-card.card-full {
+    border-top-color: var(--danger) !important;
+}
+
+.card-content {
+    text-align: left;
+}
+
+.places-value {
+    color: var(--text-main);
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.places-status {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.status-dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    margin-right: 6px;
+    border-radius: 50%;
+}
+
+.dot-free {
+    background: var(--success);
+}
+
+.dot-full {
+    background: var(--danger);
+}
+
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+        padding: 18px 12px;
+    }
+}

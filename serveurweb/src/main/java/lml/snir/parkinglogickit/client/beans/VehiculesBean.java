@@ -13,6 +13,9 @@ import lml.snir.parkinglogickit.metier.entity.VehicleType;
 import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 
 /**
+ * Bean de gestion des véhicules. Il fournit les actions d'administration
+ * classiques pour les véhicules : consultation, création, modification et
+ * suppression.
  *
  * @author Sylvain Crocquevieille
  */
@@ -32,11 +35,14 @@ public class VehiculesBean implements Serializable {
         charger();
     }
 
+    /**
+     * Recharge les véhicules depuis la couche métier.
+     */
     public void charger() {
         try {
             vehicules = MetierFactory.getVehicleService().getAll();
         } catch (Exception e) {
-            addError("Erreur chargement véhicules : " + e.getMessage());
+            addError("Erreur lors du chargement des véhicules : " + e.getMessage());
         }
     }
 
@@ -44,6 +50,9 @@ public class VehiculesBean implements Serializable {
         return VehicleType.values();
     }
 
+    /**
+     * Crée un véhicule à partir des informations saisies dans le formulaire.
+     */
     public void creer() {
         try {
             Vehicle v = new Vehicle();
@@ -55,10 +64,13 @@ public class VehiculesBean implements Serializable {
             resetForm();
             charger();
         } catch (Exception e) {
-            addError("Erreur création véhicule : " + e.getMessage());
+            addError("Erreur lors de la création du véhicule : " + e.getMessage());
         }
     }
 
+    /**
+     * Enregistre les modifications du véhicule sélectionné.
+     */
     public void modifier() {
         if (selectedVehicle == null) {
             return;
@@ -68,10 +80,13 @@ public class VehiculesBean implements Serializable {
             addInfo("Véhicule mis à jour.");
             charger();
         } catch (Exception e) {
-            addError("Erreur modification : " + e.getMessage());
+            addError("Erreur lors de la modification : " + e.getMessage());
         }
     }
 
+    /**
+     * Supprime le véhicule sélectionné dans le tableau.
+     */
     public void supprimer() {
         if (selectedVehicle == null) {
             return;
@@ -82,7 +97,7 @@ public class VehiculesBean implements Serializable {
             selectedVehicle = null;
             charger();
         } catch (Exception e) {
-            addError("Erreur suppression : " + e.getMessage());
+            addError("Erreur lors de la suppression : " + e.getMessage());
         }
     }
 

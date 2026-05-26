@@ -1,0 +1,14 @@
+/*
+Author: Sylvain Crocquevieille
+*/
+.col-id {
+    width: 60px;
+}
+
+.row-enter td {
+    background-color: rgba(22, 163, 74, 0.06) !important;
+}
+
+.row-exit td {
+    background-color: rgba(220, 38, 38, 0.06) !important;
+}

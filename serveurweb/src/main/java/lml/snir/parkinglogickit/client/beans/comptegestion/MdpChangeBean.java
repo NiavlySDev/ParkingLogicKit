@@ -11,6 +11,9 @@ import lml.snir.parkinglogickit.metier.transactionel.DriverService;
 import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 
 /**
+ * Bean utilisé pour changer le mot de passe du compte connecté. Les messages
+ * sont gardés dans le Bean afin que la page puisse afficher un retour simple à
+ * l'utilisateur après la tentative de changement.
  *
  * @author Sylvain Crocquevieille
  */
@@ -95,6 +98,10 @@ public class MdpChangeBean implements Serializable {
         this.validation = validation;
     }
 
+    /**
+     * Vérifie l'ancien mot de passe, contrôle la confirmation, puis sauvegarde
+     * le nouveau mot de passe du conducteur connecté.
+     */
     public void change() {
         this.setValidation(false);
         this.setValidationMessage("");
@@ -107,7 +114,7 @@ public class MdpChangeBean implements Serializable {
                     DriverService us = MetierFactory.getDriverService();
                     us.update(loginBean.getDriver());
                     this.setValidation(true);
-                    this.setValidationMessage("Vous avez changez votre mot de passe!");
+                    this.setValidationMessage("Votre mot de passe a bien été changé.");
                     this.setCurrentPassword("");
                     this.setNewPassword("");
                     this.setNewPasswordConfirmation("");
@@ -118,11 +125,11 @@ public class MdpChangeBean implements Serializable {
                 }
             } else {
                 this.setError(true);
-                this.setErrorMessage("Les nouveaux mots de passes ne correspondent pas!");
+                this.setErrorMessage("Les nouveaux mots de passe ne correspondent pas.");
             }
         } else {
             this.setError(true);
-            this.setErrorMessage("Votre mot de passe actuel n'est pas le bon!");
+            this.setErrorMessage("Votre mot de passe actuel n'est pas correct.");
         }
     }
 

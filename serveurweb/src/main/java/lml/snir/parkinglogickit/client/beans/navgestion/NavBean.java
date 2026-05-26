@@ -6,6 +6,8 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import lml.snir.parkinglogickit.client.beans.comptegestion.LoggedType;
 import lml.snir.parkinglogickit.client.beans.comptegestion.LoginBean;
 import org.primefaces.model.menu.DefaultMenuItem;
@@ -13,6 +15,9 @@ import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.MenuModel;
 
 /**
+ * Bean chargé de construire le menu principal de l'application. Les onglets
+ * sont créés à partir de l'enum Page afin de centraliser la navigation et de
+ * rendre l'ordre des pages plus simple à maintenir.
  *
  * @author Sylvain Crocquevieille
  */
@@ -27,61 +32,53 @@ public class NavBean implements Serializable {
     private MenuModel model;
     private String path;
     private int activeIndex = 0;
+    private Page currentPage = Page.Accueil;
+    private List<Page> visiblePages = new ArrayList<>();
 
     @PostConstruct
     public void init() {
         model = new DefaultMenuModel();
-        path = "/accueil.xhtml";
+        path = currentPage.getPath();
+        visiblePages = getVisiblePages();
 
-        for (Page page : Page.values()) {
-            if (page.verifLoggedType(LoggedType.AdminOnly)) {
-                if (loginBean.isLogged()) {
-                    if (!(loginBean.isAdmin())) {
-                        continue;
-                    }
-                } else {
-                    continue;
-                }
-            }
-            if (page.verifLoggedType(LoggedType.LoggedInOnly)) {
-                if (!loginBean.isLogged()) {
-                    continue;
-                }
-            }
-            if (page.verifLoggedType(LoggedType.LoggedOutOnly)) {
-                if (loginBean.isLogged()) {
-                    continue;
-                }
-            }
+        for (Page page : visiblePages) {
             DefaultMenuItem item;
-            if (page.verifLoggedType(LoggedType.Affichage)) {
+            if (page.isSeparator()) {
                 item = DefaultMenuItem.builder()
                         .id(page.name().toLowerCase())
                         .value(page.getNom())
                         .ajax(true)
                         .process("@none")
                         .update("index:fragmentPanel messageindex message index:tabMenu")
-                        .command("#{navBean.onTabChange(" + page.getId() + ", '" + page.getPath() + "')}")
                         .disabled(true)
                         .build();
             } else {
                 item = DefaultMenuItem.builder()
                         .id(page.name().toLowerCase())
-                        .value(page.name())
+                        .value(page.getNom())
                         .ajax(true)
                         .process("@this")
                         .update("index:fragmentPanel messageindex message index:tabMenu")
-                        .command("#{navBean.onTabChange(" + page.getId() + ", '" + page.getPath() + "')}")
+                        .command("#{navBean.onTabChange('" + page.name() + "')}")
                         .disabled(false)
                         .build();
             }
             model.getElements().add(item);
         }
+
+        activeIndex = calculerIndexActif(currentPage);
     }
 
-    public void onTabChange(int index, String newPath) {
-        this.activeIndex = index;
-        this.path = newPath;
+    /**
+     * Change le fragment affiché quand l'utilisateur clique sur un onglet.
+     *
+     * @param pageName nom de la page dans l'enum Page
+     */
+    public void onTabChange(String pageName) {
+        Page page = Page.valueOf(pageName);
+        this.currentPage = page;
+        this.path = page.getPath();
+        this.activeIndex = calculerIndexActif(page);
     }
 
     public MenuModel getModel() {
@@ -94,5 +91,57 @@ public class NavBean implements Serializable {
 
     public int getActiveIndex() {
         return activeIndex;
+    }
+
+    /**
+     * Retourne les pages affichées sous forme de cartes sur l'accueil.
+     * Les séparateurs et la page Accueil sont exclus pour ne garder que les
+     * destinations utiles à l'utilisateur connecté.
+     *
+     * @return pages accessibles depuis l'accueil
+     */
+    public List<Page> getAccueilPages() {
+        List<Page> pages = new ArrayList<>();
+        for (Page page : visiblePages) {
+            if (page.isSeparator() || page == Page.Accueil) {
+                continue;
+            }
+            pages.add(page);
+        }
+        return pages;
+    }
+
+    private List<Page> getVisiblePages() {
+        List<Page> pages = new ArrayList<>();
+        for (Page page : Page.values()) {
+            if (!peutAfficher(page) || page == Page.Compte) {
+                continue;
+            }
+            pages.add(page);
+        }
+        return pages;
+    }
+
+    private boolean peutAfficher(Page page) {
+        if (page.isDisabled()) {
+            return false;
+        }
+        if (page.verifLoggedType(LoggedType.AdminOnly) && (!loginBean.isLogged() || !loginBean.isAdmin())) {
+            return false;
+        }
+        if (page.verifLoggedType(LoggedType.LoggedInOnly) && !loginBean.isLogged()) {
+            return false;
+        }
+        return !(page.verifLoggedType(LoggedType.LoggedOutOnly) && loginBean.isLogged());
+    }
+
+    private int calculerIndexActif(Page pageActive) {
+        for (int i = 0; i < visiblePages.size(); i++) {
+            Page page = visiblePages.get(i);
+            if (page.getActiveGroup().equals(pageActive.getActiveGroup())) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

@@ -1,0 +1,55 @@
+<!--
+Author: Sylvain Crocquevieille
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/pages/journal/style.css" />
+
+    <div class="admin-page">
+
+        <div class="dashboard-header">
+            <h2 class="section-title">Journal des accès</h2>
+            <p:commandButton value="Rafraîchir"
+                             icon="pi pi-refresh"
+                             styleClass="rounded-button"
+                             action="#{journalBean.refresh()}"
+                             update="index:fragmentPanel messageindex message"/>
+        </div>
+
+        <p:dataTable id="tableauJournal"
+                     var="acces"
+                     value="#{journalBean.acces}"
+                     paginator="true"
+                     rows="15"
+                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     rowsPerPageTemplate="10,15,30,50"
+                     emptyMessage="Aucun accès enregistré."
+                     rowStyleClass="#{acces.event != null and acces.event.accessType.name eq 'Sorti' ? 'row-exit' : 'row-enter'}">
+
+            <p:column headerText="ID" sortBy="#{acces.id}" styleClass="col-id">
+                <h:outputText value="#{acces.id}" />
+            </p:column>
+
+            <p:column headerText="Conducteur" filterBy="#{acces.driver.username}" filterMatchMode="contains">
+                <h:outputText value="#{acces.driver != null ? acces.driver.firstName.concat(' ').concat(acces.driver.lastName) : '-'}" />
+            </p:column>
+
+            <p:column headerText="Badge">
+                <h:outputText value="#{acces.badge != null ? acces.badge.content : '-'}" />
+            </p:column>
+
+            <p:column headerText="Date / Heure" sortBy="#{acces.date}">
+                <h:outputText value="#{acces.date}">
+                </h:outputText>
+            </p:column>
+
+            <p:column headerText="Type">
+                <h:outputText value="#{acces.event != null ? acces.event.accessType.name : '-'}" />
+            </p:column>
+
+        </p:dataTable>
+
+    </div>
+</ui:composition>

@@ -12,7 +12,6 @@ import lml.snir.parkinglogickit.metier.entity.Access;
 import lml.snir.parkinglogickit.metierfactory.MetierFactory;
 
 /**
- *
  * @author Sylvain Crocquevieille
  */
 @Named

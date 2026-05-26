@@ -1,12 +1,20 @@
 <nav class="navbar">
-  <div class="navbar-brand" (click)="goHome()">
-    <img src="logo-home.png" alt="Logo" class="navbar-logo" />
+  <div class="navbar-brand" (click)="activeTab = 'accueil'">
     <span class="navbar-title">ParkingLogicKit</span>
   </div>
+  
   <div class="navbar-links">
-    <button class="nav-btn" (click)="goHome()"><i class="pi pi-home"></i> Accueil</button>
-    <button class="nav-btn active"><i class="pi pi-user"></i> Mon Profil</button>
+    <button class="nav-btn" (click)="goHome()">
+      <i class="pi pi-home"></i> Accueil
+    </button>
   </div>
+
+  <div class="navbar-links">
+    <button class="nav-btn active">
+      <i class="pi pi-user"></i> Mon Profil
+    </button>
+  </div>
+
   <div class="navbar-user">
     <i class="pi pi-user-edit"></i>
     <span>{{ username }}</span>
@@ -14,6 +22,12 @@
 </nav>
 
 <div class="container">
+  <div *ngIf="message" [className]="'alert alert-' + messageType" style="padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 10px; text-align: center; font-weight: 500;"
+       [style.background]="messageType === 'success' ? '#d1fae5' : '#fee2e2'"
+       [style.color]="messageType === 'success' ? '#065f46' : '#991b1b'">
+    {{ message }}
+  </div>
+
   <div class="header-content">
     <h1>Mon Profil</h1>
     <p class="subtitle">Gérez vos informations et vos véhicules personnels</p>
@@ -44,13 +58,16 @@
       <div class="vehicle-list" *ngIf="vehicles.length > 0; else noVehicles">
         <div class="vehicle-item-card" *ngFor="let v of vehicles">
           <div class="v-avatar">
-            <i [class]="v.type === 'Moto' ? 'pi pi-directions' : 'pi pi-car'"></i>
+            <i [class]="v?.type?.toLowerCase() === 'moto' ? 'pi pi-directions' : 'pi pi-car'"></i>
           </div>
           <div class="v-details">
-            <span class="v-brand">{{ v.brand }}</span>
-            <span class="v-plate">{{ v.numberPlate }}</span>
+            <span class="v-brand">{{ v?.brand }}</span>
+            <span class="v-plate">{{ v?.numberPlate }}</span>
           </div>
-          <span class="v-badge"> <i class="pi pi-tag"></i> {{ v.type }} </span>
+          <span class="v-badge"><i class="pi pi-tag"></i> {{ v?.type }}</span>
+          <button class="btn-delete" (click)="deleteVehicle(v)" title="Supprimer ce véhicule">
+            <i class="pi pi-trash"></i>
+          </button>
         </div>
       </div>
       <ng-template #noVehicles>
@@ -63,32 +80,35 @@
 
     <div class="section" *ngIf="vehicles.length < 2">
       <h2 class="section-title"><i class="pi pi-plus-circle"></i> Ajouter un véhicule</h2>
-      <form (ngSubmit)="onSubmit()" class="profile-form">
+      <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()" class="profile-form">
+        
         <div class="form-group">
           <label>Marque</label>
           <div class="input-with-icon">
             <i class="pi pi-bookmark"></i>
-            <input type="text" [(ngModel)]="brand" name="brand" placeholder="Ex: Audi" required />
+            <input type="text" formControlName="brand" placeholder="Ex: Audi" />
           </div>
+          <small *ngIf="vehicleForm.get('brand')?.touched && vehicleForm.get('brand')?.invalid" style="color: #e74c3c; font-size: 0.75rem; margin-top: 2px;">
+            Nom invalide (Caractères alphanumériques uniquement, max 30).
+          </small>
         </div>
+
         <div class="form-group">
           <label>Plaque</label>
           <div class="input-with-icon">
             <i class="pi pi-credit-card"></i>
-            <input
-              type="text"
-              [(ngModel)]="numberPlate"
-              name="numberPlate"
-              placeholder="AA-123-BB"
-              required
-            />
+            <input type="text" formControlName="numberPlate" placeholder="AA-123-BB" />
           </div>
+          <small *ngIf="vehicleForm.get('numberPlate')?.touched && vehicleForm.get('numberPlate')?.invalid" style="color: #e74c3c; font-size: 0.75rem; margin-top: 2px;">
+            Format attendu : AA-123-BB.
+          </small>
         </div>
+
         <div class="form-group">
           <label>Type</label>
           <div class="input-with-icon">
             <i class="pi pi-cog"></i>
-            <select [(ngModel)]="selectedType" name="selectedType">
+            <select formControlName="selectedType">
               <option [ngValue]="null" disabled>Sélectionnez un type</option>
               <option [ngValue]="0">Moto</option>
               <option [ngValue]="1">Voiture</option>
@@ -97,7 +117,8 @@
             </select>
           </div>
         </div>
-        <button type="submit" class="nav-btn active btn-submit" [disabled]="isLoading">
+
+        <button type="submit" class="nav-btn active btn-submit" [disabled]="vehicleForm.invalid || isLoading">
           <i [class]="isLoading ? 'pi pi-spin pi-spinner' : 'pi pi-check-circle'"></i>
           {{ isLoading ? 'Enregistrement...' : 'Enregistrer' }}
         </button>

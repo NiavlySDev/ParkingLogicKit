@@ -22,6 +22,9 @@ export class SignIn {
   message: string = '';
   messageType: 'success' | 'error' = 'success';
 
+  // FIX COMPILATION : Variable ajoutée pour piloter l'œil du mot de passe dans le HTML
+  showPassword: boolean = false; 
+
   constructor(
     private driverService: DriverService,
     private router: Router,
@@ -34,7 +37,7 @@ export class SignIn {
     this.router.navigate(['/']);
   }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     if (!this.username && !this.password) {
       this.setMessage("Nom d'utilisateur et mot de passe obligatoires", 'error');
       return;
@@ -52,9 +55,7 @@ export class SignIn {
     this.message = '';
 
     this.driverService.getByUsername(this.username).subscribe({
-      next: (driver: any) => {
-        this.isLoading = false;
-
+      next: async (driver: any) => {
         if (driver.password === this.password) {
           const tokenPayload = {
             username: driver.username,
@@ -69,15 +70,20 @@ export class SignIn {
             '.' +
             btoa('signature');
 
-          this.authService.setToken(token);
+          await this.authService.setToken(token);
 
-          // Redirection basée sur le token stocké via authService
-          if (this.authService.isAdmin()) {
+          const isAdminRole = await this.authService.isAdmin();
+
+          this.isLoading = false;
+
+          // Redirection basée sur le rôle détecté
+          if (isAdminRole) {
             this.router.navigate(['/reception-admin']);
           } else {
             this.router.navigate(['/reception']);
           }
         } else {
+          this.isLoading = false;
           this.setMessage('Mot de passe incorrect', 'error');
         }
       },

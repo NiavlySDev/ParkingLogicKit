@@ -17,7 +17,9 @@ import { interval, Subscription } from 'rxjs';
 })
 export class ReceptionAdmin implements OnInit, OnDestroy {
   username: string = '';
-  activeTab: string = 'dashboard';
+  
+  activeTab: string = 'accueil'; 
+  
   menuOpen: boolean = false;
   placesTotal: number = 0;
   placesOccupees: number = 0;
@@ -32,11 +34,11 @@ export class ReceptionAdmin implements OnInit, OnDestroy {
     private parkingService: ParkingService,
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef
-  ) {
-    this.username = this.authService.getUsername();
-  }
+  ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.username = (await this.authService.getUsername()) || 'Administrateur';
+
     const loadParking = () => {
       this.parkingService.getAll().subscribe({
         next: (parkings: Parking[]) => {
@@ -62,10 +64,13 @@ export class ReceptionAdmin implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   goHome(): void {
+    this.activeTab = 'accueil';
     this.router.navigate(['/reception-admin']);
   }
 

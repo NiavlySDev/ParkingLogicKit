@@ -1,8 +1,11 @@
-import { Component, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, ChangeDetectorRef, NgZone, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AssociateService } from '../../../../Rest/AssociateService';
+import { AuthService } from '../../../../Auth/auth.service';
+import { Capacitor } from '@capacitor/core';
+import { REST_API_URL } from '../../../../Rest/api.config';
 
 @Component({
   selector: 'app-add-vehicle',
@@ -11,7 +14,7 @@ import { AssociateService } from '../../../../Rest/AssociateService';
   templateUrl: './add-vehicle.html',
   styleUrl: './add-vehicle.css',
 })
-export class AddVehicle {
+export class AddVehicle implements OnInit {
   brand: string = '';
   numberPlate: string = '';
   selectedVehicleType: number | null = null;
@@ -19,25 +22,43 @@ export class AddVehicle {
   message: string = '';
   messageType: 'success' | 'error' = 'success';
 
+  // Contiendra les infos du driver à associer
+  driver: any = null;
+
   constructor(
     private router: Router,
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
-    private associateService: AssociateService
+    private associateService: AssociateService,
+    private authService: AuthService // Injection indispensable
   ) {}
+
+  async ngOnInit(): Promise<void> {
+    if (Capacitor.isNativePlatform()) {
+      const { SecureStoragePlugin } = await import('capacitor-secure-storage-plugin');
+      try {
+        const { value } = await SecureStoragePlugin.get({ key: 'selected_driver' });
+        this.driver = value ? JSON.parse(value) : null;
+      } catch {
+        this.driver = null;
+      }
+    } else {
+      const localData = localStorage.getItem('driver');
+      this.driver = localData ? JSON.parse(localData) : null;
+    }
+  }
 
   goHome(): void {
     this.router.navigate(['/reception-admin']);
   }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     if (!this.brand || !this.numberPlate || this.selectedVehicleType === null) {
       this.setMessage('Tous les champs sont obligatoires', 'error');
       return;
     }
 
-    const driver = JSON.parse(localStorage.getItem('driver')!);
-    if (!driver) {
+    if (!this.driver) {
       this.setMessage('Aucun driver trouvé', 'error');
       return;
     }
@@ -48,61 +69,75 @@ export class AddVehicle {
     const vehicleTypeNames = ['Moto', 'Voiture', 'Camionnette', 'Camion'];
 
     const VehicleData: any = {
-      brand: this.brand,
-      numberPlate: this.numberPlate,
+      brand: this.brand.trim(),
+      numberPlate: this.numberPlate.trim().toUpperCase(), // Assainissement
       type: vehicleTypeNames[this.selectedVehicleType],
       class: 'lml.snir.parkinglogickit.metier.entity.Vehicle',
     };
 
-    fetch('/ParkingLogicKit/rest/VehicleService/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(VehicleData),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`Erreur HTTP création véhicule: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then((createdVehicle) => {
-        if (!createdVehicle || !createdVehicle.id) {
-          this.setMessage('Erreur: véhicule non valide', 'error');
-          this.isLoading = false;
-          return;
-        }
+    try {
+      const token = await this.authService.getToken();
 
-        this.ngZone.run(() => {
-          this.associateService
-            .add({
-              driver: { id: Number(driver.id) },
-              vehicle: { id: Number(createdVehicle.id) },
-              badge: { id: 1 },
-              class: 'lml.snir.parkinglogickit.metier.entity.Associate',
-            } as any)
-            .subscribe({
-              next: () => {
-                this.setMessage('Driver associé au véhicule avec succès!', 'success');
-                localStorage.removeItem('driver');
-                this.resetForm();
-                this.isLoading = false;
-                this.cdr.detectChanges();
-              },
-              error: (err) => {
-                console.error('Erreur association:', err);
-                this.setMessage("Erreur lors de l'association", 'error');
-                this.isLoading = false;
-                this.cdr.detectChanges();
-              },
-            });
-        });
-      })
-      .catch((err) => {
-        console.error('Erreur création véhicule:', err);
-        this.isLoading = false;
-        this.setMessage("Une erreur s'est produite", 'error');
-        this.cdr.detectChanges();
+      const res = await fetch(`${REST_API_URL}/VehicleService/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Protection contre le rejet du serveur Java
+        },
+        body: JSON.stringify(VehicleData),
       });
+
+      if (!res.ok) {
+        throw new Error(`Erreur HTTP création véhicule: ${res.status}`);
+      }
+
+      const createdVehicle = await res.json();
+
+      if (!createdVehicle || !createdVehicle.id) {
+        this.setMessage('Erreur: véhicule non valide', 'error');
+        this.isLoading = false;
+        this.cdr.detectChanges();
+        return;
+      }
+
+      this.ngZone.run(async () => {
+        this.associateService
+          .add({
+            driver: { id: Number(this.driver.id) },
+            vehicle: { id: Number(createdVehicle.id) },
+            badge: { id: 1 },
+            class: 'lml.snir.parkinglogickit.metier.entity.Associate',
+          } as any)
+          .subscribe({
+            next: async () => {
+              this.setMessage('Driver associé au véhicule avec succès!', 'success');
+
+              // Nettoyage hybride sécurisé
+              if (Capacitor.isNativePlatform()) {
+                const { SecureStoragePlugin } = await import('capacitor-secure-storage-plugin');
+                await SecureStoragePlugin.remove({ key: 'selected_driver' });
+              } else {
+                localStorage.removeItem('driver');
+              }
+
+              this.resetForm();
+              this.isLoading = false;
+              this.cdr.detectChanges();
+            },
+            error: (err) => {
+              console.error('Erreur association:', err);
+              this.setMessage("Erreur lors de l'association", 'error');
+              this.isLoading = false;
+              this.cdr.detectChanges();
+            },
+          });
+      });
+    } catch (err) {
+      console.error('Erreur création véhicule:', err);
+      this.isLoading = false;
+      this.setMessage("Une erreur s'est produite", 'error');
+      this.cdr.detectChanges();
+    }
   }
 
   private setMessage(message: string, type: 'success' | 'error'): void {

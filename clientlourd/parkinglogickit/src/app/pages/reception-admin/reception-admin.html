@@ -1,24 +1,15 @@
-<!-- author Ethan-->
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="reception-admin.css" />
-</head>
 <body>
-  <!-- Navbar -->
   <nav class="navbar">
-    <div class="navbar-brand" (click)="goHome()">
-      <img src="logo-home.png" alt="Accueil" class="navbar-logo" />
-      <span class="navbar-title">ParkingLogicKit</span>
+    <div class="navbar-links">
+      <button 
+        class="nav-btn" 
+        [class.active]="activeTab === 'accueil' || !activeTab"
+        (click)="activeTab = 'accueil'"
+      >
+        <i class="pi pi-home"></i> Accueil
+      </button>
     </div>
     <div class="navbar-links">
-      <button
-        class="nav-btn"
-        [class.active]="activeTab === 'dashboard'"
-        (click)="activeTab = 'dashboard'"
-      >
-        Dashboard
-      </button>
       <button
         class="nav-btn"
         [class.active]="activeTab === 'drivers'"
@@ -44,9 +35,8 @@
     </div>
   </nav>
 
-  <!-- VUE DASHBOARD -->
-  <main class="container" *ngIf="activeTab === 'dashboard'">
-    <h1>Dashboard 📊</h1>
+  <main class="container" *ngIf="activeTab === 'accueil' || !activeTab">
+    <h1>Accueil 📊</h1>
     <p class="subtitle">État du parking en temps réel</p>
 
     <div class="dashboard">
@@ -93,7 +83,6 @@
     </div>
   </main>
 
-  <!-- VUE GESTION DRIVERS -->
   <main class="container" *ngIf="activeTab === 'drivers'">
     <h1>Gestion Drivers 👥</h1>
     <p class="subtitle">Que souhaitez-vous faire ?</p>
@@ -125,7 +114,6 @@
     </div>
   </main>
 
-  <!-- VUE GESTION VEHICLE -->
   <main class="container" *ngIf="activeTab === 'vehicle'">
     <h1>Gestion Vehicle 🚗</h1>
     <p class="subtitle">Que souhaitez-vous faire ?</p>

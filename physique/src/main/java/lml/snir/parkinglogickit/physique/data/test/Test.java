@@ -29,11 +29,12 @@ public class Test {
 
     public static void main(String[] args) throws Exception {
         Test test = new Test();
-        test.populate();
-        test.testUtilisateur();
-        test.testBadge();
-        test.testVehicule();
-        test.testAssociate();
+        test.populateUtilisateur();
+        test.populateBadge();
+        test.populateVehicule();
+        test.populateDriver();
+        test.populateParking();
+        test.populateAccess();
     }
 
     private Test() throws Exception {
@@ -44,12 +45,22 @@ public class Test {
         this.parkingSrv = PhysiqueDataFactory.getParkingDataService();
     }
 
-    private void populate() throws Exception {
-        this.populateDriver();
-        this.populateParking();
+    private void populateParking() throws Exception {
+
+        Parking p = new Parking();
+        p.setPlaceCount(48);
+        p.setTotalPlace(60);
+        p.setIsFull(false);
+        this.parkingSrv.add(p);
+    }
+    
+    private void populateAccess() throws Exception {
+
+
     }
 
-    private void populateDriver() throws Exception {
+    private void populateUtilisateur() throws Exception {
+
         Driver drv;
 
         drv = new Admin();
@@ -79,6 +90,23 @@ public class Test {
         drv.setPassword("test");
         this.usrSrv.add(drv);
 
+        drv = new Driver();
+        drv.setAge(20);
+        drv.setFirstName("LEV");
+        drv.setIsMale(false);
+        drv.setUsername("LE");
+        drv.setLastName("ELV");
+        drv.setPassword("levivi");
+        this.usrSrv.add(drv);
+
+        List<Driver> drivers = this.usrSrv.getAll();
+        for (Driver d : drivers) {
+            System.out.println(d);
+        }
+    }
+
+    private void populateBadge() throws Exception {
+
         Badge b = new Badge();
         b.setContent("0014511054");
         this.badgeSrv.add(b);
@@ -107,27 +135,13 @@ public class Test {
         b.setContent("0009960730");
         this.badgeSrv.add(b);
 
-        b = new Badge();
-        b.setContent("0009966294");
-        this.badgeSrv.add(b);
+        List<Badge> badges = this.badgeSrv.getAll();
+        for (Badge ba : badges) {
+            System.out.println(ba);
+        }
+    }
 
-        drv = new Driver();
-        drv.setAge(25);
-        drv.setFirstName("Marge");
-        drv.setIsMale(false);
-        drv.setUsername("MS");
-        drv.setLastName("Simpson");
-        drv.setPassword("secret");
-        this.usrSrv.add(drv);
-
-        drv = new Driver();
-        drv.setAge(20);
-        drv.setFirstName("LEV");
-        drv.setIsMale(false);
-        drv.setUsername("LE");
-        drv.setLastName("ELV");
-        drv.setPassword("levivi");
-        this.usrSrv.add(drv);
+    private void populateVehicule() throws Exception {
 
         Vehicle l = new Vehicle();
         l.setNumberPlate("TT-458-CC");
@@ -165,11 +179,35 @@ public class Test {
         l.setType(VehicleType.Voiture);
         this.vehicleSrv.add(l);
 
+        List<Vehicle> vehicles = this.vehicleSrv.getAll();
+        for (Vehicle v : vehicles) {
+            System.out.println(v);
+        }
+    }
+
+    private void populateDriver() throws Exception {
+
+        Badge b = new Badge();
+        b = new Badge();
+        b.setContent("0009966294");
+        this.badgeSrv.add(b);
+
+        Vehicle l = new Vehicle();
         l = new Vehicle();
         l.setNumberPlate("WW-715-TT");
         l.setBrand("Renault");
         l.setType(VehicleType.Voiture);
         this.vehicleSrv.add(l);
+
+        Driver drv;
+        drv = new Driver();
+        drv.setAge(25);
+        drv.setFirstName("Marge");
+        drv.setIsMale(false);
+        drv.setUsername("MS");
+        drv.setLastName("Simpson");
+        drv.setPassword("secret");
+        this.usrSrv.add(drv);
 
         Associate asso = new Associate();
         asso.setBadge(b);
@@ -177,39 +215,6 @@ public class Test {
         asso.setDriver(drv);
         this.assoSrv.add(asso);
 
-    }
-
-    private void populateParking() throws Exception {
-
-        Parking p = new Parking();
-        p.setPlaceCount(48);
-        p.setTotalPlace(60);
-        p.setIsFull(false);
-        this.parkingSrv.add(p);
-    }
-
-    private void testUtilisateur() throws Exception {
-        List<Driver> drivers = this.usrSrv.getAll();
-        for (Driver d : drivers) {
-            System.out.println(d);
-        }
-    }
-
-    private void testBadge() throws Exception {
-        List<Badge> badges = this.badgeSrv.getAll();
-        for (Badge b : badges) {
-            System.out.println(b);
-        }
-    }
-
-    private void testVehicule() throws Exception {
-        List<Vehicle> vehicles = this.vehicleSrv.getAll();
-        for (Vehicle v : vehicles) {
-            System.out.println(v);
-        }
-    }
-
-    private void testAssociate() throws Exception {
         List<Associate> associates = this.assoSrv.getAll();
         for (Associate a : associates) {
             System.out.println(a);
