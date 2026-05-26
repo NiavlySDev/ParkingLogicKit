@@ -22,6 +22,9 @@ export class UserProfile implements OnInit {
   role: string = '';
   driverId: number = 0;
 
+  // FIX COMPILATION : Gestion de l'état des onglets de la Navbar
+  private _activeTab: string = 'profile';
+
   // Formulaire réactif sécurisé
   vehicleForm!: FormGroup;
 
@@ -57,6 +60,18 @@ export class UserProfile implements OnInit {
     this.loadDriverThenVehicles();
   }
 
+  // Getter et Setter pour activeTab : intercepte le clic "accueil" du HTML pour rediriger
+  get activeTab(): string {
+    return this._activeTab;
+  }
+
+  set activeTab(value: string) {
+    this._activeTab = value;
+    if (value === 'accueil') {
+      this.goHome(); // Déclenche automatiquement la redirection vers l'écran principal du parking
+    }
+  }
+
   private initForm(): void {
     this.vehicleForm = this.fb.group({
       brand: [
@@ -79,6 +94,10 @@ export class UserProfile implements OnInit {
       ],
       selectedType: [null, Validators.required],
     });
+  }
+
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
   }
 
   goHome(): void {
@@ -122,6 +141,7 @@ export class UserProfile implements OnInit {
 
   goProfile(): void {
     this.menuOpen = false;
+    this.activeTab = 'profile';
     this.router.navigate(['/user-profile']);
   }
 

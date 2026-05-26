@@ -1,352 +1,382 @@
 /* =========================
    RESET + BASE
    ========================= */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body {
-  min-height: 100vh;
-  background: #e4ecf5;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow-x: hidden; /* Évite les défilements horizontaux parasites */
-}
-
-/* =========================
-       NAVBAR (RESPONSIVE FLUIDE)
-       ========================= */
-.navbar {
-  width: 100%;
-  background: #ffffff;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  padding: clamp(10px, 2vw, 14px) clamp(12px, 4vw, 30px); /* S'adapte à l'écran */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-/* LEFT */
-.navbar-brand {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.navbar-logo {
-  width: clamp(24px, 3vw, 28px);
-  height: clamp(24px, 3vw, 28px);
-}
-
-.navbar-title {
-  font-size: clamp(0.9rem, 2vw, 1.1rem);
-  font-weight: 700;
-  color: #1e293b;
-  display: inline; /* Affiché par défaut */
-}
-
-/* Cache le texte uniquement sur les écrans de moins de 360px */
-@media (max-width: 360px) {
-  .navbar-title {
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  body {
+    min-height: 100vh;
+    background: #e4ecf5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* CONFIGURATION ICÔNES */
+  .pi {
+    font-family: 'primeicons' !important;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* =========================
+         NAVBAR
+         ========================= */
+  .navbar {
+    width: 100%;
+    background: #ffffff;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    gap: 12px;
+  }
+  
+  /* BLOC 1 : BOUTON ACCUEIL (Ancré à gauche) */
+  .navbar-links:nth-of-type(1) {
+    display: flex !important;
+    flex-shrink: 0;
+    z-index: 105; /* Force le bouton à être au-dessus pour être cliquable */
+  }
+  
+  /* SÉCURISATION DU CLIC SUR LE BOUTON ACCUEIL */
+  .navbar-links:nth-of-type(1) .nav-btn {
+    pointer-events: auto !important; /* Force le bouton à intercepter le clic */
+    cursor: pointer !important;
+  }
+  
+  .navbar-links:nth-of-type(1) .nav-btn i {
+    pointer-events: none; /* Évite que l'icône bloque le clic du bouton parent */
+  }
+  
+  /* BLOC 2 : SLIDER CENTRAL (Défilement horizontal) */
+  .navbar-links:nth-of-type(2) {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 4px 0;
+    -webkit-overflow-scrolling: touch; 
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+  }
+  
+  .navbar-links:nth-of-type(2)::-webkit-scrollbar {
     display: none;
   }
-}
-
-/* CENTER (S'enroule si l'écran est trop petit) */
-.navbar-links {
-  display: flex !important;
-  align-items: center;
-  gap: clamp(6px, 1.5vw, 14px);
-  flex: 1;
-  justify-content: center;
-  flex-wrap: wrap; /* Permet aux boutons de passer en dessous proprement sur mobile si nécessaire */
-  padding: 0 5px;
-}
-
-/* RIGHT (USER) */
-.navbar-user {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 600;
-  color: #1e293b;
-  background: #f1f5f9;
-  padding: 6px clamp(8px, 1.5vw, 12px);
-  border-radius: 30px;
-  font-size: clamp(0.75rem, 1.5vw, 0.9rem);
-  flex-shrink: 0;
-  max-width: clamp(100px, 20vw, 220px);
-}
-
-.navbar-user span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* =========================
-       BOUTONS NAVBAR
-       ========================= */
-.nav-btn {
-  display: inline-flex !important;
-  align-items: center;
-  gap: 5px;
-  padding: clamp(6px, 1vw, 10px) clamp(10px, 1.5vw, 18px);
-  border: none;
-  border-radius: 30px;
-  font-size: clamp(0.75rem, 1.5vw, 0.9rem);
-  font-weight: 600;
-  cursor: pointer;
-  background: #f1f5f9;
-  color: #64748b;
-  white-space: nowrap;
-  transition: all 0.2s ease;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-.nav-btn:hover {
-  background: #e2e8f0;
-  color: #1e293b;
-}
-
-.nav-btn.active {
-  background: #3b82f6;
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-}
-
-/* =========================
-       CARTE PRINCIPALE (CONTAINER)
-       ========================= */
-.container {
-  background: #ffffff;
-  width: calc(100% - clamp(16px, 4vw, 64px));
-  max-width: 900px;
-  padding: clamp(20px, 5vw, 50px) clamp(16px, 6vw, 60px);
-  border-radius: 18px;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(20px, 4vw, 40px);
-  margin: clamp(12px, 4vw, 40px) auto;
-}
-
-/* =========================
-       TITRES
-       ========================= */
-h1 {
-  font-size: clamp(1.3rem, 3.5vw, 2.2rem);
-  font-weight: 700;
-  color: #1e293b;
-  text-align: center;
-  line-height: 1.2;
-}
-
-.subtitle {
-  color: #64748b;
-  font-size: clamp(0.8rem, 1.5vw, 0.95rem);
-  margin-top: calc(-1 * clamp(8px, 1.5vw, 16px));
-  text-align: center;
-}
-
-/* =========================
-       DASHBOARD (AUTO-GRID INTELLIGENT)
-       ========================= */
-.dashboard {
-  display: grid;
-  /* Aligne automatiquement sur 1, 2 ou 4 colonnes selon la largeur disponible, sans @media requis */
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: clamp(10px, 2vw, 20px);
-  width: 100%;
-}
-
-.card {
-  display: flex;
-  flex-direction: row; /* Aligné en ligne de base, s'adapte via le wrap ou la taille */
-  align-items: center;
-  gap: clamp(10px, 2vw, 16px);
-  padding: clamp(12px, 2vw, 20px);
-  border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-}
-
-.card-icon {
-  font-size: clamp(1.4rem, 3vw, 2rem);
-}
-
-.card-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.card-label {
-  font-size: clamp(0.7rem, 1.2vw, 0.8rem);
-  color: #64748b;
-  font-weight: 500;
-}
-
-.card-value {
-  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-  font-weight: 700;
-  color: #1e293b;
-}
-
-/* Couleurs des cartes */
-.card-success {
-  background: #d1fae5;
-}
-.card-danger {
-  background: #fee2e2;
-}
-.card-info-bg {
-  background: #dbeafe;
-}
-.card-warning {
-  background: #fef9c3;
-}
-
-/* =========================
-       PROGRESS BAR
-       ========================= */
-.progress-section {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.progress-label {
-  font-weight: 600;
-  color: #1e293b;
-  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
-}
-
-.progress-bar {
-  width: 100%;
-  height: clamp(12px, 1.5vw, 16px);
-  background: #e2e8f0;
-  border-radius: 30px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  border-radius: 30px;
-  transition: width 0.5s ease;
-}
-
-.fill-success {
-  background: #22c55e;
-}
-.fill-warning {
-  background: #f59e0b;
-}
-.fill-danger {
-  background: #ef4444;
-}
-
-.progress-percent {
-  font-size: clamp(0.75rem, 1.2vw, 0.85rem);
-  color: #64748b;
-  text-align: right;
-}
-
-/* =========================
-       ACTIONS (BOUTONS DU BAS)
-       ========================= */
-.actions {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap; /* Passe à la ligne sur mobile, reste aligné sur PC */
-  justify-content: center;
-  gap: clamp(10px, 2vw, 16px);
-  width: 100%;
-}
-
-/* Force les boutons d'action du formulaire à s'adapter proprement */
-.actions > * {
-  flex: 1 1 100%;
-  max-width: 100%;
-}
-
-@media (min-width: 480px) {
-  .actions > * {
-    flex: 0 1 auto;
+  
+  /* BLOC 3 : UTILIATEUR (Ancré à droite) */
+  .navbar-user {
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    color: #1e293b;
+    background: #f1f5f9;
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 0.82rem;
+    flex-shrink: 0;
+    min-width: 0;
+    max-width: 130px;
+    z-index: 105;
   }
-}
-
-/* =========================
-     DROPDOWN MENU
-     ========================= */
-.navbar-user {
-  position: relative;
-  cursor: pointer;
-  user-select: none;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: calc(100% + 10px);
-  right: 0;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  min-width: 180px;
-  z-index: 200;
-  overflow: hidden;
-  animation: fadeIn 0.15s ease;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
+  
+  .navbar-user span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  
+  /* =========================
+         BOUTONS DE NAVIGATION
+         ========================= */
+  .nav-btn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 30px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    background: #f1f5f9;
+    color: #64748b;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+    flex-shrink: 0;
   }
-}
-
-.dropdown-item {
-  padding: 12px 16px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #1e293b;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  transition: background 0.15s ease;
-}
-
-.dropdown-item:hover {
-  background: #f1f5f9;
-}
-
-.dropdown-item.danger {
-  color: #ef4444;
-}
-
-.dropdown-item.danger:hover {
-  background: #fee2e2;
-}
-
-.dropdown-divider {
-  height: 1px;
-  background: #e2e8f0;
-  margin: 4px 0;
-}
+  
+  .nav-btn:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+  }
+  
+  .nav-btn.active {
+    background: #3b82f6;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+  }
+  
+  /* =========================
+         CONTAINER PRINCIPAL
+         ========================= */
+  .container {
+    background: #ffffff;
+    width: calc(100% - 24px);
+    max-width: 800px;
+    padding: 24px 16px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin: 16px auto;
+  }
+  
+  /* TYPOGRAPHIE */
+  h1 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #1e293b;
+    text-align: center;
+    letter-spacing: -0.02em;
+  }
+  
+  .subtitle {
+    color: #64748b;
+    font-size: 0.85rem;
+    margin-top: -16px;
+    text-align: center;
+  }
+  
+  /* =========================
+         DASHBOARD CARDS
+         ========================= */
+  .dashboard {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px;
+    border-radius: 14px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+  }
+  
+  .card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  .card-label {
+    font-size: 0.68rem;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .card-value {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #1e293b;
+  }
+  
+  .card-success { background: #d1fae5; }
+  .card-danger { background: #fee2e2; }
+  .card-info-bg { background: #dbeafe; }
+  .card-warning { background: #fef9c3; }
+  
+  /* =========================
+         PROGRESS BAR
+         ========================= */
+  .progress-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .progress-label {
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 0.85rem;
+  }
+  
+  .progress-bar {
+    width: 100%;
+    height: 10px;
+    background: #f1f5f9;
+    border-radius: 30px;
+    overflow: hidden;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    border-radius: 30px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .fill-success { background: #22c55e; }
+  .fill-warning { background: #f59e0b; }
+  .fill-danger { background: #ef4444; }
+  
+  .progress-percent {
+    font-size: 0.8rem;
+    color: #64748b;
+    text-align: right;
+    font-weight: 600;
+  }
+  
+  /* =========================
+         ACTIONS
+         ========================= */
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .actions p-button, 
+  .actions ::ng-deep .p-button {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+  
+  /* =========================
+         DROPDOWN PROFIL
+         ========================= */
+  .dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    min-width: 180px;
+    z-index: 200;
+    overflow: hidden;
+    transform-origin: top right;
+    animation: scaleIn 0.15s cubic-bezier(0, 0, 0.2, 1);
+  }
+  
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.95) translateY(-4px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  
+  .dropdown-item {
+    padding: 10px 14px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  
+  .dropdown-item:hover { background: #f1f5f9; }
+  .dropdown-item.danger { color: #ef4444; }
+  .dropdown-item.danger:hover { background: #fee2e2; }
+  .dropdown-divider { height: 1px; background: #e2e8f0; margin: 4px 0; }
+  
+  /* =========================
+         RESPONSIVE — DESKTOP
+         ========================= */
+  @media (min-width: 768px) {
+    .navbar {
+      padding: 12px 24px;
+      gap: 20px;
+    }
+  
+    .navbar-links:nth-of-type(1) {
+      display: flex !important;
+    }
+  
+    .navbar-links:nth-of-type(2) {
+      justify-content: center;
+      overflow-x: visible;
+      gap: 12px;
+    }
+  
+    .nav-btn {
+      padding: 9px 18px;
+      font-size: 0.88rem;
+    }
+  
+    .navbar-user {
+      max-width: 200px;
+    }
+  
+    .container {
+      padding: 40px 48px;
+      margin: 32px auto;
+      gap: 32px;
+      width: calc(100% - 48px);
+    }
+  
+    h1 {
+      font-size: 1.8rem;
+    }
+  
+    .dashboard {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+  
+    .card {
+      padding: 16px;
+    }
+  
+    .card-value {
+      font-size: 1.5rem;
+    }
+  
+    .actions {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+    }
+  
+    .actions p-button, 
+    .actions ::ng-deep .p-button {
+      width: auto !important;
+    }
+  }

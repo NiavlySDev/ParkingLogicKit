@@ -34,10 +34,7 @@ export class AddVehicle implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    // CORRECTIF SÉCURITÉ : Récupération asynchrone compatible Android/Web
-    // Note : Pense à utiliser authService pour sauvegarder le driver en amont si nécessaire
     if (Capacitor.isNativePlatform()) {
-      // Si tu as migré le stockage du driver temporaire dans le Secure Storage
       const { SecureStoragePlugin } = await import('capacitor-secure-storage-plugin');
       try {
         const { value } = await SecureStoragePlugin.get({ key: 'selected_driver' });
@@ -79,8 +76,6 @@ export class AddVehicle implements OnInit {
     };
 
     try {
-      // CORRECTIF SÉCURITÉ : Utilisation de fetch en incluant le Token décrypté manuellement
-      // ou en passant par l'intercepteur. Pour sécuriser fetch ici, on injecte le jeton :
       const token = await this.authService.getToken();
 
       const res = await fetch(`${REST_API_URL}/VehicleService/`, {

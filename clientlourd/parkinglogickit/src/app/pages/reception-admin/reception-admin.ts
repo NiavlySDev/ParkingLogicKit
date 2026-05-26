@@ -17,7 +17,10 @@ import { interval, Subscription } from 'rxjs';
 })
 export class ReceptionAdmin implements OnInit, OnDestroy {
   username: string = '';
-  activeTab: string = 'dashboard';
+  
+  // FIX : Changement de 'dashboard' à 'accueil' pour correspondre au nouveau HTML
+  activeTab: string = 'accueil'; 
+  
   menuOpen: boolean = false;
   placesTotal: number = 0;
   placesOccupees: number = 0;
@@ -32,7 +35,7 @@ export class ReceptionAdmin implements OnInit, OnDestroy {
     private parkingService: ParkingService,
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef
-  ) {} // Constructeur nettoyé et léger
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.username = (await this.authService.getUsername()) || 'Administrateur';
@@ -62,10 +65,13 @@ export class ReceptionAdmin implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   goHome(): void {
+    this.activeTab = 'accueil'; // Force le retour visuel sur l'accueil du parking
     this.router.navigate(['/reception-admin']);
   }
 
