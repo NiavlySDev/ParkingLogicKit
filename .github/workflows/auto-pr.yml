@@ -54,6 +54,10 @@ jobs:
               echo "PR #$PR_NUMBER mergée dans main."
               gh workflow run deploy-main.yml --ref main
               echo "Workflow de déploiement lancé sur main."
+              gh workflow run android-release.yml --ref main
+              echo "Workflow de release Android lancé sur main."
+              gh workflow run ios-release.yml --ref main
+              echo "Workflow de release iPhone lancé sur main."
               exit 0
             fi
 

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AssociateService } from '../../../../Rest/AssociateService';
 import { AuthService } from '../../../../Auth/auth.service';
 import { Capacitor } from '@capacitor/core';
+import { REST_API_URL } from '../../../../Rest/api.config';
 
 @Component({
   selector: 'app-add-vehicle',
@@ -77,7 +78,7 @@ export class AddVehicle implements OnInit {
     try {
       const token = await this.authService.getToken();
 
-      const res = await fetch('/ParkingLogicKit/rest/VehicleService/', {
+      const res = await fetch(`${REST_API_URL}/VehicleService/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
