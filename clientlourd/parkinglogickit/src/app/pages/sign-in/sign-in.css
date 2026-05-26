@@ -9,8 +9,8 @@
 }
 
 /* =========================
-     PAGE ET CARTE
-     ========================= */
+       PAGE ET CARTE
+       ========================= */
 .sign-in {
   min-height: 100vh;
   background: linear-gradient(135deg, #f5f7fa, #e4ecf5);
@@ -59,6 +59,16 @@
   font-weight: 600;
 }
 
+/* =========================
+       NOUVEAU CONTENEUR MDP
+       ========================= */
+.password-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
 /* INPUT */
 .form-input {
   padding: 13px 18px;
@@ -69,6 +79,12 @@
   background-color: #f8fafc; /* Fond clair mais pas blanc pur */
   outline: none;
   transition: all 0.3s ease;
+  width: 100%; /* S'assure de prendre toute la largeur du groupe */
+}
+
+/* Ajustement spécifique pour l'input qui est dans le container de mot de passe */
+.password-container .form-input {
+  padding-right: 46px; /* Ajoute de l'espace à droite pour ne pas écrire sous l'œil */
 }
 
 .form-input::placeholder {
@@ -81,6 +97,29 @@
   color: #2c3e50; /* texte bien visible au focus */
   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
   transform: translateY(-1px);
+}
+
+/* =========================
+       BOUTON OEIL INTÉGRÉ
+       ========================= */
+.toggle-password {
+  position: absolute;
+  right: 14px; /* Calé proprement à l'intérieur à droite */
+  background: none;
+  border: none;
+  color: #94a3b8; /* Couleur calquée sur ton placeholder */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  font-size: 1.15rem;
+  z-index: 10; /* Reste cliquable au-dessus de l'input */
+  transition: color 0.2s ease;
+}
+
+.toggle-password:hover {
+  color: #3b82f6; /* S'illumine en bleu au survol comme ton focus */
 }
 
 /* BOUTON SUBMIT */
@@ -134,8 +173,8 @@
 }
 
 /* =========================
-     BOUTON HOME (LOGO PNG)
-     ========================= */
+       BOUTON HOME (LOGO PNG)
+       ========================= */
 .home-button {
   position: fixed;
   top: 20px;
@@ -166,8 +205,8 @@
 }
 
 /* =========================
-     RESPONSIVE
-     ========================= */
+       RESPONSIVE
+       ========================= */
 @media (max-width: 768px) {
   .sign-in-card {
     padding: 40px 30px;
@@ -196,6 +235,9 @@
     padding: 11px 14px;
     font-size: 0.95rem;
   }
+  .password-container .form-input {
+    padding-right: 40px;
+  }
   .btn-submit {
     padding: 13px 22px;
     font-size: 0.95rem;
@@ -209,5 +251,26 @@
   .home-logo {
     width: 18px;
     height: 18px;
+  }
+  /* =========================
+     FIX ICÔNES PRIMEICONS
+     ========================= */
+  .pi {
+    font-family: 'primeicons' !important;
+    speak: never;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .toggle-password i {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
   }
 }

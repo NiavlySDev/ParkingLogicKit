@@ -1,33 +1,30 @@
 <div class="sign-in">
-    <!-- Bouton Home PNG -->
-    <button class="home-button" (click)="goHome()" aria-label="Accueil">
-      <img src="logo-home.png" alt="Accueil" class="home-logo"/>
-    </button>
-  
-    <!-- Carte de connexion -->
-    <div class="sign-in-card">
-      <h1 class="sign-in-title">Connexion</h1>
-  
-      <form class="sign-in-form" (ngSubmit)="onSubmit()">
-        <!-- username -->
-        <div class="form-group">
-          <label for="username" class="form-label">Nom d'utilisateur</label>
+  <button class="home-button" (click)="goHome()" aria-label="Accueil">
+    <img src="logo-home.png" alt="Accueil" class="home-logo"/>
+  </button>
+
+  <div class="sign-in-card">
+    <h1 class="sign-in-title">Connexion</h1>
+
+    <form class="sign-in-form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="username" class="form-label">Nom d'utilisateur</label>
+        <input
+          type="text"
+          id="username"
+          class="form-input"
+          [(ngModel)]="username"
+          name="username"
+          placeholder="Entrez votre username"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Mot de passe</label>
+        <div class="password-container">
           <input
-            type="text"
-            id="username"
-            class="form-input"
-            [(ngModel)]="username"
-            name="username"
-            placeholder="Entrez votre username"
-            required
-          />
-        </div>
-  
-        <!-- Mot de passe -->
-        <div class="form-group">
-          <label for="password" class="form-label">Mot de passe</label>
-          <input
-            type="password"
+            [type]="showPassword ? 'text' : 'password'"
             id="password"
             class="form-input"
             [(ngModel)]="password"
@@ -35,20 +32,26 @@
             placeholder="Entrez votre mot de passe"
             required
           />
-        </div>
-  
-        <!-- Bouton Connexion -->
-        <div class="form-actions">
-          <button type="submit" class="btn-submit" [disabled]="isLoading">
-            {{ isLoading ? 'Chargement...' : 'Se connecter' }}
+          <button 
+            type="button" 
+            class="toggle-password" 
+            (click)="showPassword = !showPassword"
+            [aria-label]="showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'"
+          >
+            <i [class]="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
           </button>
         </div>
-      </form>
-  
-      <!-- Message d'erreur / succès -->
-      <div *ngIf="message" class="message" [ngClass]="'message-' + messageType">
-        {{ message }}
       </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-submit" [disabled]="isLoading">
+          {{ isLoading ? 'Chargement...' : 'Se connecter' }}
+        </button>
+      </div>
+    </form>
+
+    <div *ngIf="message" class="message" [ngClass]="'message-' + messageType">
+      {{ message }}
     </div>
   </div>
-  
+</div>

@@ -22,6 +22,9 @@ export class SignIn {
   message: string = '';
   messageType: 'success' | 'error' = 'success';
 
+  // FIX COMPILATION : Variable ajoutée pour piloter l'œil du mot de passe dans le HTML
+  showPassword: boolean = false; 
+
   constructor(
     private driverService: DriverService,
     private router: Router,
@@ -53,7 +56,6 @@ export class SignIn {
 
     this.driverService.getByUsername(this.username).subscribe({
       next: async (driver: any) => {
-        // Ajout de async ici pour le callback
         if (driver.password === this.password) {
           const tokenPayload = {
             username: driver.username,
@@ -74,7 +76,7 @@ export class SignIn {
 
           this.isLoading = false;
 
-          // Redirection basée sur le résultat résolu
+          // Redirection basée sur le rôle détecté
           if (isAdminRole) {
             this.router.navigate(['/reception-admin']);
           } else {
