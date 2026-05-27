@@ -8,26 +8,23 @@ import { REST_API_URL } from './api.config';
   providedIn: 'root',
 })
 export class ParkingService {
-  private apiUrl: string = `${REST_API_URL}/ParkingService`;
+  // L'URL est rendue immuable pour bloquer tout detournement de requete
+  private readonly apiUrl: string = `${REST_API_URL}/ParkingService`;
 
   constructor(private http: HttpClient) {}
 
-  public setApiUrl(baseUrl: string): void {
-    this.apiUrl = `${baseUrl}/ParkingService`;
+  public add(parking: Parking): Observable<Parking> {
+    return this.http.post<Parking>(`${this.apiUrl}/`, parking);
   }
 
-  public add(Parking: Parking): Observable<Parking> {
-    return this.http.post<Parking>(`${this.apiUrl}/`, Parking);
-  }
-
-  public remove(Parking: Parking): Observable<void> {
+  public remove(parking: Parking): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/`, {
-      body: Parking,
+      body: parking,
     });
   }
 
-  public update(Parking: Parking): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/`, Parking);
+  public update(parking: Parking): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/`, parking);
   }
 
   public getById(id: number): Observable<Parking> {
@@ -39,7 +36,9 @@ export class ParkingService {
   }
 
   public getAll(): Observable<Parking[]> {
-    return this.http.get<Parking[]>(`${this.apiUrl}/?login=PLK&pass=PASSPLK`);
+    // SECURISATION : Suppression des identifiants en clair dans l'URL.
+    // L'authentification est assuree par l'en-tete Bearer via l'intercepteur HTTP.
+    return this.http.get<Parking[]>(`${this.apiUrl}/`);
   }
 
   public getAllPaginated(begin: number, count: number): Observable<Parking[]> {

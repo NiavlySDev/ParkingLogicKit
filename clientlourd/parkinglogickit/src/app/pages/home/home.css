@@ -1,245 +1,245 @@
 /* ========================
    RESET + BASE
    ======================== */
-   * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-  /* =========================
+/* =========================
        BODY - CENTRAGE GLOBAL
        ========================= */
-  body {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #f5f7fa, #e4ecf5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #2c3e50;
-    overflow-x: hidden;
-    padding: 20px; /* Ajout pour mobile */
-  }
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa, #e4ecf5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2c3e50;
+  overflow-x: hidden;
+  padding: 20px; /* Ajout pour mobile */
+}
 
-  /* =========================
+/* =========================
        CONTAINER PRINCIPAL
        ========================= */
-  .container {
-    background: #ffffff;
-    width: 100%;
-    max-width: 900px;
-    min-height: 75vh;
-    padding: 60px 50px;
-    border-radius: 18px;
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-  }
+.container {
+  background: #ffffff;
+  width: 100%;
+  max-width: 900px;
+  min-height: 75vh;
+  padding: 60px 50px;
+  border-radius: 18px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
 
-  /* =========================
+/* =========================
        TEXTES
        ========================= */
+.container h1 {
+  font-size: clamp(1.5rem, 5vw, 2.4rem); /* Responsive font size */
+  margin-bottom: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+  animation: slideDown 0.6s ease-out;
+}
+
+.container p {
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem); /* Responsive font size */
+  color: #6c7a89;
+  margin-bottom: 40px;
+  line-height: 1.6;
+  animation: fadeIn 0.8s ease-out 0.2s backwards;
+}
+
+/* =========================
+       ACTIONS / BOUTONS
+       ========================= */
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap; /* Permet le passage à la ligne */
+  animation: fadeIn 0.8s ease-out 0.4s backwards;
+}
+
+.actions a {
+  text-decoration: none;
+  padding: 14px 28px;
+  border-radius: 30px;
+  background: #3b82f6;
+  color: #ffffff;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+}
+
+.actions a:hover {
+  transform: translateY(-3px);
+  background: #2563eb;
+}
+
+/* =========================
+       STYLE BOUTONS PRIMENG
+       ========================= */
+::ng-deep .actions .p-button {
+  padding: 14px 28px !important;
+  font-weight: 500;
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+  transition: all 0.3s ease;
+  border: none;
+  min-width: 160px;
+}
+
+::ng-deep .actions .p-button:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(59, 130, 246, 0.4);
+}
+
+::ng-deep .actions .p-button-success {
+  box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3);
+}
+
+::ng-deep .actions .p-button-success:hover:not(:disabled) {
+  box-shadow: 0 12px 28px rgba(34, 197, 94, 0.4);
+}
+
+/* =========================
+       ANIMATIONS
+       ========================= */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* =========================
+       RESPONSIVE TABLETTE
+       ========================= */
+@media (max-width: 992px) {
+  .container {
+    padding: 50px 40px;
+    min-height: 70vh;
+  }
+
   .container h1 {
-    font-size: clamp(1.5rem, 5vw, 2.4rem); /* Responsive font size */
-    margin-bottom: 15px;
-    font-weight: 600;
-    line-height: 1.2;
-    animation: slideDown 0.6s ease-out;
+    margin-bottom: 12px;
   }
 
   .container p {
-    font-size: clamp(0.95rem, 2.5vw, 1.1rem); /* Responsive font size */
-    color: #6c7a89;
-    margin-bottom: 40px;
-    line-height: 1.6;
-    animation: fadeIn 0.8s ease-out 0.2s backwards;
+    margin-bottom: 35px;
+  }
+}
+
+/* =========================
+       RESPONSIVE MOBILE
+       ========================= */
+@media (max-width: 768px) {
+  body {
+    padding: 15px;
   }
 
-  /* =========================
-       ACTIONS / BOUTONS
-       ========================= */
+  .container {
+    min-height: auto;
+    padding: 40px 25px;
+    border-radius: 12px;
+    width: 100%;
+  }
+
+  .container h1 {
+    margin-bottom: 12px;
+  }
+
+  .container p {
+    margin-bottom: 30px;
+  }
+
   .actions {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap; /* Permet le passage à la ligne */
-    animation: fadeIn 0.8s ease-out 0.4s backwards;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
   }
 
   .actions a {
-    text-decoration: none;
-    padding: 14px 28px;
-    border-radius: 30px;
-    background: #3b82f6;
-    color: #ffffff;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+    width: 100%;
+    padding: 14px 0;
   }
 
-  .actions a:hover {
-    transform: translateY(-3px);
-    background: #2563eb;
-  }
-
-  /* =========================
-       STYLE BOUTONS PRIMENG
-       ========================= */
+  /* Boutons PrimeNG en pleine largeur sur mobile */
   ::ng-deep .actions .p-button {
-    padding: 14px 28px !important;
-    font-weight: 500;
-    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
-    transition: all 0.3s ease;
-    border: none;
-    min-width: 160px;
+    width: 100% !important;
+    justify-content: center;
+    min-width: auto;
+    padding: 14px 20px !important;
   }
+}
 
-  ::ng-deep .actions .p-button:hover:not(:disabled) {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 28px rgba(59, 130, 246, 0.4);
-  }
-
-  ::ng-deep .actions .p-button-success {
-    box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3);
-  }
-
-  ::ng-deep .actions .p-button-success:hover:not(:disabled) {
-    box-shadow: 0 12px 28px rgba(34, 197, 94, 0.4);
-  }
-
-  /* =========================
-       ANIMATIONS
-       ========================= */
-  @keyframes slideDown {
-    from {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  /* =========================
-       RESPONSIVE TABLETTE
-       ========================= */
-  @media (max-width: 992px) {
-    .container {
-      padding: 50px 40px;
-      min-height: 70vh;
-    }
-
-    .container h1 {
-      margin-bottom: 12px;
-    }
-
-    .container p {
-      margin-bottom: 35px;
-    }
-  }
-
-  /* =========================
-       RESPONSIVE MOBILE
-       ========================= */
-  @media (max-width: 768px) {
-    body {
-      padding: 15px;
-    }
-
-    .container {
-      min-height: auto;
-      padding: 40px 25px;
-      border-radius: 12px;
-      width: 100%;
-    }
-
-    .container h1 {
-      margin-bottom: 12px;
-    }
-
-    .container p {
-      margin-bottom: 30px;
-    }
-
-    .actions {
-      flex-direction: column;
-      gap: 15px;
-      width: 100%;
-    }
-
-    .actions a {
-      width: 100%;
-      padding: 14px 0;
-    }
-
-    /* Boutons PrimeNG en pleine largeur sur mobile */
-    ::ng-deep .actions .p-button {
-      width: 100% !important;
-      justify-content: center;
-      min-width: auto;
-      padding: 14px 20px !important;
-    }
-  }
-
-  /* =========================
+/* =========================
        RESPONSIVE PETITS MOBILES
        ========================= */
-  @media (max-width: 480px) {
-    body {
-      padding: 10px;
-    }
-
-    .container {
-      padding: 30px 20px;
-      min-height: auto;
-    }
-
-    .container h1 {
-      font-size: 1.5rem;
-    }
-
-    .container p {
-      font-size: 0.95rem;
-      margin-bottom: 25px;
-    }
-
-    ::ng-deep .actions .p-button {
-      padding: 12px 16px !important;
-      font-size: 0.95rem;
-    }
-
-    ::ng-deep .actions .p-button .p-button-icon {
-      font-size: 1rem;
-    }
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
   }
 
-  /* =========================
+  .container {
+    padding: 30px 20px;
+    min-height: auto;
+  }
+
+  .container h1 {
+    font-size: 1.5rem;
+  }
+
+  .container p {
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+  }
+
+  ::ng-deep .actions .p-button {
+    padding: 12px 16px !important;
+    font-size: 0.95rem;
+  }
+
+  ::ng-deep .actions .p-button .p-button-icon {
+    font-size: 1rem;
+  }
+}
+
+/* =========================
        RESPONSIVE GRANDS ÉCRANS
        ========================= */
-  @media (min-width: 1400px) {
-    .container {
-      max-width: 1000px;
-      padding: 70px 60px;
-    }
-
-    .container h1 {
-      font-size: 2.6rem;
-    }
-
-    .container p {
-      font-size: 1.2rem;
-    }
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1000px;
+    padding: 70px 60px;
   }
+
+  .container h1 {
+    font-size: 2.6rem;
+  }
+
+  .container p {
+    font-size: 1.2rem;
+  }
+}

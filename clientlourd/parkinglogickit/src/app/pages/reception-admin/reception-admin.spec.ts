@@ -8,9 +8,8 @@ describe('ReceptionAdmin', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReceptionAdmin]
-    })
-    .compileComponents();
+      imports: [ReceptionAdmin],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ReceptionAdmin);
     component = fixture.componentInstance;

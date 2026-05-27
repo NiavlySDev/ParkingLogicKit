@@ -13,11 +13,11 @@
           <p-select
             [options]="vehicles"
             [(ngModel)]="selectedVehicle"
-            name="selectedVehicle" 
+            name="selectedVehicle"
             optionLabel="fullName"
             placeholder="Choisir un Véhicule"
             (onChange)="changeVehicle()"
-            [style]="{'width':'100%'}"
+            [style]="{ width: '100%' }"
           ></p-select>
         </div>
       </div>
@@ -50,11 +50,11 @@
 
       <div class="form-group">
         <label for="VehicleType">Type de véhicule</label>
-        <select 
-          id="VehicleType" 
-          class="form-input" 
-          [(ngModel)]="selectedVehicleType" 
-          name="selectedVehicleType" 
+        <select
+          id="VehicleType"
+          class="form-input"
+          [(ngModel)]="selectedVehicleType"
+          name="selectedVehicleType"
           required
         >
           <option [ngValue]="null" disabled>Sélectionnez un type</option>

@@ -5,7 +5,6 @@
   <div class="add-vehicle-card">
     <h1 class="add-vehicle-title">Création véhicule</h1>
     <form class="add-vehicle-form" (ngSubmit)="onSubmit()">
-
       <div class="form-group">
         <label for="brand">Brand</label>
         <input
@@ -29,7 +28,7 @@
           name="numberPlate"
           placeholder="Entrez la plaque"
           required
-                />
+        />
       </div>
 
       <div class="form-group">
@@ -67,7 +66,6 @@
           {{ isLoading ? 'Chargement...' : "S'inscrire" }}
         </button>
       </div>
-
     </form>
 
     <div *ngIf="message" class="message" [ngClass]="'message-' + messageType">
