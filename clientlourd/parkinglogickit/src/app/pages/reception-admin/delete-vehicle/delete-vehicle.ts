@@ -5,10 +5,12 @@ import { RestServer } from '../../../../Rest/RestServer';
 import { Router } from '@angular/router';
 import { PrimengModule } from '../../../shared/primeng.module';
 import { Vehicle } from '../../../../Auth/Vehicle';
+import { AuthService } from '../../../../Auth/auth.service'; // Import requis pour le contrôle d'accès
+import { switchMap, from, concatMap, of } from 'rxjs';
 
 @Component({
   selector: 'app-delete-vehicle',
-  standalone: true, 
+  standalone: true,
   imports: [FormsModule, CommonModule, PrimengModule],
   templateUrl: './delete-vehicle.html',
   styleUrl: './delete-vehicle.css',
@@ -30,16 +32,25 @@ export class DeleteVehicle implements OnInit {
     private restServer: RestServer,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private authService: AuthService // Injection du service de sécurité
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    // BARRIÈRE DE SÉCURITÉ 1 : Validation stricte des droits d'administration
+    const currentRole = await this.authService.getRole();
+    const currentUsername = await this.authService.getUsername();
+
+    if (!currentUsername || currentRole !== 'Admin') {
+      console.warn('Accès non autorisé intercepté sur l’écran de suppression des véhicules.');
+      this.authService.logout();
+      this.router.navigate(['/sign-in']);
+      return;
+    }
+
     this.loadVehicles();
   }
 
-  /**
-   * Charge et rafraîchit la liste des véhicules
-   */
   private loadVehicles(): void {
     this.restServer
       .getVehicleService()
@@ -71,80 +82,51 @@ export class DeleteVehicle implements OnInit {
     this.isLoading = true;
     this.message = '';
 
-    const VehicleClass = 'lml.snir.parkinglogickit.metier.entity.Vehicle';
+    // Nettoyage de sécurité des entrées textuelles
+    const sanitizedBrand = String(this.brand)
+      .trim()
+      .replace(/[<>"/\\;`]/g, '');
+    const sanitizedPlate = String(this.numberPlate)
+      .trim()
+      .toUpperCase()
+      .replace(/[^A-Z0-9-]/g, '');
 
     const VehicleData: any = {
-      id: this.selectedVehicle.id,
-      brand: this.brand.trim(),
-      numberPlate: this.numberPlate.trim().toUpperCase(),
-      type: this.selectedVehicle.type, 
-      class: VehicleClass,
+      id: Number(this.selectedVehicle.id), // Forçage de type primitif strict (Anti-injection d'ID)
+      brand: sanitizedBrand,
+      numberPlate: sanitizedPlate,
+      type: this.selectedVehicle.type,
+      class: 'lml.snir.parkinglogickit.metier.entity.Vehicle',
     };
 
-    // 1. Récupérer toutes les associations
+    // SÉCURISATION DU FLUX HTTP : Utilisation d'un pipeline séquentiel pour éliminer les erreurs réseaux
     this.restServer
       .getAssociateService()
       .getAll()
-      .subscribe({
-        next: (associates) => {
-          // 2. CORRECTION : Filtrer en utilisant le champ plat 'vehicleId'
+      .pipe(
+        switchMap((associates) => {
+          // Filtrage robuste prenant en compte le format polymorphe (objet ou plat) de l'association
           const linked = (associates || []).filter(
-            (a) => a.vehicleId === this.selectedVehicle.id
+            (a: any) => Number(a.vehicleId ?? a.vehicle?.id) === Number(VehicleData.id)
           );
 
           if (linked.length === 0) {
-            this.deleteVehicle(VehicleData);
-            return;
+            return this.restServer.getVehicleService().remove(VehicleData as Vehicle);
           }
 
-          // 3. Supprimer chaque association en cascade
-          let deleted = 0;
-          for (const assoc of linked) {
-            this.restServer
-              .getAssociateService()
-              .remove(assoc)
-              .subscribe({
-                next: () => {
-                  deleted++;
-                  if (deleted === linked.length) {
-                    this.deleteVehicle(VehicleData);
-                  }
-                },
-                error: (error: any) => {
-                  this.ngZone.run(() => {
-                    this.isLoading = false;
-                    this.setMessage(
-                      error?.error?.message || "Erreur lors de la suppression de l'association",
-                      'error'
-                    );
-                    this.cdr.detectChanges();
-                  });
-                },
-              });
-          }
-        },
-        error: (error: any) => {
-          this.ngZone.run(() => {
-            this.isLoading = false;
-            this.setMessage(
-              error?.error?.message || 'Erreur lors de la récupération des associations',
-              'error'
-            );
-            this.cdr.detectChanges();
-          });
-        },
-      });
-  }
-
-  private deleteVehicle(VehicleData: any): void {
-    this.restServer
-      .getVehicleService()
-      .remove(VehicleData as Vehicle)
+          // Traitement ordonné (concatMap) ligne par ligne pour éviter les collisions sur la base distante
+          return from(linked).pipe(
+            concatMap((assoc: any) => this.restServer.getAssociateService().remove(assoc)),
+            // Une fois toutes les associations purgées, on exécute la suppression du véhicule physique
+            switchMap(() => this.restServer.getVehicleService().remove(VehicleData as Vehicle))
+          );
+        })
+      )
       .subscribe({
         next: () => {
           this.ngZone.run(() => {
             this.isLoading = false;
-            this.setMessage('Véhicule supprimé avec succès 🎉', 'success');
+            this.setMessage('Véhicule et liens d’associations supprimés avec succès 🎉', 'success');
             this.resetForm();
             this.loadVehicles();
           });
@@ -152,8 +134,9 @@ export class DeleteVehicle implements OnInit {
         error: (error: any) => {
           this.ngZone.run(() => {
             this.isLoading = false;
+            console.error('Échec transactionnel de la suppression du véhicule :', error);
             this.setMessage(
-              error?.error?.message || "Une erreur s'est produite lors de la suppression",
+              "Une erreur est survenue. L'opération a été sécurisée et annulée.",
               'error'
             );
             this.cdr.detectChanges();
@@ -179,7 +162,7 @@ export class DeleteVehicle implements OnInit {
 
       const vehicleTypeNames = ['Moto', 'Voiture', 'Camionnette', 'Camion'];
       const index = vehicleTypeNames.indexOf(this.selectedVehicle.type);
-      this.VehicleType = index !== -1 ? index : 1; 
+      this.VehicleType = index !== -1 ? index : 1;
 
       this.cdr.detectChanges();
     });

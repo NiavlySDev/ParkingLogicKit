@@ -8,14 +8,12 @@ import { REST_API_URL } from './api.config';
   providedIn: 'root',
 })
 export class VehicleService {
-  private apiUrl: string = `${REST_API_URL}/VehicleService`;
-  public headers = '?login=PLK&pass=PASSPLK';
+  private readonly apiUrl: string = `${REST_API_URL}/VehicleService`;
+
+  // On remet la variable d'authentification directement dans ce service
+  private readonly headers: string = '?login=PLK&pass=PASSPLK';
 
   constructor(private http: HttpClient) {}
-
-  public setApiUrl(baseUrl: string): void {
-    this.apiUrl = `${baseUrl}/VehicleService`;
-  }
 
   public add(vehicle: Vehicle): Observable<Vehicle> {
     return this.http.post<Vehicle>(`${this.apiUrl}/`, vehicle);
@@ -32,22 +30,22 @@ export class VehicleService {
   }
 
   public getById(id: number): Observable<Vehicle> {
-    return this.http.get<Vehicle>(`${this.apiUrl}/${id}/${this.headers}`);
+    return this.http.get<Vehicle>(`${this.apiUrl}/${id}${this.headers}`);
   }
 
   public getCount(): Observable<number> {
-    return this.http.get<number>(`${this.apiUrl}/Count/${this.headers}`);
+    return this.http.get<number>(`${this.apiUrl}/Count${this.headers}`);
   }
 
   public getAll(): Observable<Vehicle[]> {
-    return this.http.get<Vehicle[]>(`${this.apiUrl}${this.headers}`);
+    return this.http.get<Vehicle[]>(`${this.apiUrl}/${this.headers}`);
   }
 
   public getAllPaginated(begin: number, count: number): Observable<Vehicle[]> {
     return this.http.get<Vehicle[]>(`${this.apiUrl}/${begin}/${count}${this.headers}`);
   }
 
-  public getByContent(content: string): Observable<Vehicle> {
-    return this.http.get<Vehicle>(`${this.apiUrl}/getByContent/${content}${this.headers}`);
+  public getByContent(numberPlate: string): Observable<Vehicle> {
+    return this.http.get<Vehicle>(`${this.apiUrl}/getByContent/${numberPlate}${this.headers}`);
   }
 }

@@ -1,37 +1,36 @@
-import { DriverType as DriverType } from './DriverType';
-
-// author Ethan
+import { DriverType } from './DriverType';
 
 export class Driver {
   id: number;
   lastName: string;
   firstName: string;
   age: number;
-  masculin: number;
+  isMale: boolean;
   type: DriverType;
-  login: string;
+  username: string;
   password: string;
-  class: string = '';
+  class: string;
 
   constructor(
     id: number,
     lastName: string,
     firstName: string,
-    login: string,
+    username: string,
     password: string = '',
     age: number = 0,
-    masculin: number = 0,
+    isMale: boolean = false,
     type: DriverType = DriverType.Driver,
-    class_: string = ''
-  ){
+    className: string = ''
+  ) {
     this.id = id;
     this.lastName = lastName;
     this.firstName = firstName;
-    this.login = login;
+    this.username = username;
     this.password = password;
     this.age = age;
-    this.masculin = masculin;
+    this.isMale = isMale;
     this.type = type;
+    this.class = className;
   }
 
   getId(): number {
@@ -42,12 +41,12 @@ export class Driver {
     return this.lastName;
   }
 
-  getfirstName(): string {
+  getFirstName(): string {
     return this.firstName;
   }
 
-  getLogin(): string {
-    return this.login;
+  getUsername(): string {
+    return this.username;
   }
 
   getPassword(): string {
@@ -58,39 +57,59 @@ export class Driver {
     return this.age;
   }
 
-  getGender(): number {
-    return this.masculin;
+  getIsMale(): boolean {
+    return this.isMale;
   }
 
   getUserType(): DriverType {
     return this.type;
   }
 
-  setLastName(lastName: string) {
-    this.lastName = lastName;
+  setLastName(lastName: string): void {
+    if (lastName && lastName.trim().length > 0) {
+      this.lastName = lastName.trim();
+    }
   }
 
-  setfirstName(firstName: string) {
-    this.firstName = firstName;
+  setFirstName(firstName: string): void {
+    if (firstName && firstName.trim().length > 0) {
+      this.firstName = firstName.trim();
+    }
   }
 
-  setLogin() {
-    this.login = this.firstName.toLowerCase().substring(0, 1) + '.' + this.lastName.toLowerCase();
+  /**
+   * Genere un identifiant de secours standardise de maniere securisee
+   */
+  generateAndSetDefaultUsername(): void {
+    const validFirst = (this.firstName || '').trim().toLowerCase();
+    const validLast = (this.lastName || '').trim().toLowerCase();
+
+    if (validFirst.length > 0 && validLast.length > 0) {
+      this.username = validFirst.substring(0, 1) + '.' + validLast;
+    }
   }
 
-  setPassword(password: string) {
+  setUsername(username: string): void {
+    if (username && username.trim().length > 0) {
+      this.username = username.trim().replace(/\s/g, '');
+    }
+  }
+
+  setPassword(password: string): void {
     this.password = password;
   }
 
-  setAge(age: number) {
-    this.age = age;
+  setAge(age: number): void {
+    if (age >= 1 && age <= 120) {
+      this.age = age;
+    }
   }
 
-  setGender(masculin: number) {
-    this.masculin = masculin;
+  setIsMale(isMale: boolean): void {
+    this.isMale = isMale;
   }
 
-  setUserType(userType: DriverType) {
+  setUserType(userType: DriverType): void {
     this.type = userType;
   }
 }

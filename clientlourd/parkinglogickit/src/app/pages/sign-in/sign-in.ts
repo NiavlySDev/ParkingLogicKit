@@ -21,9 +21,7 @@ export class SignIn {
   isLoading: boolean = false;
   message: string = '';
   messageType: 'success' | 'error' = 'success';
-
-  // Variable pour piloter l'œil du mot de passe dans le HTML
-  showPassword: boolean = false; 
+  showPassword: boolean = false;
 
   constructor(
     private driverService: DriverService,
@@ -38,65 +36,66 @@ export class SignIn {
   }
 
   async onSubmit(): Promise<void> {
-    // 1. BLOCAGE SI PAS INTERNET 🛡️
+    // 1. Barrière Réseau
     if (!navigator.onLine) {
-      this.setMessage("Connexion impossible : Vous n'êtes pas connecté à Internet. Veuillez vérifier votre réseau.", 'error');
+      this.setMessage('Connexion impossible : Aucun accès internet détecté.', 'error');
       return;
     }
 
-    // 2. Vérification des champs remplis
-    if (!this.username && !this.password) {
-      this.setMessage("Nom d'utilisateur et mot de passe obligatoires", 'error');
-      return;
-    }
-    if (!this.username) {
-      this.setMessage("Nom d'utilisateur obligatoire", 'error');
-      return;
-    }
-    if (!this.password) {
-      this.setMessage('Mot de passe obligatoire', 'error');
+    // 2. Validation des présences
+    if (!this.username || !this.password) {
+      this.setMessage('Identifiant et mot de passe obligatoires.', 'error');
       return;
     }
 
     this.isLoading = true;
     this.message = '';
 
-    this.driverService.getByUsername(this.username).subscribe({
+    // ASSAINISSEMENT : Élimination des caractères d'injection sur l'identifiant
+    const sanitizedUsername = this.username.trim().replace(/[<>"/\\;`\s]/g, '');
+
+    this.driverService.getByUsername(sanitizedUsername).subscribe({
       next: async (driver: any) => {
-        if (driver.password === this.password) {
+        // NOTE SÉCURITÉ : Idéalement, cette vérification se fait sur le backend Java via POST
+        if (driver && driver.password === this.password) {
+          // Détermination prudente du rôle applicatif
+          const userRole = driver.class && driver.class.includes('Admin') ? 'Admin' : 'Driver';
+
           const tokenPayload = {
             username: driver.username,
-            role: driver.class.includes('Admin') ? 'Admin' : 'Driver',
-            exp: Math.floor(Date.now() / 1000) + 60 * 60,
+            role: userRole,
+            exp: Math.floor(Date.now() / 1000) + 60 * 60, // Expiration 1 heure
           };
 
+          // Construction temporaire du Jeton (À remplacer par un retour d'API Backend signé)
           const token =
-            btoa(JSON.stringify({})) +
+            btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' })) +
             '.' +
             btoa(JSON.stringify(tokenPayload)) +
             '.' +
-            btoa('signature');
+            btoa('temporary_local_signature');
 
           await this.authService.setToken(token);
-
           const isAdminRole = await this.authService.isAdmin();
 
           this.isLoading = false;
 
-          // Redirection basée sur le rôle détecté
-          if (isAdminRole) {
+          // Redirection étanche selon les privilèges vérifiés
+          if (isAdminRole && userRole === 'Admin') {
             this.router.navigate(['/reception-admin']);
           } else {
             this.router.navigate(['/reception']);
           }
         } else {
           this.isLoading = false;
-          this.setMessage('Mot de passe incorrect', 'error');
+          // ANTI-ÉNUMÉRATION : Message flou pour ne pas aider un attaquant
+          this.setMessage('Identifiant ou mot de passe incorrect.', 'error');
         }
       },
-      error: () => {
+      error: (err) => {
         this.isLoading = false;
-        this.setMessage('Utilisateur introuvable', 'error');
+        // ANTI-ÉNUMÉRATION : Même message si l'utilisateur n'existe pas du tout
+        this.setMessage('Identifiant ou mot de passe incorrect.', 'error');
       },
     });
   }

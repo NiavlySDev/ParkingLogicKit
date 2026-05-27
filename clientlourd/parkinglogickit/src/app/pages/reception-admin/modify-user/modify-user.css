@@ -79,10 +79,9 @@
   border-color: #3b82f6;
   background-color: #ffffff; /* blanc au focus, texte sombre */
   color: #2c3e50; /* texte bien visible au focus */
-  box-shadow: 0 0 0 4px rgba(59,130,246,0.1);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
   transform: translateY(-1px);
 }
-
 
 /* SELECT arrow */
 select.form-input {
@@ -279,4 +278,3 @@ select.form-input {
     height: 18px;
   }
 }
-
