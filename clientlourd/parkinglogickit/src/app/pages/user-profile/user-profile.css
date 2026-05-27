@@ -40,7 +40,7 @@ body {
   width: 100%;
   background: #ffffff;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-  padding: 10px 16px;
+  padding: 10px 5px;
   display: flex;
   align-items: center;
   justify-content: space-between;
