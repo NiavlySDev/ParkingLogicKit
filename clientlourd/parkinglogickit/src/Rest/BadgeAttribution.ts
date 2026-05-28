@@ -14,7 +14,6 @@ export interface Badge {
   providedIn: 'root',
 })
 export class BadgeAttribution {
-  // On garde ton nom d'origine ici
   private readonly apiUrl: string = `${REST_API_URL}/BadgeService`;
 
   constructor(private http: HttpClient) {}

@@ -1,8 +1,6 @@
 <nav class="navbar">
-
-
   <div class="navbar-links">
-    <button class="nav-btn" (click)="goHome()"><i class="pi pi-home"></i> </button>
+    <button class="nav-btn" (click)="goHome()"><i class="pi pi-home"></i></button>
   </div>
 
   <div class="navbar-links">
@@ -118,7 +116,13 @@
           <label>Plaque</label>
           <div class="input-with-icon">
             <i class="pi pi-credit-card"></i>
-            <input type="text" formControlName="numberPlate" placeholder="AA-123-BB" />
+            <input
+              type="text"
+              formControlName="numberPlate"
+              placeholder="AA-123-BB"
+              (input)="onPlaqueInput($event)"
+              maxlength="9"
+            />
           </div>
           <small
             *ngIf="
