@@ -35,7 +35,7 @@ export class UserProfile implements OnInit {
     }),
     numberPlate: new FormControl('', {
       nonNullable: true,
-      validators: [Validators.required, Validators.pattern(/^[A-Z]{2}-[0-9]{3}-[A-Z]{2}$/i)],
+      validators: [Validators.required, Validators.pattern(/^[A-Z]{2}-[0-9]{3}-[A-Z]{2}$/)],
     }),
     selectedType: new FormControl<number | null>(null, [Validators.required]),
   });
@@ -80,6 +80,61 @@ export class UserProfile implements OnInit {
     if (value === 'accueil') {
       this.goHome();
     }
+  }
+
+  // Empêche les mauvais formats, force les majuscules et ajoute les tirets automatiquement
+  onPlaqueInput(event: any): void {
+    const inputElement = event.target;
+    const rawValue = inputElement.value.toUpperCase();
+
+    // 1. On nettoie pour enlever les tirets existants et travailler sur les caractères bruts
+    const cleanValue = rawValue.replace(/[^A-Z0-9]/g, '');
+
+    let formatted = '';
+
+    // 2. On reconstruit selon la structure AA-123-BB
+    for (let i = 0; i < cleanValue.length; i++) {
+      const char = cleanValue[i];
+
+      // Bloc 1 : Les 2 premières positions acceptent uniquement des lettres
+      if (i < 2) {
+        if (/[A-Z]/.test(char)) {
+          formatted += char;
+        }
+      }
+      // Bloc 2 : Les 3 positions suivantes acceptent uniquement des chiffres
+      else if (i >= 2 && i < 5) {
+        if (i === 2 && formatted.length === 2) {
+          formatted += '-';
+        }
+        if (/[0-9]/.test(char)) {
+          formatted += char;
+        }
+      }
+      // Bloc 3 : Les 2 dernières positions acceptent uniquement des lettres
+      else if (i >= 5 && i < 7) {
+        if (i === 5 && (formatted.length === 6 || formatted.length === 5)) {
+          if (!formatted.endsWith('-')) {
+            formatted += '-';
+          }
+        }
+        if (/[A-Z]/.test(char)) {
+          formatted += char;
+        }
+      }
+    }
+
+    // 3. Gestion du retour arrière pour ne pas bloquer l'utilisateur sur un tiret
+    const currentValue = this.vehicleForm.get('numberPlate')?.value || '';
+    if (rawValue.length < currentValue.length && formatted.endsWith('-')) {
+      formatted = formatted.slice(0, -1);
+    }
+
+    // 4. Mise à jour de la valeur dans le formulaire Angular
+    this.vehicleForm.patchValue({ numberPlate: formatted }, { emitEvent: false });
+
+    // 5. Force la valeur formatée sur le champ physique HTML
+    inputElement.value = formatted;
   }
 
   // Alterne l'affichage du menu déroulant
