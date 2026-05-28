@@ -11,12 +11,12 @@ import { PrimengModule } from '../../shared/primeng.module';
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, PrimengModule], // Plus besoin de MenuModule !
+  imports: [CommonModule, ReactiveFormsModule, PrimengModule],
   templateUrl: './user-profile.html',
   styleUrl: './user-profile.css',
 })
 export class UserProfile implements OnInit {
-  menuOpen: boolean = false; // Gère l'ouverture/fermeture du dropdown
+  menuOpen: boolean = false;
   username: string = '';
   role: string = '';
   driverId: number = 0;
@@ -87,22 +87,22 @@ export class UserProfile implements OnInit {
     const inputElement = event.target;
     const rawValue = inputElement.value.toUpperCase();
 
-    // 1. On nettoie pour enlever les tirets existants et travailler sur les caractères bruts
+    //On nettoie pour enlever les tirets existants et travailler sur les caractères bruts
     const cleanValue = rawValue.replace(/[^A-Z0-9]/g, '');
 
     let formatted = '';
 
-    // 2. On reconstruit selon la structure AA-123-BB
+    // On reconstruit selon la structure AA-123-BB
     for (let i = 0; i < cleanValue.length; i++) {
       const char = cleanValue[i];
 
-      // Bloc 1 : Les 2 premières positions acceptent uniquement des lettres
+      // Les 2 premières positions acceptent uniquement des lettres
       if (i < 2) {
         if (/[A-Z]/.test(char)) {
           formatted += char;
         }
       }
-      // Bloc 2 : Les 3 positions suivantes acceptent uniquement des chiffres
+      // Les 3 positions suivantes acceptent uniquement des chiffres
       else if (i >= 2 && i < 5) {
         if (i === 2 && formatted.length === 2) {
           formatted += '-';
@@ -111,7 +111,7 @@ export class UserProfile implements OnInit {
           formatted += char;
         }
       }
-      // Bloc 3 : Les 2 dernières positions acceptent uniquement des lettres
+      // Les 2 dernières positions acceptent uniquement des lettres
       else if (i >= 5 && i < 7) {
         if (i === 5 && (formatted.length === 6 || formatted.length === 5)) {
           if (!formatted.endsWith('-')) {
@@ -124,16 +124,16 @@ export class UserProfile implements OnInit {
       }
     }
 
-    // 3. Gestion du retour arrière pour ne pas bloquer l'utilisateur sur un tiret
+    // Gestion du retour arrière pour ne pas bloquer l'utilisateur sur un tiret
     const currentValue = this.vehicleForm.get('numberPlate')?.value || '';
     if (rawValue.length < currentValue.length && formatted.endsWith('-')) {
       formatted = formatted.slice(0, -1);
     }
 
-    // 4. Mise à jour de la valeur dans le formulaire Angular
+    // Mise à jour de la valeur dans le formulaire Angular
     this.vehicleForm.patchValue({ numberPlate: formatted }, { emitEvent: false });
 
-    // 5. Force la valeur formatée sur le champ physique HTML
+    // Force la valeur formatée sur le champ physique HTML
     inputElement.value = formatted;
   }
 
