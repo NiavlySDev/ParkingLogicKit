@@ -1,13 +1,21 @@
 {
   "latest": {
-    "version": "v1.3.5",
-    "title": "v1.3.5",
-    "publishedAt": "2026-05-29T12:46:05Z",
-    "body": "## Changements depuis v1.3.4\n\n- correction orthographe (`507eb33`)\n",
-    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.5/plk.apk",
-    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.5"
+    "version": "v1.3.6",
+    "title": "v1.3.6",
+    "publishedAt": "2026-05-29T13:40:38Z",
+    "body": "## Changements depuis v1.3.5\n\n- modif navbar pour mobil (`f75b94e`)\n",
+    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.6/plk.apk",
+    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.6"
   },
   "releases": [
+    {
+      "version": "v1.3.6",
+      "title": "v1.3.6",
+      "publishedAt": "2026-05-29T13:40:38Z",
+      "body": "## Changements depuis v1.3.5\n\n- modif navbar pour mobil (`f75b94e`)\n",
+      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.6/plk.apk",
+      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.6"
+    },
     {
       "version": "v1.3.5",
       "title": "v1.3.5",
@@ -79,14 +87,6 @@
       "body": "## Changements depuis v1.2.6\n\n- Changelog Angular Direct dans l'app (`c08770b`)\n",
       "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.2.7/plk.apk",
       "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.2.7"
-    },
-    {
-      "version": "v1.2.6",
-      "title": "v1.2.6",
-      "publishedAt": "2026-05-29T09:00:41Z",
-      "body": "## Changements depuis v1.2.5\n\n- Réglage barre de Progression + Accessibilité Page Parmètres (`3c6ede1`)\n",
-      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.2.6/plk.apk",
-      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.2.6"
     }
   ]
 }
