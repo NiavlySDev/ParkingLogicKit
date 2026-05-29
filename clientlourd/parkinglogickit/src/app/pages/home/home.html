@@ -24,6 +24,16 @@
         [rounded]="true"
         severity="primary"
       ></p-button>
+      <p-button
+        label="Parametres"
+        icon="pi pi-cog"
+        [routerLink]="['/settings']"
+        size="large"
+        [rounded]="true"
+        severity="secondary"
+      ></p-button>
     </div>
+
+    <small class="app-version">Version {{ appVersion }}</small>
   </main>
 </body>

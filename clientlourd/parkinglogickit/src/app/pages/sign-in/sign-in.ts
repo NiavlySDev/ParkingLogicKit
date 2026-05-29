@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, NgClass } from '@angular/common';
 import { DriverService } from '../../../Rest/DriverService';
@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { PrimengModule } from '../../shared/primeng.module';
 import { MessageService } from 'primeng/api';
 import { AuthService } from '../../../Auth/auth.service';
+import { UpdateCheckService } from '../../services/update-check.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -15,24 +16,35 @@ import { AuthService } from '../../../Auth/auth.service';
   styleUrls: ['./sign-in.css'],
   providers: [MessageService],
 })
-export class SignIn {
+export class SignIn implements OnInit {
   username: string = '';
   password: string = '';
   isLoading: boolean = false;
   message: string = '';
   messageType: 'success' | 'error' = 'success';
   showPassword: boolean = false;
+  appVersion: string = '';
 
   constructor(
     private driverService: DriverService,
     private router: Router,
     private messageService: MessageService,
     private cdr: ChangeDetectorRef,
-    private authService: AuthService
+    private authService: AuthService,
+    private updateCheckService: UpdateCheckService
   ) {}
+
+  async ngOnInit(): Promise<void> {
+    this.appVersion = await this.updateCheckService.getCurrentVersion();
+    this.cdr.detectChanges();
+  }
 
   goHome(): void {
     this.router.navigate(['/']);
+  }
+
+  goSettings(): void {
+    this.router.navigate(['/settings']);
   }
 
   async onSubmit(): Promise<void> {

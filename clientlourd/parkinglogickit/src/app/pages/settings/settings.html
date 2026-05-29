@@ -80,7 +80,7 @@
       {{ statusMessage }}
     </div>
 
-    <div class="download-progress" *ngIf="isInstalling || downloadProgress > 0">
+    <div class="download-progress" *ngIf="isInstalling">
       <div class="progress-header">
         <span>Telechargement APK</span>
         <strong>{{ downloadProgress }}%</strong>

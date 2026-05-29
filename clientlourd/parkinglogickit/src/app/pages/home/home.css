@@ -69,6 +69,14 @@ body {
   animation: fadeIn 0.8s ease-out 0.4s backwards;
 }
 
+.app-version {
+  margin-top: auto;
+  padding-top: 28px;
+  color: #94a3b8;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
 .actions a {
   text-decoration: none;
   padding: 14px 28px;
