@@ -4,6 +4,7 @@ import { Home } from './pages/home/home';
 import { SignIn } from './pages/sign-in/sign-in';
 import { Reception } from './pages/reception/reception';
 import { UserProfile } from './pages/user-profile/user-profile';
+import { Settings } from './pages/settings/settings';
 
 import { ReceptionAdmin } from './pages/reception-admin/reception-admin';
 import { SignUp } from './pages/reception-admin/sign-up/sign-up';
@@ -30,6 +31,11 @@ export const routes: Routes = [
   {
     path: 'user-profile',
     component: UserProfile,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'settings',
+    component: Settings,
     canActivate: [authGuard],
   },
   {

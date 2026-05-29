@@ -108,6 +108,11 @@ export class ReceptionAdmin implements OnInit, OnDestroy {
     this.router.navigate(['/user-profile']);
   }
 
+  goSettings(): void {
+    this.menuOpen = false;
+    this.router.navigate(['/settings']);
+  }
+
   logout(): void {
     this.menuOpen = false;
     // SÉCURITÉ : On désabonne immédiatement le timer AVANT de vider les tokens de session
