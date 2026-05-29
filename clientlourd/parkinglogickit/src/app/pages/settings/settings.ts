@@ -37,6 +37,9 @@ export class Settings implements OnInit, OnDestroy {
   isChecking = false;
   isInstalling = false;
   showSteps = false;
+  downloadProgress = 0;
+  currentReleaseDate = 'Chargement...';
+  latestReleaseDate = 'Chargement...';
   release: GitHubRelease | null = null;
   updateAvailable = false;
   private updateSubscription: Subscription | null = null;
@@ -73,6 +76,7 @@ export class Settings implements OnInit, OnDestroy {
 
     this.currentVersion = await this.updateCheckService.getCurrentVersion();
     this.steps[0].state = 'done';
+    await this.loadReleaseDates();
     this.updateSubscription = this.updateCheckService.lastResult$.subscribe((result) => {
       if (result) {
         this.applyUpdateResult(result);
@@ -92,6 +96,7 @@ export class Settings implements OnInit, OnDestroy {
     this.release = null;
     this.updateAvailable = false;
     this.latestVersion = '-';
+    this.downloadProgress = 0;
     this.showSteps = true;
     this.resetSteps();
     this.steps[0].state = 'active';
@@ -122,14 +127,23 @@ export class Settings implements OnInit, OnDestroy {
 
     this.isInstalling = true;
     this.showSteps = true;
+    this.downloadProgress = 0;
     this.steps[2].state = 'active';
     this.statusMessage = 'Telechargement de la mise a jour...';
     this.cdr.detectChanges();
 
     try {
-      await this.updateCheckService.installRelease(this.release);
+      await this.updateCheckService.installRelease(this.release, (progress) => {
+        this.downloadProgress = progress.progress;
+        this.statusMessage =
+          progress.totalBytes > 0
+            ? `Telechargement de l APK... ${progress.progress}%`
+            : `Telechargement de l APK... ${this.formatBytes(progress.bytesRead)}`;
+        this.cdr.detectChanges();
+      });
       this.steps[2].state = 'done';
       this.steps[3].state = 'done';
+      this.downloadProgress = 100;
       this.statusMessage = 'Installation Android ouverte. Valide la mise a jour pour terminer.';
     } catch (error) {
       this.steps[2].state = 'error';
@@ -139,11 +153,6 @@ export class Settings implements OnInit, OnDestroy {
       this.isInstalling = false;
       this.cdr.detectChanges();
     }
-  }
-
-  checkFromInformation(): void {
-    this.activeTab = 'updates';
-    void this.checkForUpdate();
   }
 
   toggleMenu(): void {
@@ -182,10 +191,48 @@ export class Settings implements OnInit, OnDestroy {
     this.currentVersion = result.currentVersion;
     this.latestVersion = result.latestVersion;
     this.release = result.release;
+    if (result.release?.published_at) {
+      this.latestReleaseDate = this.formatDateTime(result.release.published_at);
+    }
     this.updateAvailable = result.updateAvailable && !!result.apkUrl;
     this.statusMessage = result.apkUrl
       ? result.message
       : 'Release trouvee, mais aucun fichier APK nest attache.';
+  }
+
+  private async loadReleaseDates(): Promise<void> {
+    try {
+      const [currentRelease, latestRelease] = await Promise.all([
+        this.updateCheckService.getReleaseForVersion(this.currentVersion),
+        this.updateCheckService.getLatestRelease(),
+      ]);
+
+      this.currentReleaseDate = currentRelease?.published_at
+        ? this.formatDateTime(currentRelease.published_at)
+        : 'Release introuvable';
+      this.latestReleaseDate = latestRelease.published_at
+        ? this.formatDateTime(latestRelease.published_at)
+        : 'Release introuvable';
+      this.cdr.detectChanges();
+    } catch {
+      this.currentReleaseDate = 'Indisponible';
+      this.latestReleaseDate = 'Indisponible';
+    }
+  }
+
+  private formatDateTime(value: string): string {
+    return new Intl.DateTimeFormat('fr-FR', {
+      dateStyle: 'long',
+      timeStyle: 'short',
+    }).format(new Date(value));
+  }
+
+  private formatBytes(bytes: number): string {
+    if (bytes < 1024 * 1024) {
+      return `${Math.round(bytes / 1024)} Ko`;
+    }
+
+    return `${(bytes / (1024 * 1024)).toFixed(1)} Mo`;
   }
 
   private formatError(error: unknown): string {

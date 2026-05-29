@@ -80,6 +80,9 @@ public class ApkInstallerPlugin extends Plugin {
         }
 
         File outputFile = new File(getContext().getCacheDir(), sanitizeFileName(fileName));
+        long totalBytes = connection.getContentLengthLong();
+        long bytesReadTotal = 0;
+        notifyProgress(0, totalBytes);
 
         try (InputStream inputStream = connection.getInputStream();
              FileOutputStream outputStream = new FileOutputStream(outputFile)) {
@@ -87,6 +90,8 @@ public class ApkInstallerPlugin extends Plugin {
             int bytesRead;
             while ((bytesRead = inputStream.read(buffer)) != -1) {
                 outputStream.write(buffer, 0, bytesRead);
+                bytesReadTotal += bytesRead;
+                notifyProgress(bytesReadTotal, totalBytes);
             }
         } finally {
             connection.disconnect();
@@ -97,5 +102,13 @@ public class ApkInstallerPlugin extends Plugin {
 
     private String sanitizeFileName(String fileName) {
         return fileName.replaceAll("[^a-zA-Z0-9._-]", "_");
+    }
+
+    private void notifyProgress(long bytesRead, long totalBytes) {
+        JSObject progress = new JSObject();
+        progress.put("bytesRead", bytesRead);
+        progress.put("totalBytes", totalBytes);
+        progress.put("progress", totalBytes > 0 ? Math.min(100, (bytesRead * 100) / totalBytes) : 0);
+        notifyListeners("downloadProgress", progress);
     }
 }
