@@ -15,8 +15,10 @@ Author: Sylvain Crocquevieille
             <p:commandButton value="Nouveau véhicule"
                              icon="pi pi-plus"
                              styleClass="rounded-button ui-button-success"
-                             type="button"
-                             onclick="PF('dlgCreerVehicule').show()"/>
+                             action="#{vehiculesBean.preparerCreation()}"
+                             process="@this"
+                             update="panelCreerVehicule"
+                             oncomplete="PF('dlgCreerVehicule').show()"/>
         </div>
 
         <p:dataTable id="tableVehicules"
@@ -90,14 +92,16 @@ Author: Sylvain Crocquevieille
                                  styleClass="rounded-button ui-button-success"
                                  action="#{vehiculesBean.creer()}"
                                  process="panelCreerVehicule @this"
-                                 update="tableVehicules messageindex message"
+                                 update="tableVehicules panelCreerVehicule messageindex message"
                                  oncomplete="if(!args.validationFailed) PF('dlgCreerVehicule').hide()"/>
                 &#160;
                 <p:commandButton value="Annuler"
                                  icon="pi pi-times"
                                  styleClass="rounded-button ui-button-secondary"
-                                 type="button"
-                                 onclick="PF('dlgCreerVehicule').hide()"/>
+                                 action="#{vehiculesBean.preparerCreation()}"
+                                 process="@this"
+                                 update="panelCreerVehicule"
+                                 oncomplete="PF('dlgCreerVehicule').hide()"/>
             </f:facet>
         </p:dialog>
 
@@ -129,20 +133,22 @@ Author: Sylvain Crocquevieille
                                  styleClass="rounded-button ui-button-warning"
                                  action="#{vehiculesBean.modifier()}"
                                  process="panelModifierVehicule @this"
-                                 update="tableVehicules messageindex message"
+                                 update="tableVehicules panelModifierVehicule messageindex message"
                                  oncomplete="PF('dlgModifierVehicule').hide()"/>
                 &#160;
                 <p:commandButton value="Annuler"
                                  icon="pi pi-times"
                                  styleClass="rounded-button ui-button-secondary"
-                                 type="button"
-                                 onclick="PF('dlgModifierVehicule').hide()"/>
+                                 action="#{vehiculesBean.annulerSelection()}"
+                                 process="@this"
+                                 update="panelModifierVehicule"
+                                 oncomplete="PF('dlgModifierVehicule').hide()"/>
             </f:facet>
         </p:dialog>
 
         <p:dialog header="Supprimer véhicule" widgetVar="dlgSupprimerVehicule"
                   minHeight="80" width="360" showEffect="fade" modal="true">
-            <h:panelGroup rendered="#{vehiculesBean.selectedVehicle != null}">
+            <h:panelGroup id="panelSupprimerVehicule" rendered="#{vehiculesBean.selectedVehicle != null}">
                 <p>Confirmer la suppression de
                     <strong>#{vehiculesBean.selectedVehicle.brand}
                         #{vehiculesBean.selectedVehicle.numberPlate}</strong> ?
@@ -154,13 +160,15 @@ Author: Sylvain Crocquevieille
                                  styleClass="rounded-button ui-button-danger"
                                  action="#{vehiculesBean.supprimer()}"
                                  process="@this"
-                                 update="tableVehicules messageindex message"
+                                 update="tableVehicules panelSupprimerVehicule messageindex message"
                                  oncomplete="PF('dlgSupprimerVehicule').hide()"/>
                 <p:commandButton value="Annuler"
                                  icon="pi pi-times"
                                  styleClass="rounded-button ui-button-secondary"
-                                 type="button"
-                                 onclick="PF('dlgSupprimerVehicule').hide()"/>
+                                 action="#{vehiculesBean.annulerSelection()}"
+                                 process="@this"
+                                 update="panelSupprimerVehicule"
+                                 oncomplete="PF('dlgSupprimerVehicule').hide()"/>
             </f:facet>
         </p:dialog>
 

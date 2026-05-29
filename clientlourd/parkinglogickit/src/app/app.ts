@@ -1,7 +1,8 @@
-import { Component, signal, HostListener, NgZone } from '@angular/core';
+import { Component, signal, HostListener, OnInit, NgZone } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { PrimengModule } from './shared/primeng.module';
 import { AuthService } from '../Auth/auth.service';
+import { UpdateCheckService } from './services/update-check.service';
 
 @Component({
   selector: 'app-root',
@@ -10,14 +11,22 @@ import { AuthService } from '../Auth/auth.service';
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App {
+export class App implements OnInit {
   protected readonly title = signal('ParkingLogicKit');
 
+  constructor(
+    private authService: AuthService,
+    private updateCheckService: UpdateCheckService,
+    private ngZone: NgZone
+  ) {}
+
+  async ngOnInit(): Promise<void> {
+    await this.updateCheckService.checkOnStartup();
+  }
+  
   // Horodatage pour limiter l'execution de la reinitialisation (Throttling)
   private lastActivityChecked: number = 0;
   private readonly THROTTLE_DELAY: number = 3000; // Uniquement toutes les 3 secondes au maximum
-
-  constructor(private authService: AuthService, private ngZone: NgZone) {}
 
   @HostListener('document:click')
   @HostListener('document:keypress')

@@ -51,7 +51,7 @@ public class BadgesBean implements Serializable {
             badge.setContent(newBadgeContent);
             MetierFactory.getBadgeService().add(badge);
             addInfo("Badge créé.");
-            newBadgeContent = null;
+            preparerCreation();
             charger();
         } catch (Exception e) {
             addError("Erreur lors de la création du badge : " + e.getMessage());
@@ -68,11 +68,20 @@ public class BadgesBean implements Serializable {
         try {
             MetierFactory.getBadgeService().remove(selectedBadge);
             addInfo("Badge supprimé.");
-            selectedBadge = null;
+            annulerSelection();
             charger();
         } catch (Exception e) {
             addError("Erreur lors de la suppression du badge : " + e.getMessage());
         }
+    }
+
+    public void preparerCreation() {
+        newBadgeContent = null;
+        annulerSelection();
+    }
+
+    public void annulerSelection() {
+        selectedBadge = null;
     }
 
     public void selectionnerBadge(Badge badge) {

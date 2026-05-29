@@ -16,8 +16,10 @@ Author: Sylvain Crocquevieille
             <p:commandButton value="Nouveau conducteur"
                              icon="pi pi-user-plus"
                              styleClass="rounded-button ui-button-success"
-                             type="button"
-                             onclick="PF('dlgCreerConducteur').show()"/>
+                             action="#{conducteursBean.preparerCreation()}"
+                             process="@this"
+                             update="panelCreerConducteur"
+                             oncomplete="PF('dlgCreerConducteur').show()"/>
         </div>
 
         <p:dataTable id="tableConducteurs"
@@ -75,7 +77,8 @@ Author: Sylvain Crocquevieille
 
         <p:dialog header="Nouveau conducteur" widgetVar="dlgCreerConducteur"
                   minHeight="300" width="460" showEffect="fade" modal="true"
-                  dynamic="true">
+                  dynamic="true" styleClass="driver-dialog" contentStyleClass="driver-dialog-content"
+                  blockScroll="true">
             <h:panelGroup id="panelCreerConducteur" layout="block">
                 <div class="dialog-form">
                     <h:panelGrid columns="2" cellpadding="8" styleClass="dialog-grid">
@@ -156,19 +159,22 @@ Author: Sylvain Crocquevieille
                                  styleClass="rounded-button ui-button-success"
                                  action="#{conducteursBean.creer()}"
                                  process="panelCreerConducteur @this"
-                                 update="tableConducteurs messageindex message"
+                                 update="tableConducteurs panelCreerConducteur messageindex message"
                                  oncomplete="if(!args.validationFailed) PF('dlgCreerConducteur').hide()"/>
                 &#160;
                 <p:commandButton value="Annuler"
                                  icon="pi pi-times"
                                  styleClass="rounded-button ui-button-secondary"
-                                 type="button"
-                                 onclick="PF('dlgCreerConducteur').hide()"/>
+                                 action="#{conducteursBean.preparerCreation()}"
+                                 process="@this"
+                                 update="panelCreerConducteur"
+                                 oncomplete="PF('dlgCreerConducteur').hide()"/>
             </f:facet>
         </p:dialog>
 
         <p:dialog header="Modifier conducteur" widgetVar="dlgModifierConducteur"
-                  minHeight="300" width="420" showEffect="fade" modal="true">
+                  minHeight="300" width="420" showEffect="fade" modal="true"
+                  blockScroll="true">
             <h:panelGroup id="panelModifierConducteur" rendered="#{conducteursBean.selectedDriver != null}">
                 <div class="dialog-form">
                     <h:panelGrid columns="2" cellpadding="8" styleClass="dialog-grid">
@@ -205,20 +211,23 @@ Author: Sylvain Crocquevieille
                                  styleClass="rounded-button ui-button-warning"
                                  action="#{conducteursBean.modifier()}"
                                  process="panelModifierConducteur @this"
-                                 update="tableConducteurs messageindex message"
+                                 update="tableConducteurs panelModifierConducteur messageindex message"
                                  oncomplete="PF('dlgModifierConducteur').hide()"/>
                 &#160;
                 <p:commandButton value="Annuler"
                                  icon="pi pi-times"
                                  styleClass="rounded-button ui-button-secondary"
-                                 type="button"
-                                 onclick="PF('dlgModifierConducteur').hide()"/>
+                                 action="#{conducteursBean.annulerSelection()}"
+                                 process="@this"
+                                 update="panelModifierConducteur"
+                                 oncomplete="PF('dlgModifierConducteur').hide()"/>
             </f:facet>
         </p:dialog>
 
         <p:dialog header="Supprimer conducteur" widgetVar="dlgSupprimerConducteur"
-                  minHeight="80" width="380" showEffect="fade" modal="true">
-            <h:panelGroup rendered="#{conducteursBean.selectedDriver != null}">
+                  minHeight="80" width="380" showEffect="fade" modal="true"
+                  blockScroll="true">
+            <h:panelGroup id="panelSupprimerConducteur" rendered="#{conducteursBean.selectedDriver != null}">
                 <p>Confirmer la suppression de
                     <strong>#{conducteursBean.selectedDriver.firstName}
                         #{conducteursBean.selectedDriver.lastName}</strong> ?
@@ -230,13 +239,15 @@ Author: Sylvain Crocquevieille
                                  styleClass="rounded-button ui-button-danger"
                                  action="#{conducteursBean.supprimer()}"
                                  process="@this"
-                                 update="tableConducteurs messageindex message"
+                                 update="tableConducteurs panelSupprimerConducteur messageindex message"
                                  oncomplete="PF('dlgSupprimerConducteur').hide()"/>
                 <p:commandButton value="Annuler"
                                  icon="pi pi-times"
                                  styleClass="rounded-button ui-button-secondary"
-                                 type="button"
-                                 onclick="PF('dlgSupprimerConducteur').hide()"/>
+                                 action="#{conducteursBean.annulerSelection()}"
+                                 process="@this"
+                                 update="panelSupprimerConducteur"
+                                 oncomplete="PF('dlgSupprimerConducteur').hide()"/>
             </f:facet>
         </p:dialog>
 

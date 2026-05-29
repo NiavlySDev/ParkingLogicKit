@@ -90,11 +90,20 @@ public class AssociationsBean implements Serializable {
         try {
             MetierFactory.getAssociateService().remove(selectedAssociation);
             addInfo("Association supprimée.");
-            selectedAssociation = null;
+            annulerSelection();
             charger();
         } catch (Exception e) {
             addError("Erreur lors de la suppression de l'association : " + e.getMessage());
         }
+    }
+
+    public void preparerCreation() {
+        resetForm();
+        annulerSelection();
+    }
+
+    public void annulerSelection() {
+        selectedAssociation = null;
     }
 
     public void selectionnerAssociation(Associate association) {

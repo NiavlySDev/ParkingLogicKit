@@ -91,13 +91,31 @@ jobs:
       - name: Synchronize Capacitor Android project
         run: npx cap sync android
 
+      - name: Prepare Android signing key
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          test -n "$ANDROID_KEYSTORE_BASE64"
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/release.keystore
+
       - name: Build APK
         working-directory: clientlourd/parkinglogickit/android
+        env:
+          RELEASE_STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
-          bash ./gradlew assembleDebug \
+          test -n "$RELEASE_STORE_PASSWORD"
+          test -n "$RELEASE_KEY_ALIAS"
+          test -n "$RELEASE_KEY_PASSWORD"
+          bash ./gradlew assembleRelease \
             -PVERSION_NAME="${{ steps.version.outputs.version_name }}" \
-            -PVERSION_CODE="${{ steps.version.outputs.version_code }}"
-          cp app/build/outputs/apk/debug/app-debug.apk ../plk.apk
+            -PVERSION_CODE="${{ steps.version.outputs.version_code }}" \
+            -PRELEASE_STORE_FILE=release.keystore \
+            -PRELEASE_STORE_PASSWORD="$RELEASE_STORE_PASSWORD" \
+            -PRELEASE_KEY_ALIAS="$RELEASE_KEY_ALIAS" \
+            -PRELEASE_KEY_PASSWORD="$RELEASE_KEY_PASSWORD"
+          cp app/build/outputs/apk/release/app-release.apk ../plk.apk
 
       - name: Create release notes from commits
         env:
