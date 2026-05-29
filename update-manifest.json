@@ -1,13 +1,21 @@
 {
   "latest": {
-    "version": "v1.3.3",
-    "title": "v1.3.3",
-    "publishedAt": "2026-05-29T09:50:45Z",
-    "body": "## Changements depuis v1.3.2\n\n- Maj Autopush v456497987 (`0fe0c84`)\n",
-    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.3/plk.apk",
-    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.3"
+    "version": "v1.3.4",
+    "title": "v1.3.4",
+    "publishedAt": "2026-05-29T09:55:38Z",
+    "body": "## Changements depuis v1.3.3\n\n- Test Maj Auto numéro 4654654789791 (`d4cadcb`)\n",
+    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.4/plk.apk",
+    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.4"
   },
   "releases": [
+    {
+      "version": "v1.3.4",
+      "title": "v1.3.4",
+      "publishedAt": "2026-05-29T09:55:38Z",
+      "body": "## Changements depuis v1.3.3\n\n- Test Maj Auto numéro 4654654789791 (`d4cadcb`)\n",
+      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.4/plk.apk",
+      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.4"
+    },
     {
       "version": "v1.3.3",
       "title": "v1.3.3",
@@ -79,14 +87,6 @@
       "body": "## Changements depuis v1.2.4\n\n- Maj Autopush Angular (`dd48e3e`)\n",
       "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.2.5/plk.apk",
       "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.2.5"
-    },
-    {
-      "version": "v1.2.4",
-      "title": "v1.2.4",
-      "publishedAt": "2026-05-29T08:43:43Z",
-      "body": "## Changements depuis v1.2.3\n\n- Retrait Verif Maj Infos + Barre Progression Maj Auto + sion + Date Dernières Mises a jour (`a294f34`)\n",
-      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.2.4/plk.apk",
-      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.2.4"
     }
   ]
 }
