@@ -45,14 +45,33 @@ export interface UpdateCheckResult {
   message: string;
 }
 
+interface UpdateManifestRelease {
+  version: string;
+  title: string;
+  publishedAt: string;
+  body: string;
+  apkUrl: string;
+  htmlUrl: string;
+}
+
+interface UpdateManifest {
+  latest: UpdateManifestRelease;
+  releases: UpdateManifestRelease[];
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class UpdateCheckService {
   private static readonly latestReleaseUrl =
     'https://api.github.com/repos/NiavlySDev/ParkingLogicKit/releases/latest';
+  private static readonly manifestUrl =
+    'https://raw.githubusercontent.com/NiavlySDev/ParkingLogicKit/main/docs/update-manifest.json';
+  private static readonly manifestCacheKey = 'plk-update-manifest-cache';
+  private static readonly manifestCacheTtlMs = 10 * 60 * 1000;
 
   private hasChecked = false;
+  private manifestPromise: Promise<UpdateManifest | null> | null = null;
   private readonly lastResultSubject = new BehaviorSubject<UpdateCheckResult | null>(null);
   readonly lastResult$ = this.lastResultSubject.asObservable();
 
@@ -90,10 +109,20 @@ export class UpdateCheckService {
   }
 
   async getLatestRelease(): Promise<GitHubRelease> {
+    const manifest = await this.getUpdateManifest();
+    if (manifest?.latest) {
+      return this.releaseFromManifest(manifest.latest);
+    }
+
     return this.fetchGitHub<GitHubRelease>(UpdateCheckService.latestReleaseUrl);
   }
 
   async getRecentReleases(limit: number = 5): Promise<GitHubRelease[]> {
+    const manifest = await this.getUpdateManifest();
+    if (manifest?.releases?.length) {
+      return manifest.releases.slice(0, limit).map((release) => this.releaseFromManifest(release));
+    }
+
     const releases = await this.fetchGitHub<GitHubRelease[]>(
       `https://api.github.com/repos/NiavlySDev/ParkingLogicKit/releases?per_page=${limit}`
     );
@@ -107,6 +136,14 @@ export class UpdateCheckService {
     }
 
     const normalizedVersion = version.replace(/^v/i, '');
+    const manifest = await this.getUpdateManifest();
+    const manifestRelease = manifest?.releases?.find(
+      (release) => release.version.replace(/^v/i, '') === normalizedVersion
+    );
+    if (manifestRelease) {
+      return this.releaseFromManifest(manifestRelease);
+    }
+
     const tagsToTry = [`v${normalizedVersion}`, normalizedVersion];
 
     for (const tag of tagsToTry) {
@@ -194,6 +231,86 @@ export class UpdateCheckService {
   private storeResult(result: UpdateCheckResult): UpdateCheckResult {
     this.lastResultSubject.next(result);
     return result;
+  }
+
+  private async getUpdateManifest(): Promise<UpdateManifest | null> {
+    if (!this.manifestPromise) {
+      this.manifestPromise = this.loadUpdateManifest();
+    }
+
+    return this.manifestPromise;
+  }
+
+  private async loadUpdateManifest(): Promise<UpdateManifest | null> {
+    const cached = this.readCachedManifest();
+    if (cached) {
+      return cached;
+    }
+
+    try {
+      const manifest = await this.fetchPublicJson<UpdateManifest>(UpdateCheckService.manifestUrl);
+      localStorage.setItem(
+        UpdateCheckService.manifestCacheKey,
+        JSON.stringify({ savedAt: Date.now(), manifest })
+      );
+      return manifest;
+    } catch (error) {
+      console.warn('Manifest de mise a jour indisponible', error);
+      return null;
+    }
+  }
+
+  private readCachedManifest(): UpdateManifest | null {
+    try {
+      const rawCache = localStorage.getItem(UpdateCheckService.manifestCacheKey);
+      if (!rawCache) {
+        return null;
+      }
+
+      const cache = JSON.parse(rawCache) as { savedAt?: number; manifest?: UpdateManifest };
+      if (
+        !cache.savedAt ||
+        !cache.manifest ||
+        Date.now() - cache.savedAt > UpdateCheckService.manifestCacheTtlMs
+      ) {
+        return null;
+      }
+
+      return cache.manifest;
+    } catch {
+      return null;
+    }
+  }
+
+  private releaseFromManifest(release: UpdateManifestRelease): GitHubRelease {
+    return {
+      name: release.title,
+      tag_name: release.version,
+      html_url: release.htmlUrl,
+      published_at: release.publishedAt,
+      body: release.body,
+      draft: false,
+      prerelease: false,
+      assets: [
+        {
+          name: 'plk.apk',
+          browser_download_url: release.apkUrl,
+        },
+      ],
+    };
+  }
+
+  private async fetchPublicJson<T>(url: string): Promise<T> {
+    const response = await fetch(url, {
+      headers: { Accept: 'application/json' },
+      cache: 'no-store',
+    });
+
+    if (!response.ok) {
+      throw new Error(`${response.status} ${response.statusText}`);
+    }
+
+    return (await response.json()) as T;
   }
 
   private async fetchGitHub<T>(url: string): Promise<T> {

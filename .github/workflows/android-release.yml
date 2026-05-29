@@ -146,6 +146,57 @@ jobs:
           VERSION: ${{ steps.version.outputs.version }}
         run: gh release create "$VERSION" plk.apk --title "$VERSION" --notes-file "$RUNNER_TEMP/release-notes.md" --target "$GITHUB_SHA"
 
+      - name: Update public update manifest
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          REPOSITORY: ${{ github.repository }}
+          SERVER_URL: ${{ github.server_url }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          version = os.environ["VERSION"]
+          repository = os.environ["REPOSITORY"]
+          server_url = os.environ["SERVER_URL"]
+          notes_path = Path(os.environ["RUNNER_TEMP"]) / "release-notes.md"
+          manifest_path = Path("../../docs/update-manifest.json")
+
+          if manifest_path.exists():
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          else:
+            manifest = {"latest": None, "releases": []}
+
+          release = {
+            "version": version,
+            "title": version,
+            "publishedAt": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+            "body": notes_path.read_text(encoding="utf-8"),
+            "apkUrl": f"{server_url}/{repository}/releases/download/{version}/plk.apk",
+            "htmlUrl": f"{server_url}/{repository}/releases/tag/{version}",
+          }
+
+          previous = [
+            item for item in manifest.get("releases", [])
+            if item.get("version") != version
+          ]
+          manifest["latest"] = release
+          manifest["releases"] = [release] + previous[:9]
+
+          manifest_path.parent.mkdir(parents=True, exist_ok=True)
+          manifest_path.write_text(
+            json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8"
+          )
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ../../docs/update-manifest.json
+          git commit -m "Update Android release manifest for $VERSION"
+          git push
+
       - name: Send APK to Discord
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_ANDROID_RELEASE }}
