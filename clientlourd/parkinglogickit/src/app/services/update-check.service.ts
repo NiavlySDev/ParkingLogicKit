@@ -90,7 +90,7 @@ export class UpdateCheckService {
     this.hasChecked = true;
 
     try {
-      const result = await this.checkForUpdate();
+      const result = await this.checkForUpdate(true);
       if (result.updateAvailable) {
         window.alert(
           `Nouvelle mise a jour Disponible, (${result.currentVersion} -> ${result.latestVersion}), Cliquez pour y acceder`
@@ -111,8 +111,8 @@ export class UpdateCheckService {
     return appInfo.version;
   }
 
-  async getLatestRelease(): Promise<GitHubRelease> {
-    const manifest = await this.getUpdateManifest();
+  async getLatestRelease(forceRefresh = false): Promise<GitHubRelease> {
+    const manifest = await this.getUpdateManifest(forceRefresh);
     if (manifest?.latest) {
       return this.releaseFromManifest(manifest.latest);
     }
@@ -120,8 +120,8 @@ export class UpdateCheckService {
     return this.fetchGitHub<GitHubRelease>(UpdateCheckService.latestReleaseUrl);
   }
 
-  async getRecentReleases(limit: number = 5): Promise<GitHubRelease[]> {
-    const manifest = await this.getUpdateManifest();
+  async getRecentReleases(limit: number = 5, forceRefresh = false): Promise<GitHubRelease[]> {
+    const manifest = await this.getUpdateManifest(forceRefresh);
     if (manifest?.releases?.length) {
       return manifest.releases.slice(0, limit).map((release) => this.releaseFromManifest(release));
     }
@@ -133,13 +133,13 @@ export class UpdateCheckService {
     return releases.filter((release) => !release.draft && !release.prerelease);
   }
 
-  async getReleaseForVersion(version: string): Promise<GitHubRelease | null> {
+  async getReleaseForVersion(version: string, forceRefresh = false): Promise<GitHubRelease | null> {
     if (!version || version === 'Version web') {
       return null;
     }
 
     const normalizedVersion = version.replace(/^v/i, '');
-    const manifest = await this.getUpdateManifest();
+    const manifest = await this.getUpdateManifest(forceRefresh);
     const manifestRelease = manifest?.releases?.find(
       (release) => release.version.replace(/^v/i, '') === normalizedVersion
     );
@@ -162,10 +162,10 @@ export class UpdateCheckService {
     return null;
   }
 
-  async checkForUpdate(): Promise<UpdateCheckResult> {
+  async checkForUpdate(forceRefresh = false): Promise<UpdateCheckResult> {
     const [currentVersion, release] = await Promise.all([
       this.getCurrentVersion(),
-      this.getLatestRelease(),
+      this.getLatestRelease(forceRefresh),
     ]);
 
     if (release.draft || release.prerelease) {
@@ -236,20 +236,20 @@ export class UpdateCheckService {
     return result;
   }
 
-  private async getUpdateManifest(): Promise<UpdateManifest | null> {
+  private async getUpdateManifest(forceRefresh = false): Promise<UpdateManifest | null> {
+    if (forceRefresh) {
+      this.manifestPromise = null;
+      localStorage.removeItem(UpdateCheckService.manifestCacheKey);
+    }
+
     if (!this.manifestPromise) {
-      this.manifestPromise = this.loadUpdateManifest();
+      this.manifestPromise = this.loadUpdateManifest(forceRefresh);
     }
 
     return this.manifestPromise;
   }
 
-  private async loadUpdateManifest(): Promise<UpdateManifest | null> {
-    const cached = this.readCachedManifest();
-    if (cached) {
-      return cached;
-    }
-
+  private async loadUpdateManifest(forceRefresh = false): Promise<UpdateManifest | null> {
     for (const manifestUrl of UpdateCheckService.manifestUrls) {
       try {
         const manifest = await this.fetchPublicJson<UpdateManifest>(manifestUrl);
@@ -263,7 +263,7 @@ export class UpdateCheckService {
       }
     }
 
-    return null;
+    return forceRefresh ? null : this.readCachedManifest();
   }
 
   private readCachedManifest(): UpdateManifest | null {
