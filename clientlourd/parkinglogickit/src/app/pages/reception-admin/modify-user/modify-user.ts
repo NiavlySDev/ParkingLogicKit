@@ -5,10 +5,11 @@ import { RestServer } from '../../../../Rest/RestServer';
 import { Driver } from '../../../../Auth/Driver';
 import { Router } from '@angular/router';
 import { PrimengModule } from '../../../shared/primeng.module';
+import { AuthService } from '../../../../Auth/auth.service'; // Import requis pour sécuriser l'accès
 
 @Component({
   selector: 'app-modify-user',
-  standalone: true, // Sécurise le comportement Standalone d'Angular
+  standalone: true,
   imports: [FormsModule, CommonModule, PrimengModule],
   templateUrl: './modify-user.html',
   styleUrl: './modify-user.css',
@@ -29,21 +30,31 @@ export class ModifyUser implements OnInit {
   drivers: any[] = [];
   selectedDriver: any;
   showPassword: boolean = false;
+  currentAdminUsername: string = ''; // Suivi de session pour éviter l'auto-blocage
 
   constructor(
     private restServer: RestServer,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private authService: AuthService // Injection du service d'authentification
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    // BARRIÈRE DE SÉCURITÉ 1 : Contrôle d'accès strict au rôle Admin
+    const currentRole = await this.authService.getRole();
+    this.currentAdminUsername = (await this.authService.getUsername()) || '';
+
+    if (!this.currentAdminUsername || currentRole !== 'Admin') {
+      console.warn('Tentative d’accès non autorisé à l’écran de modification des utilisateurs.');
+      this.authService.logout();
+      this.router.navigate(['/sign-in']);
+      return;
+    }
+
     this.loadDrivers();
   }
 
-  /**
-   * Charge et rafraîchit la liste des conducteurs
-   */
   private loadDrivers(): void {
     this.restServer
       .getDriverService()
@@ -85,6 +96,16 @@ export class ModifyUser implements OnInit {
       return;
     }
 
+    // BARRIÈRE DE SÉCURITÉ 2 : Prévention de l'auto-désélévation de privilèges
+    const targetUsername = this.selectedDriver.login || this.selectedDriver.username || '';
+    if (targetUsername === this.currentAdminUsername && this.DriverType !== 0) {
+      this.setMessage(
+        'Action interdite : Vous ne pouvez pas retirer vos propres droits Admin.',
+        'error'
+      );
+      return;
+    }
+
     this.isLoading = true;
     this.message = '';
 
@@ -95,14 +116,25 @@ export class ModifyUser implements OnInit {
         ? 'lml.snir.parkinglogickit.metier.entity.Maintenance'
         : 'lml.snir.parkinglogickit.metier.entity.Driver';
 
+    // ASSAINISSEMENT DES ENTRÉES : Filtrage des caractères d'injection (Anti-XSS / SQL)
+    const sanitizedFirstname = String(this.firstname)
+      .trim()
+      .replace(/[<>"/\\;`]/g, '');
+    const sanitizedLastname = String(this.lastName)
+      .trim()
+      .replace(/[<>"/\\;`]/g, '');
+    const sanitizedUsername = String(this.username)
+      .trim()
+      .replace(/[<>"/\\;`\s]/g, ''); // Pas d'espaces dans l'identifiant
+
     const DriverData: any = {
-      id: this.selectedDriver.id,
-      firstName: this.firstname.trim(),
-      lastName: this.lastName.trim(),
-      username: this.username.trim(),
+      id: Number(this.selectedDriver.id), // Forçage du type numérique strict
+      firstName: sanitizedFirstname,
+      lastName: sanitizedLastname,
+      username: sanitizedUsername,
       ...(this.password ? { password: this.password } : {}),
-      age: this.age,
-      isMale: this.isMale,
+      age: Number(this.age),
+      isMale: Boolean(this.isMale),
       class: DriverClass,
     };
 
@@ -121,7 +153,11 @@ export class ModifyUser implements OnInit {
         error: (error: any) => {
           this.ngZone.run(() => {
             this.isLoading = false;
-            this.setMessage(error?.error?.message || "Une erreur s'est produite", 'error');
+            console.error('Erreur lors de la mise à jour du profil :', error);
+            this.setMessage(
+              error?.error?.message || "Une erreur s'est produite lors de la modification",
+              'error'
+            );
             this.cdr.detectChanges();
           });
         },
@@ -180,11 +216,17 @@ export class ModifyUser implements OnInit {
     this.password = this.generateRandomPassword();
   }
 
+  /**
+   * SÉCURITÉ REHAUSSÉE : Générateur pseudo-aléatoire cryptographiquement fort (CSPRNG)
+   */
   private generateRandomPassword(length: number = 12): string {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+    const array = new Uint32Array(length);
+    window.crypto.getRandomValues(array);
+
     let password = '';
     for (let i = 0; i < length; i++) {
-      password += chars.charAt(Math.floor(Math.random() * chars.length));
+      password += chars.charAt(array[i] % chars.length);
     }
     return password;
   }
@@ -208,14 +250,11 @@ export class ModifyUser implements OnInit {
     }
   }
 
-  /**
-   * Méthode alternative robuste pour copier du texte (Webview Android / Contextes non-sécurisés HTTP)
-   */
   private fallbackCopyText(text: string): void {
     try {
       const textArea = document.createElement('textarea');
       textArea.value = text;
-      textArea.style.position = 'fixed'; // Évite de faire défiler la page
+      textArea.style.position = 'fixed';
       document.body.appendChild(textArea);
       textArea.focus();
       textArea.select();

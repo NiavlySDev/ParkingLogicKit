@@ -5,11 +5,12 @@ import { RestServer } from '../../../../Rest/RestServer';
 import { Router } from '@angular/router';
 import { PrimengModule } from '../../../shared/primeng.module';
 import { Driver } from '../../../../Auth/Driver';
-import { switchMap, from, concatMap } from 'rxjs';
+import { AuthService } from '../../../../Auth/auth.service'; // Ajout requis pour la sécurité
+import { switchMap, from, concatMap, of } from 'rxjs';
 
 @Component({
   selector: 'app-delete-user',
-  standalone: true, // Ajout explicite pour sécuriser le comportement standalone
+  standalone: true,
   imports: [FormsModule, CommonModule, PrimengModule],
   templateUrl: './delete-user.html',
   styleUrl: './delete-user.css',
@@ -24,21 +25,31 @@ export class DeleteUser implements OnInit {
   drivers: any[] = [];
   selectedDriver: any;
   showPassword: boolean = false;
+  currentAdminUsername: string = ''; // Stockage de session pour éviter l'auto-suppression
 
   constructor(
     private restServer: RestServer,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private authService: AuthService // Injection du service d'authentification
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    // BARRIÈRE DE SÉCURITÉ 1 : Contrôle d'accès strict au rôle Admin
+    const currentRole = await this.authService.getRole();
+    this.currentAdminUsername = (await this.authService.getUsername()) || '';
+    
+    if (!this.currentAdminUsername || currentRole !== 'Admin') {
+      console.warn('Tentative d’accès non autorisé à la suppression d’utilisateurs.');
+      this.authService.logout();
+      this.router.navigate(['/sign-in']);
+      return;
+    }
+
     this.loadDrivers();
   }
 
-  /**
-   * Charge et rafraîchit la liste des conducteurs depuis le serveur Java
-   */
   private loadDrivers(): void {
     this.restServer
       .getDriverService()
@@ -53,7 +64,7 @@ export class DeleteUser implements OnInit {
             this.cdr.detectChanges();
           });
         },
-        error: (err) => console.error('Erreur chargement drivers :', err),
+        error: (err) => console.error('Erreur de chargement des profils :', err),
       });
   }
 
@@ -67,6 +78,13 @@ export class DeleteUser implements OnInit {
       return;
     }
 
+    // BARRIÈRE DE SÉCURITÉ 2 : Protection contre l'auto-suppression accidentelle ou malveillante
+    const targetUsername = this.selectedDriver.login || this.selectedDriver.username || '';
+    if (targetUsername === this.currentAdminUsername && this.currentAdminUsername !== '') {
+      this.setMessage('Action interdite : Vous ne pouvez pas supprimer votre propre compte Administrateur connecté.', 'error');
+      return;
+    }
+
     this.isLoading = true;
     this.message = '';
 
@@ -77,19 +95,21 @@ export class DeleteUser implements OnInit {
         ? 'lml.snir.parkinglogickit.metier.entity.Maintenance'
         : 'lml.snir.parkinglogickit.metier.entity.Driver';
 
+    // Sécurisation et forçage des types pour l'intégrité de l'entité JPA cible
     const DriverData: any = {
-      id: this.selectedDriver.id,
-      firstName: this.firstname,
-      lastName: this.lastName,
+      id: Number(this.selectedDriver.id),
+      firstName: String(this.firstname).trim().replace(/[<>"/\\;`]/g, ''),
+      lastName: String(this.lastName).trim().replace(/[<>"/\\;`]/g, ''),
       class: DriverClass,
     };
 
+    // Flux RxJS optimisé pour éviter les ruptures de requêtes synchrones sur BDD distante
     this.restServer
       .getAssociateService()
       .getAll()
       .pipe(
         switchMap((associates) => {
-          const linked = associates.filter((a: any) => a.driver?.id === this.selectedDriver.id);
+          const linked = (associates || []).filter((a: any) => Number(a.driver?.id ?? a.driverId) === Number(DriverData.id));
 
           if (linked.length === 0) {
             return this.restServer.getDriverService().remove(DriverData as Driver);
@@ -102,9 +122,11 @@ export class DeleteUser implements OnInit {
                 .remove(assoc)
                 .pipe(
                   switchMap(() => {
+                    const vehicleId = assoc.vehicle?.id ?? assoc.vehicleId;
+                    if (!vehicleId) return of(null);
                     return this.restServer
                       .getVehicleService()
-                      .remove({ id: assoc.vehicle?.id, class: assoc.vehicle?.class } as any);
+                      .remove({ id: Number(vehicleId), class: assoc.vehicle?.class || 'lml.snir.parkinglogickit.metier.entity.Vehicle' } as any);
                   })
                 );
             }),
@@ -116,7 +138,7 @@ export class DeleteUser implements OnInit {
         next: () => {
           this.ngZone.run(() => {
             this.isLoading = false;
-            this.setMessage('Driver supprimé avec succès 🎉', 'success');
+            this.setMessage('Utilisateur et dépendances supprimés avec succès 🎉', 'success');
             this.resetForm();
             this.loadDrivers();
           });
@@ -124,7 +146,8 @@ export class DeleteUser implements OnInit {
         error: (error: any) => {
           this.ngZone.run(() => {
             this.isLoading = false;
-            this.setMessage(error?.error?.message || "Une erreur s'est produite", 'error');
+            console.error('Échec transactionnel de suppression :', error);
+            this.setMessage("Erreur lors de la suppression. Vérifiez les dépendances en base.", 'error');
             this.cdr.detectChanges();
           });
         },
@@ -160,7 +183,7 @@ export class DeleteUser implements OnInit {
     this.firstname = '';
     this.lastName = '';
     this.DriverType = null;
-    this.selectedDriver = null; // Nettoie la sélection de l'ancien utilisateur supprimé
+    this.selectedDriver = null;
     this.cdr.detectChanges();
   }
 }

@@ -13,7 +13,6 @@ import { MessageService } from 'primeng/api';
 import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 
-
 const PRIMENG_COMPONENTS = [
   ButtonModule,
   InputTextModule,
@@ -24,12 +23,12 @@ const PRIMENG_COMPONENTS = [
   CheckboxModule,
   ListboxModule,
   SelectModule,
-  FormsModule
+  FormsModule,
 ];
 
 @NgModule({
   imports: [...PRIMENG_COMPONENTS],
   exports: [...PRIMENG_COMPONENTS],
-  providers: [ MessageService]
+  providers: [MessageService],
 })
 export class PrimengModule {}

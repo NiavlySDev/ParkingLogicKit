@@ -1,40 +1,37 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import * as CryptoJS from 'crypto-js';
 import { Capacitor } from '@capacitor/core';
 import { SecureStoragePlugin } from 'capacitor-secure-storage-plugin';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private router = inject(Router);
-  private timeoutId: any;
+  private timeoutId: any = null;
   private readonly TIMEOUT_DURATION = 10 * 60 * 1000; // 10 minutes
-  private readonly secretKey = 'vfm#PGcp810zSkjPv3H2';
-  
-  // Détection automatique du support (true sur Android/iOS natif, false sur navigateur)
+
+  // Detection automatique du support (true sur Android/iOS natif, false sur navigateur)
   private isMobile = Capacitor.isNativePlatform();
 
   /**
-   * Stocke le token de manière adaptée à la plateforme (Hybride)
+   * Stocke le token de maniere adaptee a la plateforme (Hybride)
    */
   async setToken(token: string): Promise<void> {
     try {
       if (this.isMobile) {
-        // Mode Android : Coffre-fort matériel (Android Keystore via le plugin)
+        // Mode Android : Coffre-fort materiel (Android Keystore via le plugin)
         await SecureStoragePlugin.set({ key: 'authToken', value: token });
       } else {
-        // Mode Web : Chiffrement logiciel avec CryptoJS dans le localStorage
-        const encrypted = CryptoJS.AES.encrypt(token, this.secretKey).toString();
-        localStorage.setItem('authToken', encrypted);
+        // Mode Web : Stockage direct (Le JWT etant deja signe et chiffre par le backend Java)
+        localStorage.setItem('authToken', token);
       }
       this.startTimeout();
     } catch (error) {
-      console.error('Erreur lors du stockage du token:', error);
+      console.error('Erreur lors du stockage du token :', error);
     }
   }
 
   /**
-   * Récupère le token de manière asynchrone selon la plateforme
+   * Recupere le token de maniere asynchrone selon la plateforme
    */
   async getToken(): Promise<string | null> {
     try {
@@ -44,10 +41,7 @@ export class AuthService {
         return value || null;
       } else {
         // Mode Web
-        const encrypted = localStorage.getItem('authToken');
-        if (!encrypted) return null;
-        const bytes = CryptoJS.AES.decrypt(encrypted, this.secretKey);
-        return bytes.toString(CryptoJS.enc.Utf8) || null;
+        return localStorage.getItem('authToken');
       }
     } catch {
       await this.purgeSession();
@@ -56,16 +50,17 @@ export class AuthService {
   }
 
   /**
-   * Décodeur JWT robuste compatible avec l'UTF-8 (caractères spéciaux/accents)
+   * Decodeur JWT robuste compatible avec l'UTF-8 (caracteres speciaux/accents)
    */
   private decodeJwtPayload(token: string): any {
     try {
       const base64Url = token.split('.')[1];
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
       const jsonPayload = decodeURIComponent(
-        window.atob(base64)
+        window
+          .atob(base64)
           .split('')
-          .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
           .join('')
       );
       return JSON.parse(jsonPayload);
@@ -85,7 +80,7 @@ export class AuthService {
   }
 
   /**
-   * Retourne le rôle de l'utilisateur depuis le token (Asynchrone)
+   * Retourne le role de l'utilisateur depuis le token (Asynchrone)
    */
   async getRole(): Promise<'Admin' | 'Driver' | ''> {
     const token = await this.getToken();
@@ -95,7 +90,7 @@ export class AuthService {
   }
 
   /**
-   * Vérifie si l'utilisateur est Admin (Asynchrone)
+   * Verifie si l'utilisateur est Admin (Asynchrone)
    */
   async isAdmin(): Promise<boolean> {
     const role = await this.getRole();
@@ -103,7 +98,7 @@ export class AuthService {
   }
 
   /**
-   * Vérifie si l'utilisateur est connecté et si le token n'est pas expiré (Asynchrone)
+   * Verifie si l'utilisateur est connecte et si le token n'est pas expire (Asynchrone)
    */
   async isLoggedIn(): Promise<boolean> {
     const token = await this.getToken();
@@ -116,15 +111,16 @@ export class AuthService {
   }
 
   /**
-   * Déconnecte l'utilisateur
+   * Deconnecte l'utilisateur de maniere asynchrone et securisee
    */
-  logout(): void {
-    this.purgeSession();
+  async logout(): Promise<void> {
+    // SÉCURISATION : Attente imperative de la destruction du token avant la redirection
+    await this.purgeSession();
     this.router.navigate(['/sign-in']);
   }
 
   /**
-   * Reset du timeout d'inactivité
+   * Reset du timeout d'inactivite
    */
   resetTimeout(): void {
     this.clearCurrentTimeout();
@@ -132,16 +128,17 @@ export class AuthService {
   }
 
   /**
-   * Lancement du compte à rebours d'inactivité
+   * Lancement du compte a rebours d'inactivite
    */
   private startTimeout(): void {
     this.clearCurrentTimeout();
-    this.timeoutId = setTimeout(() => this.logout(), this.TIMEOUT_DURATION);
+    this.timeoutId = setTimeout(async () => await this.logout(), this.TIMEOUT_DURATION);
   }
 
   private clearCurrentTimeout(): void {
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);
+      this.timeoutId = null;
     }
   }
 
@@ -157,7 +154,7 @@ export class AuthService {
         localStorage.removeItem('authToken');
       }
     } catch (error) {
-      console.error('Erreur lors de la purge de la session:', error);
+      console.error('Erreur lors de la purge de la session :', error);
     }
   }
 }

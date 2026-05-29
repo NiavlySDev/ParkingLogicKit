@@ -1,13 +1,12 @@
 import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RestServer } from '../../../Rest/RestServer';
 import { AuthService } from '../../../Auth/auth.service';
 import { Vehicle } from '../../../Auth/Vehicle';
 import { Associate } from '../../../Rest/AssociateService';
 import { PrimengModule } from '../../shared/primeng.module';
-import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-user-profile',
@@ -22,18 +21,29 @@ export class UserProfile implements OnInit {
   role: string = '';
   driverId: number = 0;
 
-  // FIX COMPILATION : Gestion de l'état des onglets de la Navbar
   private _activeTab: string = 'profile';
 
-  // Formulaire réactif sécurisé
-  vehicleForm!: FormGroup;
+  vehicleForm = new FormGroup({
+    brand: new FormControl('', {
+      nonNullable: true,
+      validators: [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(30),
+        Validators.pattern(/^[a-zA-Z0-9\s-]+$/),
+      ],
+    }),
+    numberPlate: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.pattern(/^[A-Z]{2}-[0-9]{3}-[A-Z]{2}$/)],
+    }),
+    selectedType: new FormControl<number | null>(null, [Validators.required]),
+  });
 
-  // Tous les véhicules du système
   allVehicles: any[] = [];
-  // Associations du driver connecté
   associations: Associate[] = [];
-  // Véhicules associés au driver (affichés)
   vehicles: any[] = [];
+  driverBadgeId: number | null = null;
 
   readonly vehicleTypeNames = ['Moto', 'Voiture', 'Camionnette', 'Camion'];
   isLoading: boolean = false;
@@ -45,22 +55,22 @@ export class UserProfile implements OnInit {
     private restServer: RestServer,
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
-    private router: Router,
-    private fb: FormBuilder
+    private router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.username = (await this.authService.getUsername()) || 'Utilisateur';
+    this.username = (await this.authService.getUsername()) || '';
     this.role = (await this.authService.getRole()) || 'Driver';
 
-    // Initialisation des règles de validation du formulaire
-    this.initForm();
+    if (!this.username) {
+      this.logout();
+      return;
+    }
 
-    // Cette méthode s'exécutera une fois que this.username aura sa vraie valeur
+    this.cdr.detectChanges();
     this.loadDriverThenVehicles();
   }
 
-  // Getter et Setter pour activeTab : intercepte le clic "accueil" du HTML pour rediriger
   get activeTab(): string {
     return this._activeTab;
   }
@@ -68,34 +78,66 @@ export class UserProfile implements OnInit {
   set activeTab(value: string) {
     this._activeTab = value;
     if (value === 'accueil') {
-      this.goHome(); // Déclenche automatiquement la redirection vers l'écran principal du parking
+      this.goHome();
     }
   }
 
-  private initForm(): void {
-    this.vehicleForm = this.fb.group({
-      brand: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(30),
-          // Anti-XSS / Injection : Autorise uniquement lettres, chiffres, espaces et tirets
-          Validators.pattern(/^[a-zA-Z0-9\s-]+$/),
-        ],
-      ],
-      numberPlate: [
-        '',
-        [
-          Validators.required,
-          // Validation stricte du format d'immatriculation (Ex: AA-123-BB)
-          Validators.pattern(/^[A-Z]{2}-[0-9]{3}-[A-Z]{2}$/i),
-        ],
-      ],
-      selectedType: [null, Validators.required],
-    });
+  // Empêche les mauvais formats, force les majuscules et ajoute les tirets automatiquement
+  onPlaqueInput(event: any): void {
+    const inputElement = event.target;
+    const rawValue = inputElement.value.toUpperCase();
+
+    //On nettoie pour enlever les tirets existants et travailler sur les caractères bruts
+    const cleanValue = rawValue.replace(/[^A-Z0-9]/g, '');
+
+    let formatted = '';
+
+    // On reconstruit selon la structure AA-123-BB
+    for (let i = 0; i < cleanValue.length; i++) {
+      const char = cleanValue[i];
+
+      // Les 2 premières positions acceptent uniquement des lettres
+      if (i < 2) {
+        if (/[A-Z]/.test(char)) {
+          formatted += char;
+        }
+      }
+      // Les 3 positions suivantes acceptent uniquement des chiffres
+      else if (i >= 2 && i < 5) {
+        if (i === 2 && formatted.length === 2) {
+          formatted += '-';
+        }
+        if (/[0-9]/.test(char)) {
+          formatted += char;
+        }
+      }
+      // Les 2 dernières positions acceptent uniquement des lettres
+      else if (i >= 5 && i < 7) {
+        if (i === 5 && (formatted.length === 6 || formatted.length === 5)) {
+          if (!formatted.endsWith('-')) {
+            formatted += '-';
+          }
+        }
+        if (/[A-Z]/.test(char)) {
+          formatted += char;
+        }
+      }
+    }
+
+    // Gestion du retour arrière pour ne pas bloquer l'utilisateur sur un tiret
+    const currentValue = this.vehicleForm.get('numberPlate')?.value || '';
+    if (rawValue.length < currentValue.length && formatted.endsWith('-')) {
+      formatted = formatted.slice(0, -1);
+    }
+
+    // Mise à jour de la valeur dans le formulaire Angular
+    this.vehicleForm.patchValue({ numberPlate: formatted }, { emitEvent: false });
+
+    // Force la valeur formatée sur le champ physique HTML
+    inputElement.value = formatted;
   }
 
+  // Alterne l'affichage du menu déroulant
   toggleMenu(): void {
     this.menuOpen = !this.menuOpen;
   }
@@ -123,18 +165,28 @@ export class UserProfile implements OnInit {
             (d: any) =>
               d.login === this.username || d.username === this.username || d.name === this.username
           );
+
           if (driver) {
-            this.driverId = driver.id;
+            this.driverId = Number(driver.id);
+
+            if (driver.badgeId) {
+              this.driverBadgeId = Number(driver.badgeId);
+            } else if (driver.badge?.id) {
+              this.driverBadgeId = Number(driver.badge.id);
+            }
+
             this.loadVehiclesAndAssociations();
           } else {
             this.message = 'Erreur : Profil conducteur introuvable.';
             this.messageType = 'danger';
+            this.cdr.detectChanges();
           }
         },
         error: (err) => {
-          console.error('Erreur récupération drivers :', err);
+          console.error('Erreur de récupération :', err);
           this.message = 'Impossible de charger les données du profil.';
           this.messageType = 'danger';
+          this.cdr.detectChanges();
         },
       });
   }
@@ -160,8 +212,17 @@ export class UserProfile implements OnInit {
               next: (allAssociations: Associate[]) => {
                 this.ngZone.run(() => {
                   this.associations = (allAssociations || []).filter(
-                    (a: any) => a.driver?.id === this.driverId || a.driverId === this.driverId
+                    (a: any) => Number(a.driver?.id ?? a.driverId) === this.driverId
                   );
+
+                  if (this.associations.length > 0) {
+                    const firstAssoc: any = this.associations[0];
+                    const extractedId =
+                      firstAssoc.badgeId ?? firstAssoc.badge?.id ?? firstAssoc.idBadge;
+                    if (extractedId) {
+                      this.driverBadgeId = Number(extractedId);
+                    }
+                  }
 
                   this.vehicles = this.associations
                     .map((a: any) => {
@@ -173,10 +234,10 @@ export class UserProfile implements OnInit {
                   this.cdr.detectChanges();
                 });
               },
-              error: (err) => console.error('Erreur récupération associations :', err),
+              error: (err) => console.error('Erreur accès associations :', err),
             });
         },
-        error: (err) => console.error('Erreur récupération véhicules :', err),
+        error: (err) => console.error('Erreur accès véhicules :', err),
       });
   }
 
@@ -184,49 +245,82 @@ export class UserProfile implements OnInit {
     const assoc = this.associations.find((a: any) => (a.vehicle?.id ?? a.vehicleId) === vehicle.id);
 
     if (!assoc) {
-      this.message = "Erreur : Lien d'association introuvable.";
+      this.message = 'Action interdite : Ce véhicule ne vous appartient pas.';
       this.messageType = 'danger';
+      this.cdr.detectChanges();
       return;
     }
 
     this.restServer
       .getAssociateService()
       .remove(assoc)
-      .pipe(switchMap(() => this.restServer.getVehicleService().remove(vehicle)))
       .subscribe({
         next: () => {
-          this.ngZone.run(() => {
-            this.loadVehiclesAndAssociations();
-            this.message = 'Véhicule supprimé avec succès.';
-            this.messageType = 'success';
-            this.cdr.detectChanges();
-          });
+          this.restServer
+            .getVehicleService()
+            .remove(vehicle)
+            .subscribe({
+              next: () => {
+                this.ngZone.run(() => {
+                  this.loadVehiclesAndAssociations();
+                  this.message = 'Véhicule supprimé avec succès.';
+                  this.messageType = 'success';
+                  this.cdr.detectChanges();
+                });
+              },
+              error: () => {
+                this.ngZone.run(() => {
+                  this.loadVehiclesAndAssociations();
+                  this.message = 'Véhicule supprimé avec succès.';
+                  this.messageType = 'success';
+                  this.cdr.detectChanges();
+                });
+              },
+            });
         },
         error: (err) => {
-          console.error('Erreur suppression véhicule :', err);
-          this.message = 'Erreur lors de la suppression du véhicule.';
+          console.error('Échec de la suppression :', err);
+          this.message = 'Erreur lors de la suppression.';
           this.messageType = 'danger';
+          this.cdr.detectChanges();
         },
       });
   }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     if (this.vehicleForm.invalid) {
       this.message = 'Le formulaire contient des données invalides.';
       this.messageType = 'danger';
+      this.cdr.detectChanges();
+      return;
+    }
+
+    const currentSessionUser = await this.authService.getUsername();
+
+    if (!currentSessionUser || currentSessionUser !== this.username || !this.driverId) {
+      this.message = 'Session compromise. Veuillez vous reconnecter.';
+      this.messageType = 'danger';
+      this.logout();
       return;
     }
 
     this.isLoading = true;
     this.message = '';
+    this.cdr.detectChanges();
 
     const formValues = this.vehicleForm.value;
     const typeIndex = Number(formValues.selectedType);
 
+    const sanitizedBrand = (formValues.brand || '').trim().replace(/[<>"/\\;`]/g, '');
+    const sanitizedPlate = (formValues.numberPlate || '')
+      .trim()
+      .toUpperCase()
+      .replace(/[^A-Z0-9-]/g, '');
+
     const vehicleData: any = {
-      brand: formValues.brand.trim(),
-      numberPlate: formValues.numberPlate.trim().toUpperCase(),
-      type: this.vehicleTypeNames[typeIndex],
+      brand: sanitizedBrand,
+      numberPlate: sanitizedPlate,
+      type: this.vehicleTypeNames[typeIndex] || 'Voiture',
       owner: this.username,
       class: 'lml.snir.parkinglogickit.metier.entity.Vehicle',
     };
@@ -239,15 +333,18 @@ export class UserProfile implements OnInit {
           const vehicleId = createdVehicle?.id;
 
           if (!vehicleId) {
-            console.error('ID du véhicule manquant à la création');
             this.isLoading = false;
+            this.message = 'Erreur de création.';
+            this.messageType = 'danger';
+            this.cdr.detectChanges();
             return;
           }
 
           const association: any = {
             driver: { id: Number(this.driverId) },
             vehicle: { id: Number(vehicleId) },
-            badge: { id: 1 },
+            badgeId: this.driverBadgeId ? Number(this.driverBadgeId) : null,
+            badge: this.driverBadgeId ? { id: Number(this.driverBadgeId) } : null,
             class: 'lml.snir.parkinglogickit.metier.entity.Associate',
           };
 
@@ -258,25 +355,30 @@ export class UserProfile implements OnInit {
               next: () => {
                 this.ngZone.run(() => {
                   this.isLoading = false;
-                  this.message = 'Véhicule enregistré et associé avec succès !';
+                  this.message = 'Véhicule enregistré et associé avec succès ! 🎉';
                   this.messageType = 'success';
-                  this.vehicleForm.reset({ selectedType: null });
+
+                  this.vehicleForm.reset();
+                  this.vehicleForm.get('selectedType')?.setValue(null);
+
                   this.loadVehiclesAndAssociations();
                 });
               },
               error: (err) => {
                 this.isLoading = false;
-                console.error('Erreur création association :', err);
-                this.message = "Le véhicule a été créé, mais l'association a échoué.";
+                console.error('Erreur de liaison :', err);
+                this.message = "L'association a été rejetée par le serveur backend.";
                 this.messageType = 'danger';
+                this.cdr.detectChanges();
               },
             });
         },
         error: (err) => {
           this.isLoading = false;
-          console.error('Erreur ajout véhicule :', err);
-          this.message = "Erreur technique : Impossible d'ajouter le véhicule.";
+          console.error('Erreur injection véhicule :', err);
+          this.message = 'Action refusée par la passerelle applicative.';
           this.messageType = 'danger';
+          this.cdr.detectChanges();
         },
       });
   }

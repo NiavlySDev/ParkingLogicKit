@@ -8,26 +8,23 @@ import { REST_API_URL } from './api.config';
   providedIn: 'root',
 })
 export class VehicleService {
-  private apiUrl: string = `${REST_API_URL}/VehicleService`;
+  // SÉCURISATION : L'URL est rendue immuable pour bloquer toute tentative de détournement de trafic
+  private readonly apiUrl: string = `${REST_API_URL}/VehicleService`;
 
   constructor(private http: HttpClient) {}
 
-  public setApiUrl(baseUrl: string): void {
-    this.apiUrl = `${baseUrl}/VehicleService`;
+  public add(vehicle: Vehicle): Observable<Vehicle> {
+    return this.http.post<Vehicle>(`${this.apiUrl}/`, vehicle);
   }
 
-  public add(Vehicle: Vehicle): Observable<Vehicle> {
-    return this.http.post<Vehicle>(`${this.apiUrl}/`, Vehicle);
-  }
-
-  public remove(Vehicle: Vehicle): Observable<void> {
+  public remove(vehicle: Vehicle): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/`, {
-      body: Vehicle,
+      body: vehicle,
     });
   }
 
-  public update(Vehicle: Vehicle): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/`, Vehicle);
+  public update(vehicle: Vehicle): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/`, vehicle);
   }
 
   public getById(id: number): Observable<Vehicle> {
@@ -46,7 +43,7 @@ export class VehicleService {
     return this.http.get<Vehicle[]>(`${this.apiUrl}/${begin}/${count}`);
   }
 
-  public getByContent(content: string): Observable<Vehicle> {
-    return this.http.get<Vehicle>(`${this.apiUrl}/getByContent/${content}`);
+  public getByContent(numberPlate: string): Observable<Vehicle> {
+    return this.http.get<Vehicle>(`${this.apiUrl}/getByContent/${numberPlate}`);
   }
 }

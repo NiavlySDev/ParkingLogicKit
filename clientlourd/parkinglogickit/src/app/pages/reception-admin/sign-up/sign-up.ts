@@ -1,10 +1,11 @@
-import { Component, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, ChangeDetectorRef, NgZone, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RestServer } from '../../../../Rest/RestServer';
 import { Driver } from '../../../../Auth/Driver';
 import { Router } from '@angular/router';
-import { Capacitor } from '@capacitor/core'; // Pour la détection de la plateforme
+import { Capacitor } from '@capacitor/core';
+import { AuthService } from '../../../../Auth/auth.service'; // Import requis pour la sécurité
 
 @Component({
   selector: 'app-sign-up',
@@ -13,7 +14,7 @@ import { Capacitor } from '@capacitor/core'; // Pour la détection de la platefo
   templateUrl: './sign-up.html',
   styleUrls: ['./sign-up.css'],
 })
-export class SignUp {
+export class SignUp implements OnInit {
   firstname: string = '';
   lastName: string = '';
   username: string = '';
@@ -30,8 +31,23 @@ export class SignUp {
     private restServer: RestServer,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private authService: AuthService // Injection du service de sécurité
   ) {}
+
+  async ngOnInit(): Promise<void> {
+    // BARRIÈRE DE SÉCURITÉ 1 : Contrôle d'accès strict au rôle Admin
+    // (Nécessaire car cet écran permet de créer des comptes "Admin")
+    const currentRole = await this.authService.getRole();
+    const currentUsername = await this.authService.getUsername();
+
+    if (!currentUsername || currentRole !== 'Admin') {
+      console.warn('Tentative d’accès non autorisé à l’écran de création d’utilisateurs.');
+      this.authService.logout();
+      this.router.navigate(['/sign-in']);
+      return;
+    }
+  }
 
   goHome(): void {
     this.router.navigate(['/reception-admin']);
@@ -56,6 +72,22 @@ export class SignUp {
       return;
     }
 
+    // BARRIÈRE DE SÉCURITÉ 2 : Politique de force du mot de passe
+    // Exige : 8 caractères min, 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(this.password)) {
+      this.setMessage(
+        'Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial (@$!%*?&).',
+        'error'
+      );
+      return;
+    }
+
+    // ASSAINISSEMENT DES ENTRÉES : Filtrage anti-injection (XSS / SQL)
+    const sanitizedFirstname = this.firstname.trim().replace(/[<>"/\\;`]/g, '');
+    const sanitizedLastname = this.lastName.trim().replace(/[<>"/\\;`]/g, '');
+    const sanitizedUsername = this.username.trim().replace(/[<>"/\\;`\s]/g, ''); // Pas d'espaces dans l'identifiant
+
     this.isLoading = true;
     this.message = '';
 
@@ -65,12 +97,12 @@ export class SignUp {
         : 'lml.snir.parkinglogickit.metier.entity.Driver';
 
     const DriverData: any = {
-      firstName: this.firstname.trim(),
-      lastName: this.lastName.trim(),
-      username: this.username.trim(),
-      password: this.password,
-      age: this.age,
-      isMale: this.isMale,
+      firstName: sanitizedFirstname,
+      lastName: sanitizedLastname,
+      username: sanitizedUsername,
+      password: this.password, // Transmis proprement au backend qui doit se charger du hachage (BCrypt...)
+      age: Number(this.age),
+      isMale: Boolean(this.isMale),
       class: DriverClass,
     };
 
@@ -83,6 +115,7 @@ export class SignUp {
             this.isLoading = false;
             this.setMessage('Inscription réussie 🎉', 'success');
 
+            // Stockage temporaire sécurisé du conducteur créé pour l'écran suivant (add-vehicle)
             if (Capacitor.isNativePlatform()) {
               const { SecureStoragePlugin } = await import('capacitor-secure-storage-plugin');
               await SecureStoragePlugin.set({
@@ -101,7 +134,10 @@ export class SignUp {
           this.ngZone.run(() => {
             this.isLoading = false;
             console.error('Erreur lors de l’inscription :', error);
-            this.setMessage(error?.error?.message || "Une erreur s'est produite", 'error');
+            this.setMessage(
+              error?.error?.message || "Une erreur s'est produite lors de la création",
+              'error'
+            );
             this.cdr.detectChanges();
           });
         },

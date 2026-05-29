@@ -5,10 +5,13 @@ import { REST_API_URL } from './api.config';
 
 export interface Associate {
   id?: number;
-  driverId: number;
-  vehicleId: number;
-  vehicle?: { id: number; class?: string };
+  driverId?: number;
+  vehicleId?: number;
+  badgeId: number;
+  // Prise en compte optionnelle des objets structures pour s'aligner avec UserProfile et Hibernate
   driver?: { id: number };
+  vehicle?: { id: number };
+  badge?: { id: number };
   class?: string;
 }
 
@@ -16,13 +19,10 @@ export interface Associate {
   providedIn: 'root',
 })
 export class AssociateService {
-  private apiUrl: string = `${REST_API_URL}/AssociateService`;
+  // L'URL est desormais immuable (readonly) pour empecher toute tentative de detournement de trafic
+  private readonly apiUrl: string = `${REST_API_URL}/AssociateService`;
 
   constructor(private http: HttpClient) {}
-
-  public setApiUrl(baseUrl: string): void {
-    this.apiUrl = `${baseUrl}/AssociateService`;
-  }
 
   public add(associate: Associate): Observable<Associate> {
     return this.http.post<Associate>(`${this.apiUrl}/`, associate);
@@ -41,6 +41,8 @@ export class AssociateService {
   }
 
   public getAll(): Observable<Associate[]> {
-    return this.http.get<Associate[]>(`${this.apiUrl}/?login=PLK&pass=PASSPLK`);
+    // SECURISATION : Suppression des parametres de requete login/pass en clair dans l'URL.
+    // L'authentification est assuree de maniere transparente par l'en-tete Bearer de l'intercepteur HTTP.
+    return this.http.get<Associate[]>(`${this.apiUrl}/`);
   }
 }
