@@ -1,9 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { App as CapacitorApp } from '@capacitor/app';
 import { Capacitor, PluginListenerHandle, registerPlugin } from '@capacitor/core';
-import { BehaviorSubject, firstValueFrom } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 interface ApkInstallerPlugin {
   installFromUrl(options: { url: string; fileName: string }): Promise<{ status: string }>;
@@ -58,7 +57,6 @@ export class UpdateCheckService {
   readonly lastResult$ = this.lastResultSubject.asObservable();
 
   constructor(
-    private http: HttpClient,
     private router: Router
   ) {}
 
@@ -92,14 +90,12 @@ export class UpdateCheckService {
   }
 
   async getLatestRelease(): Promise<GitHubRelease> {
-    return firstValueFrom(this.http.get<GitHubRelease>(UpdateCheckService.latestReleaseUrl));
+    return this.fetchGitHub<GitHubRelease>(UpdateCheckService.latestReleaseUrl);
   }
 
   async getRecentReleases(limit: number = 5): Promise<GitHubRelease[]> {
-    const releases = await firstValueFrom(
-      this.http.get<GitHubRelease[]>(
-        `https://api.github.com/repos/NiavlySDev/ParkingLogicKit/releases?per_page=${limit}`
-      )
+    const releases = await this.fetchGitHub<GitHubRelease[]>(
+      `https://api.github.com/repos/NiavlySDev/ParkingLogicKit/releases?per_page=${limit}`
     );
 
     return releases.filter((release) => !release.draft && !release.prerelease);
@@ -115,10 +111,8 @@ export class UpdateCheckService {
 
     for (const tag of tagsToTry) {
       try {
-        return await firstValueFrom(
-          this.http.get<GitHubRelease>(
-            `https://api.github.com/repos/NiavlySDev/ParkingLogicKit/releases/tags/${tag}`
-          )
+        return await this.fetchGitHub<GitHubRelease>(
+          `https://api.github.com/repos/NiavlySDev/ParkingLogicKit/releases/tags/${tag}`
         );
       } catch {
         // Le depot utilise normalement les tags vX.Y.Z, mais on tente aussi X.Y.Z.
@@ -200,6 +194,29 @@ export class UpdateCheckService {
   private storeResult(result: UpdateCheckResult): UpdateCheckResult {
     this.lastResultSubject.next(result);
     return result;
+  }
+
+  private async fetchGitHub<T>(url: string): Promise<T> {
+    const response = await fetch(url, {
+      headers: {
+        Accept: 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+      cache: 'no-store',
+    });
+
+    if (!response.ok) {
+      let message = response.statusText;
+      try {
+        const payload = await response.json();
+        message = payload?.message || message;
+      } catch {
+        // On garde le statusText si GitHub ne renvoie pas de JSON lisible.
+      }
+      throw new Error(`GitHub ${response.status} : ${message}`);
+    }
+
+    return (await response.json()) as T;
   }
 
   private parseVersion(version: string): number[] {
