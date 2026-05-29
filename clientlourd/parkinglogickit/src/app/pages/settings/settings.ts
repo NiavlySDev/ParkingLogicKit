@@ -81,7 +81,7 @@ export class Settings implements OnInit, OnDestroy {
 
     this.currentVersion = await this.updateCheckService.getCurrentVersion();
     this.steps[0].state = 'done';
-    await Promise.all([this.loadReleaseDates(), this.loadChangelog()]);
+    await Promise.all([this.loadReleaseDates(true), this.loadChangelog(true)]);
     this.updateSubscription = this.updateCheckService.lastResult$.subscribe((result) => {
       if (result) {
         this.applyUpdateResult(result);
@@ -113,9 +113,10 @@ export class Settings implements OnInit, OnDestroy {
       this.steps[1].state = 'active';
       this.cdr.detectChanges();
 
-      const result: UpdateCheckResult = await this.updateCheckService.checkForUpdate();
+      const result: UpdateCheckResult = await this.updateCheckService.checkForUpdate(true);
       this.steps[1].state = 'done';
       this.applyUpdateResult(result);
+      await Promise.all([this.loadReleaseDates(true), this.loadChangelog(true)]);
     } catch (error) {
       this.steps[1].state = 'error';
       this.statusMessage = this.formatError(error);
@@ -215,11 +216,11 @@ export class Settings implements OnInit, OnDestroy {
       : 'Release trouvee, mais aucun fichier APK nest attache.';
   }
 
-  private async loadReleaseDates(): Promise<void> {
+  private async loadReleaseDates(forceRefresh = false): Promise<void> {
     try {
       const [currentRelease, latestRelease] = await Promise.all([
-        this.updateCheckService.getReleaseForVersion(this.currentVersion),
-        this.updateCheckService.getLatestRelease(),
+        this.updateCheckService.getReleaseForVersion(this.currentVersion, forceRefresh),
+        this.updateCheckService.getLatestRelease(forceRefresh),
       ]);
 
       this.currentReleaseDate = currentRelease?.published_at
@@ -236,12 +237,12 @@ export class Settings implements OnInit, OnDestroy {
     }
   }
 
-  private async loadChangelog(): Promise<void> {
+  private async loadChangelog(forceRefresh = false): Promise<void> {
     this.isLoadingChangelog = true;
     this.cdr.detectChanges();
 
     try {
-      const releases = await this.updateCheckService.getRecentReleases(6);
+      const releases = await this.updateCheckService.getRecentReleases(6, forceRefresh);
       this.changelog = releases.map((release) => ({
         version: release.tag_name,
         title: release.name || release.tag_name,

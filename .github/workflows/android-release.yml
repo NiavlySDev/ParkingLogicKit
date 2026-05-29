@@ -146,12 +146,13 @@ jobs:
           REPOSITORY: ${{ github.repository }}
           SERVER_URL: ${{ github.server_url }}
         run: |
-          source_manifest_path="../../docs/update-manifest.json"
+          remote_manifest_path=""
           if git fetch --depth=1 origin android-update-manifest >/dev/null 2>&1 \
             && git show FETCH_HEAD:update-manifest.json > "$RUNNER_TEMP/source-update-manifest.json" 2>/dev/null; then
-            source_manifest_path="$RUNNER_TEMP/source-update-manifest.json"
+            remote_manifest_path="$RUNNER_TEMP/source-update-manifest.json"
           fi
-          export SOURCE_MANIFEST_PATH="$source_manifest_path"
+          export REMOTE_MANIFEST_PATH="$remote_manifest_path"
+          export DOCS_MANIFEST_PATH="../../docs/update-manifest.json"
 
           python3 - <<'PY'
           import json
@@ -163,13 +164,15 @@ jobs:
           repository = os.environ["REPOSITORY"]
           server_url = os.environ["SERVER_URL"]
           notes_path = Path(os.environ["RUNNER_TEMP"]) / "release-notes.md"
-          source_manifest_path = Path(os.environ["SOURCE_MANIFEST_PATH"])
+          remote_manifest_path = os.environ["REMOTE_MANIFEST_PATH"]
+          docs_manifest_path = Path(os.environ["DOCS_MANIFEST_PATH"])
           output_manifest_path = Path(os.environ["RUNNER_TEMP"]) / "update-manifest.json"
 
-          if source_manifest_path.exists():
-            manifest = json.loads(source_manifest_path.read_text(encoding="utf-8"))
-          else:
-            manifest = {"latest": None, "releases": []}
+          manifests = []
+          if docs_manifest_path.exists():
+            manifests.append(json.loads(docs_manifest_path.read_text(encoding="utf-8")))
+          if remote_manifest_path and Path(remote_manifest_path).exists():
+            manifests.append(json.loads(Path(remote_manifest_path).read_text(encoding="utf-8")))
 
           release = {
             "version": version,
@@ -180,10 +183,21 @@ jobs:
             "htmlUrl": f"{server_url}/{repository}/releases/tag/{version}",
           }
 
-          previous = [
-            item for item in manifest.get("releases", [])
-            if item.get("version") != version
-          ]
+          releases_by_version = {}
+          for manifest_item in manifests:
+            latest = manifest_item.get("latest")
+            if latest and latest.get("version") != version:
+              releases_by_version[latest["version"]] = latest
+            for item in manifest_item.get("releases", []):
+              if item.get("version") and item.get("version") != version:
+                releases_by_version[item["version"]] = item
+
+          previous = sorted(
+            releases_by_version.values(),
+            key=lambda item: item.get("publishedAt", ""),
+            reverse=True,
+          )
+          manifest = {}
           manifest["latest"] = release
           manifest["releases"] = [release] + previous[:9]
 
