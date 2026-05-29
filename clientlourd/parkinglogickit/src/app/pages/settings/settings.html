@@ -96,6 +96,22 @@
         <span>{{ step.label }}</span>
       </div>
     </div>
+
+    <div class="changelog">
+      <div class="changelog-header">
+        <h3><i class="pi pi-history"></i> Changelog</h3>
+        <span *ngIf="isLoadingChangelog">Chargement...</span>
+      </div>
+
+      <div class="release-card" *ngFor="let item of changelog">
+        <div class="release-meta">
+          <strong>{{ item.version }}</strong>
+          <span>{{ item.date }}</span>
+        </div>
+        <h4>{{ item.title }}</h4>
+        <p>{{ item.description }}</p>
+      </div>
+    </div>
   </section>
 
   <section *ngIf="activeTab === 'information'" class="section">

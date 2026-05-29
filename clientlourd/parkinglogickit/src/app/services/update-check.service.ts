@@ -21,9 +21,11 @@ export interface GitHubReleaseAsset {
 }
 
 export interface GitHubRelease {
+  name: string | null;
   tag_name: string;
   html_url: string;
   published_at: string;
+  body: string | null;
   assets: GitHubReleaseAsset[];
   prerelease: boolean;
   draft: boolean;
@@ -91,6 +93,16 @@ export class UpdateCheckService {
 
   async getLatestRelease(): Promise<GitHubRelease> {
     return firstValueFrom(this.http.get<GitHubRelease>(UpdateCheckService.latestReleaseUrl));
+  }
+
+  async getRecentReleases(limit: number = 5): Promise<GitHubRelease[]> {
+    const releases = await firstValueFrom(
+      this.http.get<GitHubRelease[]>(
+        `https://api.github.com/repos/NiavlySDev/ParkingLogicKit/releases?per_page=${limit}`
+      )
+    );
+
+    return releases.filter((release) => !release.draft && !release.prerelease);
   }
 
   async getReleaseForVersion(version: string): Promise<GitHubRelease | null> {
