@@ -1,7 +1,8 @@
-import { Component, signal, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { PrimengModule } from './shared/primeng.module';
 import { AuthService } from '../Auth/auth.service';
+import { UpdateCheckService } from './services/update-check.service';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +11,17 @@ import { AuthService } from '../Auth/auth.service';
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App {
+export class App implements OnInit {
   protected readonly title = signal('ParkingLogicKit');
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private updateCheckService: UpdateCheckService
+  ) {}
+
+  async ngOnInit(): Promise<void> {
+    await this.updateCheckService.checkOnStartup();
+  }
 
   @HostListener('document:click')
   @HostListener('document:keypress')

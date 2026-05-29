@@ -2,10 +2,21 @@ apply plugin: 'com.android.application'
 
 def plkVersionName = project.findProperty('VERSION_NAME') ?: "1.0"
 def plkVersionCode = (project.findProperty('VERSION_CODE') ?: "10000") as Integer
+def releaseStoreFile = project.findProperty('RELEASE_STORE_FILE')
 
 android {
     namespace = "ParkingLogicKit.LML"
     compileSdk = rootProject.ext.compileSdkVersion
+    signingConfigs {
+        release {
+            if (releaseStoreFile) {
+                storeFile file(releaseStoreFile)
+                storePassword project.findProperty('RELEASE_STORE_PASSWORD')
+                keyAlias project.findProperty('RELEASE_KEY_ALIAS')
+                keyPassword project.findProperty('RELEASE_KEY_PASSWORD')
+            }
+        }
+    }
     defaultConfig {
         applicationId "ParkingLogicKit.LML"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -22,6 +33,9 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            if (releaseStoreFile) {
+                signingConfig signingConfigs.release
+            }
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

@@ -18,8 +18,10 @@ Author: Sylvain Crocquevieille
             <p:commandButton value="Nouvelle association"
                              icon="pi pi-link"
                              styleClass="rounded-button ui-button-success"
-                             type="button"
-                             onclick="PF('dlgCreerAssoc').show()"/>
+                             action="#{associationsBean.preparerCreation()}"
+                             process="@this"
+                             update="panelCreerAssoc"
+                             oncomplete="PF('dlgCreerAssoc').show()"/>
         </div>
 
         <p:dataTable id="tableAssociations"
@@ -96,19 +98,21 @@ Author: Sylvain Crocquevieille
                                  styleClass="rounded-button ui-button-success"
                                  action="#{associationsBean.creerAssociation()}"
                                  process="panelCreerAssoc @this"
-                                 update="tableAssociations messageindex message"
+                                 update="tableAssociations panelCreerAssoc messageindex message"
                                  oncomplete="if(!args.validationFailed) PF('dlgCreerAssoc').hide()"/>
                 <p:commandButton value="Annuler"
                                  icon="pi pi-times"
                                  styleClass="rounded-button ui-button-secondary"
-                                 type="button"
-                                 onclick="PF('dlgCreerAssoc').hide()"/>
+                                 action="#{associationsBean.preparerCreation()}"
+                                 process="@this"
+                                 update="panelCreerAssoc"
+                                 oncomplete="PF('dlgCreerAssoc').hide()"/>
             </f:facet>
         </p:dialog>
 
         <p:dialog header="Supprimer association" widgetVar="dlgSupprimerAssoc"
                   minHeight="90" width="420" showEffect="fade" modal="true">
-            <h:panelGroup rendered="#{associationsBean.selectedAssociation != null}">
+            <h:panelGroup id="panelSupprimerAssoc" rendered="#{associationsBean.selectedAssociation != null}">
                 <p>Confirmer la suppression de l'association du conducteur
                     <strong>#{associationsBean.selectedAssociation.driver != null ? associationsBean.selectedAssociation.driver.username : '?'}</strong>
                     avec le badge
@@ -121,13 +125,15 @@ Author: Sylvain Crocquevieille
                                  styleClass="rounded-button ui-button-danger"
                                  action="#{associationsBean.supprimerAssociation()}"
                                  process="@this"
-                                 update="tableAssociations messageindex message"
+                                 update="tableAssociations panelSupprimerAssoc messageindex message"
                                  oncomplete="PF('dlgSupprimerAssoc').hide()"/>
                 <p:commandButton value="Annuler"
                                  icon="pi pi-times"
                                  styleClass="rounded-button ui-button-secondary"
-                                 type="button"
-                                 onclick="PF('dlgSupprimerAssoc').hide()"/>
+                                 action="#{associationsBean.annulerSelection()}"
+                                 process="@this"
+                                 update="panelSupprimerAssoc"
+                                 oncomplete="PF('dlgSupprimerAssoc').hide()"/>
             </f:facet>
         </p:dialog>
 

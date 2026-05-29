@@ -46,3 +46,19 @@ Author: Sylvain Crocquevieille
     letter-spacing: 0.06em;
     text-transform: uppercase;
 }
+
+.driver-dialog {
+    max-width: calc(100vw - 24px);
+}
+
+.driver-dialog-content {
+    max-height: calc(100vh - 170px);
+    overflow-y: auto;
+}
+
+.driver-dialog .ui-dialog-footer {
+    position: sticky;
+    bottom: 0;
+    background: var(--surface, #fff);
+    z-index: 1;
+}
