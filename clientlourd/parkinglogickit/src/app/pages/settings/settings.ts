@@ -75,9 +75,9 @@ export class Settings implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.username = (await this.authService.getUsername()) || '';
-    this.role = (await this.authService.getRole()) || 'Driver';
-    this.username = this.username || 'Invite';
+    const isLoggedIn = await this.authService.isLoggedIn();
+    this.username = isLoggedIn ? await this.authService.getUsername() : 'Invite';
+    this.role = isLoggedIn ? (await this.authService.getRole()) || 'Driver' : 'Driver';
 
     this.currentVersion = await this.updateCheckService.getCurrentVersion();
     this.steps[0].state = 'done';

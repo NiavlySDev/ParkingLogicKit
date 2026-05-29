@@ -5,6 +5,7 @@ import { catchError, throwError, from, switchMap } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
+  const isTargetingBackend = req.url.includes('/api/') || req.url.startsWith('http://localhost');
 
   // Transformation de la Promise en Observable pour recuperer le jeton
   return from(authService.getToken()).pipe(
@@ -13,9 +14,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
       // SECURISATION : On injecte le token uniquement si la requete cible notre API centrale
       // (Cela evite d'envoyer le secret a des services externes de cartographie, meteo, etc.)
-      const isTargetingBackend =
-        req.url.includes('/api/') || req.url.startsWith('http://localhost');
-
       if (token && isTargetingBackend) {
         securedReq = req.clone({
           setHeaders: {
@@ -28,7 +26,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     }),
     catchError((error: HttpErrorResponse) => {
       // Detection des jetons expires ou invalides (401 / 403)
-      if (error.status === 401 || error.status === 403) {
+      if (isTargetingBackend && (error.status === 401 || error.status === 403)) {
         console.warn('Session expiree ou jeton invalide. Nettoyage de la session.');
 
         // SECURISATION : Suppression immediate locale pour couper court a toute boucle infinie
