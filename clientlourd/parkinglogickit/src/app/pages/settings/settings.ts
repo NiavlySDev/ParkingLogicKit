@@ -18,6 +18,13 @@ interface UpdateStep {
   state: StepState;
 }
 
+interface ChangelogEntry {
+  version: string;
+  title: string;
+  date: string;
+  description: string;
+}
+
 @Component({
   selector: 'app-settings',
   standalone: true,
@@ -40,6 +47,8 @@ export class Settings implements OnInit, OnDestroy {
   downloadProgress = 0;
   currentReleaseDate = 'Chargement...';
   latestReleaseDate = 'Chargement...';
+  changelog: ChangelogEntry[] = [];
+  isLoadingChangelog = false;
   release: GitHubRelease | null = null;
   updateAvailable = false;
   private updateSubscription: Subscription | null = null;
@@ -72,7 +81,7 @@ export class Settings implements OnInit, OnDestroy {
 
     this.currentVersion = await this.updateCheckService.getCurrentVersion();
     this.steps[0].state = 'done';
-    await this.loadReleaseDates();
+    await Promise.all([this.loadReleaseDates(), this.loadChangelog()]);
     this.updateSubscription = this.updateCheckService.lastResult$.subscribe((result) => {
       if (result) {
         this.applyUpdateResult(result);
@@ -224,6 +233,46 @@ export class Settings implements OnInit, OnDestroy {
       this.currentReleaseDate = 'Indisponible';
       this.latestReleaseDate = 'Indisponible';
     }
+  }
+
+  private async loadChangelog(): Promise<void> {
+    this.isLoadingChangelog = true;
+    this.cdr.detectChanges();
+
+    try {
+      const releases = await this.updateCheckService.getRecentReleases(6);
+      this.changelog = releases.map((release) => ({
+        version: release.tag_name,
+        title: release.name || release.tag_name,
+        date: this.formatDateTime(release.published_at),
+        description: this.formatReleaseDescription(release.body),
+      }));
+    } catch {
+      this.changelog = [
+        {
+          version: '-',
+          title: 'Changelog indisponible',
+          date: '-',
+          description: 'Impossible de recuperer les releases GitHub pour le moment.',
+        },
+      ];
+    } finally {
+      this.isLoadingChangelog = false;
+      this.cdr.detectChanges();
+    }
+  }
+
+  private formatReleaseDescription(body: string | null): string {
+    if (!body || !body.trim()) {
+      return 'Aucune description disponible pour cette release.';
+    }
+
+    return body
+      .replace(/\r/g, '')
+      .split('\n')
+      .map((line) => line.replace(/^#+\s*/, '').trim())
+      .filter((line) => line.length > 0)
+      .join('\n');
   }
 
   private formatDateTime(value: string): string {

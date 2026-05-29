@@ -285,6 +285,70 @@
   background: #ef4444;
 }
 
+.changelog {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.changelog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.changelog-header h3 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #1e293b;
+  font-size: 1rem;
+}
+
+.changelog-header span {
+  color: #64748b;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.release-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.release-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #64748b;
+  font-size: 0.82rem;
+}
+
+.release-meta strong {
+  color: #3b82f6;
+  font-size: 0.95rem;
+}
+
+.release-card h4 {
+  color: #1e293b;
+  font-size: 0.95rem;
+}
+
+.release-card p {
+  color: #334155;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  white-space: pre-line;
+}
+
 .programmers {
   display: grid;
   grid-template-columns: 1fr;
