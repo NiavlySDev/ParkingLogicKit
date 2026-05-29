@@ -3,6 +3,10 @@
     <img src="logo-home.png" alt="Accueil" class="home-logo" />
   </button>
 
+  <button class="settings-button" (click)="goSettings()" aria-label="Parametres">
+    <i class="pi pi-cog"></i>
+  </button>
+
   <div class="sign-in-card">
     <h1 class="sign-in-title">Connexion</h1>
 
@@ -53,5 +57,7 @@
     <div *ngIf="message" class="message" [ngClass]="'message-' + messageType">
       {{ message }}
     </div>
+
+    <small class="app-version">Version {{ appVersion }}</small>
   </div>
 </div>
