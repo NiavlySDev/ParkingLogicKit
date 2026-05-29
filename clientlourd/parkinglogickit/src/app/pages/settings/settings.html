@@ -1,0 +1,106 @@
+<nav class="navbar">
+  <div class="navbar-links">
+    <button class="nav-btn" (click)="goHome()"><i class="pi pi-home"></i></button>
+  </div>
+
+  <div class="navbar-links">
+    <button
+      class="nav-btn"
+      [class.active]="activeTab === 'updates'"
+      (click)="activeTab = 'updates'"
+    >
+      <i class="pi pi-download"></i> Mises a jour
+    </button>
+    <button
+      class="nav-btn"
+      [class.active]="activeTab === 'information'"
+      (click)="activeTab = 'information'"
+    >
+      <i class="pi pi-info-circle"></i> Informations
+    </button>
+  </div>
+
+  <div class="navbar-user" (click)="toggleMenu()">
+    <i class="pi pi-user-edit"></i>
+    <span>{{ username }}</span>
+    <i class="pi pi-chevron-down" style="font-size: 0.7rem"></i>
+
+    <div class="dropdown-menu" *ngIf="menuOpen">
+      <div class="dropdown-item" (click)="goProfile(); $event.stopPropagation()">
+        <i class="pi pi-user" style="font-size: 0.9rem"></i> Mon profil
+      </div>
+      <div class="dropdown-item" (click)="goSettings(); $event.stopPropagation()">
+        <i class="pi pi-cog" style="font-size: 0.9rem"></i> Parametres
+      </div>
+      <div class="dropdown-divider"></div>
+      <div class="dropdown-item danger" (click)="logout(); $event.stopPropagation()">
+        <i class="pi pi-sign-out" style="font-size: 0.9rem"></i> Se deconnecter
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="container">
+  <div class="header-content">
+    <h1>Parametres</h1>
+    <p class="subtitle">Gestion locale de l application mobile</p>
+  </div>
+
+  <section *ngIf="activeTab === 'updates'" class="section">
+    <h2 class="section-title"><i class="pi pi-download"></i> Mises a jour</h2>
+
+    <div class="version-grid">
+      <div class="info-card">
+        <span class="card-label">Version actuelle</span>
+        <strong>{{ currentVersion }}</strong>
+      </div>
+      <div class="info-card">
+        <span class="card-label">Derniere release GitHub</span>
+        <strong>{{ latestVersion }}</strong>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="nav-btn active action-btn" (click)="checkForUpdate()" [disabled]="isChecking">
+        <i [class]="isChecking ? 'pi pi-spin pi-spinner' : 'pi pi-search'"></i>
+        {{ isChecking ? 'Recherche...' : 'Verifier une mise a jour' }}
+      </button>
+      <button
+        class="nav-btn install-btn action-btn"
+        *ngIf="updateAvailable && release"
+        (click)="installUpdate()"
+        [disabled]="isInstalling"
+      >
+        <i [class]="isInstalling ? 'pi pi-spin pi-spinner' : 'pi pi-download'"></i>
+        {{ isInstalling ? 'Installation...' : 'Telecharger et installer' }}
+      </button>
+    </div>
+
+    <div class="status-box" *ngIf="statusMessage">
+      {{ statusMessage }}
+    </div>
+
+    <div class="steps">
+      <div class="step" *ngFor="let step of steps" [class]="step.state">
+        <span class="step-dot"></span>
+        <span>{{ step.label }}</span>
+      </div>
+    </div>
+  </section>
+
+  <section *ngIf="activeTab === 'information'" class="section">
+    <h2 class="section-title"><i class="pi pi-info-circle"></i> Informations</h2>
+
+    <div class="info-card wide">
+      <span class="card-label">Date de creation</span>
+      <strong>9 Janvier 2026</strong>
+    </div>
+
+    <div class="programmers">
+      <div class="programmer" *ngFor="let programmer of programmers">
+        <strong>{{ programmer.name }}</strong>
+        <span>{{ programmer.role }}</span>
+      </div>
+    </div>
+  </section>
+</main>

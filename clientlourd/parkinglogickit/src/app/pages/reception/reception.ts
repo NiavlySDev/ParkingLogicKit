@@ -102,6 +102,11 @@ export class Reception implements OnInit, OnDestroy {
     this.router.navigate(['/user-profile']);
   }
 
+  goSettings(): void {
+    this.menuOpen = false;
+    this.router.navigate(['/settings']);
+  }
+
   logout(): void {
     this.menuOpen = false;
     this.subscription.unsubscribe(); // Sécurité : On coupe le timer AVANT de vider le token

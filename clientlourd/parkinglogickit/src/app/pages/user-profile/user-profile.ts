@@ -197,6 +197,11 @@ export class UserProfile implements OnInit {
     this.router.navigate(['/user-profile']);
   }
 
+  goSettings(): void {
+    this.menuOpen = false;
+    this.router.navigate(['/settings']);
+  }
+
   loadVehiclesAndAssociations(): void {
     this.restServer
       .getVehicleService()
