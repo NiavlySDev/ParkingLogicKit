@@ -65,8 +65,11 @@ interface UpdateManifest {
 export class UpdateCheckService {
   private static readonly latestReleaseUrl =
     'https://api.github.com/repos/NiavlySDev/ParkingLogicKit/releases/latest';
-  private static readonly manifestUrl =
-    'https://raw.githubusercontent.com/NiavlySDev/ParkingLogicKit/main/docs/update-manifest.json';
+  private static readonly manifestUrls = [
+    'https://raw.githubusercontent.com/NiavlySDev/ParkingLogicKit/android-update-manifest/update-manifest.json',
+    'https://raw.githubusercontent.com/NiavlySDev/ParkingLogicKit/main/docs/update-manifest.json',
+    'https://github.com/NiavlySDev/ParkingLogicKit/releases/latest/download/update-manifest.json',
+  ];
   private static readonly manifestCacheKey = 'plk-update-manifest-cache';
   private static readonly manifestCacheTtlMs = 10 * 60 * 1000;
 
@@ -247,17 +250,20 @@ export class UpdateCheckService {
       return cached;
     }
 
-    try {
-      const manifest = await this.fetchPublicJson<UpdateManifest>(UpdateCheckService.manifestUrl);
-      localStorage.setItem(
-        UpdateCheckService.manifestCacheKey,
-        JSON.stringify({ savedAt: Date.now(), manifest })
-      );
-      return manifest;
-    } catch (error) {
-      console.warn('Manifest de mise a jour indisponible', error);
-      return null;
+    for (const manifestUrl of UpdateCheckService.manifestUrls) {
+      try {
+        const manifest = await this.fetchPublicJson<UpdateManifest>(manifestUrl);
+        localStorage.setItem(
+          UpdateCheckService.manifestCacheKey,
+          JSON.stringify({ savedAt: Date.now(), manifest })
+        );
+        return manifest;
+      } catch (error) {
+        console.warn(`Manifest de mise a jour indisponible (${manifestUrl})`, error);
+      }
     }
+
+    return null;
   }
 
   private readCachedManifest(): UpdateManifest | null {

@@ -140,18 +140,19 @@ jobs:
             fi
           } > "$RUNNER_TEMP/release-notes.md"
 
-      - name: Publish GitHub release
-        env:
-          GH_TOKEN: ${{ github.token }}
-          VERSION: ${{ steps.version.outputs.version }}
-        run: gh release create "$VERSION" plk.apk --title "$VERSION" --notes-file "$RUNNER_TEMP/release-notes.md" --target "$GITHUB_SHA"
-
-      - name: Update public update manifest
+      - name: Create update manifest asset
         env:
           VERSION: ${{ steps.version.outputs.version }}
           REPOSITORY: ${{ github.repository }}
           SERVER_URL: ${{ github.server_url }}
         run: |
+          source_manifest_path="../../docs/update-manifest.json"
+          if git fetch --depth=1 origin android-update-manifest >/dev/null 2>&1 \
+            && git show FETCH_HEAD:update-manifest.json > "$RUNNER_TEMP/source-update-manifest.json" 2>/dev/null; then
+            source_manifest_path="$RUNNER_TEMP/source-update-manifest.json"
+          fi
+          export SOURCE_MANIFEST_PATH="$source_manifest_path"
+
           python3 - <<'PY'
           import json
           import os
@@ -162,10 +163,11 @@ jobs:
           repository = os.environ["REPOSITORY"]
           server_url = os.environ["SERVER_URL"]
           notes_path = Path(os.environ["RUNNER_TEMP"]) / "release-notes.md"
-          manifest_path = Path("../../docs/update-manifest.json")
+          source_manifest_path = Path(os.environ["SOURCE_MANIFEST_PATH"])
+          output_manifest_path = Path(os.environ["RUNNER_TEMP"]) / "update-manifest.json"
 
-          if manifest_path.exists():
-            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          if source_manifest_path.exists():
+            manifest = json.loads(source_manifest_path.read_text(encoding="utf-8"))
           else:
             manifest = {"latest": None, "releases": []}
 
@@ -185,17 +187,50 @@ jobs:
           manifest["latest"] = release
           manifest["releases"] = [release] + previous[:9]
 
-          manifest_path.parent.mkdir(parents=True, exist_ok=True)
-          manifest_path.write_text(
+          output_manifest_path.write_text(
             json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
             encoding="utf-8"
           )
           PY
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          gh release create "$VERSION" \
+            plk.apk \
+            "$RUNNER_TEMP/update-manifest.json" \
+            --title "$VERSION" \
+            --notes-file "$RUNNER_TEMP/release-notes.md" \
+            --target "$GITHUB_SHA"
+
+      - name: Publish update manifest branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+          PUBLISH_BRANCH: android-update-manifest
+        run: |
+          publish_dir="$RUNNER_TEMP/update-manifest-publish"
+          mkdir -p "$publish_dir"
+          cd "$publish_dir"
+
+          git init
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add ../../docs/update-manifest.json
-          git commit -m "Update Android release manifest for $VERSION"
-          git push
+          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+
+          if git ls-remote --exit-code --heads origin "$PUBLISH_BRANCH" >/dev/null 2>&1; then
+            git fetch --depth=1 origin "$PUBLISH_BRANCH"
+            git checkout -B "$PUBLISH_BRANCH" FETCH_HEAD
+          else
+            git checkout --orphan "$PUBLISH_BRANCH"
+          fi
+
+          cp "$RUNNER_TEMP/update-manifest.json" update-manifest.json
+          git add update-manifest.json
+          git commit -m "Update Android release manifest for $VERSION" || exit 0
+          git push origin "$PUBLISH_BRANCH"
 
       - name: Send APK to Discord
         env:
