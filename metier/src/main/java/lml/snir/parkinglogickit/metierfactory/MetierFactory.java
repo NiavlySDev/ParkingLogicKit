@@ -1,6 +1,5 @@
 package lml.snir.parkinglogickit.metierfactory;
 
-
 import lml.snir.parkinglogickit.metier.mqtt.MqttConsumer;
 import lml.snir.parkinglogickit.metier.mqtt.MqttProducer;
 import lml.snir.parkinglogickit.metier.rest.client.AccessServiceClientRESTImpl;
@@ -27,7 +26,7 @@ import lml.snir.parkinglogickit.metier.transactionel.ParkingServiceImpl;
 import lml.snir.tools.ConfigReader;
 
 public class MetierFactory {
-   
+
     private MetierFactory() {
     }
 
@@ -39,7 +38,6 @@ public class MetierFactory {
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
         }
-
         return local;
     }
 
@@ -49,22 +47,23 @@ public class MetierFactory {
         return TOPIC;
     }
 
+ 
     private static MqttConsumer consumer = null;
 
     public static synchronized void launchMqttConsumer() {
-       if (consumer == null) {
-           consumer = new MqttConsumer(TOPIC);
-           consumer.doDemo();
-     }
+        if (consumer == null) {
+            consumer = new MqttConsumer();
+            consumer.demarrer();
+        }
     }
-    
-     private static MqttConsumer producer = null;
+
+   
+    private static MqttProducer producer = null;
 
     public static synchronized void launchMqttProducer() {
-       if (producer == null) {
-           producer = new MqttConsumer(TOPIC);
-           producer.doDemo();
-     }
+        if (producer == null) {
+            producer = new MqttProducer();
+        }
     }
 
     private static DriverService DriverSrv = null;
@@ -77,7 +76,6 @@ public class MetierFactory {
                 DriverSrv = new DriverServiceClientRESTImpl();
             }
         }
-
         return DriverSrv;
     }
 
@@ -91,7 +89,6 @@ public class MetierFactory {
                 badgeSrv = new BadgeServiceClientRESTImpl();
             }
         }
-
         return badgeSrv;
     }
 
@@ -102,26 +99,26 @@ public class MetierFactory {
             if (readLocalState()) {
                 AccessSrv = new AccessServiceImpl();
             } else {
-               AccessSrv = new AccessServiceClientRESTImpl();
+                AccessSrv = new AccessServiceClientRESTImpl();
             }
         }
-
         return AccessSrv;
     }
+
     private static ParkingService ParkingSrv = null;
 
     public static ParkingService getParkingService() throws Exception {
         if (ParkingSrv == null) {
             if (readLocalState()) {
-               ParkingSrv = new ParkingServiceImpl();
+                ParkingSrv = new ParkingServiceImpl();
             } else {
                 ParkingSrv = new ParkingServiceClientRESTImpl();
             }
         }
-
         return ParkingSrv;
     }
-       private static AdminService AdminSrv = null;
+
+    private static AdminService AdminSrv = null;
 
     public static AdminService getAdminService() throws Exception {
         if (AdminSrv == null) {
@@ -131,36 +128,32 @@ public class MetierFactory {
                 AdminSrv = new AdminServiceClientRESTImpl();
             }
         }
-
         return AdminSrv;
     }
-    
+
     private static VehicleService VehicleSrv = null;
-    
-     public static VehicleService getVehicleService() throws Exception {
+
+    public static VehicleService getVehicleService() throws Exception {
         if (VehicleSrv == null) {
             if (readLocalState()) {
                 VehicleSrv = new VehicleServiceImpl();
             } else {
-               VehicleSrv = new VehicleServiceClientRESTImpl();
+                VehicleSrv = new VehicleServiceClientRESTImpl();
             }
         }
-
         return VehicleSrv;
+    }
 
-     }
-
- private static AssociateService AssociateSrv = null;
+    private static AssociateService AssociateSrv = null;
 
     public static AssociateService getAssociateService() throws Exception {
         if (AssociateSrv == null) {
             if (readLocalState()) {
-               AssociateSrv = new AssociateServiceImpl();
+                AssociateSrv = new AssociateServiceImpl();
             } else {
-              AssociateSrv = new AssociateServiceClientRESTImpl();
+                AssociateSrv = new AssociateServiceClientRESTImpl();
             }
         }
-
         return AssociateSrv;
     }
 }
