@@ -80,7 +80,7 @@
       {{ statusMessage }}
     </div>
 
-    <div class="steps">
+    <div class="steps" *ngIf="showSteps">
       <div class="step" *ngFor="let step of steps" [class]="step.state">
         <span class="step-dot"></span>
         <span>{{ step.label }}</span>
@@ -95,6 +95,11 @@
       <span class="card-label">Date de creation</span>
       <strong>9 Janvier 2026</strong>
     </div>
+
+    <button class="nav-btn active action-btn" (click)="checkFromInformation()" [disabled]="isChecking">
+      <i [class]="isChecking ? 'pi pi-spin pi-spinner' : 'pi pi-search'"></i>
+      {{ isChecking ? 'Recherche...' : 'Verifier les mises a jour' }}
+    </button>
 
     <div class="programmers">
       <div class="programmer" *ngFor="let programmer of programmers">

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { App as CapacitorApp } from '@capacitor/app';
 import { Capacitor, registerPlugin } from '@capacitor/core';
-import { firstValueFrom } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 
 interface ApkInstallerPlugin {
   installFromUrl(options: { url: string; fileName: string }): Promise<{ status: string }>;
@@ -40,6 +40,8 @@ export class UpdateCheckService {
     'https://api.github.com/repos/NiavlySDev/ParkingLogicKit/releases/latest';
 
   private hasChecked = false;
+  private readonly lastResultSubject = new BehaviorSubject<UpdateCheckResult | null>(null);
+  readonly lastResult$ = this.lastResultSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -76,14 +78,14 @@ export class UpdateCheckService {
     ]);
 
     if (release.draft || release.prerelease) {
-      return {
+      return this.storeResult({
         currentVersion,
         latestVersion: release.tag_name,
         updateAvailable: false,
         release: null,
         apkUrl: null,
         message: 'La derniere release est une preversion ou un brouillon.',
-      };
+      });
     }
 
     const apkUrl = this.findApkUrl(release);
@@ -92,7 +94,7 @@ export class UpdateCheckService {
       this.parseVersion(currentVersion)
     );
 
-    return {
+    return this.storeResult({
       currentVersion,
       latestVersion: release.tag_name,
       updateAvailable,
@@ -101,7 +103,7 @@ export class UpdateCheckService {
       message: updateAvailable
         ? `Mise a jour disponible : ${currentVersion} -> ${release.tag_name}.`
         : `Application deja a jour (${currentVersion}).`,
-    };
+    });
   }
 
   async installRelease(release: GitHubRelease): Promise<void> {
@@ -125,6 +127,11 @@ export class UpdateCheckService {
       release.assets.find((asset) => asset.name.toLowerCase().endsWith('.apk'))
         ?.browser_download_url ?? null
     );
+  }
+
+  private storeResult(result: UpdateCheckResult): UpdateCheckResult {
+    this.lastResultSubject.next(result);
+    return result;
   }
 
   private parseVersion(version: string): number[] {

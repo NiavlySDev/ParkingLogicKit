@@ -9,6 +9,52 @@ Author: Sylvain Crocquevieille
     padding: 0 30px 24px;
 }
 
+.settings-tabs.ui-tabs,
+.settings-tabs .ui-tabs-nav,
+.settings-tabs .ui-tabs-panels,
+.settings-tabs .ui-tabs-panel,
+.settings-tabs .ui-widget-content {
+    color: var(--text-main);
+    background: var(--bg-page);
+    border-color: var(--border);
+}
+
+.settings-tabs.ui-tabs {
+    border: 1px solid var(--border);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+}
+
+.settings-tabs .ui-tabs-nav {
+    border-width: 0 0 1px;
+    border-style: solid;
+    padding: 0;
+}
+
+.settings-tabs .ui-tabs-nav li,
+.settings-tabs .ui-tabs-nav li.ui-tabs-selected,
+.settings-tabs .ui-tabs-nav li.ui-state-active,
+.settings-tabs .ui-tabs-nav li.ui-state-default {
+    background: var(--bg-surface);
+    border-color: var(--border);
+}
+
+.settings-tabs .ui-tabs-nav li a,
+.settings-tabs .ui-tabs-nav li.ui-tabs-selected a,
+.settings-tabs .ui-tabs-nav li.ui-state-active a {
+    color: var(--text-main);
+}
+
+.settings-tabs .ui-tabs-nav li.ui-tabs-selected,
+.settings-tabs .ui-tabs-nav li.ui-state-active {
+    background: var(--bg-soft);
+    border-bottom-color: var(--primary);
+}
+
+.settings-tabs .ui-tabs-nav li.ui-tabs-selected a,
+.settings-tabs .ui-tabs-nav li.ui-state-active a {
+    color: var(--primary);
+}
+
 .settings-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
