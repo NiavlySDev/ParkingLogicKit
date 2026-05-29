@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { App as CapacitorApp } from '@capacitor/app';
 import { Capacitor, PluginListenerHandle, registerPlugin } from '@capacitor/core';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
@@ -54,7 +55,10 @@ export class UpdateCheckService {
   private readonly lastResultSubject = new BehaviorSubject<UpdateCheckResult | null>(null);
   readonly lastResult$ = this.lastResultSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   async checkOnStartup(): Promise<void> {
     if (this.hasChecked || !Capacitor.isNativePlatform()) {
@@ -66,7 +70,10 @@ export class UpdateCheckService {
     try {
       const result = await this.checkForUpdate();
       if (result.updateAvailable) {
-        window.alert(`${result.message}\nVa dans Parametres > Mises a jour pour l installer.`);
+        window.alert(
+          `Nouvelle mise a jour Disponible, (${result.currentVersion} -> ${result.latestVersion}), Cliquez pour y acceder`
+        );
+        await this.router.navigate(['/settings']);
       }
     } catch (error) {
       console.warn('Verification de mise a jour impossible', error);
