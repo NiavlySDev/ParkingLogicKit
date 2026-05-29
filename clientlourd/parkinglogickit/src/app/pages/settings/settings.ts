@@ -229,9 +229,10 @@ export class Settings implements OnInit, OnDestroy {
         ? this.formatDateTime(latestRelease.published_at)
         : 'Release introuvable';
       this.cdr.detectChanges();
-    } catch {
+    } catch (error) {
       this.currentReleaseDate = 'Indisponible';
       this.latestReleaseDate = 'Indisponible';
+      console.warn('Dates de release indisponibles', error);
     }
   }
 
@@ -247,13 +248,13 @@ export class Settings implements OnInit, OnDestroy {
         date: this.formatDateTime(release.published_at),
         description: this.formatReleaseDescription(release.body),
       }));
-    } catch {
+    } catch (error) {
       this.changelog = [
         {
           version: '-',
           title: 'Changelog indisponible',
           date: '-',
-          description: 'Impossible de recuperer les releases GitHub pour le moment.',
+          description: this.formatError(error),
         },
       ];
     } finally {
@@ -293,6 +294,19 @@ export class Settings implements OnInit, OnDestroy {
   private formatError(error: unknown): string {
     if (error instanceof Error) {
       return error.message;
+    }
+
+    if (typeof error === 'object' && error !== null) {
+      const candidate = error as { message?: unknown; status?: unknown; statusText?: unknown; error?: unknown };
+      if (typeof candidate.message === 'string') {
+        return candidate.message;
+      }
+      if (candidate.status || candidate.statusText) {
+        return `Erreur ${candidate.status || ''} ${candidate.statusText || ''}`.trim();
+      }
+      if (typeof candidate.error === 'string') {
+        return candidate.error;
+      }
     }
 
     return String(error || 'Erreur inconnue pendant la mise a jour.');
