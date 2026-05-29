@@ -1,0 +1,60 @@
+{
+  "latest": {
+    "version": "v1.2.9",
+    "title": "v1.2.9",
+    "publishedAt": "2026-05-29T09:28:45Z",
+    "body": "## Changements depuis v1.2.8\n\n- Maj Icone + Réglage Bug page Paramètres et Informations (`896a2a6`)\n",
+    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.2.9/plk.apk",
+    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.2.9"
+  },
+  "releases": [
+    {
+      "version": "v1.2.9",
+      "title": "v1.2.9",
+      "publishedAt": "2026-05-29T09:28:45Z",
+      "body": "## Changements depuis v1.2.8\n\n- Maj Icone + Réglage Bug page Paramètres et Informations (`896a2a6`)\n",
+      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.2.9/plk.apk",
+      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.2.9"
+    },
+    {
+      "version": "v1.2.8",
+      "title": "v1.2.8",
+      "publishedAt": "2026-05-29T09:22:04Z",
+      "body": "## Changements depuis v1.2.7\n\n- Réglage Bug Déco Auto (`7bd201e`)\n",
+      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.2.8/plk.apk",
+      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.2.8"
+    },
+    {
+      "version": "v1.2.7",
+      "title": "v1.2.7",
+      "publishedAt": "2026-05-29T09:09:05Z",
+      "body": "## Changements depuis v1.2.6\n\n- Changelog Angular Direct dans l'app (`c08770b`)\n",
+      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.2.7/plk.apk",
+      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.2.7"
+    },
+    {
+      "version": "v1.2.6",
+      "title": "v1.2.6",
+      "publishedAt": "2026-05-29T09:00:41Z",
+      "body": "## Changements depuis v1.2.5\n\n- Réglage barre de Progression + Accessibilité Page Parmètres (`3c6ede1`)\n",
+      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.2.6/plk.apk",
+      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.2.6"
+    },
+    {
+      "version": "v1.2.5",
+      "title": "v1.2.5",
+      "publishedAt": "2026-05-29T08:52:17Z",
+      "body": "## Changements depuis v1.2.4\n\n- Maj Autopush Angular (`dd48e3e`)\n",
+      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.2.5/plk.apk",
+      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.2.5"
+    },
+    {
+      "version": "v1.2.4",
+      "title": "v1.2.4",
+      "publishedAt": "2026-05-29T08:43:43Z",
+      "body": "## Changements depuis v1.2.3\n\n- Retrait Verif Maj Infos + Barre Progression Maj Auto + sion + Date Dernières Mises a jour (`a294f34`)\n",
+      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.2.4/plk.apk",
+      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.2.4"
+    }
+  ]
+}
