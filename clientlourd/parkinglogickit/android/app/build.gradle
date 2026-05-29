@@ -10,7 +10,7 @@ android {
     signingConfigs {
         release {
             if (releaseStoreFile) {
-                storeFile file(releaseStoreFile)
+                storeFile rootProject.file(releaseStoreFile)
                 storePassword project.findProperty('RELEASE_STORE_PASSWORD')
                 keyAlias project.findProperty('RELEASE_KEY_ALIAS')
                 keyPassword project.findProperty('RELEASE_KEY_PASSWORD')
