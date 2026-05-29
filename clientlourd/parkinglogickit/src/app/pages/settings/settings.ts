@@ -55,9 +55,9 @@ export class Settings implements OnInit, OnDestroy {
 
   steps: UpdateStep[] = [
     { label: 'Lecture de la version actuelle', state: 'pending' },
-    { label: 'Recherche de la derniere release GitHub', state: 'pending' },
-    { label: 'Telechargement de l APK', state: 'pending' },
-    { label: 'Ouverture de l installation Android', state: 'pending' },
+    { label: 'Recherche de la dernière release GitHub', state: 'pending' },
+    { label: "Téléchargement de l'APK", state: 'pending' },
+    { label: "Ouverture de l'installation Android", state: 'pending' },
   ];
 
   readonly programmers = [
@@ -76,7 +76,7 @@ export class Settings implements OnInit, OnDestroy {
 
   async ngOnInit(): Promise<void> {
     const isLoggedIn = await this.authService.isLoggedIn();
-    this.username = isLoggedIn ? await this.authService.getUsername() : 'Invite';
+    this.username = isLoggedIn ? await this.authService.getUsername() : 'Invité';
     this.role = isLoggedIn ? (await this.authService.getRole()) || 'Driver' : 'Driver';
 
     this.currentVersion = await this.updateCheckService.getCurrentVersion();
@@ -150,7 +150,7 @@ export class Settings implements OnInit, OnDestroy {
       this.steps[2].state = 'done';
       this.steps[3].state = 'done';
       this.downloadProgress = 100;
-      this.statusMessage = 'Installation Android ouverte. Valide la mise a jour pour terminer.';
+      this.statusMessage = 'Installation Android ouverte. Valide la mise à jour pour terminer.';
     } catch (error) {
       this.steps[2].state = 'error';
       this.steps[3].state = 'error';
@@ -213,7 +213,7 @@ export class Settings implements OnInit, OnDestroy {
     this.updateAvailable = result.updateAvailable && !!result.apkUrl;
     this.statusMessage = result.apkUrl
       ? result.message
-      : 'Release trouvee, mais aucun fichier APK nest attache.';
+      : "Release trouvée, mais aucun fichier APK n'est attaché.";
   }
 
   private async loadReleaseDates(forceRefresh = false): Promise<void> {
@@ -310,6 +310,6 @@ export class Settings implements OnInit, OnDestroy {
       }
     }
 
-    return String(error || 'Erreur inconnue pendant la mise a jour.');
+    return String(error || 'Erreur inconnue pendant la mise à jour.');
   }
 }
