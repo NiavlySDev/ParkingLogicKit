@@ -68,11 +68,7 @@ export class Settings implements OnInit, OnDestroy {
   async ngOnInit(): Promise<void> {
     this.username = (await this.authService.getUsername()) || '';
     this.role = (await this.authService.getRole()) || 'Driver';
-
-    if (!this.username) {
-      this.logout();
-      return;
-    }
+    this.username = this.username || 'Invite';
 
     this.currentVersion = await this.updateCheckService.getCurrentVersion();
     this.steps[0].state = 'done';
@@ -161,6 +157,11 @@ export class Settings implements OnInit, OnDestroy {
 
   goProfile(): void {
     this.menuOpen = false;
+    if (this.username === 'Invite') {
+      this.router.navigate(['/sign-in']);
+      return;
+    }
+
     this.router.navigate(['/user-profile']);
   }
 
@@ -170,6 +171,11 @@ export class Settings implements OnInit, OnDestroy {
   }
 
   goHome(): void {
+    if (this.username === 'Invite') {
+      this.router.navigate(['/']);
+      return;
+    }
+
     if (this.role === 'Admin') {
       this.router.navigate(['/reception-admin']);
     } else {

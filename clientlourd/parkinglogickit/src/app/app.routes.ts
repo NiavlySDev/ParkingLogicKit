@@ -36,7 +36,6 @@ export const routes: Routes = [
   {
     path: 'settings',
     component: Settings,
-    canActivate: [authGuard],
   },
   {
     path: 'add-vehicle',
