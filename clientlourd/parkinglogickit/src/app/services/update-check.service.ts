@@ -1,11 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { App as CapacitorApp } from '@capacitor/app';
-import { Capacitor, registerPlugin } from '@capacitor/core';
+import { Capacitor, PluginListenerHandle, registerPlugin } from '@capacitor/core';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 
 interface ApkInstallerPlugin {
   installFromUrl(options: { url: string; fileName: string }): Promise<{ status: string }>;
+  addListener(
+    eventName: 'downloadProgress',
+    listenerFunc: (event: DownloadProgressEvent) => void
+  ): Promise<PluginListenerHandle>;
 }
 
 const ApkInstaller = registerPlugin<ApkInstallerPlugin>('ApkInstaller');
@@ -18,9 +22,16 @@ export interface GitHubReleaseAsset {
 export interface GitHubRelease {
   tag_name: string;
   html_url: string;
+  published_at: string;
   assets: GitHubReleaseAsset[];
   prerelease: boolean;
   draft: boolean;
+}
+
+export interface DownloadProgressEvent {
+  bytesRead: number;
+  totalBytes: number;
+  progress: number;
 }
 
 export interface UpdateCheckResult {
@@ -71,10 +82,37 @@ export class UpdateCheckService {
     return appInfo.version;
   }
 
+  async getLatestRelease(): Promise<GitHubRelease> {
+    return firstValueFrom(this.http.get<GitHubRelease>(UpdateCheckService.latestReleaseUrl));
+  }
+
+  async getReleaseForVersion(version: string): Promise<GitHubRelease | null> {
+    if (!version || version === 'Version web') {
+      return null;
+    }
+
+    const normalizedVersion = version.replace(/^v/i, '');
+    const tagsToTry = [`v${normalizedVersion}`, normalizedVersion];
+
+    for (const tag of tagsToTry) {
+      try {
+        return await firstValueFrom(
+          this.http.get<GitHubRelease>(
+            `https://api.github.com/repos/NiavlySDev/ParkingLogicKit/releases/tags/${tag}`
+          )
+        );
+      } catch {
+        // Le depot utilise normalement les tags vX.Y.Z, mais on tente aussi X.Y.Z.
+      }
+    }
+
+    return null;
+  }
+
   async checkForUpdate(): Promise<UpdateCheckResult> {
     const [currentVersion, release] = await Promise.all([
       this.getCurrentVersion(),
-      firstValueFrom(this.http.get<GitHubRelease>(UpdateCheckService.latestReleaseUrl)),
+      this.getLatestRelease(),
     ]);
 
     if (release.draft || release.prerelease) {
@@ -106,7 +144,10 @@ export class UpdateCheckService {
     });
   }
 
-  async installRelease(release: GitHubRelease): Promise<void> {
+  async installRelease(
+    release: GitHubRelease,
+    onProgress?: (event: DownloadProgressEvent) => void
+  ): Promise<void> {
     if (!Capacitor.isNativePlatform()) {
       throw new Error("L'installation automatique est disponible uniquement sur Android.");
     }
@@ -116,10 +157,18 @@ export class UpdateCheckService {
       throw new Error('Aucun fichier APK trouve dans les ressources de la release.');
     }
 
-    await ApkInstaller.installFromUrl({
-      url: apkUrl,
-      fileName: `ParkingLogicKit-${release.tag_name}.apk`,
-    });
+    const listener = onProgress
+      ? await ApkInstaller.addListener('downloadProgress', onProgress)
+      : null;
+
+    try {
+      await ApkInstaller.installFromUrl({
+        url: apkUrl,
+        fileName: `ParkingLogicKit-${release.tag_name}.apk`,
+      });
+    } finally {
+      await listener?.remove();
+    }
   }
 
   private findApkUrl(release: GitHubRelease): string | null {
