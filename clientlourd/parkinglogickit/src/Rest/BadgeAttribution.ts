@@ -5,31 +5,25 @@ import { REST_API_URL } from './api.config';
 
 export interface Badge {
   id: number;
-  contenu?: string;
+  content?: string;
   attribue?: boolean;
-  [key: string]: any;
+  class?: string;
 }
 
 @Injectable({
   providedIn: 'root',
 })
-export class BadgeService {
-  private apiUrl: string = `${REST_API_URL}/BadgeService`;
+export class BadgeAttribution {
+  private readonly apiUrl: string = `${REST_API_URL}/BadgeService`;
 
   constructor(private http: HttpClient) {}
-
-  public setApiUrl(baseUrl: string): void {
-    this.apiUrl = `${baseUrl}/BadgeService`;
-  }
 
   public add(badge: Badge): Observable<Badge> {
     return this.http.post<Badge>(`${this.apiUrl}/`, badge);
   }
 
   public remove(badge: Badge): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/`, {
-      body: badge,
-    });
+    return this.http.delete<void>(`${this.apiUrl}/`, { body: badge });
   }
 
   public update(badge: Badge): Observable<void> {
@@ -52,8 +46,8 @@ export class BadgeService {
     return this.http.get<Badge[]>(`${this.apiUrl}/${begin}/${count}`);
   }
 
-  public getByContenu(contenu: string): Observable<Badge> {
-    return this.http.get<Badge>(`${this.apiUrl}/getByContenu/${contenu}`);
+  public getByContent(content: string): Observable<Badge> {
+    return this.http.get<Badge>(`${this.apiUrl}/getBycontent/${content}`);
   }
 
   public getByAttribution(attribue: boolean): Observable<Badge[]> {

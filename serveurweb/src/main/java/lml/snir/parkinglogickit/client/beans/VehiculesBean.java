@@ -78,6 +78,7 @@ public class VehiculesBean implements Serializable {
         try {
             MetierFactory.getVehicleService().update(selectedVehicle);
             addInfo("Véhicule mis à jour.");
+            annulerSelection();
             charger();
         } catch (Exception e) {
             addError("Erreur lors de la modification : " + e.getMessage());
@@ -94,11 +95,20 @@ public class VehiculesBean implements Serializable {
         try {
             MetierFactory.getVehicleService().remove(selectedVehicle);
             addInfo("Véhicule supprimé.");
-            selectedVehicle = null;
+            annulerSelection();
             charger();
         } catch (Exception e) {
             addError("Erreur lors de la suppression : " + e.getMessage());
         }
+    }
+
+    public void preparerCreation() {
+        resetForm();
+        annulerSelection();
+    }
+
+    public void annulerSelection() {
+        selectedVehicle = null;
     }
 
     public void selectionner(Vehicle v) {

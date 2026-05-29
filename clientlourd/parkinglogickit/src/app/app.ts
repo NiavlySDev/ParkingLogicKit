@@ -1,7 +1,8 @@
-import { Component, signal, HostListener } from '@angular/core';
+import { Component, signal, HostListener, OnInit, NgZone } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { PrimengModule } from './shared/primeng.module';
 import { AuthService } from '../Auth/auth.service';
+import { UpdateCheckService } from './services/update-check.service';
 
 @Component({
   selector: 'app-root',
@@ -10,17 +11,41 @@ import { AuthService } from '../Auth/auth.service';
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App {
+export class App implements OnInit {
   protected readonly title = signal('ParkingLogicKit');
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private updateCheckService: UpdateCheckService,
+    private ngZone: NgZone
+  ) {}
+
+  async ngOnInit(): Promise<void> {
+    await this.updateCheckService.checkOnStartup();
+  }
+  
+  // Horodatage pour limiter l'execution de la reinitialisation (Throttling)
+  private lastActivityChecked: number = 0;
+  private readonly THROTTLE_DELAY: number = 3000; // Uniquement toutes les 3 secondes au maximum
 
   @HostListener('document:click')
   @HostListener('document:keypress')
   @HostListener('document:touchstart')
-  async onUserActivity(): Promise<void> {
-    if (await this.authService.isLoggedIn()) {
-      this.authService.resetTimeout();
+  onUserActivity(): void {
+    const now = Date.now();
+
+    // Si la derniere verification s'est produite il y a moins de 3 secondes, on ignore l'evenement
+    if (now - this.lastActivityChecked < this.THROTTLE_DELAY) {
+      return;
     }
+
+    this.lastActivityChecked = now;
+
+    // Execution en dehors d'Angular pour eviter de declencher des cycles de Change Detection inutiles
+    this.ngZone.runOutsideAngular(async () => {
+      if (await this.authService.isLoggedIn()) {
+        this.authService.resetTimeout();
+      }
+    });
   }
 }

@@ -1,6 +1,4 @@
-import { VehicleType as VehicleType } from './VehicleType';
-
-// author Virgile
+import { VehicleType } from './VehicleType';
 
 export class Vehicle {
   id: number;
@@ -14,12 +12,13 @@ export class Vehicle {
     brand: string,
     numberPlate: string,
     type: VehicleType = VehicleType.Voiture,
-    class_: string = '',
+    className: string = ''
   ) {
     this.id = id;
     this.brand = brand;
     this.numberPlate = numberPlate;
     this.type = type;
+    this.class = className;
   }
 
   getId(): number {
@@ -38,7 +37,21 @@ export class Vehicle {
     return this.numberPlate;
   }
 
-  setVehicleType(vehicleType: VehicleType) {
+  setVehicleType(vehicleType: VehicleType): void {
     this.type = vehicleType;
+  }
+
+  // Ajout des setters indispensables pour les futurs ecrans de modification
+  setBrand(brand: string): void {
+    if (brand && brand.trim().length > 0) {
+      this.brand = brand.trim();
+    }
+  }
+
+  setNumberPlate(numberPlate: string): void {
+    if (numberPlate && numberPlate.trim().length > 0) {
+      // Normalisation automatique de la plaque en majuscules
+      this.numberPlate = numberPlate.trim().toUpperCase();
+    }
   }
 }

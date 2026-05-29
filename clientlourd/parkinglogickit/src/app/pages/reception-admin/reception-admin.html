@@ -1,12 +1,12 @@
 <body>
   <nav class="navbar">
     <div class="navbar-links">
-      <button 
-        class="nav-btn" 
+      <button
+        class="nav-btn"
         [class.active]="activeTab === 'accueil' || !activeTab"
         (click)="activeTab = 'accueil'"
       >
-        <i class="pi pi-home"></i> Accueil
+        <i class="pi pi-home"></i> 
       </button>
     </div>
     <div class="navbar-links">
@@ -25,14 +25,24 @@
         Gestion Vehicle
       </button>
     </div>
-    <div class="navbar-user" (click)="toggleMenu()">
-      <span>{{ username }}</span>
-      <div class="dropdown-menu" *ngIf="menuOpen">
-        <div class="dropdown-item" (click)="goProfile()">Mon profil</div>
-        <div class="dropdown-divider"></div>
-        <div class="dropdown-item danger" (click)="logout()">Se déconnecter</div>
+  <div class="navbar-user" (click)="toggleMenu()">
+    <i class="pi pi-user-edit"></i>
+    <span>{{ username }}</span>
+    <i class="pi pi-chevron-down" style="font-size: 0.7rem"></i>
+
+    <div class="dropdown-menu" *ngIf="menuOpen">
+      <div class="dropdown-item" (click)="goProfile(); $event.stopPropagation()">
+        <i class="pi pi-user" style="font-size: 0.9rem"></i> Mon profil
+      </div>
+      <div class="dropdown-item" (click)="goSettings(); $event.stopPropagation()">
+        <i class="pi pi-cog" style="font-size: 0.9rem"></i> Parametres
+      </div>
+      <div class="dropdown-divider"></div>
+      <div class="dropdown-item danger" (click)="logout(); $event.stopPropagation()">
+        <i class="pi pi-sign-out" style="font-size: 0.9rem"></i> Se déconnecter
       </div>
     </div>
+  </div>
   </nav>
 
   <main class="container" *ngIf="activeTab === 'accueil' || !activeTab">

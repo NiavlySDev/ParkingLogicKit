@@ -5,6 +5,7 @@ import { RestServer } from '../../../../Rest/RestServer';
 import { Router } from '@angular/router';
 import { PrimengModule } from '../../../shared/primeng.module';
 import { Vehicle } from '../../../../Auth/Vehicle';
+import { AuthService } from '../../../../Auth/auth.service'; // Import requis pour la sécurité
 
 @Component({
   selector: 'app-modify-vehicle',
@@ -14,7 +15,6 @@ import { Vehicle } from '../../../../Auth/Vehicle';
   styleUrl: './modify-vehicle.css',
 })
 export class ModifyVehicle implements OnInit {
-  // Champs du formulaire
   brand: string = '';
   numberPlate: string = '';
   selectedVehicleType: number | null = null;
@@ -23,7 +23,6 @@ export class ModifyVehicle implements OnInit {
   message: string = '';
   messageType: 'success' | 'error' = 'success';
 
-  // Données pour PrimeNG
   vehicles: any[] = [];
   selectedVehicle: any;
 
@@ -31,10 +30,22 @@ export class ModifyVehicle implements OnInit {
     private restServer: RestServer,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private authService: AuthService // Injection du service d'authentification
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    // BARRIÈRE DE SÉCURITÉ 1 : Contrôle d'accès strict au rôle Admin
+    const currentRole = await this.authService.getRole();
+    const currentUsername = await this.authService.getUsername();
+
+    if (!currentUsername || currentRole !== 'Admin') {
+      console.warn('Tentative d’accès non autorisé à l’écran de modification des véhicules.');
+      this.authService.logout();
+      this.router.navigate(['/sign-in']);
+      return;
+    }
+
     this.loadVehicles();
   }
 
@@ -53,7 +64,7 @@ export class ModifyVehicle implements OnInit {
           });
         },
         error: (err) => {
-          console.error('Erreur lors du chargement des véhicules', err);
+          console.error('Erreur lors du chargement des véhicules :', err);
         },
       });
   }
@@ -68,7 +79,6 @@ export class ModifyVehicle implements OnInit {
       this.brand = this.selectedVehicle.brand;
       this.numberPlate = this.selectedVehicle.numberPlate;
 
-      // Moto = 0, Voiture = 1, Camionnette = 2, Camion = 3
       const typeList = ['Moto', 'Voiture', 'Camionnette', 'Camion'];
       const index = typeList.indexOf(this.selectedVehicle.type);
       this.selectedVehicleType = index !== -1 ? index : 1;
@@ -88,17 +98,38 @@ export class ModifyVehicle implements OnInit {
       return;
     }
 
+    // BARRIÈRE DE SÉCURITÉ 2 : Validation stricte des formats (Anti-XSS / Anti-Injection)
+    const brandRegex = /^[a-zA-Z0-9\s-]+$/;
+    const plateRegex = /^[A-Z]{2}-[0-9]{3}-[A-Z]{2}$/i;
+
+    const sanitizedBrand = this.brand.trim().replace(/[<>"/\\;`]/g, '');
+    const sanitizedPlate = this.numberPlate.trim().toUpperCase();
+
+    if (!brandRegex.test(sanitizedBrand)) {
+      this.setMessage(
+        'Format de la marque invalide (lettres, chiffres, espaces et tirets uniquement).',
+        'error'
+      );
+      return;
+    }
+
+    if (!plateRegex.test(sanitizedPlate)) {
+      this.setMessage('Format de plaque d’immatriculation invalide (Ex: AA-123-BB).', 'error');
+      return;
+    }
+
     this.isLoading = true;
     this.message = '';
 
     const javaClassName = 'lml.snir.parkinglogickit.metier.entity.Vehicle';
 
-    // OPTIMISATION : Assainissement des chaînes pour éviter les doublons ou formats invalides
+    // BARRIÈRE DE SÉCURITÉ 3 : Forçage des types primitifs et préservation de l'owner d'origine
     const vehicleToUpdate: any = {
-      id: this.selectedVehicle.id,
-      brand: this.brand.trim(),
-      numberPlate: this.numberPlate.trim().toUpperCase(),
+      id: Number(this.selectedVehicle.id),
+      brand: sanitizedBrand,
+      numberPlate: sanitizedPlate,
       type: this.getVehicleTypeName(this.selectedVehicleType),
+      owner: this.selectedVehicle.owner || 'Inconnu', // On conserve le propriétaire d'origine de l'entité
       class: javaClassName,
     };
 
@@ -110,14 +141,14 @@ export class ModifyVehicle implements OnInit {
           this.ngZone.run(() => {
             this.isLoading = false;
             this.setMessage('Modification effectuée avec succès ✅', 'success');
-            this.resetForm(); // OPTIMISATION : Remet à zéro l'affichage après traitement
+            this.resetForm();
             this.loadVehicles();
           });
         },
         error: (error: any) => {
           this.ngZone.run(() => {
             this.isLoading = false;
-            console.error('Erreur update:', error);
+            console.error('Erreur lors de la mise à jour (update) du véhicule :', error);
             this.setMessage('Erreur serveur lors de la mise à jour', 'error');
             this.cdr.detectChanges();
           });

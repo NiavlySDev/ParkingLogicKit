@@ -1,6 +1,10 @@
 /*
 Author: Sylvain Crocquevieille
 */
+body.plk-dialog-open {
+    overflow: hidden !important;
+}
+
 .col-id {
     width: 60px;
 }
@@ -45,4 +49,32 @@ Author: Sylvain Crocquevieille
     font-weight: 800;
     letter-spacing: 0.06em;
     text-transform: uppercase;
+}
+
+.driver-dialog.ui-dialog,
+.driver-dialog {
+    display: flex !important;
+    flex-direction: column;
+    max-width: calc(100vw - 24px) !important;
+    max-height: calc(100vh - 24px) !important;
+    overflow: hidden !important;
+}
+
+.driver-dialog .ui-dialog-titlebar {
+    flex: 0 0 auto;
+}
+
+.driver-dialog .ui-dialog-content,
+.driver-dialog-content {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+}
+
+.driver-dialog .ui-dialog-footer {
+    flex: 0 0 auto;
+    background: var(--surface, #fff);
+    border-top: 1px solid var(--border);
 }

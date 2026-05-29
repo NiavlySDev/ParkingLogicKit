@@ -136,6 +136,7 @@ public class ConducteursBean implements Serializable {
             selectedDriver = sauvegarderConducteurAvecRole(driverService, associateService, selectedDriver);
 
             addInfo("Conducteur mis à jour.");
+            annulerSelection();
             charger();
         } catch (Exception e) {
             addError("Erreur lors de la modification : " + e.getMessage());
@@ -153,12 +154,22 @@ public class ConducteursBean implements Serializable {
             String username = selectedDriver.getUsername();
             MetierFactory.getDriverService().remove(selectedDriver);
 
-            selectedDriver = null;
+            annulerSelection();
             charger();
             addInfo("Conducteur " + username + " supprimé.");
         } catch (Exception e) {
             addError("Erreur lors de la suppression : " + e.getMessage());
         }
+    }
+
+    public void preparerCreation() {
+        resetForm();
+        annulerSelection();
+    }
+
+    public void annulerSelection() {
+        selectedDriver = null;
+        selectedIsAdmin = false;
     }
 
     public void selectionner(Driver d) {

@@ -18,8 +18,10 @@ Author: Sylvain Crocquevieille
             <p:commandButton value="Nouveau badge"
                              icon="pi pi-id-card"
                              styleClass="rounded-button ui-button-success"
-                             type="button"
-                             onclick="PF('dlgCreerBadge').show()"/>
+                             action="#{badgesBean.preparerCreation()}"
+                             process="@this"
+                             update="panelCreerBadge"
+                             oncomplete="PF('dlgCreerBadge').show()"/>
         </div>
 
         <p:dataTable id="tableBadges"
@@ -69,19 +71,21 @@ Author: Sylvain Crocquevieille
                                  styleClass="rounded-button ui-button-success"
                                  action="#{badgesBean.creerBadge()}"
                                  process="panelCreerBadge @this"
-                                 update="tableBadges messageindex message"
+                                 update="tableBadges panelCreerBadge messageindex message"
                                  oncomplete="if(!args.validationFailed) PF('dlgCreerBadge').hide()"/>
                 <p:commandButton value="Annuler"
                                  icon="pi pi-times"
                                  styleClass="rounded-button ui-button-secondary"
-                                 type="button"
-                                 onclick="PF('dlgCreerBadge').hide()"/>
+                                 action="#{badgesBean.preparerCreation()}"
+                                 process="@this"
+                                 update="panelCreerBadge"
+                                 oncomplete="PF('dlgCreerBadge').hide()"/>
             </f:facet>
         </p:dialog>
 
         <p:dialog header="Supprimer badge" widgetVar="dlgSupprimerBadge"
                   minHeight="80" width="380" showEffect="fade" modal="true">
-            <h:panelGroup rendered="#{badgesBean.selectedBadge != null}">
+            <h:panelGroup id="panelSupprimerBadge" rendered="#{badgesBean.selectedBadge != null}">
                 <p>Confirmer la suppression du badge
                     <strong>#{badgesBean.selectedBadge.content}</strong> ?
                 </p>
@@ -92,13 +96,15 @@ Author: Sylvain Crocquevieille
                                  styleClass="rounded-button ui-button-danger"
                                  action="#{badgesBean.supprimerBadge()}"
                                  process="@this"
-                                 update="tableBadges messageindex message"
+                                 update="tableBadges panelSupprimerBadge messageindex message"
                                  oncomplete="PF('dlgSupprimerBadge').hide()"/>
                 <p:commandButton value="Annuler"
                                  icon="pi pi-times"
                                  styleClass="rounded-button ui-button-secondary"
-                                 type="button"
-                                 onclick="PF('dlgSupprimerBadge').hide()"/>
+                                 action="#{badgesBean.annulerSelection()}"
+                                 process="@this"
+                                 update="panelSupprimerBadge"
+                                 oncomplete="PF('dlgSupprimerBadge').hide()"/>
             </f:facet>
         </p:dialog>
 

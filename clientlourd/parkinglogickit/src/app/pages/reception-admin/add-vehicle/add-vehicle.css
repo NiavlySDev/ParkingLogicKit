@@ -9,8 +9,8 @@
 }
 
 /* =========================
-     PAGE ET CARTE
-     ========================= */
+       PAGE ET CARTE
+       ========================= */
 .add-vehicle {
   min-height: 100vh;
   background: linear-gradient(135deg, #f5f7fa, #e4ecf5);
@@ -40,8 +40,8 @@
   text-align: center;
 }
 
-/* FORMULAIRE */
-.add-vehiclep-form {
+/* FORMULAIRE (Correction du 'p' en trop pour activer le gap) */
+.add-vehicle-form {
   display: flex;
   flex-direction: column;
   gap: 22px;
@@ -63,22 +63,22 @@
 .form-input {
   padding: 13px 18px;
   font-size: clamp(0.95rem, 2.5vw, 1rem);
-  color: #2c3e50; /* Couleur du texte bien visible */
+  color: #2c3e50;
   border: 2px solid #e4ecf5;
   border-radius: 10px;
-  background-color: #f8fafc; /* Fond clair mais pas blanc pur */
+  background-color: #f8fafc;
   outline: none;
   transition: all 0.3s ease;
 }
 
 .form-input::placeholder {
-  color: #94a3b8; /* Couleur placeholder légèrement grisée */
+  color: #94a3b8;
 }
 
 .form-input:focus {
   border-color: #3b82f6;
-  background-color: #ffffff; /* blanc au focus, texte sombre */
-  color: #2c3e50; /* texte bien visible au focus */
+  background-color: #ffffff;
+  color: #2c3e50;
   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
   transform: translateY(-1px);
 }
@@ -144,8 +144,8 @@ select.form-input {
 }
 
 /* =========================
-     BOUTON HOME (LOGO PNG)
-     ========================= */
+       BOUTON HOME (LOGO PNG)
+       ========================= */
 .home-button {
   position: fixed;
   top: 20px;
@@ -175,20 +175,9 @@ select.form-input {
   display: block;
 }
 
-.home-button:hover {
-  transform: translateY(-2px);
-  background-color: #2563eb;
-}
-
-.home-logo {
-  width: 24px;
-  height: 24px;
-  display: block;
-}
-
 /* =========================
-     RESPONSIVE
-     ========================= */
+       RESPONSIVE
+       ========================= */
 @media (max-width: 768px) {
   .add-vehicle-card {
     padding: 40px 30px;
