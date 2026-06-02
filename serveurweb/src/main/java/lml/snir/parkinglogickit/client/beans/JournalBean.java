@@ -20,11 +20,17 @@ public class JournalBean implements Serializable {
 
     private List<Access> acces = new ArrayList<>();
 
+    /**
+     * Exécute le traitement init.
+     */
     @PostConstruct
     public void init() {
         charger();
     }
 
+    /**
+     * Recharge les données nécessaires à l'affichage.
+     */
     public void charger() {
         try {
             acces = MetierFactory.getAccessService().getAll();
@@ -35,10 +41,18 @@ public class JournalBean implements Serializable {
         }
     }
 
+    /**
+     * Exécute le traitement refresh.
+     */
     public void refresh() {
         charger();
     }
 
+    /**
+     * Retourne acces.
+     *
+     * @return List<Access> : valeur retournée par la méthode
+     */
     public List<Access> getAcces() {
         return acces;
     }

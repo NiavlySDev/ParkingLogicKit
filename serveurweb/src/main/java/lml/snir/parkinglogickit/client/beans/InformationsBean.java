@@ -25,6 +25,8 @@ import java.util.Map;
 
 /**
  * Informations générales affichées dans la page Informations.
+ *
+ * @author Sylvain Crocquevieille
  */
 @Named
 @ApplicationScoped
@@ -47,6 +49,11 @@ public class InformationsBean implements Serializable {
     private Instant derniereMiseAJour;
     private List<CommitInfo> dernieresMisesAJour = new ArrayList<>();
 
+    /**
+     * Retourne derniere mise ajour projet.
+     *
+     * @return String : valeur retournée par la méthode
+     */
     public synchronized String getDerniereMiseAJourProjet() {
         rafraichirSiNecessaire();
         if (derniereMiseAJour == null) {
@@ -55,11 +62,19 @@ public class InformationsBean implements Serializable {
         return DATE_FORMATTER.format(derniereMiseAJour);
     }
 
+    /**
+     * Retourne dernieres mises ajour.
+     *
+     * @return List<CommitInfo> : valeur retournée par la méthode
+     */
     public synchronized List<CommitInfo> getDernieresMisesAJour() {
         rafraichirSiNecessaire();
         return dernieresMisesAJour;
     }
 
+    /**
+     * Exécute le traitement rafraichir si necessaire.
+     */
     private void rafraichirSiNecessaire() {
         if (cacheDate != null && Instant.now().minus(CACHE_DURATION).isBefore(cacheDate)) {
             return;
@@ -88,6 +103,12 @@ public class InformationsBean implements Serializable {
         cacheDate = Instant.now();
     }
 
+    /**
+     * Exécute le traitement trouver commits non merge.
+     *
+     * @param branche : paramètre utilisé par la méthode
+     * @return List<CommitInfo> : valeur retournée par la méthode
+     */
     private List<CommitInfo> trouverCommitsNonMerge(String branche) throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(String.format(COMMITS_URL, branche)))
@@ -116,6 +137,12 @@ public class InformationsBean implements Serializable {
         return result;
     }
 
+    /**
+     * Crée commit info.
+     *
+     * @param commit : paramètre utilisé par la méthode
+     * @return CommitInfo : valeur retournée par la méthode
+     */
     private CommitInfo creerCommitInfo(JsonObject commit) {
         JsonObject commitData = commit.getJsonObject("commit");
         String sha = commit.getString("sha");
@@ -134,6 +161,15 @@ public class InformationsBean implements Serializable {
         private final Instant date;
         private final String dateFormatee;
 
+        /**
+         * Exécute le traitement commit info.
+         *
+         * @param sha : paramètre utilisé par la méthode
+         * @param auteur : paramètre utilisé par la méthode
+         * @param titre : paramètre utilisé par la méthode
+         * @param date : paramètre utilisé par la méthode
+         * @param dateFormatee : paramètre utilisé par la méthode
+         */
         public CommitInfo(String sha, String auteur, String titre, Instant date, String dateFormatee) {
             this.sha = sha;
             this.auteur = auteur;
@@ -142,22 +178,47 @@ public class InformationsBean implements Serializable {
             this.dateFormatee = dateFormatee;
         }
 
+        /**
+         * Retourne sha.
+         *
+         * @return String : valeur retournée par la méthode
+         */
         public String getSha() {
             return sha;
         }
 
+        /**
+         * Retourne auteur.
+         *
+         * @return String : valeur retournée par la méthode
+         */
         public String getAuteur() {
             return auteur;
         }
 
+        /**
+         * Retourne titre.
+         *
+         * @return String : valeur retournée par la méthode
+         */
         public String getTitre() {
             return titre;
         }
 
+        /**
+         * Retourne date.
+         *
+         * @return Instant : valeur retournée par la méthode
+         */
         public Instant getDate() {
             return date;
         }
 
+        /**
+         * Retourne date formatee.
+         *
+         * @return String : valeur retournée par la méthode
+         */
         public String getDateFormatee() {
             return dateFormatee;
         }

@@ -42,6 +42,9 @@ public class AssociationsBean implements Serializable {
     private boolean supprimerBadgeLie;
     private boolean supprimerVehiculeLie;
 
+    /**
+     * Exécute le traitement init.
+     */
     @PostConstruct
     public void init() {
         charger();
@@ -156,11 +159,17 @@ public class AssociationsBean implements Serializable {
         }
     }
 
+    /**
+     * Exécute le traitement preparer creation.
+     */
     public void preparerCreation() {
         resetForm();
         annulerSelection();
     }
 
+    /**
+     * Exécute le traitement annuler selection.
+     */
     public void annulerSelection() {
         selectedAssociation = null;
         editBadgeId = null;
@@ -170,6 +179,11 @@ public class AssociationsBean implements Serializable {
         supprimerVehiculeLie = false;
     }
 
+    /**
+     * Exécute le traitement selectionner association.
+     *
+     * @param association : paramètre utilisé par la méthode
+     */
     public void selectionnerAssociation(Associate association) {
         this.selectedAssociation = association;
         this.editBadgeId = association != null && association.getBadge() != null
@@ -181,6 +195,12 @@ public class AssociationsBean implements Serializable {
         supprimerVehiculeLie = false;
     }
 
+    /**
+     * Supprime associations conducteur.
+     *
+     * @param driver : paramètre utilisé par la méthode
+     * @param associateService : paramètre utilisé par la méthode
+     */
     private void supprimerAssociationsConducteur(Driver driver, AssociateService associateService) throws Exception {
         for (Associate association : associateService.getAll()) {
             if (association.getDriver() != null
@@ -190,6 +210,12 @@ public class AssociationsBean implements Serializable {
         }
     }
 
+    /**
+     * Supprime associations badge.
+     *
+     * @param badge : paramètre utilisé par la méthode
+     * @param associateService : paramètre utilisé par la méthode
+     */
     private void supprimerAssociationsBadge(Badge badge, AssociateService associateService) throws Exception {
         for (Associate association : associateService.getAll()) {
             if (association.getBadge() != null
@@ -199,6 +225,12 @@ public class AssociationsBean implements Serializable {
         }
     }
 
+    /**
+     * Supprime associations vehicule.
+     *
+     * @param vehicle : paramètre utilisé par la méthode
+     * @param associateService : paramètre utilisé par la méthode
+     */
     private void supprimerAssociationsVehicule(Vehicle vehicle, AssociateService associateService) throws Exception {
         for (Associate association : associateService.getAll()) {
             if (association.getVehicle() != null
@@ -208,54 +240,113 @@ public class AssociationsBean implements Serializable {
         }
     }
 
+    /**
+     * Exécute le traitement reset form.
+     */
     private void resetForm() {
         newDriverId = null;
         newBadgeId = null;
         newVehicleId = null;
     }
 
+    /**
+     * Ajoute info.
+     *
+     * @param message : paramètre utilisé par la méthode
+     */
     private void addInfo(String message) {
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, message, null));
     }
 
+    /**
+     * Ajoute error.
+     *
+     * @param message : paramètre utilisé par la méthode
+     */
     private void addError(String message) {
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
     }
 
+    /**
+     * Retourne associations.
+     *
+     * @return List<Associate> : valeur retournée par la méthode
+     */
     public List<Associate> getAssociations() {
         return associations;
     }
 
+    /**
+     * Retourne drivers.
+     *
+     * @return List<Driver> : valeur retournée par la méthode
+     */
     public List<Driver> getDrivers() {
         return drivers;
     }
 
+    /**
+     * Retourne badges.
+     *
+     * @return List<Badge> : valeur retournée par la méthode
+     */
     public List<Badge> getBadges() {
         return badges;
     }
 
+    /**
+     * Retourne vehicules.
+     *
+     * @return List<Vehicle> : valeur retournée par la méthode
+     */
     public List<Vehicle> getVehicules() {
         return vehicules;
     }
 
+    /**
+     * Retourne badges disponibles creation.
+     *
+     * @return List<Badge> : valeur retournée par la méthode
+     */
     public List<Badge> getBadgesDisponiblesCreation() {
         return filtrerBadgesDisponibles(null);
     }
 
+    /**
+     * Retourne vehicules disponibles creation.
+     *
+     * @return List<Vehicle> : valeur retournée par la méthode
+     */
     public List<Vehicle> getVehiculesDisponiblesCreation() {
         return filtrerVehiculesDisponibles(null);
     }
 
+    /**
+     * Retourne badges disponibles modification.
+     *
+     * @return List<Badge> : valeur retournée par la méthode
+     */
     public List<Badge> getBadgesDisponiblesModification() {
         return filtrerBadgesDisponibles(editBadgeId);
     }
 
+    /**
+     * Retourne vehicules disponibles modification.
+     *
+     * @return List<Vehicle> : valeur retournée par la méthode
+     */
     public List<Vehicle> getVehiculesDisponiblesModification() {
         return filtrerVehiculesDisponibles(editVehicleId);
     }
 
+    /**
+     * Exécute le traitement filtrer badges disponibles.
+     *
+     * @param idBadgeConserve : paramètre utilisé par la méthode
+     * @return List<Badge> : valeur retournée par la méthode
+     */
     private List<Badge> filtrerBadgesDisponibles(Long idBadgeConserve) {
         List<Badge> result = new ArrayList<>();
         for (Badge badge : badges) {
@@ -269,6 +360,12 @@ public class AssociationsBean implements Serializable {
         return result;
     }
 
+    /**
+     * Exécute le traitement filtrer vehicules disponibles.
+     *
+     * @param idVehiculeConserve : paramètre utilisé par la méthode
+     * @return List<Vehicle> : valeur retournée par la méthode
+     */
     private List<Vehicle> filtrerVehiculesDisponibles(Long idVehiculeConserve) {
         List<Vehicle> result = new ArrayList<>();
         for (Vehicle vehicle : vehicules) {
@@ -282,6 +379,12 @@ public class AssociationsBean implements Serializable {
         return result;
     }
 
+    /**
+     * Exécute le traitement badge est associe.
+     *
+     * @param badgeId : paramètre utilisé par la méthode
+     * @return boolean : valeur retournée par la méthode
+     */
     private boolean badgeEstAssocie(Long badgeId) {
         for (Associate association : associations) {
             if (association.getBadge() != null
@@ -292,6 +395,12 @@ public class AssociationsBean implements Serializable {
         return false;
     }
 
+    /**
+     * Exécute le traitement vehicule est associe.
+     *
+     * @param vehiculeId : paramètre utilisé par la méthode
+     * @return boolean : valeur retournée par la méthode
+     */
     private boolean vehiculeEstAssocie(Long vehiculeId) {
         for (Associate association : associations) {
             if (association.getVehicle() != null
@@ -302,6 +411,12 @@ public class AssociationsBean implements Serializable {
         return false;
     }
 
+    /**
+     * Exécute le traitement badge est associe par une autre association.
+     *
+     * @param badgeId : paramètre utilisé par la méthode
+     * @return boolean : valeur retournée par la méthode
+     */
     private boolean badgeEstAssocieParUneAutreAssociation(Long badgeId) {
         for (Associate association : associations) {
             if (selectedAssociation != null
@@ -316,6 +431,12 @@ public class AssociationsBean implements Serializable {
         return false;
     }
 
+    /**
+     * Exécute le traitement vehicule est associe par une autre association.
+     *
+     * @param vehiculeId : paramètre utilisé par la méthode
+     * @return boolean : valeur retournée par la méthode
+     */
     private boolean vehiculeEstAssocieParUneAutreAssociation(Long vehiculeId) {
         for (Associate association : associations) {
             if (selectedAssociation != null
@@ -330,74 +451,164 @@ public class AssociationsBean implements Serializable {
         return false;
     }
 
+    /**
+     * Retourne selected association.
+     *
+     * @return Associate : valeur retournée par la méthode
+     */
     public Associate getSelectedAssociation() {
         return selectedAssociation;
     }
 
+    /**
+     * Modifie selected association.
+     *
+     * @param selectedAssociation : paramètre utilisé par la méthode
+     */
     public void setSelectedAssociation(Associate selectedAssociation) {
         this.selectedAssociation = selectedAssociation;
     }
 
+    /**
+     * Retourne new driver id.
+     *
+     * @return Long : valeur retournée par la méthode
+     */
     public Long getNewDriverId() {
         return newDriverId;
     }
 
+    /**
+     * Modifie new driver id.
+     *
+     * @param newDriverId : paramètre utilisé par la méthode
+     */
     public void setNewDriverId(Long newDriverId) {
         this.newDriverId = newDriverId;
     }
 
+    /**
+     * Retourne new badge id.
+     *
+     * @return Long : valeur retournée par la méthode
+     */
     public Long getNewBadgeId() {
         return newBadgeId;
     }
 
+    /**
+     * Modifie new badge id.
+     *
+     * @param newBadgeId : paramètre utilisé par la méthode
+     */
     public void setNewBadgeId(Long newBadgeId) {
         this.newBadgeId = newBadgeId;
     }
 
+    /**
+     * Retourne new vehicle id.
+     *
+     * @return Long : valeur retournée par la méthode
+     */
     public Long getNewVehicleId() {
         return newVehicleId;
     }
 
+    /**
+     * Modifie new vehicle id.
+     *
+     * @param newVehicleId : paramètre utilisé par la méthode
+     */
     public void setNewVehicleId(Long newVehicleId) {
         this.newVehicleId = newVehicleId;
     }
 
+    /**
+     * Retourne edit badge id.
+     *
+     * @return Long : valeur retournée par la méthode
+     */
     public Long getEditBadgeId() {
         return editBadgeId;
     }
 
+    /**
+     * Modifie edit badge id.
+     *
+     * @param editBadgeId : paramètre utilisé par la méthode
+     */
     public void setEditBadgeId(Long editBadgeId) {
         this.editBadgeId = editBadgeId;
     }
 
+    /**
+     * Retourne edit vehicle id.
+     *
+     * @return Long : valeur retournée par la méthode
+     */
     public Long getEditVehicleId() {
         return editVehicleId;
     }
 
+    /**
+     * Modifie edit vehicle id.
+     *
+     * @param editVehicleId : paramètre utilisé par la méthode
+     */
     public void setEditVehicleId(Long editVehicleId) {
         this.editVehicleId = editVehicleId;
     }
 
+    /**
+     * Indique si supprimer conducteur lie.
+     *
+     * @return boolean : valeur retournée par la méthode
+     */
     public boolean isSupprimerConducteurLie() {
         return supprimerConducteurLie;
     }
 
+    /**
+     * Modifie supprimer conducteur lie.
+     *
+     * @param supprimerConducteurLie : paramètre utilisé par la méthode
+     */
     public void setSupprimerConducteurLie(boolean supprimerConducteurLie) {
         this.supprimerConducteurLie = supprimerConducteurLie;
     }
 
+    /**
+     * Indique si supprimer badge lie.
+     *
+     * @return boolean : valeur retournée par la méthode
+     */
     public boolean isSupprimerBadgeLie() {
         return supprimerBadgeLie;
     }
 
+    /**
+     * Modifie supprimer badge lie.
+     *
+     * @param supprimerBadgeLie : paramètre utilisé par la méthode
+     */
     public void setSupprimerBadgeLie(boolean supprimerBadgeLie) {
         this.supprimerBadgeLie = supprimerBadgeLie;
     }
 
+    /**
+     * Indique si supprimer vehicule lie.
+     *
+     * @return boolean : valeur retournée par la méthode
+     */
     public boolean isSupprimerVehiculeLie() {
         return supprimerVehiculeLie;
     }
 
+    /**
+     * Modifie supprimer vehicule lie.
+     *
+     * @param supprimerVehiculeLie : paramètre utilisé par la méthode
+     */
     public void setSupprimerVehiculeLie(boolean supprimerVehiculeLie) {
         this.supprimerVehiculeLie = supprimerVehiculeLie;
     }

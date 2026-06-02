@@ -51,6 +51,9 @@ public class ProfilBean implements Serializable {
     private String editNumberPlate;
     private VehicleType editVehicleType;
 
+    /**
+     * Exécute le traitement init.
+     */
     @PostConstruct
     public void init() {
         charger();
@@ -203,6 +206,11 @@ public class ProfilBean implements Serializable {
         }
     }
 
+    /**
+     * Exécute le traitement selectionner badge vole.
+     *
+     * @param badge : paramètre utilisé par la méthode
+     */
     public void selectionnerBadgeVole(Badge badge) {
         selectedBadge = null;
         if (!estBadgeDuConducteurConnecte(badge)) {
@@ -258,6 +266,12 @@ public class ProfilBean implements Serializable {
         }
     }
 
+    /**
+     * Exécute le traitement est association du conducteur connecte.
+     *
+     * @param association : paramètre utilisé par la méthode
+     * @return boolean : valeur retournée par la méthode
+     */
     private boolean estAssociationDuConducteurConnecte(Associate association) {
         Driver connected = loginBean.getDriver();
         return association != null
@@ -266,6 +280,12 @@ public class ProfilBean implements Serializable {
                 && Objects.equals(association.getDriver().getId(), connected.getId());
     }
 
+    /**
+     * Exécute le traitement est badge du conducteur connecte.
+     *
+     * @param badge : paramètre utilisé par la méthode
+     * @return boolean : valeur retournée par la méthode
+     */
     private boolean estBadgeDuConducteurConnecte(Badge badge) {
         if (badge == null || badge.getId() == null) {
             return false;
@@ -280,6 +300,12 @@ public class ProfilBean implements Serializable {
         return false;
     }
 
+    /**
+     * Exécute le traitement est present dans historique.
+     *
+     * @param badge : paramètre utilisé par la méthode
+     * @return boolean : valeur retournée par la méthode
+     */
     private boolean estPresentDansHistorique(Badge badge) throws Exception {
         for (Access access : MetierFactory.getAccessService().getAll()) {
             if (access.getBadge() != null
@@ -290,6 +316,11 @@ public class ProfilBean implements Serializable {
         return false;
     }
 
+    /**
+     * Supprime vehicule orphelin.
+     *
+     * @param vehicle : paramètre utilisé par la méthode
+     */
     private void supprimerVehiculeOrphelin(Vehicle vehicle) {
         if (vehicle == null || vehicle.getId() == null) {
             return;
@@ -301,98 +332,211 @@ public class ProfilBean implements Serializable {
         }
     }
 
+    /**
+     * Exécute le traitement reset form.
+     */
     private void resetForm() {
         newBrand = null;
         newNumberPlate = null;
         newVehicleType = VehicleType.Voiture;
     }
 
+    /**
+     * Ajoute info.
+     *
+     * @param message : paramètre utilisé par la méthode
+     */
     private void addInfo(String message) {
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, message, null));
     }
 
+    /**
+     * Ajoute error.
+     *
+     * @param message : paramètre utilisé par la méthode
+     */
     private void addError(String message) {
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
     }
 
+    /**
+     * Retourne associations.
+     *
+     * @return List<Associate> : valeur retournée par la méthode
+     */
     public List<Associate> getAssociations() {
         return associations;
     }
 
+    /**
+     * Retourne badges.
+     *
+     * @return List<Badge> : valeur retournée par la méthode
+     */
     public List<Badge> getBadges() {
         return badges;
     }
 
+    /**
+     * Retourne vehicules.
+     *
+     * @return List<Vehicle> : valeur retournée par la méthode
+     */
     public List<Vehicle> getVehicules() {
         return vehicules;
     }
 
+    /**
+     * Retourne max vehicules.
+     *
+     * @return int : valeur retournée par la méthode
+     */
     public int getMaxVehicules() {
         return MAX_VEHICULES;
     }
 
+    /**
+     * Indique si peut ajouter vehicule.
+     *
+     * @return boolean : valeur retournée par la méthode
+     */
     public boolean isPeutAjouterVehicule() {
         return vehicules.size() < MAX_VEHICULES;
     }
 
+    /**
+     * Retourne vehicle types.
+     *
+     * @return VehicleType[] : valeur retournée par la méthode
+     */
     public VehicleType[] getVehicleTypes() {
         return VehicleType.values();
     }
 
+    /**
+     * Retourne new brand.
+     *
+     * @return String : valeur retournée par la méthode
+     */
     public String getNewBrand() {
         return newBrand;
     }
 
+    /**
+     * Modifie new brand.
+     *
+     * @param newBrand : paramètre utilisé par la méthode
+     */
     public void setNewBrand(String newBrand) {
         this.newBrand = newBrand;
     }
 
+    /**
+     * Retourne new number plate.
+     *
+     * @return String : valeur retournée par la méthode
+     */
     public String getNewNumberPlate() {
         return newNumberPlate;
     }
 
+    /**
+     * Modifie new number plate.
+     *
+     * @param newNumberPlate : paramètre utilisé par la méthode
+     */
     public void setNewNumberPlate(String newNumberPlate) {
         this.newNumberPlate = newNumberPlate;
     }
 
+    /**
+     * Retourne new vehicle type.
+     *
+     * @return VehicleType : valeur retournée par la méthode
+     */
     public VehicleType getNewVehicleType() {
         return newVehicleType;
     }
 
+    /**
+     * Modifie new vehicle type.
+     *
+     * @param newVehicleType : paramètre utilisé par la méthode
+     */
     public void setNewVehicleType(VehicleType newVehicleType) {
         this.newVehicleType = newVehicleType;
     }
 
+    /**
+     * Retourne selected association.
+     *
+     * @return Associate : valeur retournée par la méthode
+     */
     public Associate getSelectedAssociation() {
         return selectedAssociation;
     }
 
+    /**
+     * Retourne selected badge.
+     *
+     * @return Badge : valeur retournée par la méthode
+     */
     public Badge getSelectedBadge() {
         return selectedBadge;
     }
 
+    /**
+     * Retourne edit brand.
+     *
+     * @return String : valeur retournée par la méthode
+     */
     public String getEditBrand() {
         return editBrand;
     }
 
+    /**
+     * Modifie edit brand.
+     *
+     * @param editBrand : paramètre utilisé par la méthode
+     */
     public void setEditBrand(String editBrand) {
         this.editBrand = editBrand;
     }
 
+    /**
+     * Retourne edit number plate.
+     *
+     * @return String : valeur retournée par la méthode
+     */
     public String getEditNumberPlate() {
         return editNumberPlate;
     }
 
+    /**
+     * Modifie edit number plate.
+     *
+     * @param editNumberPlate : paramètre utilisé par la méthode
+     */
     public void setEditNumberPlate(String editNumberPlate) {
         this.editNumberPlate = editNumberPlate;
     }
 
+    /**
+     * Retourne edit vehicle type.
+     *
+     * @return VehicleType : valeur retournée par la méthode
+     */
     public VehicleType getEditVehicleType() {
         return editVehicleType;
     }
 
+    /**
+     * Modifie edit vehicle type.
+     *
+     * @param editVehicleType : paramètre utilisé par la méthode
+     */
     public void setEditVehicleType(VehicleType editVehicleType) {
         this.editVehicleType = editVehicleType;
     }

@@ -38,6 +38,9 @@ public class BadgesBean implements Serializable {
     private boolean supprimerConducteursLies;
     private boolean supprimerVehiculesLies;
 
+    /**
+     * Exécute le traitement init.
+     */
     @PostConstruct
     public void init() {
         charger();
@@ -103,11 +106,17 @@ public class BadgesBean implements Serializable {
         }
     }
 
+    /**
+     * Exécute le traitement preparer creation.
+     */
     public void preparerCreation() {
         newBadgeContent = null;
         annulerSelection();
     }
 
+    /**
+     * Exécute le traitement annuler selection.
+     */
     public void annulerSelection() {
         selectedBadge = null;
         associationsSuppression = new ArrayList<>();
@@ -117,6 +126,11 @@ public class BadgesBean implements Serializable {
         supprimerVehiculesLies = false;
     }
 
+    /**
+     * Exécute le traitement selectionner badge.
+     *
+     * @param badge : paramètre utilisé par la méthode
+     */
     public void selectionnerBadge(Badge badge) {
         this.selectedBadge = badge;
         this.supprimerConducteursLies = false;
@@ -133,6 +147,13 @@ public class BadgesBean implements Serializable {
         }
     }
 
+    /**
+     * Exécute le traitement trouver associations badge.
+     *
+     * @param badge : paramètre utilisé par la méthode
+     * @param associateService : paramètre utilisé par la méthode
+     * @return List<Associate> : valeur retournée par la méthode
+     */
     private List<Associate> trouverAssociationsBadge(Badge badge, AssociateService associateService) throws Exception {
         List<Associate> result = new ArrayList<>();
         for (Associate association : associateService.getAll()) {
@@ -144,6 +165,12 @@ public class BadgesBean implements Serializable {
         return result;
     }
 
+    /**
+     * Exécute le traitement extraire conducteurs.
+     *
+     * @param associations : paramètre utilisé par la méthode
+     * @return List<Driver> : valeur retournée par la méthode
+     */
     private List<Driver> extraireConducteurs(List<Associate> associations) {
         Map<Long, Driver> conducteurs = new LinkedHashMap<>();
         for (Associate association : associations) {
@@ -155,6 +182,12 @@ public class BadgesBean implements Serializable {
         return new ArrayList<>(conducteurs.values());
     }
 
+    /**
+     * Exécute le traitement extraire vehicules.
+     *
+     * @param associations : paramètre utilisé par la méthode
+     * @return List<Vehicle> : valeur retournée par la méthode
+     */
     private List<Vehicle> extraireVehicules(List<Associate> associations) {
         Map<Long, Vehicle> vehicules = new LinkedHashMap<>();
         for (Associate association : associations) {
@@ -166,6 +199,12 @@ public class BadgesBean implements Serializable {
         return new ArrayList<>(vehicules.values());
     }
 
+    /**
+     * Supprime associations conducteur.
+     *
+     * @param driver : paramètre utilisé par la méthode
+     * @param associateService : paramètre utilisé par la méthode
+     */
     private void supprimerAssociationsConducteur(Driver driver, AssociateService associateService) throws Exception {
         for (Associate association : associateService.getAll()) {
             if (association.getDriver() != null
@@ -175,6 +214,12 @@ public class BadgesBean implements Serializable {
         }
     }
 
+    /**
+     * Supprime associations vehicule.
+     *
+     * @param vehicle : paramètre utilisé par la méthode
+     * @param associateService : paramètre utilisé par la méthode
+     */
     private void supprimerAssociationsVehicule(Vehicle vehicle, AssociateService associateService) throws Exception {
         for (Associate association : associateService.getAll()) {
             if (association.getVehicle() != null
@@ -184,60 +229,130 @@ public class BadgesBean implements Serializable {
         }
     }
 
+    /**
+     * Ajoute info.
+     *
+     * @param message : paramètre utilisé par la méthode
+     */
     private void addInfo(String message) {
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, message, null));
     }
 
+    /**
+     * Ajoute error.
+     *
+     * @param message : paramètre utilisé par la méthode
+     */
     private void addError(String message) {
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
     }
 
+    /**
+     * Retourne badges.
+     *
+     * @return List<Badge> : valeur retournée par la méthode
+     */
     public List<Badge> getBadges() {
         return badges;
     }
 
+    /**
+     * Retourne selected badge.
+     *
+     * @return Badge : valeur retournée par la méthode
+     */
     public Badge getSelectedBadge() {
         return selectedBadge;
     }
 
+    /**
+     * Modifie selected badge.
+     *
+     * @param selectedBadge : paramètre utilisé par la méthode
+     */
     public void setSelectedBadge(Badge selectedBadge) {
         this.selectedBadge = selectedBadge;
     }
 
+    /**
+     * Retourne new badge content.
+     *
+     * @return String : valeur retournée par la méthode
+     */
     public String getNewBadgeContent() {
         return newBadgeContent;
     }
 
+    /**
+     * Modifie new badge content.
+     *
+     * @param newBadgeContent : paramètre utilisé par la méthode
+     */
     public void setNewBadgeContent(String newBadgeContent) {
         this.newBadgeContent = newBadgeContent;
     }
 
+    /**
+     * Retourne associations suppression.
+     *
+     * @return List<Associate> : valeur retournée par la méthode
+     */
     public List<Associate> getAssociationsSuppression() {
         return associationsSuppression;
     }
 
+    /**
+     * Retourne conducteurs suppression.
+     *
+     * @return List<Driver> : valeur retournée par la méthode
+     */
     public List<Driver> getConducteursSuppression() {
         return conducteursSuppression;
     }
 
+    /**
+     * Retourne vehicules suppression.
+     *
+     * @return List<Vehicle> : valeur retournée par la méthode
+     */
     public List<Vehicle> getVehiculesSuppression() {
         return vehiculesSuppression;
     }
 
+    /**
+     * Indique si supprimer conducteurs lies.
+     *
+     * @return boolean : valeur retournée par la méthode
+     */
     public boolean isSupprimerConducteursLies() {
         return supprimerConducteursLies;
     }
 
+    /**
+     * Modifie supprimer conducteurs lies.
+     *
+     * @param supprimerConducteursLies : paramètre utilisé par la méthode
+     */
     public void setSupprimerConducteursLies(boolean supprimerConducteursLies) {
         this.supprimerConducteursLies = supprimerConducteursLies;
     }
 
+    /**
+     * Indique si supprimer vehicules lies.
+     *
+     * @return boolean : valeur retournée par la méthode
+     */
     public boolean isSupprimerVehiculesLies() {
         return supprimerVehiculesLies;
     }
 
+    /**
+     * Modifie supprimer vehicules lies.
+     *
+     * @param supprimerVehiculesLies : paramètre utilisé par la méthode
+     */
     public void setSupprimerVehiculesLies(boolean supprimerVehiculesLies) {
         this.supprimerVehiculesLies = supprimerVehiculesLies;
     }

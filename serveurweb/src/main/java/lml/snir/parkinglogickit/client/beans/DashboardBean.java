@@ -33,6 +33,9 @@ public class DashboardBean implements Serializable {
     private Integer editPlacesPrises;
     private Integer editTotalPlaces;
 
+    /**
+     * Exécute le traitement init.
+     */
     @PostConstruct
     public void init() {
         charger();
@@ -70,6 +73,9 @@ public class DashboardBean implements Serializable {
         }
     }
 
+    /**
+     * Exécute le traitement refresh.
+     */
     public void refresh() {
         charger();
     }
@@ -110,12 +116,20 @@ public class DashboardBean implements Serializable {
         }
     }
 
+    /**
+     * Exécute le traitement annuler modification.
+     */
     public void annulerModification() {
         selectedParking = null;
         editPlacesPrises = null;
         editTotalPlaces = null;
     }
 
+    /**
+     * Exécute le traitement valeurs occupation valides.
+     *
+     * @return boolean : valeur retournée par la méthode
+     */
     private boolean valeursOccupationValides() {
         if (editTotalPlaces == null || editPlacesPrises == null) {
             addError("Le nombre de places prises et le total sont obligatoires.");
@@ -132,11 +146,21 @@ public class DashboardBean implements Serializable {
         return true;
     }
 
+    /**
+     * Ajoute info.
+     *
+     * @param message : paramètre utilisé par la méthode
+     */
     private void addInfo(String message) {
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, message, null));
     }
 
+    /**
+     * Ajoute error.
+     *
+     * @param message : paramètre utilisé par la méthode
+     */
     private void addError(String message) {
         FacesContext context = FacesContext.getCurrentInstance();
         context.validationFailed();
@@ -144,50 +168,110 @@ public class DashboardBean implements Serializable {
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
     }
 
+    /**
+     * Retourne parkings.
+     *
+     * @return List<Parking> : valeur retournée par la méthode
+     */
     public List<Parking> getParkings() {
         return parkings;
     }
 
+    /**
+     * Retourne total places.
+     *
+     * @return long : valeur retournée par la méthode
+     */
     public long getTotalPlaces() {
         return totalPlaces;
     }
 
+    /**
+     * Retourne places libres.
+     *
+     * @return long : valeur retournée par la méthode
+     */
     public long getPlacesLibres() {
         return placesLibres;
     }
 
+    /**
+     * Retourne places occupees.
+     *
+     * @return long : valeur retournée par la méthode
+     */
     public long getPlacesOccupees() {
         return placesOccupees;
     }
 
+    /**
+     * Indique si parking plein.
+     *
+     * @return boolean : valeur retournée par la méthode
+     */
     public boolean isParkingPlein() {
         return parkingPlein;
     }
 
+    /**
+     * Retourne parkings card.
+     *
+     * @return List<ParkingCard> : valeur retournée par la méthode
+     */
     public List<ParkingCard> getParkingsCard() {
         return parkingsCard;
     }
 
+    /**
+     * Retourne selected parking.
+     *
+     * @return Parking : valeur retournée par la méthode
+     */
     public Parking getSelectedParking() {
         return selectedParking;
     }
 
+    /**
+     * Modifie selected parking.
+     *
+     * @param selectedParking : paramètre utilisé par la méthode
+     */
     public void setSelectedParking(Parking selectedParking) {
         this.selectedParking = selectedParking;
     }
 
+    /**
+     * Retourne edit places prises.
+     *
+     * @return Integer : valeur retournée par la méthode
+     */
     public Integer getEditPlacesPrises() {
         return editPlacesPrises;
     }
 
+    /**
+     * Modifie edit places prises.
+     *
+     * @param editPlacesPrises : paramètre utilisé par la méthode
+     */
     public void setEditPlacesPrises(Integer editPlacesPrises) {
         this.editPlacesPrises = editPlacesPrises;
     }
 
+    /**
+     * Retourne edit total places.
+     *
+     * @return Integer : valeur retournée par la méthode
+     */
     public Integer getEditTotalPlaces() {
         return editTotalPlaces;
     }
 
+    /**
+     * Modifie edit total places.
+     *
+     * @param editTotalPlaces : paramètre utilisé par la méthode
+     */
     public void setEditTotalPlaces(Integer editTotalPlaces) {
         this.editTotalPlaces = editTotalPlaces;
     }

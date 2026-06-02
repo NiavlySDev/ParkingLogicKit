@@ -111,6 +111,11 @@ public enum Page {
     private final boolean disabled;
     private final String activeGroup;
 
+    /**
+     * Construit une instance de Page.
+     *
+     * @param path : paramètre utilisé par la méthode
+     */
     private Page(String path) {
         this.nom = this.name();
         this.path = path;
@@ -120,6 +125,12 @@ public enum Page {
         this.activeGroup = this.name();
     }
 
+    /**
+     * Construit une instance de Page.
+     *
+     * @param path : paramètre utilisé par la méthode
+     * @param disabled : paramètre utilisé par la méthode
+     */
     private Page(String path, boolean disabled) {
         this.nom = this.name();
         this.path = path;
@@ -129,6 +140,12 @@ public enum Page {
         this.activeGroup = this.name();
     }
 
+    /**
+     * Construit une instance de Page.
+     *
+     * @param path : paramètre utilisé par la méthode
+     * @param loggedTypes : paramètre utilisé par la méthode
+     */
     private Page(String path, List<LoggedType> loggedTypes) {
         this.nom = this.name();
         this.path = path;
@@ -138,6 +155,13 @@ public enum Page {
         this.activeGroup = this.name();
     }
 
+    /**
+     * Construit une instance de Page.
+     *
+     * @param path : paramètre utilisé par la méthode
+     * @param loggedTypes : paramètre utilisé par la méthode
+     * @param disabled : paramètre utilisé par la méthode
+     */
     private Page(String path, List<LoggedType> loggedTypes, boolean disabled) {
         this.nom = this.name();
         this.path = path;
@@ -147,6 +171,14 @@ public enum Page {
         this.activeGroup = this.name();
     }
 
+    /**
+     * Construit une instance de Page.
+     *
+     * @param path : paramètre utilisé par la méthode
+     * @param loggedTypes : paramètre utilisé par la méthode
+     * @param disabled : paramètre utilisé par la méthode
+     * @param activeGroup : paramètre utilisé par la méthode
+     */
     private Page(String path, List<LoggedType> loggedTypes, boolean disabled, String activeGroup) {
         this.nom = this.name();
         this.path = path;
@@ -156,6 +188,15 @@ public enum Page {
         this.activeGroup = activeGroup;
     }
 
+    /**
+     * Construit une instance de Page.
+     *
+     * @param nom : paramètre utilisé par la méthode
+     * @param path : paramètre utilisé par la méthode
+     * @param loggedTypes : paramètre utilisé par la méthode
+     * @param disabled : paramètre utilisé par la méthode
+     * @param activeGroup : paramètre utilisé par la méthode
+     */
     private Page(String nom, String path, List<LoggedType> loggedTypes, boolean disabled, String activeGroup) {
         this.nom = nom;
         this.path = path;
@@ -165,6 +206,14 @@ public enum Page {
         this.activeGroup = activeGroup;
     }
 
+    /**
+     * Construit une instance de Page.
+     *
+     * @param nom : paramètre utilisé par la méthode
+     * @param path : paramètre utilisé par la méthode
+     * @param loggedTypes : paramètre utilisé par la méthode
+     * @param separator : paramètre utilisé par la méthode
+     */
     private Page(String nom, String path, List<LoggedType> loggedTypes, boolean separator) {
         this.nom = nom;
         this.path = path;
@@ -174,10 +223,20 @@ public enum Page {
         this.activeGroup = this.name();
     }
 
+    /**
+     * Retourne nom.
+     *
+     * @return String : valeur retournée par la méthode
+     */
     public String getNom() {
         return nom;
     }
 
+    /**
+     * Retourne path.
+     *
+     * @return String : valeur retournée par la méthode
+     */
     public String getPath() {
         return path;
     }
@@ -192,22 +251,47 @@ public enum Page {
         return this.ordinal();
     }
 
+    /**
+     * Retourne logged types.
+     *
+     * @return List<LoggedType> : valeur retournée par la méthode
+     */
     public List<LoggedType> getLoggedTypes() {
         return loggedTypes;
     }
 
+    /**
+     * Indique si separator.
+     *
+     * @return boolean : valeur retournée par la méthode
+     */
     public boolean isSeparator() {
         return separator;
     }
 
+    /**
+     * Indique si disabled.
+     *
+     * @return boolean : valeur retournée par la méthode
+     */
     public boolean isDisabled() {
         return disabled;
     }
 
+    /**
+     * Retourne active group.
+     *
+     * @return String : valeur retournée par la méthode
+     */
     public String getActiveGroup() {
         return activeGroup;
     }
 
+    /**
+     * Retourne icon.
+     *
+     * @return String : valeur retournée par la méthode
+     */
     public String getIcon() {
         switch (this) {
             case Guide:
@@ -235,6 +319,11 @@ public enum Page {
         }
     }
 
+    /**
+     * Retourne description.
+     *
+     * @return String : valeur retournée par la méthode
+     */
     public String getDescription() {
         switch (this) {
             case Guide:
