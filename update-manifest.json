@@ -1,13 +1,21 @@
 {
   "latest": {
-    "version": "v1.3.8",
-    "title": "v1.3.8",
-    "publishedAt": "2026-06-02T09:22:36Z",
-    "body": "## Changements depuis v1.3.7\n\n- Dark mode complet + popups modernisées + amélioration gestion mots de passe + notifications de mise à jour (`c96d47e`)\n",
-    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.8/plk.apk",
-    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.8"
+    "version": "v1.3.9",
+    "title": "v1.3.9",
+    "publishedAt": "2026-06-02T09:41:50Z",
+    "body": "## Changements depuis v1.3.8\n\n- Dark mode complet + popups thème/update modernisées + notifications Android de mise à jour + amélioration gestion mots de passe (`bd869d8`)\n",
+    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.9/plk.apk",
+    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.9"
   },
   "releases": [
+    {
+      "version": "v1.3.9",
+      "title": "v1.3.9",
+      "publishedAt": "2026-06-02T09:41:50Z",
+      "body": "## Changements depuis v1.3.8\n\n- Dark mode complet + popups thème/update modernisées + notifications Android de mise à jour + amélioration gestion mots de passe (`bd869d8`)\n",
+      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.9/plk.apk",
+      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.9"
+    },
     {
       "version": "v1.3.8",
       "title": "v1.3.8",
@@ -79,14 +87,6 @@
       "body": "## Changements depuis v1.2.9\n\n- Rate limit corrigé (`1b42543`)\n- fin du mqtt (`275e0cb`)\n",
       "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.0/plk.apk",
       "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.0"
-    },
-    {
-      "version": "v1.2.9",
-      "title": "v1.2.9",
-      "publishedAt": "2026-05-29T09:28:45Z",
-      "body": "## Changements depuis v1.2.8\n\n- Maj Icone + Réglage Bug page Paramètres et Informations (`896a2a6`)\n",
-      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.2.9/plk.apk",
-      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.2.9"
     }
   ]
 }
