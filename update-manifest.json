@@ -1,13 +1,21 @@
 {
   "latest": {
-    "version": "v1.3.9",
-    "title": "v1.3.9",
-    "publishedAt": "2026-06-02T09:41:50Z",
-    "body": "## Changements depuis v1.3.8\n\n- Dark mode complet + popups thème/update modernisées + notifications Android de mise à jour + amélioration gestion mots de passe (`bd869d8`)\n",
-    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.9/plk.apk",
-    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.9"
+    "version": "v1.4.0",
+    "title": "v1.4.0",
+    "publishedAt": "2026-06-02T09:54:43Z",
+    "body": "## Changements depuis v1.3.9\n\n- Correction Dark Mode n°566+53 (`f19d2db`)\n- Ajout Javadocs serveur web + uniformisation auteurs + documentation méthodes Java (`abe9158`)\n",
+    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.0/plk.apk",
+    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.0"
   },
   "releases": [
+    {
+      "version": "v1.4.0",
+      "title": "v1.4.0",
+      "publishedAt": "2026-06-02T09:54:43Z",
+      "body": "## Changements depuis v1.3.9\n\n- Correction Dark Mode n°566+53 (`f19d2db`)\n- Ajout Javadocs serveur web + uniformisation auteurs + documentation méthodes Java (`abe9158`)\n",
+      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.0/plk.apk",
+      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.0"
+    },
     {
       "version": "v1.3.9",
       "title": "v1.3.9",
@@ -79,14 +87,6 @@
       "body": "## Changements depuis v1.3.0\n\n- Aucun commit hors merge depuis la version precedente.\n",
       "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.1/plk.apk",
       "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.1"
-    },
-    {
-      "version": "v1.3.0",
-      "title": "v1.3.0",
-      "publishedAt": "2026-05-29T09:36:40Z",
-      "body": "## Changements depuis v1.2.9\n\n- Rate limit corrigé (`1b42543`)\n- fin du mqtt (`275e0cb`)\n",
-      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.0/plk.apk",
-      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.0"
     }
   ]
 }
