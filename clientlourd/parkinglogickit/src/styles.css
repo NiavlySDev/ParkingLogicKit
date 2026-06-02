@@ -156,6 +156,9 @@ img {
 
 .pi {
   line-height: 1;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
 }
 
 /* =========================
@@ -226,6 +229,11 @@ body.app-theme-dark app-settings {
 
 body.app-theme-dark .sign-in-card,
 body.app-theme-dark .sign-up-card,
+body.app-theme-dark .modify-vehicle-card,
+body.app-theme-dark .delete-vehicle-card,
+body.app-theme-dark .modify-user-card,
+body.app-theme-dark .delete-user-card,
+body.app-theme-dark .add-vehicle-card,
 body.app-theme-dark .container,
 body.app-theme-dark .navbar,
 body.app-theme-dark .dropdown-menu,
@@ -240,6 +248,15 @@ body.app-theme-dark .form-input,
 body.app-theme-dark .p-inputtext,
 body.app-theme-dark .p-select,
 body.app-theme-dark .p-dropdown,
+body.app-theme-dark .p-select-label,
+body.app-theme-dark .p-select-dropdown,
+body.app-theme-dark .p-overlay,
+body.app-theme-dark .p-select-overlay,
+body.app-theme-dark .p-dropdown-panel,
+body.app-theme-dark .p-select-list,
+body.app-theme-dark .p-dropdown-items,
+body.app-theme-dark .p-select-option,
+body.app-theme-dark .p-dropdown-item,
 body.app-theme-dark .input-with-icon input,
 body.app-theme-dark .input-with-icon select,
 body.app-theme-dark select,
@@ -252,6 +269,12 @@ body.app-theme-dark textarea {
 
 body.app-theme-dark .form-input:focus {
   background-color: #111827 !important;
+}
+
+body.app-theme-dark .modify-vehicle,
+body.app-theme-dark .delete-vehicle {
+  background: linear-gradient(135deg, var(--bg), var(--bg-secondary)) !important;
+  color: var(--text) !important;
 }
 
 body.app-theme-dark .form-input::placeholder,
