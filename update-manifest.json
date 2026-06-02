@@ -1,13 +1,21 @@
 {
   "latest": {
-    "version": "v1.3.6",
-    "title": "v1.3.6",
-    "publishedAt": "2026-05-29T13:40:38Z",
-    "body": "## Changements depuis v1.3.5\n\n- modif navbar pour mobil (`f75b94e`)\n",
-    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.6/plk.apk",
-    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.6"
+    "version": "v1.3.7",
+    "title": "v1.3.7",
+    "publishedAt": "2026-06-02T08:43:01Z",
+    "body": "## Changements depuis v1.3.6\n\n- Amélioration gestion mots de passe + remplacement emojis par icônes + ajout choix thème clair/sombre/système (`998c5bc`)\n- Filtrage badges/véhicules déjà associés + sécurité association + thème auto selon système (`5ce41fa`)\n- Ajout possibilité de modifier une association (`eda63b4`)\n- Réglage bug page conducteurs (`87bbae9`)\n- Suppression auto des associations liées + options de suppression avancées + détails avant confirmation (`53f8c88`)\n- Ajout refresh auto BDD + édition occupation parking + page informations/changelog GitHub + corrections UI profil (`c30ee77`)\n",
+    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.7/plk.apk",
+    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.7"
   },
   "releases": [
+    {
+      "version": "v1.3.7",
+      "title": "v1.3.7",
+      "publishedAt": "2026-06-02T08:43:01Z",
+      "body": "## Changements depuis v1.3.6\n\n- Amélioration gestion mots de passe + remplacement emojis par icônes + ajout choix thème clair/sombre/système (`998c5bc`)\n- Filtrage badges/véhicules déjà associés + sécurité association + thème auto selon système (`5ce41fa`)\n- Ajout possibilité de modifier une association (`eda63b4`)\n- Réglage bug page conducteurs (`87bbae9`)\n- Suppression auto des associations liées + options de suppression avancées + détails avant confirmation (`53f8c88`)\n- Ajout refresh auto BDD + édition occupation parking + page informations/changelog GitHub + corrections UI profil (`c30ee77`)\n",
+      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.7/plk.apk",
+      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.7"
+    },
     {
       "version": "v1.3.6",
       "title": "v1.3.6",
@@ -79,14 +87,6 @@
       "body": "## Changements depuis v1.2.7\n\n- Réglage Bug Déco Auto (`7bd201e`)\n",
       "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.2.8/plk.apk",
       "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.2.8"
-    },
-    {
-      "version": "v1.2.7",
-      "title": "v1.2.7",
-      "publishedAt": "2026-05-29T09:09:05Z",
-      "body": "## Changements depuis v1.2.6\n\n- Changelog Angular Direct dans l'app (`c08770b`)\n",
-      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.2.7/plk.apk",
-      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.2.7"
     }
   ]
 }
