@@ -8,6 +8,20 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.pi {
+  font-family: 'primeicons' !important;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 /* =========================
      PAGE ET CARTE
      ========================= */
@@ -150,6 +164,13 @@ select.form-input {
 
 .btn-sm:hover {
   background: #2563eb;
+}
+
+.btn-eye i,
+.btn-sm i {
+  width: 1em;
+  height: 1em;
+  pointer-events: none;
 }
 
 /* BOUTON SUBMIT */
