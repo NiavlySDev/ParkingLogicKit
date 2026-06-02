@@ -7,6 +7,8 @@ public class MainActivity extends BridgeActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         registerPlugin(ApkInstallerPlugin.class);
+        registerPlugin(UpdateNotificationPlugin.class);
         super.onCreate(savedInstanceState);
+        UpdateNotificationScheduler.scheduleIfEnabled(this);
     }
 }

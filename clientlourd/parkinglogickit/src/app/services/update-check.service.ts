@@ -15,6 +15,12 @@ interface ApkInstallerPlugin {
 
 const ApkInstaller = registerPlugin<ApkInstallerPlugin>('ApkInstaller');
 
+interface UpdateNotificationPlugin {
+  setEnabled(options: { enabled: boolean }): Promise<{ enabled: boolean }>;
+}
+
+const UpdateNotification = registerPlugin<UpdateNotificationPlugin>('UpdateNotification');
+
 export interface GitHubReleaseAsset {
   name: string;
   browser_download_url: string;
@@ -116,6 +122,9 @@ export class UpdateCheckService {
       if (!permissionGranted) {
         localStorage.setItem(this.notificationPreferenceKey, 'false');
         localStorage.setItem(this.notificationSetupKey, 'true');
+        if (Capacitor.isNativePlatform()) {
+          await UpdateNotification.setEnabled({ enabled: false });
+        }
         this.notificationsEnabledSubject.next(false);
         return false;
       }
@@ -123,6 +132,9 @@ export class UpdateCheckService {
 
     localStorage.setItem(this.notificationPreferenceKey, String(enabled));
     localStorage.setItem(this.notificationSetupKey, 'true');
+    if (Capacitor.isNativePlatform()) {
+      await UpdateNotification.setEnabled({ enabled });
+    }
     this.notificationsEnabledSubject.next(enabled);
     return enabled;
   }
