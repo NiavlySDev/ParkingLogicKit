@@ -83,7 +83,7 @@ Author: Sylvain Crocquevieille
                         <h:outputLabel value="Badge"/>
                         <p:selectOneMenu value="#{associationsBean.newBadgeId}" required="true">
                             <f:selectItem itemValue="#{null}" itemLabel="Choisir un badge" noSelectionOption="true"/>
-                            <f:selectItems value="#{associationsBean.badges}"
+                            <f:selectItems value="#{associationsBean.badgesDisponiblesCreation}"
                                            var="b"
                                            itemValue="#{b.id}"
                                            itemLabel="#{b.content}"/>
@@ -92,7 +92,7 @@ Author: Sylvain Crocquevieille
                         <h:outputLabel value="Véhicule"/>
                         <p:selectOneMenu value="#{associationsBean.newVehicleId}" required="true">
                             <f:selectItem itemValue="#{null}" itemLabel="Choisir un véhicule" noSelectionOption="true"/>
-                            <f:selectItems value="#{associationsBean.vehicules}"
+                            <f:selectItems value="#{associationsBean.vehiculesDisponiblesCreation}"
                                            var="v"
                                            itemValue="#{v.id}"
                                            itemLabel="#{v.brand} #{v.numberPlate}"/>
@@ -130,7 +130,7 @@ Author: Sylvain Crocquevieille
                         <h:outputLabel value="Badge"/>
                         <p:selectOneMenu value="#{associationsBean.editBadgeId}" required="true">
                             <f:selectItem itemValue="#{null}" itemLabel="Choisir un badge" noSelectionOption="true"/>
-                            <f:selectItems value="#{associationsBean.badges}"
+                            <f:selectItems value="#{associationsBean.badgesDisponiblesModification}"
                                            var="b"
                                            itemValue="#{b.id}"
                                            itemLabel="#{b.content}"/>
@@ -139,7 +139,7 @@ Author: Sylvain Crocquevieille
                         <h:outputLabel value="Véhicule"/>
                         <p:selectOneMenu value="#{associationsBean.editVehicleId}" required="true">
                             <f:selectItem itemValue="#{null}" itemLabel="Choisir un véhicule" noSelectionOption="true"/>
-                            <f:selectItems value="#{associationsBean.vehicules}"
+                            <f:selectItems value="#{associationsBean.vehiculesDisponiblesModification}"
                                            var="v"
                                            itemValue="#{v.id}"
                                            itemLabel="#{v.brand} #{v.numberPlate}"/>

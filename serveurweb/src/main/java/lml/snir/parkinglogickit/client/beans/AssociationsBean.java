@@ -70,6 +70,10 @@ public class AssociationsBean implements Serializable {
             addError("Tous les champs de l'association sont obligatoires.");
             return;
         }
+        if (badgeEstAssocie(newBadgeId) || vehiculeEstAssocie(newVehicleId)) {
+            addError("Ce badge ou ce véhicule est déjà associé.");
+            return;
+        }
 
         try {
             Associate association = new Associate();
@@ -95,6 +99,11 @@ public class AssociationsBean implements Serializable {
         }
         if (editBadgeId == null || editVehicleId == null) {
             addError("Le badge et le véhicule sont obligatoires.");
+            return;
+        }
+        if (badgeEstAssocieParUneAutreAssociation(editBadgeId)
+                || vehiculeEstAssocieParUneAutreAssociation(editVehicleId)) {
+            addError("Ce badge ou ce véhicule est déjà associé.");
             return;
         }
 
@@ -229,6 +238,96 @@ public class AssociationsBean implements Serializable {
 
     public List<Vehicle> getVehicules() {
         return vehicules;
+    }
+
+    public List<Badge> getBadgesDisponiblesCreation() {
+        return filtrerBadgesDisponibles(null);
+    }
+
+    public List<Vehicle> getVehiculesDisponiblesCreation() {
+        return filtrerVehiculesDisponibles(null);
+    }
+
+    public List<Badge> getBadgesDisponiblesModification() {
+        return filtrerBadgesDisponibles(editBadgeId);
+    }
+
+    public List<Vehicle> getVehiculesDisponiblesModification() {
+        return filtrerVehiculesDisponibles(editVehicleId);
+    }
+
+    private List<Badge> filtrerBadgesDisponibles(Long idBadgeConserve) {
+        List<Badge> result = new ArrayList<>();
+        for (Badge badge : badges) {
+            if (badge.getId() == null) {
+                continue;
+            }
+            if (Objects.equals(badge.getId(), idBadgeConserve) || !badgeEstAssocie(badge.getId())) {
+                result.add(badge);
+            }
+        }
+        return result;
+    }
+
+    private List<Vehicle> filtrerVehiculesDisponibles(Long idVehiculeConserve) {
+        List<Vehicle> result = new ArrayList<>();
+        for (Vehicle vehicle : vehicules) {
+            if (vehicle.getId() == null) {
+                continue;
+            }
+            if (Objects.equals(vehicle.getId(), idVehiculeConserve) || !vehiculeEstAssocie(vehicle.getId())) {
+                result.add(vehicle);
+            }
+        }
+        return result;
+    }
+
+    private boolean badgeEstAssocie(Long badgeId) {
+        for (Associate association : associations) {
+            if (association.getBadge() != null
+                    && Objects.equals(association.getBadge().getId(), badgeId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean vehiculeEstAssocie(Long vehiculeId) {
+        for (Associate association : associations) {
+            if (association.getVehicle() != null
+                    && Objects.equals(association.getVehicle().getId(), vehiculeId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean badgeEstAssocieParUneAutreAssociation(Long badgeId) {
+        for (Associate association : associations) {
+            if (selectedAssociation != null
+                    && Objects.equals(association.getId(), selectedAssociation.getId())) {
+                continue;
+            }
+            if (association.getBadge() != null
+                    && Objects.equals(association.getBadge().getId(), badgeId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean vehiculeEstAssocieParUneAutreAssociation(Long vehiculeId) {
+        for (Associate association : associations) {
+            if (selectedAssociation != null
+                    && Objects.equals(association.getId(), selectedAssociation.getId())) {
+                continue;
+            }
+            if (association.getVehicle() != null
+                    && Objects.equals(association.getVehicle().getId(), vehiculeId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Associate getSelectedAssociation() {
