@@ -8,6 +8,13 @@ import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import lml.snir.parkinglogickit.client.beans.AssociationsBean;
+import lml.snir.parkinglogickit.client.beans.BadgesBean;
+import lml.snir.parkinglogickit.client.beans.ConducteursBean;
+import lml.snir.parkinglogickit.client.beans.DashboardBean;
+import lml.snir.parkinglogickit.client.beans.JournalBean;
+import lml.snir.parkinglogickit.client.beans.ProfilBean;
+import lml.snir.parkinglogickit.client.beans.VehiculesBean;
 import lml.snir.parkinglogickit.client.beans.comptegestion.LoggedType;
 import lml.snir.parkinglogickit.client.beans.comptegestion.LoginBean;
 import org.primefaces.model.menu.DefaultMenuItem;
@@ -28,6 +35,27 @@ public class NavBean implements Serializable {
     @Inject
     @ManagedProperty("#{loginBean}")
     private LoginBean loginBean;
+
+    @Inject
+    private DashboardBean dashboardBean;
+
+    @Inject
+    private JournalBean journalBean;
+
+    @Inject
+    private ConducteursBean conducteursBean;
+
+    @Inject
+    private VehiculesBean vehiculesBean;
+
+    @Inject
+    private BadgesBean badgesBean;
+
+    @Inject
+    private AssociationsBean associationsBean;
+
+    @Inject
+    private ProfilBean profilBean;
 
     private MenuModel model;
     private String path;
@@ -79,6 +107,61 @@ public class NavBean implements Serializable {
         this.currentPage = page;
         this.path = page.getPath();
         this.activeIndex = calculerIndexActif(page);
+    }
+
+    /**
+     * Recharge toutes les 30 secondes les données de la page affichée.
+     */
+    public void refreshCurrentPage() {
+        switch (currentPage) {
+            case Dashboard:
+                dashboardBean.charger();
+                break;
+            case Journal:
+                journalBean.charger();
+                break;
+            case Conducteurs:
+                conducteursBean.charger();
+                break;
+            case Vehicules:
+                vehiculesBean.charger();
+                break;
+            case Badges:
+                badgesBean.charger();
+                break;
+            case Associations:
+                associationsBean.charger();
+                break;
+            case Compte:
+                profilBean.charger();
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Limite le rendu Ajax aux zones utiles pour ne pas recréer les dialogues.
+     *
+     * @return identifiants JSF mis à jour par le rafraîchissement automatique
+     */
+    public String getRefreshUpdateTargets() {
+        switch (currentPage) {
+            case Dashboard:
+                return "index:dashboardStats index:parkingInfo index:messageindex index:message";
+            case Journal:
+                return "index:tableauJournal index:messageindex index:message";
+            case Conducteurs:
+                return "index:tableConducteurs index:messageindex index:message";
+            case Vehicules:
+                return "index:tableVehicules index:messageindex index:message";
+            case Badges:
+                return "index:tableBadges index:messageindex index:message";
+            case Associations:
+                return "index:tableAssociations index:messageindex index:message";
+            default:
+                return "index:fragmentPanel index:messageindex index:message";
+        }
     }
 
     public MenuModel getModel() {

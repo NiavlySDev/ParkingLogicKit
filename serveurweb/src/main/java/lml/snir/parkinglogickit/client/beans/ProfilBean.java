@@ -213,7 +213,7 @@ public class ProfilBean implements Serializable {
     }
 
     /**
-     * Supprime un badge volé après avoir retiré ses associations aux véhicules
+     * Supprime un badge perdu après avoir retiré ses associations aux véhicules
      * du conducteur. Un badge partagé avec un autre conducteur est refusé pour
      * ne pas couper son accès depuis ce profil.
      */
@@ -248,12 +248,12 @@ public class ProfilBean implements Serializable {
             selectedBadge = null;
             charger();
             if (conserveDansHistorique) {
-                addInfo("Badge déclaré volé et désactivé. Son historique d'accès est conservé.");
+                addInfo("Badge déclaré perdu et désactivé. Son historique d'accès est conservé.");
             } else {
-                addInfo("Badge déclaré volé, désactivé et supprimé.");
+                addInfo("Badge déclaré perdu, désactivé et supprimé.");
             }
         } catch (Exception e) {
-            addError("Erreur lors de la déclaration du badge volé : " + e.getMessage());
+            addError("Erreur lors de la déclaration du badge perdu : " + e.getMessage());
             charger();
         }
     }

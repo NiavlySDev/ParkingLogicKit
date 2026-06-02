@@ -647,6 +647,14 @@ label,
     color: inherit !important;
 }
 
+.ui-button .pi,
+.ui-button-icon-left.pi,
+.ui-button-icon-only .pi {
+    font-family: primeicons !important;
+    font-style: normal;
+    font-weight: normal !important;
+}
+
 .ui-button.ui-button-icon-only {
     width: 36px !important;
     height: 36px !important;
@@ -858,6 +866,49 @@ input:focus {
 
 .ui-widget-overlay {
     background: rgba(15, 23, 42, 0.55) !important;
+}
+
+.page-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(2, 6, 23, 0.42);
+}
+
+.page-loader.is-visible {
+    display: flex;
+}
+
+.page-loader-panel {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 190px;
+    padding: 16px 18px;
+    color: var(--text-main);
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    font-weight: 800;
+}
+
+.page-loader-spinner {
+    width: 22px;
+    height: 22px;
+    border: 3px solid var(--border);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: plk-loader-spin 0.8s linear infinite;
+}
+
+@keyframes plk-loader-spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .ui-panelgrid,
