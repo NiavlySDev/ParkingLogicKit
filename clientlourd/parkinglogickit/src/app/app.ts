@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal, HostListener, OnInit, NgZone } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, signal, HostListener, OnDestroy, OnInit, NgZone } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { PrimengModule } from './shared/primeng.module';
 import { AuthService } from '../Auth/auth.service';
-import { UpdateCheckService } from './services/update-check.service';
+import { UpdateCheckResult, UpdateCheckService } from './services/update-check.service';
 import { ThemePreference, ThemeService } from './services/theme.service';
 
 @Component({
@@ -13,25 +14,44 @@ import { ThemePreference, ThemeService } from './services/theme.service';
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App implements OnInit {
+export class App implements OnInit, OnDestroy {
   protected readonly title = signal('ParkingLogicKit');
   showThemeSetup = false;
+  startupUpdate: UpdateCheckResult | null = null;
+  private startupUpdateSubscription: Subscription | null = null;
 
   constructor(
     private authService: AuthService,
     private updateCheckService: UpdateCheckService,
     private ngZone: NgZone,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
     this.showThemeSetup = !this.themeService.hasCompletedSetup();
+    this.startupUpdateSubscription = this.updateCheckService.startupUpdate$.subscribe((result) => {
+      this.startupUpdate = result;
+    });
     await this.updateCheckService.checkOnStartup();
+  }
+
+  ngOnDestroy(): void {
+    this.startupUpdateSubscription?.unsubscribe();
   }
 
   chooseInitialTheme(preference: ThemePreference): void {
     this.themeService.completeSetup(preference);
     this.showThemeSetup = false;
+  }
+
+  closeUpdatePopup(): void {
+    this.updateCheckService.clearStartupUpdate();
+  }
+
+  openUpdateSettings(): void {
+    this.closeUpdatePopup();
+    this.router.navigate(['/settings']);
   }
   
   // Horodatage pour limiter l'execution de la reinitialisation (Throttling)

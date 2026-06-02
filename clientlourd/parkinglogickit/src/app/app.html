@@ -24,3 +24,28 @@
     </div>
   </section>
 </div>
+
+<div class="theme-setup-backdrop" *ngIf="startupUpdate && !showThemeSetup">
+  <section class="theme-setup-dialog update-dialog" role="dialog" aria-modal="true" aria-labelledby="update-title">
+    <div class="theme-setup-icon update-icon">
+      <i class="pi pi-download"></i>
+    </div>
+    <h2 id="update-title">Mise à jour disponible</h2>
+    <p>
+      Une nouvelle version est prête:
+      <strong>{{ startupUpdate.currentVersion }}</strong>
+      vers
+      <strong>{{ startupUpdate.latestVersion }}</strong>.
+    </p>
+
+    <div class="update-actions">
+      <button type="button" class="secondary-action" (click)="closeUpdatePopup()">
+        Plus tard
+      </button>
+      <button type="button" class="primary-action" (click)="openUpdateSettings()">
+        <i class="pi pi-download"></i>
+        Ouvrir les mises à jour
+      </button>
+    </div>
+  </section>
+</div>

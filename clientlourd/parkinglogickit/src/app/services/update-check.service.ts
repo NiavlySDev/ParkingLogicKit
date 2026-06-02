@@ -76,7 +76,15 @@ export class UpdateCheckService {
   private hasChecked = false;
   private manifestPromise: Promise<UpdateManifest | null> | null = null;
   private readonly lastResultSubject = new BehaviorSubject<UpdateCheckResult | null>(null);
+  private readonly startupUpdateSubject = new BehaviorSubject<UpdateCheckResult | null>(null);
+  private readonly notificationPreferenceKey = 'plk_update_notifications_enabled';
+  private readonly notificationsEnabledSubject = new BehaviorSubject<boolean>(
+    localStorage.getItem(this.notificationPreferenceKey) === 'true'
+  );
+
   readonly lastResult$ = this.lastResultSubject.asObservable();
+  readonly startupUpdate$ = this.startupUpdateSubject.asObservable();
+  readonly updateNotificationsEnabled$ = this.notificationsEnabledSubject.asObservable();
 
   constructor(
     private router: Router
@@ -92,14 +100,35 @@ export class UpdateCheckService {
     try {
       const result = await this.checkForUpdate(true);
       if (result.updateAvailable) {
-        window.alert(
-          `Nouvelle mise a jour Disponible, (${result.currentVersion} -> ${result.latestVersion}), Cliquez pour y acceder`
-        );
-        await this.router.navigate(['/settings']);
+        await this.sendUpdateNotification(result);
+        this.startupUpdateSubject.next(result);
       }
     } catch (error) {
       console.warn('Verification de mise a jour impossible', error);
     }
+  }
+
+  async setUpdateNotificationsEnabled(enabled: boolean): Promise<boolean> {
+    if (enabled) {
+      const permissionGranted = await this.requestNotificationPermission();
+      if (!permissionGranted) {
+        localStorage.setItem(this.notificationPreferenceKey, 'false');
+        this.notificationsEnabledSubject.next(false);
+        return false;
+      }
+    }
+
+    localStorage.setItem(this.notificationPreferenceKey, String(enabled));
+    this.notificationsEnabledSubject.next(enabled);
+    return enabled;
+  }
+
+  areUpdateNotificationsEnabled(): boolean {
+    return this.notificationsEnabledSubject.value;
+  }
+
+  clearStartupUpdate(): void {
+    this.startupUpdateSubject.next(null);
   }
 
   async getCurrentVersion(): Promise<string> {
@@ -234,6 +263,42 @@ export class UpdateCheckService {
   private storeResult(result: UpdateCheckResult): UpdateCheckResult {
     this.lastResultSubject.next(result);
     return result;
+  }
+
+  private async requestNotificationPermission(): Promise<boolean> {
+    if (!('Notification' in window)) {
+      return false;
+    }
+
+    if (Notification.permission === 'granted') {
+      return true;
+    }
+
+    if (Notification.permission === 'denied') {
+      return false;
+    }
+
+    const permission = await Notification.requestPermission();
+    return permission === 'granted';
+  }
+
+  private async sendUpdateNotification(result: UpdateCheckResult): Promise<void> {
+    if (!this.areUpdateNotificationsEnabled() || !(await this.requestNotificationPermission())) {
+      return;
+    }
+
+    const notification = new Notification('Mise à jour disponible', {
+      body: `${result.currentVersion} -> ${result.latestVersion}`,
+      icon: 'PLK.png',
+      badge: 'PLK.png',
+      tag: 'plk-update-available',
+    });
+
+    notification.onclick = () => {
+      window.focus();
+      this.router.navigate(['/settings']);
+      notification.close();
+    };
   }
 
   private async getUpdateManifest(forceRefresh = false): Promise<UpdateManifest | null> {

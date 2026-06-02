@@ -69,8 +69,59 @@
   color: var(--primary);
 }
 
+.update-dialog p strong {
+  color: var(--primary);
+}
+
+.update-icon {
+  background: color-mix(in srgb, var(--success) 14%, transparent);
+  color: var(--success);
+}
+
+.update-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.update-actions button {
+  min-height: 44px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: 0.2s ease;
+}
+
+.secondary-action {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.primary-action {
+  background: var(--primary-dark);
+  color: #ffffff;
+}
+
+.secondary-action:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.primary-action:hover {
+  filter: brightness(0.94);
+}
+
 @media (min-width: 520px) {
   .theme-setup-actions {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .update-actions {
+    grid-template-columns: 1fr 1.6fr;
   }
 }
