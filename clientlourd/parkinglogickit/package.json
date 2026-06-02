@@ -43,6 +43,7 @@
     "@capacitor/browser": "^8.0.3",
     "@capacitor/cli": "^8.3.0",
     "@capacitor/core": "^8.3.4",
+    "@capacitor/local-notifications": "^8.2.0",
     "@primeuix/themes": "^2.0.3",
     "bcryptjs": "^3.0.3",
     "capacitor-secure-storage-plugin": "^0.13.0",

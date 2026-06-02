@@ -117,42 +117,4 @@ export class SignIn implements OnInit {
     this.messageType = type;
     this.cdr.detectChanges();
   }
-
-  copyMdp(): void {
-    if (!this.password) {
-      this.setMessage('Veuillez générer ou saisir un mot de passe avant de le copier.', 'error');
-      return;
-    }
-
-    if (navigator.clipboard?.writeText) {
-      navigator.clipboard
-        .writeText(this.password)
-        .then(() => this.setMessage('Le mot de passe a été copié dans le presse-papier.', 'success'))
-        .catch(() => this.fallbackCopyText(this.password));
-      return;
-    }
-
-    this.fallbackCopyText(this.password);
-  }
-
-  private fallbackCopyText(text: string): void {
-    try {
-      const textArea = document.createElement('textarea');
-      textArea.value = text;
-      textArea.style.position = 'fixed';
-      document.body.appendChild(textArea);
-      textArea.focus();
-      textArea.select();
-      const successful = document.execCommand('copy');
-      document.body.removeChild(textArea);
-      this.setMessage(
-        successful
-          ? 'Le mot de passe a été copié dans le presse-papier.'
-          : 'Échec de la copie du mot de passe.',
-        successful ? 'success' : 'error'
-      );
-    } catch {
-      this.setMessage('Échec de la copie du mot de passe.', 'error');
-    }
-  }
 }
