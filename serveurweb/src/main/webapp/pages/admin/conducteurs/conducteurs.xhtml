@@ -68,7 +68,7 @@ Author: Sylvain Crocquevieille
                 <p:commandButton icon="pi pi-trash"
                                  styleClass="rounded-button ui-button-danger"
                                  title="Supprimer"
-                                 action="#{conducteursBean.selectionner(conducteur)}"
+                                 action="#{conducteursBean.preparerSuppression(conducteur)}"
                                  process="@this"
                                  update="@form"
                                  oncomplete="PF('dlgSupprimerConducteur').show()"/>
@@ -234,13 +234,43 @@ Author: Sylvain Crocquevieille
                     <strong>#{conducteursBean.selectedDriver.firstName}
                         #{conducteursBean.selectedDriver.lastName}</strong> ?
                 </p>
+                <h:panelGroup layout="block" styleClass="delete-options"
+                              rendered="#{not empty conducteursBean.associationsSuppression}">
+                    <p>#{conducteursBean.associationsSuppression.size()} association(s) liée(s) seront supprimée(s).</p>
+                    <h4>Associations supprimées automatiquement</h4>
+                    <ul class="delete-list">
+                        <ui:repeat value="#{conducteursBean.associationsSuppression}" var="assoc">
+                            <li>
+                                #{assoc.badge != null ? assoc.badge.content : 'Sans badge'}
+                                -
+                                #{assoc.vehicle != null ? assoc.vehicle.brand.concat(' ').concat(assoc.vehicle.numberPlate) : 'Sans véhicule'}
+                            </li>
+                        </ui:repeat>
+                    </ul>
+                    <h:panelGroup layout="block" rendered="#{not empty conducteursBean.badgesSuppression}">
+                        <p:selectBooleanCheckbox value="#{conducteursBean.supprimerBadgesLies}" itemLabel="Supprimer aussi les badges liés"/>
+                        <ul class="delete-list">
+                            <ui:repeat value="#{conducteursBean.badgesSuppression}" var="badge">
+                                <li>Badge #{badge.content}</li>
+                            </ui:repeat>
+                        </ul>
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" rendered="#{not empty conducteursBean.vehiculesSuppression}">
+                        <p:selectBooleanCheckbox value="#{conducteursBean.supprimerVehiculesLies}" itemLabel="Supprimer aussi les véhicules liés"/>
+                        <ul class="delete-list">
+                            <ui:repeat value="#{conducteursBean.vehiculesSuppression}" var="vehicule">
+                                <li>#{vehicule.brand} #{vehicule.numberPlate}</li>
+                            </ui:repeat>
+                        </ul>
+                    </h:panelGroup>
+                </h:panelGroup>
             </h:panelGroup>
             <f:facet name="footer">
                 <p:commandButton value="Supprimer"
                                  icon="pi pi-trash"
                                  styleClass="rounded-button ui-button-danger"
                                  action="#{conducteursBean.supprimer()}"
-                                 process="@this"
+                                 process="panelSupprimerConducteur @this"
                                  update="tableConducteurs panelSupprimerConducteur messageindex message"
                                  oncomplete="PF('dlgSupprimerConducteur').hide()"/>
                 <p:commandButton value="Annuler"
