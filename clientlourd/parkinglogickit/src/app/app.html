@@ -1,1 +1,26 @@
 <router-outlet></router-outlet>
+
+<div class="theme-setup-backdrop" *ngIf="showThemeSetup">
+  <section class="theme-setup-dialog" role="dialog" aria-modal="true" aria-labelledby="theme-title">
+    <div class="theme-setup-icon">
+      <i class="pi pi-palette"></i>
+    </div>
+    <h2 id="theme-title">Choix du thème</h2>
+    <p>Choisissez l'apparence de ParkingLogicKit pour ce lancement.</p>
+
+    <div class="theme-setup-actions">
+      <button type="button" (click)="chooseInitialTheme('light')">
+        <i class="pi pi-sun"></i>
+        Clair
+      </button>
+      <button type="button" (click)="chooseInitialTheme('dark')">
+        <i class="pi pi-moon"></i>
+        Sombre
+      </button>
+      <button type="button" (click)="chooseInitialTheme('system')">
+        <i class="pi pi-desktop"></i>
+        Système
+      </button>
+    </div>
+  </section>
+</div>

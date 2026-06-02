@@ -69,15 +69,18 @@
               type="button"
               class="btn-eye"
               (click)="showPassword = !showPassword"
-              title="Afficher/Masquer"
+              [attr.aria-label]="showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'"
+              [title]="showPassword ? 'Masquer' : 'Afficher'"
             >
-              {{ showPassword ? '🙈' : '👁️' }}
+              <i [class]="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
             </button>
           </div>
-          <button type="button" class="btn-sm" (click)="generateMdp()" title="Générer">
-            &#x1F504;
+          <button type="button" class="btn-sm" (click)="generateMdp()" aria-label="Générer" title="Générer">
+            <i class="pi pi-refresh"></i>
           </button>
-          <button type="button" class="btn-sm" (click)="copyMdp()" title="Copier">&#x1F4CB;</button>
+          <button type="button" class="btn-sm" (click)="copyMdp()" aria-label="Copier" title="Copier">
+            <i class="pi pi-copy"></i>
+          </button>
         </div>
       </div>
 

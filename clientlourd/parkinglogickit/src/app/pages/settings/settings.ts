@@ -1,16 +1,18 @@
 //
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../Auth/auth.service';
+import { ThemePreference, ThemeService } from '../../services/theme.service';
 import {
   GitHubRelease,
   UpdateCheckResult,
   UpdateCheckService,
 } from '../../services/update-check.service';
 
-type SettingsTab = 'updates' | 'information';
+type SettingsTab = 'updates' | 'appearance' | 'information';
 type StepState = 'pending' | 'active' | 'done' | 'error';
 
 interface UpdateStep {
@@ -28,7 +30,7 @@ interface ChangelogEntry {
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './settings.html',
   styleUrl: './settings.css',
 })
@@ -37,6 +39,7 @@ export class Settings implements OnInit, OnDestroy {
   role = 'Driver';
   menuOpen = false;
   activeTab: SettingsTab = 'updates';
+  themePreference: ThemePreference = 'system';
 
   currentVersion = 'Chargement...';
   latestVersion = '-';
@@ -52,6 +55,7 @@ export class Settings implements OnInit, OnDestroy {
   release: GitHubRelease | null = null;
   updateAvailable = false;
   private updateSubscription: Subscription | null = null;
+  private themeSubscription: Subscription | null = null;
 
   steps: UpdateStep[] = [
     { label: 'Lecture de la version actuelle', state: 'pending' },
@@ -71,6 +75,7 @@ export class Settings implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     private updateCheckService: UpdateCheckService,
+    private themeService: ThemeService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -80,6 +85,7 @@ export class Settings implements OnInit, OnDestroy {
     this.role = isLoggedIn ? (await this.authService.getRole()) || 'Driver' : 'Driver';
 
     this.currentVersion = await this.updateCheckService.getCurrentVersion();
+    this.themePreference = this.themeService.getPreference();
     this.steps[0].state = 'done';
     await Promise.all([this.loadReleaseDates(true), this.loadChangelog(true)]);
     this.updateSubscription = this.updateCheckService.lastResult$.subscribe((result) => {
@@ -88,11 +94,20 @@ export class Settings implements OnInit, OnDestroy {
         this.cdr.detectChanges();
       }
     });
+    this.themeSubscription = this.themeService.preference$.subscribe((preference) => {
+      this.themePreference = preference;
+      this.cdr.detectChanges();
+    });
     this.cdr.detectChanges();
   }
 
   ngOnDestroy(): void {
     this.updateSubscription?.unsubscribe();
+    this.themeSubscription?.unsubscribe();
+  }
+
+  setThemePreference(preference: ThemePreference): void {
+    this.themeService.setPreference(preference);
   }
 
   async checkForUpdate(): Promise<void> {

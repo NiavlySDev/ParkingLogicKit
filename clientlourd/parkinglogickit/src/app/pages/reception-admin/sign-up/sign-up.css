@@ -93,6 +93,61 @@ select.form-input {
   padding-right: 45px;
 }
 
+.password-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.password-input-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrapper .form-input {
+  width: 100%;
+  padding-right: 42px;
+}
+
+.btn-eye {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  font-size: 1.1rem;
+}
+
+.btn-eye:hover {
+  color: #3b82f6;
+}
+
+.btn-sm {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.btn-sm:hover {
+  background: #2563eb;
+}
+
 /* BOUTON SUBMIT */
 .form-actions {
   margin-top: 15px;

@@ -18,6 +18,13 @@
     >
       <i class="pi pi-info-circle"></i> Informations
     </button>
+    <button
+      class="nav-btn"
+      [class.active]="activeTab === 'appearance'"
+      (click)="activeTab = 'appearance'"
+    >
+      <i class="pi pi-palette"></i> Apparence
+    </button>
   </div>
 
   <div class="navbar-user" (click)="toggleMenu()">
@@ -136,6 +143,46 @@
         <strong>{{ programmer.name }}</strong>
         <span>{{ programmer.role }}</span>
       </div>
+    </div>
+  </section>
+
+  <section *ngIf="activeTab === 'appearance'" class="section">
+    <h2 class="section-title"><i class="pi pi-palette"></i> Apparence</h2>
+
+    <div class="theme-options" role="radiogroup" aria-label="Theme de l'application">
+      <button
+        type="button"
+        class="theme-option"
+        [class.selected]="themePreference === 'light'"
+        (click)="setThemePreference('light')"
+        role="radio"
+        [attr.aria-checked]="themePreference === 'light'"
+      >
+        <i class="pi pi-sun"></i>
+        <span>Clair</span>
+      </button>
+      <button
+        type="button"
+        class="theme-option"
+        [class.selected]="themePreference === 'dark'"
+        (click)="setThemePreference('dark')"
+        role="radio"
+        [attr.aria-checked]="themePreference === 'dark'"
+      >
+        <i class="pi pi-moon"></i>
+        <span>Sombre</span>
+      </button>
+      <button
+        type="button"
+        class="theme-option"
+        [class.selected]="themePreference === 'system'"
+        (click)="setThemePreference('system')"
+        role="radio"
+        [attr.aria-checked]="themePreference === 'system'"
+      >
+        <i class="pi pi-desktop"></i>
+        <span>Système</span>
+      </button>
     </div>
   </section>
 </main>

@@ -374,6 +374,39 @@
   font-size: 0.9rem;
 }
 
+.theme-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.theme-option {
+  min-height: 58px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #f8fafc;
+  color: #1e293b;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition: 0.2s ease;
+}
+
+.theme-option i {
+  color: #3b82f6;
+}
+
+.theme-option:hover,
+.theme-option.selected {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+  color: #2563eb;
+}
+
 .dropdown-menu {
   position: absolute;
   top: calc(100% + 10px);
@@ -438,8 +471,13 @@
   }
 
   .version-grid,
-  .programmers {
+  .programmers,
+  .theme-options {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .theme-options {
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .actions {

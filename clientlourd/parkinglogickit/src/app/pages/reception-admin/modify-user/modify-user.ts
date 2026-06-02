@@ -145,7 +145,7 @@ export class ModifyUser implements OnInit {
         next: () => {
           this.ngZone.run(() => {
             this.isLoading = false;
-            this.setMessage('Modification réussie ✅', 'success');
+            this.setMessage('Modification réussie', 'success');
             this.resetForm();
             this.loadDrivers();
           });

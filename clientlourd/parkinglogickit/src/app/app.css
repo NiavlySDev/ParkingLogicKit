@@ -1,0 +1,76 @@
+.theme-setup-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(8px);
+}
+
+.theme-setup-dialog {
+  width: min(100%, 440px);
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--white);
+  color: var(--text);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+
+.theme-setup-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--primary) 14%, transparent);
+  color: var(--primary);
+  font-size: 1.25rem;
+}
+
+.theme-setup-dialog h2 {
+  margin-bottom: 8px;
+  font-size: 1.35rem;
+}
+
+.theme-setup-dialog p {
+  margin-bottom: 20px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.theme-setup-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.theme-setup-actions button {
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: 0.2s ease;
+}
+
+.theme-setup-actions button:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+@media (min-width: 520px) {
+  .theme-setup-actions {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
