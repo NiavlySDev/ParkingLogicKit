@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { App as CapacitorApp } from '@capacitor/app';
 import { Capacitor, PluginListenerHandle, registerPlugin } from '@capacitor/core';
+import { LocalNotifications } from '@capacitor/local-notifications';
 import { BehaviorSubject } from 'rxjs';
 
 interface ApkInstallerPlugin {
@@ -78,6 +79,7 @@ export class UpdateCheckService {
   private readonly lastResultSubject = new BehaviorSubject<UpdateCheckResult | null>(null);
   private readonly startupUpdateSubject = new BehaviorSubject<UpdateCheckResult | null>(null);
   private readonly notificationPreferenceKey = 'plk_update_notifications_enabled';
+  private readonly notificationSetupKey = 'plk_update_notifications_setup_done';
   private readonly notificationsEnabledSubject = new BehaviorSubject<boolean>(
     localStorage.getItem(this.notificationPreferenceKey) === 'true'
   );
@@ -113,12 +115,14 @@ export class UpdateCheckService {
       const permissionGranted = await this.requestNotificationPermission();
       if (!permissionGranted) {
         localStorage.setItem(this.notificationPreferenceKey, 'false');
+        localStorage.setItem(this.notificationSetupKey, 'true');
         this.notificationsEnabledSubject.next(false);
         return false;
       }
     }
 
     localStorage.setItem(this.notificationPreferenceKey, String(enabled));
+    localStorage.setItem(this.notificationSetupKey, 'true');
     this.notificationsEnabledSubject.next(enabled);
     return enabled;
   }
@@ -129,6 +133,10 @@ export class UpdateCheckService {
 
   clearStartupUpdate(): void {
     this.startupUpdateSubject.next(null);
+  }
+
+  hasCompletedNotificationSetup(): boolean {
+    return localStorage.getItem(this.notificationSetupKey) === 'true';
   }
 
   async getCurrentVersion(): Promise<string> {
@@ -266,6 +274,16 @@ export class UpdateCheckService {
   }
 
   private async requestNotificationPermission(): Promise<boolean> {
+    if (Capacitor.isNativePlatform()) {
+      const current = await LocalNotifications.checkPermissions();
+      if (current.display === 'granted') {
+        return true;
+      }
+
+      const requested = await LocalNotifications.requestPermissions();
+      return requested.display === 'granted';
+    }
+
     if (!('Notification' in window)) {
       return false;
     }
@@ -283,7 +301,29 @@ export class UpdateCheckService {
   }
 
   private async sendUpdateNotification(result: UpdateCheckResult): Promise<void> {
-    if (!this.areUpdateNotificationsEnabled() || !(await this.requestNotificationPermission())) {
+    if (!this.areUpdateNotificationsEnabled()) {
+      return;
+    }
+
+    if (Capacitor.isNativePlatform()) {
+      const permission = await LocalNotifications.checkPermissions();
+      if (permission.display !== 'granted') {
+        return;
+      }
+
+      await LocalNotifications.schedule({
+        notifications: [
+          {
+            id: Date.now() % 2147483647,
+            title: 'Mise à jour disponible',
+            body: `${result.currentVersion} -> ${result.latestVersion}`,
+          },
+        ],
+      });
+      return;
+    }
+
+    if (!('Notification' in window) || Notification.permission !== 'granted') {
       return;
     }
 

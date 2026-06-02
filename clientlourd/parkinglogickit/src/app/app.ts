@@ -17,6 +17,7 @@ import { ThemePreference, ThemeService } from './services/theme.service';
 export class App implements OnInit, OnDestroy {
   protected readonly title = signal('ParkingLogicKit');
   showThemeSetup = false;
+  showNotificationSetup = false;
   startupUpdate: UpdateCheckResult | null = null;
   private startupUpdateSubscription: Subscription | null = null;
 
@@ -30,6 +31,8 @@ export class App implements OnInit, OnDestroy {
 
   async ngOnInit(): Promise<void> {
     this.showThemeSetup = !this.themeService.hasCompletedSetup();
+    this.showNotificationSetup =
+      !this.showThemeSetup && !this.updateCheckService.hasCompletedNotificationSetup();
     this.startupUpdateSubscription = this.updateCheckService.startupUpdate$.subscribe((result) => {
       this.startupUpdate = result;
     });
@@ -43,6 +46,17 @@ export class App implements OnInit, OnDestroy {
   chooseInitialTheme(preference: ThemePreference): void {
     this.themeService.completeSetup(preference);
     this.showThemeSetup = false;
+    this.showNotificationSetup = !this.updateCheckService.hasCompletedNotificationSetup();
+  }
+
+  async enableUpdateNotifications(): Promise<void> {
+    await this.updateCheckService.setUpdateNotificationsEnabled(true);
+    this.showNotificationSetup = false;
+  }
+
+  async disableUpdateNotifications(): Promise<void> {
+    await this.updateCheckService.setUpdateNotificationsEnabled(false);
+    this.showNotificationSetup = false;
   }
 
   closeUpdatePopup(): void {

@@ -25,7 +25,27 @@
   </section>
 </div>
 
-<div class="theme-setup-backdrop" *ngIf="startupUpdate && !showThemeSetup">
+<div class="theme-setup-backdrop" *ngIf="showNotificationSetup">
+  <section class="theme-setup-dialog update-dialog" role="dialog" aria-modal="true" aria-labelledby="notif-title">
+    <div class="theme-setup-icon update-icon">
+      <i class="pi pi-bell"></i>
+    </div>
+    <h2 id="notif-title">Notifications de mise à jour</h2>
+    <p>Voulez-vous recevoir une notification quand une nouvelle version de l'application est disponible ?</p>
+
+    <div class="update-actions">
+      <button type="button" class="secondary-action" (click)="disableUpdateNotifications()">
+        Non merci
+      </button>
+      <button type="button" class="primary-action" (click)="enableUpdateNotifications()">
+        <i class="pi pi-bell"></i>
+        Activer
+      </button>
+    </div>
+  </section>
+</div>
+
+<div class="theme-setup-backdrop" *ngIf="startupUpdate && !showThemeSetup && !showNotificationSetup">
   <section class="theme-setup-dialog update-dialog" role="dialog" aria-modal="true" aria-labelledby="update-title">
     <div class="theme-setup-icon update-icon">
       <i class="pi pi-download"></i>

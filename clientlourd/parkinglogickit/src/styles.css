@@ -175,6 +175,11 @@ img {
 
 body.app-theme-dark .sign-in,
 body.app-theme-dark .sign-up,
+body.app-theme-dark {
+  background: linear-gradient(135deg, var(--bg), var(--bg-secondary)) !important;
+  color: var(--text) !important;
+}
+
 body.app-theme-dark app-home,
 body.app-theme-dark app-reception,
 body.app-theme-dark app-reception-admin,
@@ -185,8 +190,7 @@ body.app-theme-dark app-delete-vehicle,
 body.app-theme-dark app-delete-user,
 body.app-theme-dark app-modify-user,
 body.app-theme-dark app-sign-up,
-body.app-theme-dark app-settings,
-body.app-theme-dark .container {
+body.app-theme-dark app-settings {
   background: linear-gradient(135deg, var(--bg), var(--bg-secondary)) !important;
   color: var(--text) !important;
   min-height: 100vh;
