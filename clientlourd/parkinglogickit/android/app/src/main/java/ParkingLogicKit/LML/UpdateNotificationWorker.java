@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
@@ -49,7 +50,7 @@ public class UpdateNotificationWorker extends Worker {
 
         try {
             String latestVersion = fetchLatestVersion();
-            String currentVersion = BuildConfig.VERSION_NAME;
+            String currentVersion = getCurrentVersion(context);
 
             if (latestVersion == null || !isNewerVersion(latestVersion, currentVersion)) {
                 return Result.success();
@@ -133,6 +134,11 @@ public class UpdateNotificationWorker extends Worker {
         } finally {
             connection.disconnect();
         }
+    }
+
+    private String getCurrentVersion(Context context) throws Exception {
+        PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+        return packageInfo.versionName != null ? packageInfo.versionName : "0.0.0";
     }
 
     private boolean isNewerVersion(String candidateVersion, String currentVersion) {
