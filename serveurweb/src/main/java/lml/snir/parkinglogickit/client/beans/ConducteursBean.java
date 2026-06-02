@@ -7,7 +7,10 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 import lml.snir.parkinglogickit.metier.entity.Admin;
 import lml.snir.parkinglogickit.metier.entity.Associate;
@@ -37,6 +40,11 @@ public class ConducteursBean implements Serializable {
 
     private List<Driver> conducteurs = new ArrayList<>();
     private Driver selectedDriver;
+    private List<Associate> associationsSuppression = new ArrayList<>();
+    private List<Badge> badgesSuppression = new ArrayList<>();
+    private List<Vehicle> vehiculesSuppression = new ArrayList<>();
+    private boolean supprimerBadgesLies;
+    private boolean supprimerVehiculesLies;
 
     private String newFirstName;
     private String newLastName;
@@ -152,8 +160,25 @@ public class ConducteursBean implements Serializable {
         }
         try {
             String username = selectedDriver.getUsername();
-            MetierFactory.getDriverService().remove(selectedDriver);
+            AssociateService associateService = MetierFactory.getAssociateService();
 
+            for (Associate association : associationsSuppression) {
+                associateService.remove(association);
+            }
+            if (supprimerBadgesLies) {
+                for (Badge badge : badgesSuppression) {
+                    supprimerAssociationsBadge(badge, associateService);
+                    MetierFactory.getBadgeService().remove(badge);
+                }
+            }
+            if (supprimerVehiculesLies) {
+                for (Vehicle vehicle : vehiculesSuppression) {
+                    supprimerAssociationsVehicule(vehicle, associateService);
+                    MetierFactory.getVehicleService().remove(vehicle);
+                }
+            }
+
+            MetierFactory.getDriverService().remove(selectedDriver);
             annulerSelection();
             charger();
             addInfo("Conducteur " + username + " supprimé.");
@@ -170,11 +195,32 @@ public class ConducteursBean implements Serializable {
     public void annulerSelection() {
         selectedDriver = null;
         selectedIsAdmin = false;
+        associationsSuppression = new ArrayList<>();
+        badgesSuppression = new ArrayList<>();
+        vehiculesSuppression = new ArrayList<>();
+        supprimerBadgesLies = false;
+        supprimerVehiculesLies = false;
     }
 
     public void selectionner(Driver d) {
         this.selectedDriver = d;
         this.selectedIsAdmin = d instanceof Admin;
+    }
+
+    public void preparerSuppression(Driver d) {
+        selectionner(d);
+        supprimerBadgesLies = false;
+        supprimerVehiculesLies = false;
+        try {
+            associationsSuppression = trouverAssociations(d, MetierFactory.getAssociateService());
+            badgesSuppression = extraireBadges(associationsSuppression);
+            vehiculesSuppression = extraireVehicules(associationsSuppression);
+        } catch (Exception e) {
+            associationsSuppression = new ArrayList<>();
+            badgesSuppression = new ArrayList<>();
+            vehiculesSuppression = new ArrayList<>();
+            addError("Erreur lors de la préparation de la suppression : " + e.getMessage());
+        }
     }
 
     private Driver sauvegarderConducteurAvecRole(DriverService driverService,
@@ -223,11 +269,51 @@ public class ConducteursBean implements Serializable {
         List<Associate> associationsConducteur = new ArrayList<>();
         for (Associate association : associateService.getAll()) {
             Driver driverAssociation = association.getDriver();
-            if (driverAssociation != null && driverAssociation.getId() == conducteur.getId()) {
+            if (driverAssociation != null && Objects.equals(driverAssociation.getId(), conducteur.getId())) {
                 associationsConducteur.add(association);
             }
         }
         return associationsConducteur;
+    }
+
+    private List<Badge> extraireBadges(List<Associate> associations) {
+        Map<Long, Badge> badges = new LinkedHashMap<>();
+        for (Associate association : associations) {
+            Badge badge = association.getBadge();
+            if (badge != null && badge.getId() != null) {
+                badges.putIfAbsent(badge.getId(), badge);
+            }
+        }
+        return new ArrayList<>(badges.values());
+    }
+
+    private List<Vehicle> extraireVehicules(List<Associate> associations) {
+        Map<Long, Vehicle> vehicules = new LinkedHashMap<>();
+        for (Associate association : associations) {
+            Vehicle vehicle = association.getVehicle();
+            if (vehicle != null && vehicle.getId() != null) {
+                vehicules.putIfAbsent(vehicle.getId(), vehicle);
+            }
+        }
+        return new ArrayList<>(vehicules.values());
+    }
+
+    private void supprimerAssociationsBadge(Badge badge, AssociateService associateService) throws Exception {
+        for (Associate association : associateService.getAll()) {
+            if (association.getBadge() != null
+                    && Objects.equals(association.getBadge().getId(), badge.getId())) {
+                associateService.remove(association);
+            }
+        }
+    }
+
+    private void supprimerAssociationsVehicule(Vehicle vehicle, AssociateService associateService) throws Exception {
+        for (Associate association : associateService.getAll()) {
+            if (association.getVehicle() != null
+                    && Objects.equals(association.getVehicle().getId(), vehicle.getId())) {
+                associateService.remove(association);
+            }
+        }
     }
 
     private void resetForm() {
@@ -392,6 +478,34 @@ public class ConducteursBean implements Serializable {
 
     public VehicleType[] getVehicleTypes() {
         return VehicleType.values();
+    }
+
+    public List<Associate> getAssociationsSuppression() {
+        return associationsSuppression;
+    }
+
+    public List<Badge> getBadgesSuppression() {
+        return badgesSuppression;
+    }
+
+    public List<Vehicle> getVehiculesSuppression() {
+        return vehiculesSuppression;
+    }
+
+    public boolean isSupprimerBadgesLies() {
+        return supprimerBadgesLies;
+    }
+
+    public void setSupprimerBadgesLies(boolean supprimerBadgesLies) {
+        this.supprimerBadgesLies = supprimerBadgesLies;
+    }
+
+    public boolean isSupprimerVehiculesLies() {
+        return supprimerVehiculesLies;
+    }
+
+    public void setSupprimerVehiculesLies(boolean supprimerVehiculesLies) {
+        this.supprimerVehiculesLies = supprimerVehiculesLies;
     }
 
 }

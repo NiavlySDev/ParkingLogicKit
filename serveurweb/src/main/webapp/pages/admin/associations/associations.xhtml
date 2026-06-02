@@ -118,13 +118,44 @@ Author: Sylvain Crocquevieille
                     avec le badge
                     <strong>#{associationsBean.selectedAssociation.badge != null ? associationsBean.selectedAssociation.badge.content : '?'}</strong> ?
                 </p>
+                <h:panelGroup layout="block" styleClass="delete-options">
+                    <p>L'association sera supprimée. Vous pouvez aussi supprimer les éléments liés.</p>
+                    <h4>Association supprimée automatiquement</h4>
+                    <ul class="delete-list">
+                        <li>
+                            #{associationsBean.selectedAssociation.driver != null ? associationsBean.selectedAssociation.driver.firstName.concat(' ').concat(associationsBean.selectedAssociation.driver.lastName) : 'Sans conducteur'}
+                            -
+                            #{associationsBean.selectedAssociation.badge != null ? associationsBean.selectedAssociation.badge.content : 'Sans badge'}
+                            -
+                            #{associationsBean.selectedAssociation.vehicle != null ? associationsBean.selectedAssociation.vehicle.brand.concat(' ').concat(associationsBean.selectedAssociation.vehicle.numberPlate) : 'Sans véhicule'}
+                        </li>
+                    </ul>
+                    <h:panelGroup layout="block" rendered="#{associationsBean.selectedAssociation.driver != null}">
+                        <p:selectBooleanCheckbox value="#{associationsBean.supprimerConducteurLie}" itemLabel="Supprimer aussi le conducteur lié"/>
+                        <ul class="delete-list">
+                            <li>#{associationsBean.selectedAssociation.driver.firstName} #{associationsBean.selectedAssociation.driver.lastName} (#{associationsBean.selectedAssociation.driver.username})</li>
+                        </ul>
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" rendered="#{associationsBean.selectedAssociation.badge != null}">
+                        <p:selectBooleanCheckbox value="#{associationsBean.supprimerBadgeLie}" itemLabel="Supprimer aussi le badge lié"/>
+                        <ul class="delete-list">
+                            <li>Badge #{associationsBean.selectedAssociation.badge.content}</li>
+                        </ul>
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" rendered="#{associationsBean.selectedAssociation.vehicle != null}">
+                        <p:selectBooleanCheckbox value="#{associationsBean.supprimerVehiculeLie}" itemLabel="Supprimer aussi le véhicule lié"/>
+                        <ul class="delete-list">
+                            <li>#{associationsBean.selectedAssociation.vehicle.brand} #{associationsBean.selectedAssociation.vehicle.numberPlate}</li>
+                        </ul>
+                    </h:panelGroup>
+                </h:panelGroup>
             </h:panelGroup>
             <f:facet name="footer">
                 <p:commandButton value="Supprimer"
                                  icon="pi pi-trash"
                                  styleClass="rounded-button ui-button-danger"
                                  action="#{associationsBean.supprimerAssociation()}"
-                                 process="@this"
+                                 process="panelSupprimerAssoc @this"
                                  update="tableAssociations panelSupprimerAssoc messageindex message"
                                  oncomplete="PF('dlgSupprimerAssoc').hide()"/>
                 <p:commandButton value="Annuler"
