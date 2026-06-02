@@ -839,6 +839,12 @@ input:focus {
     box-shadow: var(--shadow-md) !important;
 }
 
+body .ui-dialog[style*="display: none"],
+body .ui-dialog.ui-widget[style*="display: none"],
+body .driver-dialog.ui-dialog[style*="display: none"] {
+    display: none !important;
+}
+
 .ui-dialog .ui-dialog-titlebar {
     padding: 18px 22px !important;
     color: var(--text-main) !important;
