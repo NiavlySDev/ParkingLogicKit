@@ -54,12 +54,12 @@ Author: Sylvain Crocquevieille
                                     <strong>Badge RFID</strong>
                                     <span>#{badge.content}</span>
                                 </div>
-                                <p:commandButton value="Déclarer volé" icon="pi pi-exclamation-triangle"
-                                                 title="Déclarer ce badge volé"
+                                <p:commandButton value="Déclarer perdu" icon="pi pi-times"
+                                                 title="Déclarer ce badge perdu"
                                                  styleClass="stolen-button ui-button-danger"
                                                  action="#{profilBean.selectionnerBadgeVole(badge)}"
                                                  process="@this"
-                                                 update="panelBadgeVole messageindex message"
+                                                 update=":index:panelBadgeVole :index:messageindex :index:message"
                                                  oncomplete="PF('dlgBadgeVole').show()"/>
                             </div>
                         </ui:repeat>
@@ -86,13 +86,13 @@ Author: Sylvain Crocquevieille
                                                      styleClass="profile-edit ui-button-warning"
                                                      action="#{profilBean.preparerModificationVehicule(association)}"
                                                      process="@this"
-                                                     update="panelModifierVehiculeProfil messageindex message"
+                                                     update=":index:panelModifierVehiculeProfil :index:messageindex :index:message"
                                                      oncomplete="PF('dlgModifierVehiculeProfil').show()"/>
                                     <p:commandButton icon="pi pi-trash" title="Supprimer ce véhicule"
                                                      styleClass="profile-delete ui-button-danger"
                                                      action="#{profilBean.supprimerVehicule(association)}"
                                                      process="@this"
-                                                     update="index:fragmentPanel messageindex message"/>
+                                                     update=":index:fragmentPanel :index:messageindex :index:message"/>
                                 </div>
                             </h:panelGroup>
                         </ui:repeat>
@@ -132,7 +132,7 @@ Author: Sylvain Crocquevieille
                                      styleClass="profile-save"
                                      action="#{profilBean.ajouterVehicule()}"
                                      process="profileVehicleBrand profileVehiclePlate profileVehicleType @this"
-                                     update="index:fragmentPanel messageindex message"/>
+                                     update=":index:fragmentPanel :index:messageindex :index:message"/>
                 </div>
                 <p class="badge-hint"><i class="pi pi-info-circle"></i> Un badge sera visible ici après son attribution par l'administration.</p>
             </h:panelGroup>
@@ -149,7 +149,7 @@ Author: Sylvain Crocquevieille
                                          styleClass="rounded-button ui-button-warning"
                                          action="#{loginBean.preparerModificationCompte()}"
                                          process="@this"
-                                         update="panelPrenom"
+                                         update=":index:panelPrenom"
                                          oncomplete="PF('dlgPrenom').show()"/>
                     </div>
                     <div class="profile-row">
@@ -159,7 +159,7 @@ Author: Sylvain Crocquevieille
                                          styleClass="rounded-button ui-button-warning"
                                          action="#{loginBean.preparerModificationCompte()}"
                                          process="@this"
-                                         update="panelNom"
+                                         update=":index:panelNom"
                                          oncomplete="PF('dlgNom').show()"/>
                     </div>
                     <div class="profile-row">
@@ -169,7 +169,7 @@ Author: Sylvain Crocquevieille
                                          styleClass="rounded-button ui-button-warning"
                                          action="#{loginBean.preparerModificationCompte()}"
                                          process="@this"
-                                         update="panelIdentifiant"
+                                         update=":index:panelIdentifiant"
                                          oncomplete="PF('dlgIdentifiant').show()"/>
                     </div>
                     <div class="profile-row">
@@ -179,7 +179,7 @@ Author: Sylvain Crocquevieille
                                          styleClass="rounded-button ui-button-warning"
                                          action="#{loginBean.preparerModificationCompte()}"
                                          process="@this"
-                                         update="panelAge"
+                                         update=":index:panelAge"
                                          oncomplete="PF('dlgAge').show()"/>
                     </div>
                 </div>
@@ -193,7 +193,7 @@ Author: Sylvain Crocquevieille
                                  icon="pi pi-sign-out"
                                  styleClass="rounded-button ui-button-danger"
                                  action="#{loginBean.logout()}"
-                                 update="index:fragmentPanel messageindex message index:tabMenu"/>
+                                 update=":index:fragmentPanel :index:messageindex :index:message :index:tabMenu"/>
             </div>
         </h:panelGroup>
 
@@ -222,7 +222,7 @@ Author: Sylvain Crocquevieille
                                  styleClass="rounded-button ui-button-success"
                                  action="#{profilBean.modifierVehicule()}"
                                  process="panelModifierVehiculeProfil @this"
-                                 update="index:fragmentPanel messageindex message"
+                                 update=":index:fragmentPanel :index:messageindex :index:message"
                                  oncomplete="if(!args.validationFailed) PF('dlgModifierVehiculeProfil').hide()"/>
                 <p:commandButton value="Annuler" icon="pi pi-times"
                                  styleClass="rounded-button ui-button-secondary"
@@ -230,21 +230,21 @@ Author: Sylvain Crocquevieille
             </f:facet>
         </p:dialog>
 
-        <p:dialog header="Déclarer le badge volé" widgetVar="dlgBadgeVole"
+        <p:dialog header="Déclarer le badge perdu" widgetVar="dlgBadgeVole"
                   minHeight="100" width="440" showEffect="fade" modal="true">
             <h:panelGroup id="panelBadgeVole" layout="block">
                 <h:panelGroup rendered="#{profilBean.selectedBadge != null}">
-                    <p>Confirmez-vous la déclaration de vol du badge
+                    <p>Confirmez-vous la déclaration de perte du badge
                         <strong>#{profilBean.selectedBadge.content}</strong> ?
                         Il sera immédiatement désactivé.</p>
                 </h:panelGroup>
             </h:panelGroup>
             <f:facet name="footer">
-                <p:commandButton value="Déclarer volé" icon="pi pi-exclamation-triangle"
+                <p:commandButton value="Déclarer perdu" icon="pi pi-times"
                                  styleClass="rounded-button ui-button-danger"
                                  action="#{profilBean.declarerBadgeVole()}"
                                  process="@this"
-                                 update="index:fragmentPanel messageindex message"
+                                 update=":index:fragmentPanel :index:messageindex :index:message"
                                  oncomplete="PF('dlgBadgeVole').hide()"/>
                 <p:commandButton value="Annuler" icon="pi pi-times"
                                  styleClass="rounded-button ui-button-secondary"
@@ -265,7 +265,7 @@ Author: Sylvain Crocquevieille
                                  styleClass="rounded-button ui-button-success"
                                  action="#{loginBean.changerPrenom()}"
                                  process="panelPrenom @this"
-                                 update="index:fragmentPanel messageindex message"
+                                 update=":index:fragmentPanel :index:messageindex :index:message"
                                  oncomplete="PF('dlgPrenom').hide()"/>
                 <p:commandButton value="Annuler" icon="pi pi-times"
                                  styleClass="rounded-button ui-button-secondary"
@@ -286,7 +286,7 @@ Author: Sylvain Crocquevieille
                                  styleClass="rounded-button ui-button-success"
                                  action="#{loginBean.changerNom()}"
                                  process="panelNom @this"
-                                 update="index:fragmentPanel messageindex message"
+                                 update=":index:fragmentPanel :index:messageindex :index:message"
                                  oncomplete="PF('dlgNom').hide()"/>
                 <p:commandButton value="Annuler" icon="pi pi-times"
                                  styleClass="rounded-button ui-button-secondary"
@@ -307,7 +307,7 @@ Author: Sylvain Crocquevieille
                                  styleClass="rounded-button ui-button-success"
                                  action="#{loginBean.changerIdentifiant()}"
                                  process="panelIdentifiant @this"
-                                 update="index:fragmentPanel messageindex message index:tabMenu"
+                                 update=":index:fragmentPanel :index:messageindex :index:message :index:tabMenu"
                                  oncomplete="PF('dlgIdentifiant').hide()"/>
                 <p:commandButton value="Annuler" icon="pi pi-times"
                                  styleClass="rounded-button ui-button-secondary"
@@ -327,7 +327,7 @@ Author: Sylvain Crocquevieille
                                  styleClass="rounded-button ui-button-success"
                                  action="#{loginBean.changerAge()}"
                                  process="panelAge @this"
-                                 update="index:fragmentPanel messageindex message"
+                                 update=":index:fragmentPanel :index:messageindex :index:message"
                                  oncomplete="PF('dlgAge').hide()"/>
                 <p:commandButton value="Annuler" icon="pi pi-times"
                                  styleClass="rounded-button ui-button-secondary"
@@ -355,7 +355,7 @@ Author: Sylvain Crocquevieille
                                  styleClass="rounded-button ui-button-success"
                                  action="#{mdpChangeBean.change()}"
                                  process="panelMdp @this"
-                                 update="index:fragmentPanel messageindex message index:tabMenu"/>
+                                 update=":index:fragmentPanel :index:messageindex :index:message :index:tabMenu"/>
                 <p:commandButton value="Annuler" icon="pi pi-times"
                                  styleClass="rounded-button ui-button-secondary"
                                  type="button" onclick="PF('changementMdp').hide()"/>

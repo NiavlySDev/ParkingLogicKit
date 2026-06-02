@@ -9,10 +9,34 @@ Author : Sylvain Crocquevieille
 
     <h:head>
         <title>ParkingLogicKit</title>
-        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css" />
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css?v=3" />
         <script type="text/javascript" src="#{request.contextPath}/assets/js/theme.js?v=2"></script>
         <script type="text/javascript" src="#{request.contextPath}/assets/js/settings.js?v=2"></script>
         <link rel="icon" type="image/png" href="#{request.contextPath}/favicon.png" />
+        <script type="text/javascript">
+            window.PLKLoader = {
+                timer: null,
+                showDelayed: function () {
+                    this.hide();
+                    this.timer = window.setTimeout(function () {
+                        var loader = document.getElementById('pageLoader');
+                        if (loader) {
+                            loader.classList.add('is-visible');
+                        }
+                    }, 350);
+                },
+                hide: function () {
+                    if (this.timer) {
+                        window.clearTimeout(this.timer);
+                        this.timer = null;
+                    }
+                    var loader = document.getElementById('pageLoader');
+                    if (loader) {
+                        loader.classList.remove('is-visible');
+                    }
+                }
+            };
+        </script>
     </h:head>
     <h:body>
         <!-- Bouton toggle Dark / Light (fixe, visible partout) -->
@@ -49,10 +73,24 @@ Author : Sylvain Crocquevieille
                 </div>
                 <p:messages id="messageindex" showDetail="true" closable="true" />
                 <p:growl id="message" showDetail="true" />
+                <p:poll interval="30"
+                        listener="#{navBean.refreshCurrentPage()}"
+                        global="false"
+                        process="@this"
+                        update="#{navBean.refreshUpdateTargets}" />
                 <h:panelGroup id="fragmentPanel" layout="block">
                     <ui:include src="#{navBean.path}" />
                 </h:panelGroup>
             </h:form>
+        </div>
+        <p:ajaxStatus onstart="PLKLoader.showDelayed()"
+                      onsuccess="PLKLoader.hide()"
+                      onerror="PLKLoader.hide()"/>
+        <div id="pageLoader" class="page-loader">
+            <div class="page-loader-panel">
+                <span class="page-loader-spinner"></span>
+                <span>Chargement...</span>
+            </div>
         </div>
     </h:body>
 </html>

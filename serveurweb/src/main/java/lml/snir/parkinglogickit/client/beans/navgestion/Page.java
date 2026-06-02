@@ -88,8 +88,8 @@ public enum Page {
             false,
             "Compte"
     ),
-    Parametres(
-            "/pages/compte/parametres/parametres.xhtml",
+    Informations(
+            "/pages/compte/informations/informations.xhtml",
             Arrays.asList(
                     LoggedType.LoggedInOnly
             )
@@ -226,7 +226,7 @@ public enum Page {
                 return "pi pi-sign-in";
             case Compte:
                 return "pi pi-user";
-            case Parametres:
+            case Informations:
                 return "pi pi-cog";
             case Themes:
                 return "pi pi-palette";
@@ -253,8 +253,8 @@ public enum Page {
                 return "Se connecter pour accéder aux fonctionnalités du parking.";
             case Compte:
                 return "Consulter votre profil, vos badges et vos véhicules personnels.";
-            case Parametres:
-                return "Ajuster les préférences locales de l'interface.";
+            case Informations:
+                return "Afficher les informations du Projet.";
             case Themes:
                 return "Choisir un thème de couleurs pour personnaliser l'application.";
             default:

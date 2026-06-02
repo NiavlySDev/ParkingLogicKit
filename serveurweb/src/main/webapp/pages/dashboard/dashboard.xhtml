@@ -22,26 +22,28 @@ Author: Sylvain Crocquevieille
                              update="index:fragmentPanel messageindex message"/>
         </div>
 
-        <div class="stats-grid">
-            <ui:repeat value="#{dashboardBean.parkingsCard}" var="parking">
-                <p:card styleClass="parking-card #{parking.complet ? 'card-full' : 'card-free'}">
-                    <f:facet name="title">
-                        #{parking.nom}
-                    </f:facet>
-                    <div class="card-content">
-                        <div class="places-value">
-                            #{parking.placesLibres} / #{parking.totalPlaces}
+        <h:panelGroup id="dashboardStats" layout="block">
+            <div class="stats-grid">
+                <ui:repeat value="#{dashboardBean.parkingsCard}" var="parking">
+                    <p:card styleClass="parking-card #{parking.complet ? 'card-full' : 'card-free'}">
+                        <f:facet name="title">
+                            #{parking.nom}
+                        </f:facet>
+                        <div class="card-content">
+                            <div class="places-value">
+                                #{parking.placesLibres} / #{parking.totalPlaces}
+                            </div>
+                            <div class="places-status">
+                                <span class="status-dot #{parking.complet ? 'dot-full' : 'dot-free'}"></span>
+                                #{parking.complet ? 'Complet' : 'Disponible'}
+                            </div>
                         </div>
-                        <div class="places-status">
-                            <span class="status-dot #{parking.complet ? 'dot-full' : 'dot-free'}"></span>
-                            #{parking.complet ? 'Complet' : 'Disponible'}
-                        </div>
-                    </div>
-                </p:card>
-            </ui:repeat>
-        </div>
+                    </p:card>
+                </ui:repeat>
+            </div>
+        </h:panelGroup>
 
-        <h:panelGroup rendered="#{not empty dashboardBean.parkings}">
+        <h:panelGroup id="parkingInfo" layout="block" rendered="#{not empty dashboardBean.parkings}">
             <h3 class="section-subtitle">Informations parking</h3>
             <p:dataTable id="tableauParking"
                          var="parking"
@@ -53,11 +55,64 @@ Author: Sylvain Crocquevieille
                 <p:column headerText="Places disponibles">
                     <h:outputText value="#{parking.placeCount} / #{parking.totalPlace}" />
                 </p:column>
+                <p:column headerText="Places prises">
+                    <h:outputText value="#{parking.totalPlace - parking.placeCount}" />
+                </p:column>
+                <p:column headerText="Places totales">
+                    <h:outputText value="#{parking.totalPlace}" />
+                </p:column>
                 <p:column headerText="Etat">
                     <h:outputText value="#{parking.isFull ? 'Complet' : 'Disponible'}" />
                 </p:column>
+                <p:column headerText="Actions" styleClass="col-actions">
+                    <p:commandButton icon="pi pi-pencil"
+                                     styleClass="rounded-button ui-button-warning"
+                                     title="Modifier l'occupation"
+                                     action="#{dashboardBean.preparerModification(parking)}"
+                                     process="@this"
+                                     update=":index:panelModifierParking"
+                                     oncomplete="PF('dlgModifierParking').show()"/>
+                </p:column>
             </p:dataTable>
         </h:panelGroup>
+
+        <p:dialog header="Modifier l'occupation" widgetVar="dlgModifierParking"
+                  minHeight="160" width="420" showEffect="fade" modal="true">
+            <h:panelGroup id="panelModifierParking" layout="block">
+                <h:panelGroup rendered="#{dashboardBean.selectedParking != null}">
+                    <div class="dialog-form">
+                        <h:panelGrid columns="2" cellpadding="8" styleClass="dialog-grid">
+                            <h:outputLabel value="Parking :"/>
+                            <h:outputText value="#{dashboardBean.selectedParking.id}"/>
+                            <h:outputLabel value="Places prises :"/>
+                            <p:inputNumber value="#{dashboardBean.editPlacesPrises}"
+                                           minValue="0"
+                                           decimalPlaces="0"/>
+                            <h:outputLabel value="Places totales :"/>
+                            <p:inputNumber value="#{dashboardBean.editTotalPlaces}"
+                                           minValue="0"
+                                           decimalPlaces="0"/>
+                        </h:panelGrid>
+                    </div>
+                </h:panelGroup>
+            </h:panelGroup>
+            <f:facet name="footer">
+                <p:commandButton value="Enregistrer"
+                                 icon="pi pi-check"
+                                 styleClass="rounded-button ui-button-success"
+                                 action="#{dashboardBean.modifierOccupation()}"
+                                 process="panelModifierParking @this"
+                                 update="dashboardStats parkingInfo panelModifierParking messageindex message"
+                                 oncomplete="if(!args.validationFailed) PF('dlgModifierParking').hide()"/>
+                <p:commandButton value="Annuler"
+                                 icon="pi pi-times"
+                                 styleClass="rounded-button ui-button-secondary"
+                                 action="#{dashboardBean.annulerModification()}"
+                                 process="@this"
+                                 update="panelModifierParking"
+                                 oncomplete="PF('dlgModifierParking').hide()"/>
+            </f:facet>
+        </p:dialog>
 
     </div>
 </ui:composition>

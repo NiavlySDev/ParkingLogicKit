@@ -1,0 +1,62 @@
+<!--
+Author: Sylvain Crocquevieille
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/pages/compte/informations/style.css?v=3" />
+    <script type="text/javascript" src="#{request.contextPath}/assets/js/settings.js?v=2"></script>
+
+    <div class="settings-page">
+        <div class="page-header">
+            <div>
+                <h2 class="section-title">Informations</h2>
+                <p class="section-description">Informations Générales du Projet Parking Logic Kit.</p>
+            </div>
+        </div>
+
+        <div class="info-layout">
+            <div class="settings-card info-card project-card">
+                <div class="project-meta">
+                    <div class="meta-row">
+                        <span class="meta-label">Date de création</span>
+                        <span class="meta-value">9 Janvier 2026</span>
+                    </div>
+                </div>
+                <div class="project-meta">
+                    <div class="meta-row">
+                        <span class="meta-label">Dernière mise à jour</span>
+                        <span class="meta-value">#{informationsBean.derniereMiseAJourProjet}</span>
+                    </div>
+                </div>
+
+                <div class="team-heading">
+                    <h3>Développeurs</h3>
+                </div>
+
+                <ul class="programmers-list">
+                    <li><strong>Sylvain Crocquevieille</strong><span>Serveur Web Wildfly</span></li>
+                    <li><strong>Ethan Chandebois</strong><span>Angular Android Mobile</span></li>
+                    <li><strong>Phily Seck</strong><span>Couche Métier, Relation BDD</span></li>
+                    <li><strong>Virgile Alari</strong><span>Couche Physique, Connexion BDD</span></li>
+                </ul>
+            </div>
+
+            <div class="settings-card updates-section">
+                <h3>Dernières mises à jour</h3>
+                <div class="updates-grid">
+                    <ui:repeat value="#{informationsBean.dernieresMisesAJour}" var="maj">
+                        <div class="update-card">
+                            <div class="update-header">
+                                <h4>#{maj.dateFormatee}</h4>
+                                <span>#{maj.auteur}</span>
+                            </div>
+                            <p>#{maj.titre}</p>
+                        </div>
+                    </ui:repeat>
+                </div>
+            </div>
+        </div>
+    </div>
+</ui:composition>
