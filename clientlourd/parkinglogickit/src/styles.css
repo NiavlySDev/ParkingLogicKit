@@ -45,6 +45,7 @@
   --radius: 18px;
 }
 
+html.app-theme-dark,
 body.app-theme-dark {
   --bg: #0f172a;
   --bg-secondary: #111827;
@@ -71,6 +72,12 @@ body {
   background: var(--bg);
 }
 
+html.app-theme-dark,
+html.app-theme-dark body,
+body.app-theme-dark {
+  background: #0f172a !important;
+}
+
 body {
   min-height: 100vh;
 
@@ -84,6 +91,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   overflow-x: hidden;
+}
+
+app-root {
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-secondary) 100%);
 }
 
 /* =========================
@@ -173,13 +186,14 @@ img {
    THEME SOMBRE - PAGES EXISTANTES
    ========================= */
 
-body.app-theme-dark .sign-in,
-body.app-theme-dark .sign-up,
+html.app-theme-dark app-root,
 body.app-theme-dark {
   background: linear-gradient(135deg, var(--bg), var(--bg-secondary)) !important;
   color: var(--text) !important;
 }
 
+body.app-theme-dark .sign-in,
+body.app-theme-dark .sign-up,
 body.app-theme-dark app-home,
 body.app-theme-dark app-reception,
 body.app-theme-dark app-reception-admin,

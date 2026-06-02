@@ -43,6 +43,8 @@ export class ThemeService {
 
   private applyTheme(preference: ThemePreference): void {
     const useDarkTheme = preference === 'dark' || (preference === 'system' && this.mediaQuery.matches);
+    document.documentElement.classList.toggle('app-theme-dark', useDarkTheme);
+    document.documentElement.classList.toggle('app-theme-light', !useDarkTheme);
     document.body.classList.toggle('app-theme-dark', useDarkTheme);
     document.body.classList.toggle('app-theme-light', !useDarkTheme);
     document.documentElement.style.colorScheme = useDarkTheme ? 'dark' : 'light';
