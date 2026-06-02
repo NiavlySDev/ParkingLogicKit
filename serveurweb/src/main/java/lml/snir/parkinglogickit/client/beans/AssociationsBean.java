@@ -36,6 +36,8 @@ public class AssociationsBean implements Serializable {
     private Long newDriverId;
     private Long newBadgeId;
     private Long newVehicleId;
+    private Long editBadgeId;
+    private Long editVehicleId;
     private boolean supprimerConducteurLie;
     private boolean supprimerBadgeLie;
     private boolean supprimerVehiculeLie;
@@ -85,6 +87,30 @@ public class AssociationsBean implements Serializable {
     }
 
     /**
+     * Modifie uniquement le badge et le véhicule de l'association sélectionnée.
+     */
+    public void modifierAssociation() {
+        if (selectedAssociation == null) {
+            return;
+        }
+        if (editBadgeId == null || editVehicleId == null) {
+            addError("Le badge et le véhicule sont obligatoires.");
+            return;
+        }
+
+        try {
+            selectedAssociation.setBadge(MetierFactory.getBadgeService().getById(editBadgeId));
+            selectedAssociation.setVehicle(MetierFactory.getVehicleService().getById(editVehicleId));
+            MetierFactory.getAssociateService().update(selectedAssociation);
+            addInfo("Association mise à jour.");
+            annulerSelection();
+            charger();
+        } catch (Exception e) {
+            addError("Erreur lors de la modification de l'association : " + e.getMessage());
+        }
+    }
+
+    /**
      * Supprime l'association sélectionnée dans le tableau.
      */
     public void supprimerAssociation() {
@@ -128,6 +154,8 @@ public class AssociationsBean implements Serializable {
 
     public void annulerSelection() {
         selectedAssociation = null;
+        editBadgeId = null;
+        editVehicleId = null;
         supprimerConducteurLie = false;
         supprimerBadgeLie = false;
         supprimerVehiculeLie = false;
@@ -135,6 +163,10 @@ public class AssociationsBean implements Serializable {
 
     public void selectionnerAssociation(Associate association) {
         this.selectedAssociation = association;
+        this.editBadgeId = association != null && association.getBadge() != null
+                ? association.getBadge().getId() : null;
+        this.editVehicleId = association != null && association.getVehicle() != null
+                ? association.getVehicle().getId() : null;
         supprimerConducteurLie = false;
         supprimerBadgeLie = false;
         supprimerVehiculeLie = false;
@@ -229,6 +261,22 @@ public class AssociationsBean implements Serializable {
 
     public void setNewVehicleId(Long newVehicleId) {
         this.newVehicleId = newVehicleId;
+    }
+
+    public Long getEditBadgeId() {
+        return editBadgeId;
+    }
+
+    public void setEditBadgeId(Long editBadgeId) {
+        this.editBadgeId = editBadgeId;
+    }
+
+    public Long getEditVehicleId() {
+        return editVehicleId;
+    }
+
+    public void setEditVehicleId(Long editVehicleId) {
+        this.editVehicleId = editVehicleId;
     }
 
     public boolean isSupprimerConducteurLie() {

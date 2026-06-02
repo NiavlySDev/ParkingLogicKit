@@ -48,6 +48,14 @@ Author: Sylvain Crocquevieille
                 <h:outputText value="#{assoc.vehicle != null ? assoc.vehicle.brand.concat(' (').concat(assoc.vehicle.numberPlate).concat(')') : '-'}" />
             </p:column>
             <p:column headerText="Actions" styleClass="col-actions">
+                <p:commandButton icon="pi pi-pencil"
+                                 styleClass="rounded-button ui-button-warning"
+                                 title="Modifier"
+                                 action="#{associationsBean.selectionnerAssociation(assoc)}"
+                                 process="@this"
+                                 update="@form"
+                                 oncomplete="PF('dlgModifierAssoc').show()"/>
+                &#160;
                 <p:commandButton icon="pi pi-trash"
                                  styleClass="rounded-button ui-button-danger"
                                  title="Supprimer"
@@ -107,6 +115,53 @@ Author: Sylvain Crocquevieille
                                  process="@this"
                                  update="panelCreerAssoc"
                                  oncomplete="PF('dlgCreerAssoc').hide()"/>
+            </f:facet>
+        </p:dialog>
+
+        <p:dialog header="Modifier association" widgetVar="dlgModifierAssoc"
+                  minHeight="220" width="480" showEffect="fade" modal="true">
+            <h:panelGroup id="panelModifierAssoc" layout="block"
+                          rendered="#{associationsBean.selectedAssociation != null}">
+                <div class="dialog-form">
+                    <h:panelGrid columns="1" cellpadding="8" styleClass="form-grid">
+                        <h:outputLabel value="Conducteur"/>
+                        <h:outputText value="#{associationsBean.selectedAssociation.driver != null ? associationsBean.selectedAssociation.driver.firstName.concat(' ').concat(associationsBean.selectedAssociation.driver.lastName).concat(' (').concat(associationsBean.selectedAssociation.driver.username).concat(')') : '-'}"/>
+
+                        <h:outputLabel value="Badge"/>
+                        <p:selectOneMenu value="#{associationsBean.editBadgeId}" required="true">
+                            <f:selectItem itemValue="#{null}" itemLabel="Choisir un badge" noSelectionOption="true"/>
+                            <f:selectItems value="#{associationsBean.badges}"
+                                           var="b"
+                                           itemValue="#{b.id}"
+                                           itemLabel="#{b.content}"/>
+                        </p:selectOneMenu>
+
+                        <h:outputLabel value="Véhicule"/>
+                        <p:selectOneMenu value="#{associationsBean.editVehicleId}" required="true">
+                            <f:selectItem itemValue="#{null}" itemLabel="Choisir un véhicule" noSelectionOption="true"/>
+                            <f:selectItems value="#{associationsBean.vehicules}"
+                                           var="v"
+                                           itemValue="#{v.id}"
+                                           itemLabel="#{v.brand} #{v.numberPlate}"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                </div>
+            </h:panelGroup>
+            <f:facet name="footer">
+                <p:commandButton value="Enregistrer"
+                                 icon="pi pi-check"
+                                 styleClass="rounded-button ui-button-success"
+                                 action="#{associationsBean.modifierAssociation()}"
+                                 process="panelModifierAssoc @this"
+                                 update="tableAssociations panelModifierAssoc messageindex message"
+                                 oncomplete="if(!args.validationFailed) PF('dlgModifierAssoc').hide()"/>
+                <p:commandButton value="Annuler"
+                                 icon="pi pi-times"
+                                 styleClass="rounded-button ui-button-secondary"
+                                 action="#{associationsBean.annulerSelection()}"
+                                 process="@this"
+                                 update="panelModifierAssoc"
+                                 oncomplete="PF('dlgModifierAssoc').hide()"/>
             </f:facet>
         </p:dialog>
 
