@@ -63,6 +63,9 @@ public class NavBean implements Serializable {
     private Page currentPage = Page.Accueil;
     private List<Page> visiblePages = new ArrayList<>();
 
+    /**
+     * Exécute le traitement init.
+     */
     @PostConstruct
     public void init() {
         model = new DefaultMenuModel();
@@ -164,14 +167,29 @@ public class NavBean implements Serializable {
         }
     }
 
+    /**
+     * Retourne model.
+     *
+     * @return MenuModel : valeur retournée par la méthode
+     */
     public MenuModel getModel() {
         return model;
     }
 
+    /**
+     * Retourne path.
+     *
+     * @return String : valeur retournée par la méthode
+     */
     public String getPath() {
         return path;
     }
 
+    /**
+     * Retourne active index.
+     *
+     * @return int : valeur retournée par la méthode
+     */
     public int getActiveIndex() {
         return activeIndex;
     }
@@ -194,6 +212,11 @@ public class NavBean implements Serializable {
         return pages;
     }
 
+    /**
+     * Retourne visible pages.
+     *
+     * @return List<Page> : valeur retournée par la méthode
+     */
     private List<Page> getVisiblePages() {
         List<Page> pages = new ArrayList<>();
         for (Page page : Page.values()) {
@@ -205,6 +228,12 @@ public class NavBean implements Serializable {
         return pages;
     }
 
+    /**
+     * Exécute le traitement peut afficher.
+     *
+     * @param page : paramètre utilisé par la méthode
+     * @return boolean : valeur retournée par la méthode
+     */
     private boolean peutAfficher(Page page) {
         if (page.isDisabled()) {
             return false;
@@ -218,6 +247,12 @@ public class NavBean implements Serializable {
         return !(page.verifLoggedType(LoggedType.LoggedOutOnly) && loginBean.isLogged());
     }
 
+    /**
+     * Exécute le traitement calculer index actif.
+     *
+     * @param pageActive : paramètre utilisé par la méthode
+     * @return int : valeur retournée par la méthode
+     */
     private int calculerIndexActif(Page pageActive) {
         for (int i = 0; i < visiblePages.size(); i++) {
             Page page = visiblePages.get(i);

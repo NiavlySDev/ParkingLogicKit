@@ -32,34 +32,74 @@ public class LoginBean implements Serializable {
     private String editUsername;
     private int editAge;
 
+    /**
+     * Retourne username.
+     *
+     * @return String : valeur retournée par la méthode
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Modifie username.
+     *
+     * @param username : paramètre utilisé par la méthode
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     * Retourne password.
+     *
+     * @return String : valeur retournée par la méthode
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Modifie password.
+     *
+     * @param password : paramètre utilisé par la méthode
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     * Indique si logged.
+     *
+     * @return boolean : valeur retournée par la méthode
+     */
     public boolean isLogged() {
         return logged;
     }
 
+    /**
+     * Modifie logged.
+     *
+     * @param logged : paramètre utilisé par la méthode
+     */
     public void setLogged(boolean logged) {
         this.logged = logged;
     }
 
+    /**
+     * Retourne driver.
+     *
+     * @return Driver : valeur retournée par la méthode
+     */
     public Driver getDriver() {
         return driver;
     }
 
+    /**
+     * Indique si admin.
+     *
+     * @return boolean : valeur retournée par la méthode
+     */
     public boolean isAdmin() {
         return driver instanceof Admin;
     }
@@ -102,6 +142,9 @@ public class LoginBean implements Serializable {
         PrimeFaces.current().executeScript("location.reload();");
     }
 
+    /**
+     * Recharge les données nécessaires à l'affichage.
+     */
     private void chargerChampsModificationCompte() {
         if (driver == null) {
             return;
@@ -112,10 +155,16 @@ public class LoginBean implements Serializable {
         editAge = driver.getAge();
     }
 
+    /**
+     * Exécute le traitement preparer modification compte.
+     */
     public void preparerModificationCompte() {
         chargerChampsModificationCompte();
     }
 
+    /**
+     * Exécute le traitement changer prenom.
+     */
     public void changerPrenom() {
         if (driver == null) {
             return;
@@ -128,6 +177,9 @@ public class LoginBean implements Serializable {
         }
     }
 
+    /**
+     * Exécute le traitement changer nom.
+     */
     public void changerNom() {
         if (driver == null) {
             return;
@@ -140,6 +192,9 @@ public class LoginBean implements Serializable {
         }
     }
 
+    /**
+     * Exécute le traitement changer identifiant.
+     */
     public void changerIdentifiant() {
         if (driver == null) {
             return;
@@ -165,6 +220,9 @@ public class LoginBean implements Serializable {
         }
     }
 
+    /**
+     * Exécute le traitement changer age.
+     */
     public void changerAge() {
         if (driver == null) {
             return;
@@ -177,6 +235,11 @@ public class LoginBean implements Serializable {
         }
     }
 
+    /**
+     * Exécute le traitement sauvegarder compte.
+     *
+     * @param message : paramètre utilisé par la méthode
+     */
     private void sauvegarderCompte(String message) throws Exception {
         /*
          * Toutes les modifications du compte passent par MetierFactory pour
@@ -187,44 +250,94 @@ public class LoginBean implements Serializable {
         addInfo(message);
     }
 
+    /**
+     * Ajoute info.
+     *
+     * @param message : paramètre utilisé par la méthode
+     */
     private void addInfo(String message) {
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, message, null));
     }
 
+    /**
+     * Ajoute error.
+     *
+     * @param message : paramètre utilisé par la méthode
+     */
     private void addError(String message) {
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
     }
 
+    /**
+     * Retourne edit first name.
+     *
+     * @return String : valeur retournée par la méthode
+     */
     public String getEditFirstName() {
         return editFirstName;
     }
 
+    /**
+     * Modifie edit first name.
+     *
+     * @param editFirstName : paramètre utilisé par la méthode
+     */
     public void setEditFirstName(String editFirstName) {
         this.editFirstName = editFirstName;
     }
 
+    /**
+     * Retourne edit last name.
+     *
+     * @return String : valeur retournée par la méthode
+     */
     public String getEditLastName() {
         return editLastName;
     }
 
+    /**
+     * Modifie edit last name.
+     *
+     * @param editLastName : paramètre utilisé par la méthode
+     */
     public void setEditLastName(String editLastName) {
         this.editLastName = editLastName;
     }
 
+    /**
+     * Retourne edit username.
+     *
+     * @return String : valeur retournée par la méthode
+     */
     public String getEditUsername() {
         return editUsername;
     }
 
+    /**
+     * Modifie edit username.
+     *
+     * @param editUsername : paramètre utilisé par la méthode
+     */
     public void setEditUsername(String editUsername) {
         this.editUsername = editUsername;
     }
 
+    /**
+     * Retourne edit age.
+     *
+     * @return int : valeur retournée par la méthode
+     */
     public int getEditAge() {
         return editAge;
     }
 
+    /**
+     * Modifie edit age.
+     *
+     * @param editAge : paramètre utilisé par la méthode
+     */
     public void setEditAge(int editAge) {
         this.editAge = editAge;
     }

@@ -9,15 +9,25 @@ import java.util.Set;
 import lml.snir.parkinglogickit.metier.rest.serveur.*;
 
 /**
- * @author Virgile Alari
+ * Classe de démarrage REST du serveur web.
+ *
+ * @author Sylvain Crocquevieille
  */
 @ApplicationPath("rest")
 public class RestLaunch extends Application {
 
+    /**
+     * Construit une instance de RestLaunch.
+     */
     public RestLaunch() {
         System.out.println("lml.snir.test.client.App.<init>()");
     }
 
+    /**
+     * Retourne classes.
+     *
+     * @return Set<Class<?>> : valeur retournée par la méthode
+     */
     @Override
     public Set<Class<?>> getClasses() {
         final Set<Class<?>> classes = new HashSet<>();
@@ -32,6 +42,11 @@ public class RestLaunch extends Application {
         return classes;
     }
 
+    /**
+     * Retourne properties.
+     *
+     * @return Object> : valeur retournée par la méthode
+     */
     @Override
     public Map<String, Object> getProperties() {
         System.out.println(">>>>>>>>>>>>>>>> get properties");

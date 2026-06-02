@@ -34,66 +34,146 @@ public class MdpChangeBean implements Serializable {
     private String validationMessage;
     private boolean validation;
 
+    /**
+     * Retourne login bean.
+     *
+     * @return LoginBean : valeur retournée par la méthode
+     */
     public LoginBean getLoginBean() {
         return loginBean;
     }
 
+    /**
+     * Modifie login bean.
+     *
+     * @param loginBean : paramètre utilisé par la méthode
+     */
     public void setLoginBean(LoginBean loginBean) {
         this.loginBean = loginBean;
     }
 
+    /**
+     * Retourne current password.
+     *
+     * @return String : valeur retournée par la méthode
+     */
     public String getCurrentPassword() {
         return currentPassword;
     }
 
+    /**
+     * Modifie current password.
+     *
+     * @param currentPassword : paramètre utilisé par la méthode
+     */
     public void setCurrentPassword(String currentPassword) {
         this.currentPassword = currentPassword;
     }
 
+    /**
+     * Retourne new password.
+     *
+     * @return String : valeur retournée par la méthode
+     */
     public String getNewPassword() {
         return newPassword;
     }
 
+    /**
+     * Modifie new password.
+     *
+     * @param newPassword : paramètre utilisé par la méthode
+     */
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
     }
 
+    /**
+     * Retourne new password confirmation.
+     *
+     * @return String : valeur retournée par la méthode
+     */
     public String getNewPasswordConfirmation() {
         return newPasswordConfirmation;
     }
 
+    /**
+     * Modifie new password confirmation.
+     *
+     * @param newPasswordConfirmation : paramètre utilisé par la méthode
+     */
     public void setNewPasswordConfirmation(String newPasswordConfirmation) {
         this.newPasswordConfirmation = newPasswordConfirmation;
     }
 
+    /**
+     * Retourne error message.
+     *
+     * @return String : valeur retournée par la méthode
+     */
     public String getErrorMessage() {
         return errorMessage;
     }
 
+    /**
+     * Modifie error message.
+     *
+     * @param errorMessage : paramètre utilisé par la méthode
+     */
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 
+    /**
+     * Indique si error.
+     *
+     * @return boolean : valeur retournée par la méthode
+     */
     public boolean isError() {
         return error;
     }
 
+    /**
+     * Modifie error.
+     *
+     * @param error : paramètre utilisé par la méthode
+     */
     public void setError(boolean error) {
         this.error = error;
     }
 
+    /**
+     * Retourne validation message.
+     *
+     * @return String : valeur retournée par la méthode
+     */
     public String getValidationMessage() {
         return validationMessage;
     }
 
+    /**
+     * Modifie validation message.
+     *
+     * @param validationMessage : paramètre utilisé par la méthode
+     */
     public void setValidationMessage(String validationMessage) {
         this.validationMessage = validationMessage;
     }
 
+    /**
+     * Indique si validation.
+     *
+     * @return boolean : valeur retournée par la méthode
+     */
     public boolean isValidation() {
         return validation;
     }
 
+    /**
+     * Modifie validation.
+     *
+     * @param validation : paramètre utilisé par la méthode
+     */
     public void setValidation(boolean validation) {
         this.validation = validation;
     }

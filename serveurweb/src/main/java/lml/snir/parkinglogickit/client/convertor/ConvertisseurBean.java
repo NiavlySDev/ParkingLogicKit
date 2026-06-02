@@ -5,7 +5,7 @@ import jakarta.inject.Named;
 import java.io.Serializable;
 
 /**
- * @author Stéphane Alonso
+ * @author Sylvain Crocquevieille
  */
 @Named
 @ViewScoped
@@ -43,6 +43,9 @@ public class ConvertisseurBean implements Serializable {
         this.concertFrancToEuro();
     }
 
+    /**
+     * Exécute le traitement concert franc to euro.
+     */
     public void concertFrancToEuro() {
         this.franc = this.euro * this.TAUX;
     }
