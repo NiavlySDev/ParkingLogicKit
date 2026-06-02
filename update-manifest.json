@@ -1,13 +1,21 @@
 {
   "latest": {
-    "version": "v1.4.0",
-    "title": "v1.4.0",
-    "publishedAt": "2026-06-02T09:54:43Z",
-    "body": "## Changements depuis v1.3.9\n\n- Correction Dark Mode n°566+53 (`f19d2db`)\n- Ajout Javadocs serveur web + uniformisation auteurs + documentation méthodes Java (`abe9158`)\n",
-    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.0/plk.apk",
-    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.0"
+    "version": "v1.4.1",
+    "title": "v1.4.1",
+    "publishedAt": "2026-06-02T12:47:06Z",
+    "body": "## Changements depuis v1.4.0\n\n- Correction Bug Build (`244dba4`)\n- Dark Mode Correctif + Icones (`f11acc6`)\n",
+    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.1/plk.apk",
+    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.1"
   },
   "releases": [
+    {
+      "version": "v1.4.1",
+      "title": "v1.4.1",
+      "publishedAt": "2026-06-02T12:47:06Z",
+      "body": "## Changements depuis v1.4.0\n\n- Correction Bug Build (`244dba4`)\n- Dark Mode Correctif + Icones (`f11acc6`)\n",
+      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.1/plk.apk",
+      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.1"
+    },
     {
       "version": "v1.4.0",
       "title": "v1.4.0",
@@ -79,14 +87,6 @@
       "body": "## Changements depuis v1.3.1\n\n- Maj Page Paramètres (`dac176d`)\n",
       "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.2/plk.apk",
       "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.2"
-    },
-    {
-      "version": "v1.3.1",
-      "title": "v1.3.1",
-      "publishedAt": "2026-05-29T09:38:21Z",
-      "body": "## Changements depuis v1.3.0\n\n- Aucun commit hors merge depuis la version precedente.\n",
-      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.1/plk.apk",
-      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.1"
     }
   ]
 }
