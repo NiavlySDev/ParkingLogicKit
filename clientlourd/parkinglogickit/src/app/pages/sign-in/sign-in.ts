@@ -118,11 +118,6 @@ export class SignIn implements OnInit {
     this.cdr.detectChanges();
   }
 
-  generateMdp(): void {
-    this.password = this.generateRandomPassword();
-    this.showPassword = true;
-  }
-
   copyMdp(): void {
     if (!this.password) {
       this.setMessage('Veuillez générer ou saisir un mot de passe avant de le copier.', 'error');
@@ -138,14 +133,6 @@ export class SignIn implements OnInit {
     }
 
     this.fallbackCopyText(this.password);
-  }
-
-  private generateRandomPassword(length: number = 12): string {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
-    const array = new Uint32Array(length);
-    window.crypto.getRandomValues(array);
-
-    return Array.from(array, (value) => chars.charAt(value % chars.length)).join('');
   }
 
   private fallbackCopyText(text: string): void {

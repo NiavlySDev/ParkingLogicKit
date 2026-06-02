@@ -184,5 +184,25 @@
         <span>Système</span>
       </button>
     </div>
+
+    <div class="setting-row">
+      <div>
+        <strong>Notifications de mise à jour</strong>
+        <span>Recevoir une notification quand une nouvelle version est disponible.</span>
+      </div>
+      <button
+        type="button"
+        class="switch-button"
+        [class.enabled]="updateNotificationsEnabled"
+        (click)="toggleUpdateNotifications()"
+        [attr.aria-pressed]="updateNotificationsEnabled"
+      >
+        <span></span>
+      </button>
+    </div>
+
+    <div class="status-box" *ngIf="notificationMessage">
+      {{ notificationMessage }}
+    </div>
   </section>
 </main>

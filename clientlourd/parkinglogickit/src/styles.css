@@ -68,6 +68,7 @@ html,
 body {
   width: 100%;
   min-height: 100%;
+  background: var(--bg);
 }
 
 body {
@@ -174,27 +175,55 @@ img {
 
 body.app-theme-dark .sign-in,
 body.app-theme-dark .sign-up,
+body.app-theme-dark app-home,
+body.app-theme-dark app-reception,
+body.app-theme-dark app-reception-admin,
+body.app-theme-dark app-user-profile,
+body.app-theme-dark app-add-vehicle,
+body.app-theme-dark app-modify-vehicle,
+body.app-theme-dark app-delete-vehicle,
+body.app-theme-dark app-delete-user,
+body.app-theme-dark app-modify-user,
+body.app-theme-dark app-sign-up,
 body.app-theme-dark app-settings,
 body.app-theme-dark .container {
-  background: linear-gradient(135deg, var(--bg), var(--bg-secondary));
-  color: var(--text);
+  background: linear-gradient(135deg, var(--bg), var(--bg-secondary)) !important;
+  color: var(--text) !important;
+  min-height: 100vh;
+}
+
+body.app-theme-dark app-home,
+body.app-theme-dark app-reception,
+body.app-theme-dark app-reception-admin,
+body.app-theme-dark app-user-profile,
+body.app-theme-dark app-add-vehicle,
+body.app-theme-dark app-modify-vehicle,
+body.app-theme-dark app-delete-vehicle,
+body.app-theme-dark app-delete-user,
+body.app-theme-dark app-modify-user,
+body.app-theme-dark app-sign-up,
+body.app-theme-dark app-settings {
+  display: block;
 }
 
 body.app-theme-dark .sign-in-card,
 body.app-theme-dark .sign-up-card,
 body.app-theme-dark .container,
 body.app-theme-dark .navbar,
-body.app-theme-dark .dropdown-menu {
-  background: var(--white);
-  color: var(--text);
-  border-color: var(--border);
-  box-shadow: var(--shadow-md);
+body.app-theme-dark .dropdown-menu,
+body.app-theme-dark .theme-setup-dialog {
+  background: var(--white) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+  box-shadow: var(--shadow-md) !important;
 }
 
 body.app-theme-dark .form-input,
 body.app-theme-dark .p-inputtext,
 body.app-theme-dark .p-select,
 body.app-theme-dark .p-dropdown,
+body.app-theme-dark .input-with-icon input,
+body.app-theme-dark .input-with-icon select,
 body.app-theme-dark select,
 body.app-theme-dark input,
 body.app-theme-dark textarea {
@@ -226,10 +255,14 @@ body.app-theme-dark .status-box,
 body.app-theme-dark .download-progress,
 body.app-theme-dark .release-card,
 body.app-theme-dark .programmer,
-body.app-theme-dark .theme-option {
-  background: var(--surface);
-  color: var(--text);
-  border-color: var(--border);
+body.app-theme-dark .theme-option,
+body.app-theme-dark .setting-row,
+body.app-theme-dark .vehicle-item-card,
+body.app-theme-dark .empty-card,
+body.app-theme-dark .progress-section {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
 }
 
 body.app-theme-dark .nav-btn:hover,
@@ -258,6 +291,45 @@ body.app-theme-dark .dropdown-item,
 body.app-theme-dark .header-content h1,
 body.app-theme-dark .changelog-header h3 {
   color: var(--text) !important;
+}
+
+body.app-theme-dark .card {
+  border-color: var(--border) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+body.app-theme-dark .card-success {
+  background: rgba(34, 197, 94, 0.16) !important;
+}
+
+body.app-theme-dark .card-danger {
+  background: rgba(239, 68, 68, 0.16) !important;
+}
+
+body.app-theme-dark .card-info-bg {
+  background: rgba(59, 130, 246, 0.16) !important;
+}
+
+body.app-theme-dark .card-warning {
+  background: rgba(245, 158, 11, 0.18) !important;
+}
+
+body.app-theme-dark .card-value,
+body.app-theme-dark .card-icon,
+body.app-theme-dark .v-brand,
+body.app-theme-dark .v-plate,
+body.app-theme-dark .setting-row strong,
+body.app-theme-dark .progress-label,
+body.app-theme-dark .progress-percent,
+body.app-theme-dark .navbar-title {
+  color: var(--text) !important;
+}
+
+body.app-theme-dark .setting-row span,
+body.app-theme-dark .container p,
+body.app-theme-dark .v-badge,
+body.app-theme-dark .empty-card p {
+  color: var(--muted) !important;
 }
 
 body.app-theme-dark .toggle-password,

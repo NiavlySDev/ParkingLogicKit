@@ -40,6 +40,8 @@ export class Settings implements OnInit, OnDestroy {
   menuOpen = false;
   activeTab: SettingsTab = 'updates';
   themePreference: ThemePreference = 'system';
+  updateNotificationsEnabled = false;
+  notificationMessage = '';
 
   currentVersion = 'Chargement...';
   latestVersion = '-';
@@ -56,6 +58,7 @@ export class Settings implements OnInit, OnDestroy {
   updateAvailable = false;
   private updateSubscription: Subscription | null = null;
   private themeSubscription: Subscription | null = null;
+  private notificationSubscription: Subscription | null = null;
 
   steps: UpdateStep[] = [
     { label: 'Lecture de la version actuelle', state: 'pending' },
@@ -86,6 +89,7 @@ export class Settings implements OnInit, OnDestroy {
 
     this.currentVersion = await this.updateCheckService.getCurrentVersion();
     this.themePreference = this.themeService.getPreference();
+    this.updateNotificationsEnabled = this.updateCheckService.areUpdateNotificationsEnabled();
     this.steps[0].state = 'done';
     await Promise.all([this.loadReleaseDates(true), this.loadChangelog(true)]);
     this.updateSubscription = this.updateCheckService.lastResult$.subscribe((result) => {
@@ -98,16 +102,35 @@ export class Settings implements OnInit, OnDestroy {
       this.themePreference = preference;
       this.cdr.detectChanges();
     });
+    this.notificationSubscription = this.updateCheckService.updateNotificationsEnabled$.subscribe(
+      (enabled) => {
+        this.updateNotificationsEnabled = enabled;
+        this.cdr.detectChanges();
+      }
+    );
     this.cdr.detectChanges();
   }
 
   ngOnDestroy(): void {
     this.updateSubscription?.unsubscribe();
     this.themeSubscription?.unsubscribe();
+    this.notificationSubscription?.unsubscribe();
   }
 
   setThemePreference(preference: ThemePreference): void {
     this.themeService.setPreference(preference);
+  }
+
+  async toggleUpdateNotifications(): Promise<void> {
+    this.notificationMessage = '';
+    const enabled = await this.updateCheckService.setUpdateNotificationsEnabled(
+      !this.updateNotificationsEnabled
+    );
+    this.updateNotificationsEnabled = enabled;
+    this.notificationMessage = enabled
+      ? 'Notifications de mise à jour activées.'
+      : 'Notifications de mise à jour désactivées ou permission refusée.';
+    this.cdr.detectChanges();
   }
 
   async checkForUpdate(): Promise<void> {
