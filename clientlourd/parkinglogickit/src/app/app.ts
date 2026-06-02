@@ -1,27 +1,37 @@
+import { CommonModule } from '@angular/common';
 import { Component, signal, HostListener, OnInit, NgZone } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { PrimengModule } from './shared/primeng.module';
 import { AuthService } from '../Auth/auth.service';
 import { UpdateCheckService } from './services/update-check.service';
+import { ThemePreference, ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, PrimengModule],
+  imports: [CommonModule, RouterOutlet, PrimengModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App implements OnInit {
   protected readonly title = signal('ParkingLogicKit');
+  showThemeSetup = false;
 
   constructor(
     private authService: AuthService,
     private updateCheckService: UpdateCheckService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private themeService: ThemeService
   ) {}
 
   async ngOnInit(): Promise<void> {
+    this.showThemeSetup = !this.themeService.hasCompletedSetup();
     await this.updateCheckService.checkOnStartup();
+  }
+
+  chooseInitialTheme(preference: ThemePreference): void {
+    this.themeService.completeSetup(preference);
+    this.showThemeSetup = false;
   }
   
   // Horodatage pour limiter l'execution de la reinitialisation (Throttling)

@@ -22,6 +22,7 @@
   --bg-secondary: #d6e4f2;
 
   --white: #ffffff;
+  --surface: #f8fafc;
 
   --text: #1e293b;
   --muted: #64748b;
@@ -42,6 +43,21 @@
   --shadow-lg: 0 20px 45px rgba(15, 23, 42, 0.12);
 
   --radius: 18px;
+}
+
+body.app-theme-dark {
+  --bg: #0f172a;
+  --bg-secondary: #111827;
+  --white: #1e293b;
+  --surface: #0f172a;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --primary: #60a5fa;
+  --primary-dark: #3b82f6;
+  --border: #334155;
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.32);
+  --shadow-lg: 0 20px 45px rgba(0, 0, 0, 0.42);
 }
 
 /* =========================
@@ -98,7 +114,7 @@ select,
 textarea {
   font: inherit;
   color: var(--text);
-  background: white;
+  background: var(--white);
   outline: none;
 }
 
@@ -137,17 +153,130 @@ img {
 }
 
 .p-inputtext {
-  background: white !important;
+  background: var(--white) !important;
   color: var(--text) !important;
   border: 1px solid var(--border) !important;
 }
 
 .p-dropdown {
-  background: white !important;
+  background: var(--white) !important;
   color: var(--text) !important;
 }
 
 .p-card {
-  background: white !important;
+  background: var(--white) !important;
   color: var(--text) !important;
+}
+
+/* =========================
+   THEME SOMBRE - PAGES EXISTANTES
+   ========================= */
+
+body.app-theme-dark .sign-in,
+body.app-theme-dark .sign-up,
+body.app-theme-dark app-settings,
+body.app-theme-dark .container {
+  background: linear-gradient(135deg, var(--bg), var(--bg-secondary));
+  color: var(--text);
+}
+
+body.app-theme-dark .sign-in-card,
+body.app-theme-dark .sign-up-card,
+body.app-theme-dark .container,
+body.app-theme-dark .navbar,
+body.app-theme-dark .dropdown-menu {
+  background: var(--white);
+  color: var(--text);
+  border-color: var(--border);
+  box-shadow: var(--shadow-md);
+}
+
+body.app-theme-dark .form-input,
+body.app-theme-dark .p-inputtext,
+body.app-theme-dark .p-select,
+body.app-theme-dark .p-dropdown,
+body.app-theme-dark select,
+body.app-theme-dark input,
+body.app-theme-dark textarea {
+  background-color: var(--surface) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+
+body.app-theme-dark .form-input:focus {
+  background-color: #111827 !important;
+}
+
+body.app-theme-dark .form-input::placeholder,
+body.app-theme-dark .app-version,
+body.app-theme-dark .subtitle,
+body.app-theme-dark .card-label,
+body.app-theme-dark .step,
+body.app-theme-dark .release-card p,
+body.app-theme-dark .programmer span,
+body.app-theme-dark .changelog-header span {
+  color: var(--muted) !important;
+}
+
+body.app-theme-dark .nav-btn,
+body.app-theme-dark .navbar-user,
+body.app-theme-dark .settings-button,
+body.app-theme-dark .info-card,
+body.app-theme-dark .status-box,
+body.app-theme-dark .download-progress,
+body.app-theme-dark .release-card,
+body.app-theme-dark .programmer,
+body.app-theme-dark .theme-option {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+body.app-theme-dark .nav-btn:hover,
+body.app-theme-dark .dropdown-item:hover {
+  background: #334155;
+  color: var(--text);
+}
+
+body.app-theme-dark .nav-btn.active,
+body.app-theme-dark .btn-submit,
+body.app-theme-dark .btn-sm,
+body.app-theme-dark .password-action,
+body.app-theme-dark .home-button {
+  background: var(--primary-dark);
+  color: #ffffff;
+}
+
+body.app-theme-dark h1,
+body.app-theme-dark h2,
+body.app-theme-dark h3,
+body.app-theme-dark h4,
+body.app-theme-dark .section-title,
+body.app-theme-dark .info-card strong,
+body.app-theme-dark .programmer strong,
+body.app-theme-dark .dropdown-item,
+body.app-theme-dark .header-content h1,
+body.app-theme-dark .changelog-header h3 {
+  color: var(--text) !important;
+}
+
+body.app-theme-dark .toggle-password,
+body.app-theme-dark .btn-eye,
+body.app-theme-dark .settings-button {
+  color: var(--primary);
+}
+
+body.app-theme-dark .dropdown-divider,
+body.app-theme-dark .progress-bar {
+  background: var(--border);
+}
+
+body.app-theme-dark .message-success {
+  background-color: rgba(34, 197, 94, 0.14);
+  color: #86efac;
+}
+
+body.app-theme-dark .message-error {
+  background-color: rgba(239, 68, 68, 0.14);
+  color: #fca5a5;
 }

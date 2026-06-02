@@ -26,6 +26,7 @@ export class SignUp implements OnInit {
   isLoading: boolean = false;
   message: string = '';
   messageType: 'success' | 'error' = 'success';
+  showPassword: boolean = false;
 
   constructor(
     private restServer: RestServer,
@@ -113,7 +114,7 @@ export class SignUp implements OnInit {
         next: (createdDriver: any) => {
           this.ngZone.run(async () => {
             this.isLoading = false;
-            this.setMessage('Inscription réussie 🎉', 'success');
+            this.setMessage('Inscription réussie', 'success');
 
             // Stockage temporaire sécurisé du conducteur créé pour l'écran suivant (add-vehicle)
             if (Capacitor.isNativePlatform()) {
@@ -159,5 +160,56 @@ export class SignUp implements OnInit {
     this.DriverType = null;
     this.addCar = null;
     this.cdr.detectChanges();
+  }
+
+  generateMdp(): void {
+    this.password = this.generateRandomPassword();
+    this.showPassword = true;
+  }
+
+  copyMdp(): void {
+    if (!this.password) {
+      this.setMessage('Veuillez générer ou saisir un mot de passe avant de le copier.', 'error');
+      return;
+    }
+
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard
+        .writeText(this.password)
+        .then(() => this.setMessage('Le mot de passe a été copié dans le presse-papier.', 'success'))
+        .catch(() => this.fallbackCopyText(this.password));
+      return;
+    }
+
+    this.fallbackCopyText(this.password);
+  }
+
+  private generateRandomPassword(length: number = 12): string {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+    const array = new Uint32Array(length);
+    window.crypto.getRandomValues(array);
+
+    return Array.from(array, (value) => chars.charAt(value % chars.length)).join('');
+  }
+
+  private fallbackCopyText(text: string): void {
+    try {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea);
+      this.setMessage(
+        successful
+          ? 'Le mot de passe a été copié dans le presse-papier.'
+          : 'Échec de la copie du mot de passe.',
+        successful ? 'success' : 'error'
+      );
+    } catch {
+      this.setMessage('Échec de la copie du mot de passe.', 'error');
+    }
   }
 }

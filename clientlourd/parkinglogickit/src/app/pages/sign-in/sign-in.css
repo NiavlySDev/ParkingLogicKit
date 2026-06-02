@@ -69,6 +69,12 @@
   width: 100%;
 }
 
+.password-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 /* INPUT */
 .form-input {
   padding: 13px 18px;
@@ -120,6 +126,25 @@
 
 .toggle-password:hover {
   color: #3b82f6; /* S'illumine en bleu au survol comme ton focus */
+}
+
+.password-action {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 10px;
+  background: #3b82f6;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.password-action:hover {
+  background: #2563eb;
 }
 
 /* BOUTON SUBMIT */
