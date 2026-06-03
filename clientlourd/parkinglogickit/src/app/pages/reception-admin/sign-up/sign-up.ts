@@ -6,6 +6,7 @@ import { Driver } from '../../../../Auth/Driver';
 import { Router } from '@angular/router';
 import { Capacitor } from '@capacitor/core';
 import { AuthService } from '../../../../Auth/auth.service'; // Import requis pour la sécurité
+import { Md5 } from 'ts-md5';
 
 @Component({
   selector: 'app-sign-up',
@@ -101,7 +102,7 @@ export class SignUp implements OnInit {
       firstName: sanitizedFirstname,
       lastName: sanitizedLastname,
       username: sanitizedUsername,
-      password: this.password, // Transmis proprement au backend qui doit se charger du hachage (BCrypt...)
+      password: Md5.hashStr(this.password), // Transmis proprement au backend qui doit se charger du hachage (BCrypt...)
       age: Number(this.age),
       isMale: Boolean(this.isMale),
       class: DriverClass,
