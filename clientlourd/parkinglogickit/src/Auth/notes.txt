@@ -2,6 +2,7 @@ npm install primeicons
 npm install crypto-js
 npm install capacitor-secure-storage-plugin
 npm install @capacitor/core
+npm install @capacitor/local-notifications
 
 NOTES :
 

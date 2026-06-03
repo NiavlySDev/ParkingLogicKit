@@ -115,7 +115,7 @@ public class LoginBean implements Serializable {
                 return;
             }
             Driver driverDS = ds.getByUsername(username);
-            if (!driverDS.getPassword().equals(password)) {
+            if (!driverDS.isValid(password)) {
                 System.out.println("Connexion impossible : mot de passe incorrect");
                 return;
             }

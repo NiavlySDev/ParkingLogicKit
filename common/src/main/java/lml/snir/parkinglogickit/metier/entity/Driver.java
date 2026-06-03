@@ -10,6 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
 /**
@@ -119,20 +121,6 @@ public class Driver implements Serializable {
     }
 
     /**
-     * @return the password
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * @param password the password to set
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    /**
      * Retourne un identifiant unique correspondant au Conducteur (Driver)
      * uniquement
      *
@@ -218,4 +206,50 @@ public class Driver implements Serializable {
         this.age = age;
     }
 
+    
+        private String codeMD5(String msg) throws NoSuchAlgorithmException {
+        String code = "";
+        byte[] b;
+        MessageDigest md;
+        try {
+            md = MessageDigest.getInstance("MD5");
+            b = md.digest(msg.getBytes());
+            for (int i = 0; i < b.length; i++) {
+                int x = b[i];
+
+                if (x < 0) {
+                    x += 256;
+                }
+
+                String s = String.format("%02x", x);
+                code += s;
+            }
+        } catch (NoSuchAlgorithmException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return code;
+    }
+
+    public boolean isValid(String password) throws NoSuchAlgorithmException {
+        return this.password.equals(this.codeMD5(password));
+    }
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @param password the mdp to set
+     */
+    public void setPassword(String password) throws NoSuchAlgorithmException {
+        this.password = this.codeMD5(password);
+    }
+    
+    public void setEncodedPassword (String password) {
+        this.password = password;
+    }
 }

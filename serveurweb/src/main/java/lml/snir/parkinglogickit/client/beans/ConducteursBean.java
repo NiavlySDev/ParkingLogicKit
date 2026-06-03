@@ -6,6 +6,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -288,7 +289,7 @@ public class ConducteursBean implements Serializable {
      * @param usernameFinal : paramètre utilisé par la méthode
      * @return Driver : valeur retournée par la méthode
      */
-    private Driver creerConducteurAvecTypeChoisi(Driver source, String usernameFinal) {
+    private Driver creerConducteurAvecTypeChoisi(Driver source, String usernameFinal) throws NoSuchAlgorithmException {
         Driver target = selectedIsAdmin ? new Admin() : new Driver();
         target.setFirstName(source.getFirstName());
         target.setLastName(source.getLastName());

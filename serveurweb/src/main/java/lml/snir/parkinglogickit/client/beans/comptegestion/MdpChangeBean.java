@@ -5,6 +5,7 @@ import jakarta.faces.annotation.ManagedProperty;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lml.snir.parkinglogickit.metier.transactionel.DriverService;
@@ -182,12 +183,12 @@ public class MdpChangeBean implements Serializable {
      * Vérifie l'ancien mot de passe, contrôle la confirmation, puis sauvegarde
      * le nouveau mot de passe du conducteur connecté.
      */
-    public void change() {
+    public void change() throws NoSuchAlgorithmException {
         this.setValidation(false);
         this.setValidationMessage("");
         this.setError(false);
         this.setErrorMessage("");
-        if (loginBean.getDriver().getPassword().equalsIgnoreCase(currentPassword)) {
+        if (loginBean.getDriver().isValid().equalsIgnoreCase(currentPassword)) {
             if (newPassword.equalsIgnoreCase(newPasswordConfirmation)) {
                 loginBean.getDriver().setPassword(newPassword);
                 try {
