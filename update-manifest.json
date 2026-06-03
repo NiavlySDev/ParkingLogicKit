@@ -1,13 +1,21 @@
 {
   "latest": {
-    "version": "v1.4.9",
-    "title": "v1.4.9",
-    "publishedAt": "2026-06-03T10:40:34Z",
-    "body": "## Changements depuis v1.4.8\n\n- Fix chiffrement (`515e977`)\n",
-    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.9/plk.apk",
-    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.9"
+    "version": "v1.5.0",
+    "title": "v1.5.0",
+    "publishedAt": "2026-06-03T11:14:58Z",
+    "body": "## Changements depuis v1.4.9\n\n- Légère modification (modify-user) (`f6f3bc7`)\n",
+    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.5.0/plk.apk",
+    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.5.0"
   },
   "releases": [
+    {
+      "version": "v1.5.0",
+      "title": "v1.5.0",
+      "publishedAt": "2026-06-03T11:14:58Z",
+      "body": "## Changements depuis v1.4.9\n\n- Légère modification (modify-user) (`f6f3bc7`)\n",
+      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.5.0/plk.apk",
+      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.5.0"
+    },
     {
       "version": "v1.4.9",
       "title": "v1.4.9",
@@ -79,14 +87,6 @@
       "body": "## Changements depuis v1.4.0\n\n- Correction Bug Build (`244dba4`)\n- Dark Mode Correctif + Icones (`f11acc6`)\n",
       "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.1/plk.apk",
       "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.1"
-    },
-    {
-      "version": "v1.4.0",
-      "title": "v1.4.0",
-      "publishedAt": "2026-06-02T09:54:43Z",
-      "body": "## Changements depuis v1.3.9\n\n- Correction Dark Mode n°566+53 (`f19d2db`)\n- Ajout Javadocs serveur web + uniformisation auteurs + documentation méthodes Java (`abe9158`)\n",
-      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.0/plk.apk",
-      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.0"
     }
   ]
 }
