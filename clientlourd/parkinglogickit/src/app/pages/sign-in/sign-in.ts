@@ -7,6 +7,7 @@ import { PrimengModule } from '../../shared/primeng.module';
 import { MessageService } from 'primeng/api';
 import { AuthService } from '../../../Auth/auth.service';
 import { UpdateCheckService } from '../../services/update-check.service';
+import { Md5 } from 'ts-md5';
 
 @Component({
   selector: 'app-sign-in',
@@ -69,7 +70,7 @@ export class SignIn implements OnInit {
     this.driverService.getByUsername(sanitizedUsername).subscribe({
       next: async (driver: any) => {
         // NOTE SÉCURITÉ : Idéalement, cette vérification se fait sur le backend Java via POST
-        if (driver && driver.password === this.password) {
+        if (driver && driver.password === Md5.hashStr(this.password)) {
           // Détermination prudente du rôle applicatif
           const userRole = driver.class && driver.class.includes('Admin') ? 'Admin' : 'Driver';
 
