@@ -101,21 +101,10 @@ public class AccessServiceRestServeurImpl {
             throw new RestException(500, ex.getMessage());
         }
     }
-
-    @GET
-    @Path("/getByBadge/{Badge}")
-    public Access getByBadge(@Context UriInfo uriInfo,@PathParam("Badge") String Badge) throws Exception {
-        try {
-              Authenticate.authenticate(uriInfo.getQueryParameters());
-            return this.AccessSrv.getByBadge(Badge);
-        } catch (Exception ex) {
-            throw new RestException(500, ex.getMessage());
-        }
-    }
-
+    
     @GET
     @Path("/getByDriver/{Driver}")
-    public Access getByDriver(@Context UriInfo uriInfo,@PathParam("Driver") String Driver) throws Exception {
+    public List<Access> getByDriver(@Context UriInfo uriInfo,@PathParam("Driver") String Driver) throws Exception {
         try {
               Authenticate.authenticate(uriInfo.getQueryParameters());
             return this.AccessSrv.getByDriver(Driver);
@@ -123,13 +112,24 @@ public class AccessServiceRestServeurImpl {
             throw new RestException(500, ex.getMessage());
         }
     }
-
+    
     @GET
-    @Path("/getByDateTime/{DateTime}")
-    public Access getByDateTime(@Context UriInfo uriInfo, @PathParam("DateTime") String DateTime) throws Exception {
+    @Path("/getByDate/{Date}")
+    public List<Access> getByDate(@Context UriInfo uriInfo,@PathParam("Date") String Date) throws Exception {
         try {
               Authenticate.authenticate(uriInfo.getQueryParameters());
-            return this.AccessSrv.getByDateTime(DateTime);
+            return this.AccessSrv.getByDate(Date);
+        } catch (Exception ex) {
+            throw new RestException(500, ex.getMessage());
+        }
+    }
+
+    @GET
+    @Path("/getByIsOpen/{IsOpen}")
+    public List<Access> getByIsOpen(@Context UriInfo uriInfo, @PathParam("IsOpen") boolean IsOpen) throws Exception {
+        try {
+            Authenticate.authenticate(uriInfo.getQueryParameters());
+            return this.AccessSrv.getByIsOpen(IsOpen);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
         }

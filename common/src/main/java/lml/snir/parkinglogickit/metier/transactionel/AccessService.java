@@ -1,20 +1,16 @@
 package lml.snir.parkinglogickit.metier.transactionel;
 
+import java.util.List;
 import lml.snir.parkinglogickit.metier.entity.Access;
 import lml.snir.persistence.CrudService;
 
 /**
  *
- * @author Phily Seck
+ * @author Virgile Alari
  */
 public interface AccessService extends CrudService<Access> {
 
-    public Access getByDriver(String driver) throws Exception;
-
-    public Access getByContenu(String contenu) throws Exception;
-
-    public Access getByDateTime(String date) throws Exception;
-
-    public Access getByBadge(String date) throws Exception;
-
+    public List<Access> getByDriver(String driver) throws Exception;
+    public List<Access> getByDate(String date) throws Exception;
+    public List<Access> getByIsOpen(boolean attribue) throws Exception;
 }

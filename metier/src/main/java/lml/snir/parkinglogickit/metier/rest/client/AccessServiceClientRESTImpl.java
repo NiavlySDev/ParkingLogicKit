@@ -103,55 +103,21 @@ public class AccessServiceClientRESTImpl extends ClientRest<Access> implements A
         return super.getEntitys();
     }
 
-    /**
-     * Récupère les accès par rapport à un Driver
-     *
-     * @param driver: Le Driver
-     * @return : Accès en fonction d'un Driver
-     * @throws java.lang.Exception
-     */
     @Override
-    public Access getByDriver(String driver) throws Exception {
+    public List<Access> getByDate(String date) throws Exception {
+        super.setPath("getByDate/" + date);
+        return (List<Access>) super.getEntity();
+    }
+
+    @Override
+    public List<Access> getByDriver(String driver) throws Exception {
         super.setPath("getByDriver/" + driver);
-        return super.getEntity();
+        return (List<Access>) super.getEntity();
     }
 
-    /**
-     * Récupère les accès par rapport à une date
-     *
-     * @param date: Date
-     * @return : Accès en fonction d'une Date
-     * @throws java.lang.Exception
-     */
     @Override
-    public Access getByDateTime(String date) throws Exception {
-        super.setPath("getByDateTime/" + date);
-        return super.getEntity();
-    }
-
-    /**
-     * Récupère les accès par rapport à un Contenu
-     *
-     * @param contenu : contenu
-     * @return : Les accès par rapport aux contenus
-     * @throws java.lang.Exception
-     */
-    @Override
-    public Access getByContenu(String contenu) throws Exception {
-        super.setPath("getByContenu/" + contenu);
-        return super.getEntity();
-    }
-
-    /**
-     * Récupère les accès par rapport à un Badge
-     *
-     * @param badge : badge
-     * @return : L'Accès par rapport à un Badge
-     * @throws java.lang.Exception
-     */
-    @Override
-    public Access getByBadge(String badge) throws Exception {
-        super.setPath("getByBadge/" + badge);
-        return super.getEntity();
+    public List<Access> getByIsOpen(boolean attribue) throws Exception {
+        super.setPath("getByIsOpen/" + attribue);
+        return (List<Access>) super.getEntity();
     }
 }

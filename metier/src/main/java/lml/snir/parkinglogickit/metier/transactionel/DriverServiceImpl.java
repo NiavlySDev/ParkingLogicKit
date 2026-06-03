@@ -16,10 +16,6 @@ public final class DriverServiceImpl implements DriverService {
         this.drvDataSrv = PhysiqueDataFactory.getDriverDataService();
     }
 
-    public Driver getByLogin(String login) throws Exception {
-        return this.drvDataSrv.getByUsername(login);
-    }
-
     @Override
     public Driver getById(Long id) throws Exception {
         return this.drvDataSrv.getById(id);

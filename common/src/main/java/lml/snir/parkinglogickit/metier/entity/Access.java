@@ -1,13 +1,11 @@
 package lml.snir.parkinglogickit.metier.entity;
 
 import java.text.ParseException;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import java.io.Serializable;
 import java.util.Date;
 import lml.snir.tools.DateConverter;
@@ -15,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @author Ethan Chandebois, Sylvain Crocquevieille
+ * @author Ethan Chandebois, Sylvain Crocquevieille, Virgile Alari
  */
 @Entity
 public class Access implements Serializable {
@@ -28,9 +26,11 @@ public class Access implements Serializable {
 
     @ManyToOne
     private Driver driver;
-    @ManyToOne
-    private Badge badge;
+    private boolean badge;
+    private boolean plate;
+    private boolean digicode;
     private Date date;
+    private boolean isOpen;
 
     /**
      * Retourne l'identifiant unique de l'accès
@@ -66,24 +66,6 @@ public class Access implements Serializable {
      */
     public void setDriver(Driver driver) {
         this.driver = driver;
-    }
-
-    /**
-     * Retourne le Badge lié à l'accès
-     *
-     * @return badge : Le Badge lié à l'accès
-     */
-    public Badge getBadge() {
-        return badge;
-    }
-
-    /**
-     * Modifier le Badge lié à l'accès
-     *
-     * @param badge : Le Badge à modifier
-     */
-    public void setBadge(Badge badge) {
-        this.badge = badge;
     }
 
     /**
@@ -160,5 +142,37 @@ public class Access implements Serializable {
                 .append(strDate);
 
         return builder.toString();
+    }
+
+    public boolean isIsOpen() {
+        return isOpen;
+    }
+
+    public void setIsOpen(boolean isOpen) {
+        this.isOpen = isOpen;
+    }
+
+    public boolean isBadge() {
+        return badge;
+    }
+
+    public void setBadge(boolean badge) {
+        this.badge = badge;
+    }
+
+    public boolean isPlate() {
+        return plate;
+    }
+
+    public void setPlate(boolean plate) {
+        this.plate = plate;
+    }
+
+    public boolean isDigicode() {
+        return digicode;
+    }
+
+    public void setDigicode(boolean digicode) {
+        this.digicode = digicode;
     }
 }

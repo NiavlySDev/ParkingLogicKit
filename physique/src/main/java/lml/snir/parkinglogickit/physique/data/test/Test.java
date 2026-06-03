@@ -1,6 +1,8 @@
 package lml.snir.parkinglogickit.physique.data.test;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import lml.snir.parkinglogickit.metier.entity.Access;
 import lml.snir.parkinglogickit.metier.entity.Admin;
 import lml.snir.parkinglogickit.metier.entity.Associate;
 import lml.snir.parkinglogickit.metier.entity.Badge;
@@ -8,6 +10,7 @@ import lml.snir.parkinglogickit.metier.entity.Driver;
 import lml.snir.parkinglogickit.metier.entity.Vehicle;
 import lml.snir.parkinglogickit.metier.entity.Parking;
 import lml.snir.parkinglogickit.metier.entity.VehicleType;
+import lml.snir.parkinglogickit.physique.data.AccessDataService;
 import lml.snir.parkinglogickit.physique.data.AssociateDataService;
 import lml.snir.parkinglogickit.physique.data.BadgeDataService;
 import lml.snir.parkinglogickit.physique.data.DriverDataService;
@@ -26,6 +29,8 @@ public class Test {
     private final BadgeDataService badgeSrv;
     private final AssociateDataService assoSrv;
     private final ParkingDataService parkingSrv;
+    private final AccessDataService accessSrv;
+    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
 
     public static void main(String[] args) throws Exception {
         Test test = new Test();
@@ -43,6 +48,7 @@ public class Test {
         this.badgeSrv = PhysiqueDataFactory.getBadgeDataService();
         this.assoSrv = PhysiqueDataFactory.getAssociateDataService();
         this.parkingSrv = PhysiqueDataFactory.getParkingDataService();
+        this.accessSrv = PhysiqueDataFactory.getAccessDataService();
     }
 
     private void populateParking() throws Exception {
@@ -52,11 +58,6 @@ public class Test {
         p.setTotalPlace(60);
         p.setIsFull(false);
         this.parkingSrv.add(p);
-    }
-    
-    private void populateAccess() throws Exception {
-
-
     }
 
     private void populateUtilisateur() throws Exception {
@@ -79,15 +80,6 @@ public class Test {
         drv.setUsername("VA");
         drv.setLastName("Alar");
         drv.setPassword("vivi");
-        this.usrSrv.add(drv);
-
-        drv = new Admin();
-        drv.setAge(50);
-        drv.setFirstName("Test");
-        drv.setIsMale(true);
-        drv.setUsername("TT");
-        drv.setLastName("test");
-        drv.setPassword("test");
         this.usrSrv.add(drv);
 
         drv = new Driver();
@@ -219,5 +211,43 @@ public class Test {
         for (Associate a : associates) {
             System.out.println(a);
         }
+    }
+
+    private void populateAccess() throws Exception {
+        Driver drv;
+        drv = new Driver();
+        drv.setAge(50);
+        drv.setFirstName("Test");
+        drv.setIsMale(true);
+        drv.setUsername("TT");
+        drv.setLastName("test");
+        drv.setPassword("test");
+        this.usrSrv.add(drv);
+
+        
+        Access a = new Access();
+        a.setBadge(true);
+        a.setPlate(true);
+        a.setDigicode(false);
+        a.setDriver(drv);
+        a.setIsOpen(true);
+        a.setDate((this.sdf.parse("2026-06-03-10-56-12")));
+        this.accessSrv.add(a);
+
+        a.setBadge(false);
+        a.setPlate(true);
+        a.setDigicode(true);
+        a.setDriver(drv);
+        a.setIsOpen(false);
+        a.setDate((this.sdf.parse("2026-06-03-11-36-12")));
+        this.accessSrv.add(a);
+
+        a.setBadge(true);
+        a.setPlate(true);
+        a.setDigicode(false);
+        a.setDriver(drv);
+        a.setIsOpen(true);
+        a.setDate((this.sdf.parse("2026-06-03-11-38-12")));
+        this.accessSrv.add(a);
     }
 }

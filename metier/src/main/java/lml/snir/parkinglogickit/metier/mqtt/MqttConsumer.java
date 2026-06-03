@@ -101,7 +101,7 @@ public class MqttConsumer implements MqttCallback {
         Access a = gson.fromJson(payload, Access.class);
 
         System.out.println("ID     : " + v.getId());
-        System.out.println("Badge  : " + a.getBadge());
+      //System.out.println("Badge  : " + a.get());
         System.out.println("Driver : " + a.getDriver());
         System.out.println("─────────────────────────────────────");
         System.out.println("Message reçu sur [" + topic + "] : " + payload);
