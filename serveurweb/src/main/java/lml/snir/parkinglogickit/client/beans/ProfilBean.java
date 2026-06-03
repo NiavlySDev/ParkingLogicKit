@@ -307,12 +307,12 @@ public class ProfilBean implements Serializable {
      * @return boolean : valeur retournée par la méthode
      */
     private boolean estPresentDansHistorique(Badge badge) throws Exception {
-        for (Access access : MetierFactory.getAccessService().getAll()) {
+      /**  for (Access access : MetierFactory.getAccessService().getAll()) {
             if (access.getBadge() != null
                     && Objects.equals(access.getBadge().getId(), badge.getId())) {
                 return true;
             }
-        }
+        }**/
         return false;
     }
 

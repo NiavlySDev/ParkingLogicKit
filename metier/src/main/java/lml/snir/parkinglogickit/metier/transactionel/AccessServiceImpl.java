@@ -1,7 +1,6 @@
 package lml.snir.parkinglogickit.metier.transactionel;
 
 import java.util.List;
-
 import lml.snir.parkinglogickit.metier.entity.Access;
 import lml.snir.parkinglogickit.physique.data.AccessDataService;
 import lml.snir.parkinglogickit.physique.data.PhysiqueDataFactory;
@@ -10,26 +9,26 @@ import lml.snir.parkinglogickit.physique.data.PhysiqueDataFactory;
  *
  * @author Phily Seck
  */
-public class AccessServiceImpl implements AccessService {
-
+public final class AccessServiceImpl implements AccessService {
     private final AccessDataService accessDataSrv;
+    
     public AccessServiceImpl() throws Exception {
         this.accessDataSrv = PhysiqueDataFactory.getAccessDataService();
     }
     
     @Override
-    public Access getByDriver(String contenu) throws Exception {
-        return this.accessDataSrv.getByDriver(contenu);
+    public List<Access> getByDriver(String driver) throws Exception {
+        return this.accessDataSrv.getByDate(driver);
     }
 
     @Override
-    public Access getByDateTime(String contenu) throws Exception {
-      return this.accessDataSrv.getByDateTime(contenu);
+    public List<Access> getByDate(String date) throws Exception {
+        return this.accessDataSrv.getByDate(date);
     }
-    
-      @Override
-    public Access getByBadge(String contenu) throws Exception {
-      return this.accessDataSrv.getByBadge(contenu);
+
+    @Override
+    public List<Access> getByIsOpen(boolean attribue) throws Exception {
+        return this.accessDataSrv.getByIsOpen(attribue);
     }
 
     @Override
@@ -66,10 +65,4 @@ public class AccessServiceImpl implements AccessService {
     public List<Access> getAll(int begin, int count) throws Exception {
           return this.accessDataSrv.getAll(begin,count);
     }
-
-    @Override
-    public Access getByContenu(String contenu) throws Exception {
-      return this.accessDataSrv.getByContenu(contenu);
-    }
-
 }
