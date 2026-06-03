@@ -1,13 +1,21 @@
 {
   "latest": {
-    "version": "v1.4.3",
-    "title": "v1.4.3",
-    "publishedAt": "2026-06-03T09:10:44Z",
-    "body": "## Changements depuis v1.4.2\n\n- Chiffrement des mots de passe et adaptation pour le Web et le Mobile (`8922db5`)\n- Chiffrement des mots de passe et adaptation pour le Web et le Mobile (`22ac2dd`)\n",
-    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.3/plk.apk",
-    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.3"
+    "version": "v1.4.4",
+    "title": "v1.4.4",
+    "publishedAt": "2026-06-03T09:12:45Z",
+    "body": "## Changements depuis v1.4.3\n\n- Aucun commit hors merge depuis la version precedente.\n",
+    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.4/plk.apk",
+    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.4"
   },
   "releases": [
+    {
+      "version": "v1.4.4",
+      "title": "v1.4.4",
+      "publishedAt": "2026-06-03T09:12:45Z",
+      "body": "## Changements depuis v1.4.3\n\n- Aucun commit hors merge depuis la version precedente.\n",
+      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.4/plk.apk",
+      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.4"
+    },
     {
       "version": "v1.4.3",
       "title": "v1.4.3",
@@ -79,14 +87,6 @@
       "body": "## Changements depuis v1.3.4\n\n- correction orthographe (`507eb33`)\n",
       "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.5/plk.apk",
       "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.5"
-    },
-    {
-      "version": "v1.3.4",
-      "title": "v1.3.4",
-      "publishedAt": "2026-05-29T09:55:38Z",
-      "body": "## Changements depuis v1.3.3\n\n- Test Maj Auto numéro 4654654789791 (`d4cadcb`)\n",
-      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.4/plk.apk",
-      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.4"
     }
   ]
 }
