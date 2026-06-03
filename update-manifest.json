@@ -1,13 +1,21 @@
 {
   "latest": {
-    "version": "v1.4.4",
-    "title": "v1.4.4",
-    "publishedAt": "2026-06-03T09:12:45Z",
-    "body": "## Changements depuis v1.4.3\n\n- Aucun commit hors merge depuis la version precedente.\n",
-    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.4/plk.apk",
-    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.4"
+    "version": "v1.4.5",
+    "title": "v1.4.5",
+    "publishedAt": "2026-06-03T09:23:47Z",
+    "body": "## Changements depuis v1.4.4\n\n- passage de vehicle à véhicules dans les html (`5f6ac15`)\n",
+    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.5/plk.apk",
+    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.5"
   },
   "releases": [
+    {
+      "version": "v1.4.5",
+      "title": "v1.4.5",
+      "publishedAt": "2026-06-03T09:23:47Z",
+      "body": "## Changements depuis v1.4.4\n\n- passage de vehicle à véhicules dans les html (`5f6ac15`)\n",
+      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.5/plk.apk",
+      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.5"
+    },
     {
       "version": "v1.4.4",
       "title": "v1.4.4",
@@ -79,14 +87,6 @@
       "body": "## Changements depuis v1.3.5\n\n- modif navbar pour mobil (`f75b94e`)\n",
       "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.6/plk.apk",
       "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.6"
-    },
-    {
-      "version": "v1.3.5",
-      "title": "v1.3.5",
-      "publishedAt": "2026-05-29T12:46:05Z",
-      "body": "## Changements depuis v1.3.4\n\n- correction orthographe (`507eb33`)\n",
-      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.5/plk.apk",
-      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.5"
     }
   ]
 }
