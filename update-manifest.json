@@ -1,13 +1,21 @@
 {
   "latest": {
-    "version": "v1.4.8",
-    "title": "v1.4.8",
-    "publishedAt": "2026-06-03T10:16:40Z",
-    "body": "## Changements depuis v1.4.7\n\n- add info import notes.txt (`aa683dd`)\n",
-    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.8/plk.apk",
-    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.8"
+    "version": "v1.4.9",
+    "title": "v1.4.9",
+    "publishedAt": "2026-06-03T10:40:34Z",
+    "body": "## Changements depuis v1.4.8\n\n- Fix chiffrement (`515e977`)\n",
+    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.9/plk.apk",
+    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.9"
   },
   "releases": [
+    {
+      "version": "v1.4.9",
+      "title": "v1.4.9",
+      "publishedAt": "2026-06-03T10:40:34Z",
+      "body": "## Changements depuis v1.4.8\n\n- Fix chiffrement (`515e977`)\n",
+      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.9/plk.apk",
+      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.9"
+    },
     {
       "version": "v1.4.8",
       "title": "v1.4.8",
@@ -79,14 +87,6 @@
       "body": "## Changements depuis v1.3.9\n\n- Correction Dark Mode n°566+53 (`f19d2db`)\n- Ajout Javadocs serveur web + uniformisation auteurs + documentation méthodes Java (`abe9158`)\n",
       "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.0/plk.apk",
       "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.0"
-    },
-    {
-      "version": "v1.3.9",
-      "title": "v1.3.9",
-      "publishedAt": "2026-06-02T09:41:50Z",
-      "body": "## Changements depuis v1.3.8\n\n- Dark mode complet + popups thème/update modernisées + notifications Android de mise à jour + amélioration gestion mots de passe (`bd869d8`)\n",
-      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.9/plk.apk",
-      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.9"
     }
   ]
 }
