@@ -6,6 +6,7 @@ import { Driver } from '../../../../Auth/Driver';
 import { Router } from '@angular/router';
 import { PrimengModule } from '../../../shared/primeng.module';
 import { AuthService } from '../../../../Auth/auth.service'; // Import requis pour sécuriser l'accès
+import { Md5 } from 'ts-md5';
 
 @Component({
   selector: 'app-modify-user',
@@ -132,7 +133,7 @@ export class ModifyUser implements OnInit {
       firstName: sanitizedFirstname,
       lastName: sanitizedLastname,
       username: sanitizedUsername,
-      ...(this.password ? { password: this.password } : {}),
+      ...(this.password ? { password: Md5.hashStr(this.password) } : {}),
       age: Number(this.age),
       isMale: Boolean(this.isMale),
       class: DriverClass,
