@@ -65,7 +65,7 @@ export class ModifyUser implements OnInit {
           this.ngZone.run(() => {
             this.drivers = (drivers || []).map((d) => ({
               ...d,
-              fullName: `${d.firstName} ${d.lastName}`,
+              fullName: `${d.firstName} ${d.lastName} | ${d.username}`,
             }));
             this.cdr.detectChanges();
           });
