@@ -1,13 +1,21 @@
 {
   "latest": {
-    "version": "v1.4.2",
-    "title": "v1.4.2",
-    "publishedAt": "2026-06-02T12:53:51Z",
-    "body": "## Changements depuis v1.4.1\n\n- Fix icones (`30a7ce3`)\n",
-    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.2/plk.apk",
-    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.2"
+    "version": "v1.4.3",
+    "title": "v1.4.3",
+    "publishedAt": "2026-06-03T09:10:44Z",
+    "body": "## Changements depuis v1.4.2\n\n- Chiffrement des mots de passe et adaptation pour le Web et le Mobile (`8922db5`)\n- Chiffrement des mots de passe et adaptation pour le Web et le Mobile (`22ac2dd`)\n",
+    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.3/plk.apk",
+    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.3"
   },
   "releases": [
+    {
+      "version": "v1.4.3",
+      "title": "v1.4.3",
+      "publishedAt": "2026-06-03T09:10:44Z",
+      "body": "## Changements depuis v1.4.2\n\n- Chiffrement des mots de passe et adaptation pour le Web et le Mobile (`8922db5`)\n- Chiffrement des mots de passe et adaptation pour le Web et le Mobile (`22ac2dd`)\n",
+      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.3/plk.apk",
+      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.3"
+    },
     {
       "version": "v1.4.2",
       "title": "v1.4.2",
@@ -79,14 +87,6 @@
       "body": "## Changements depuis v1.3.3\n\n- Test Maj Auto numéro 4654654789791 (`d4cadcb`)\n",
       "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.4/plk.apk",
       "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.4"
-    },
-    {
-      "version": "v1.3.3",
-      "title": "v1.3.3",
-      "publishedAt": "2026-05-29T09:50:45Z",
-      "body": "## Changements depuis v1.3.2\n\n- Maj Autopush v456497987 (`0fe0c84`)\n",
-      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.3.3/plk.apk",
-      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.3.3"
     }
   ]
 }
