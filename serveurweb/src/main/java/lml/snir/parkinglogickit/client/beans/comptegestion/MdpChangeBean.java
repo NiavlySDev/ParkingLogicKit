@@ -188,7 +188,7 @@ public class MdpChangeBean implements Serializable {
         this.setValidationMessage("");
         this.setError(false);
         this.setErrorMessage("");
-        if (loginBean.getDriver().isValid().equalsIgnoreCase(currentPassword)) {
+        if (loginBean.getDriver().getPassword().equalsIgnoreCase(currentPassword)) {
             if (newPassword.equalsIgnoreCase(newPasswordConfirmation)) {
                 loginBean.getDriver().setPassword(newPassword);
                 try {
