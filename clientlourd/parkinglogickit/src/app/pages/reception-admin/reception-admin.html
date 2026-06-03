@@ -22,7 +22,7 @@
         [class.active]="activeTab === 'vehicle'"
         (click)="activeTab = 'vehicle'"
       >
-        Gestion Vehicle
+        Gestion Véhicules
       </button>
     </div>
   <div class="navbar-user" (click)="toggleMenu()">
@@ -125,11 +125,11 @@
   </main>
 
   <main class="container" *ngIf="activeTab === 'vehicle'">
-    <h1>Gestion Vehicle 🚗</h1>
+    <h1>Gestion Véhicules 🚗</h1>
     <p class="subtitle">Que souhaitez-vous faire ?</p>
     <div class="actions">
       <p-button
-        label="Modifier un Vehicle"
+        label="Modifier un Véhicule"
         icon="pi pi-car"
         [routerLink]="['/modify-vehicle']"
         size="large"
@@ -137,7 +137,7 @@
         severity="info"
       ></p-button>
       <p-button
-        label="Supprimer un Vehicle"
+        label="Supprimer un Véhicule"
         icon="pi pi-car"
         [routerLink]="['/delete-vehicle']"
         size="large"
