@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="3.0" xmlns="https://jakarta.ee/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
-  <persistence-unit name="lml.snir.ParkingLogicKitCommon_jar_1.0PU" transaction-type="RESOURCE_LOCAL">
-    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>lml.snir.parkinglogickit.metier.entity.Admin</class>
-    <class>lml.snir.parkinglogickit.metier.entity.Driver</class>
-    <class>lml.snir.parkinglogickit.metier.entity.Associate</class>
-    <class>lml.snir.parkinglogickit.metier.entity.Badge</class>
-    <class>lml.snir.parkinglogickit.metier.entity.Vehicle</class>
-    <class>lml.snir.parkinglogickit.metier.entity.Parking</class>
-    <class>lml.snir.parkinglogickit.metier.entity.Access</class>
+    <persistence-unit name="lml.snir.ParkingLogicKitCommon_jar_1.0PU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>lml.snir.parkinglogickit.metier.entity.Admin</class>
+        <class>lml.snir.parkinglogickit.metier.entity.Driver</class>
+        <class>lml.snir.parkinglogickit.metier.entity.Associate</class>
+        <class>lml.snir.parkinglogickit.metier.entity.Badge</class>
+        <class>lml.snir.parkinglogickit.metier.entity.Vehicle</class>
+        <class>lml.snir.parkinglogickit.metier.entity.Parking</class>
+        <class>lml.snir.parkinglogickit.metier.entity.Access</class>
     
-    <properties>
-      <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/parkinglogickit?zeroDateTimeBehavior=convertToNull"/>
-      <property name="jakarta.persistence.jdbc.user" value="parkinglogickit"/>
-      <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-      <property name="jakarta.persistence.jdbc.password" value="Gl8[/(qNy17370D8"/>
-      <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
-      <property name="eclipselink.weaving" value="false"/>
-    </properties>
-  </persistence-unit>
+        <properties>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/parkinglogickit?zeroDateTimeBehavior=convertToNull"/>
+            <property name="jakarta.persistence.jdbc.user" value="parkinglogickit"/>
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="jakarta.persistence.jdbc.password" value="Gl8[/(qNy17370D8"/>
+            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
+            <property name="eclipselink.weaving" value="false"/>
+            <property name="eclipselink.logging.level" value="SEVERE"/>
+        </properties>
+    </persistence-unit>
 </persistence>

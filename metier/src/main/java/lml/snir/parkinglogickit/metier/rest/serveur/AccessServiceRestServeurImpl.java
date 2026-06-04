@@ -104,7 +104,7 @@ public class AccessServiceRestServeurImpl {
     
     @GET
     @Path("/getByDriver/{Driver}")
-    public List<Access> getByDriver(@Context UriInfo uriInfo,@PathParam("Driver") String Driver) throws Exception {
+    public List<Access> getByDriver(@Context UriInfo uriInfo,@PathParam("Driver") Long Driver) throws Exception {
         try {
               Authenticate.authenticate(uriInfo.getQueryParameters());
             return this.AccessSrv.getByDriver(Driver);

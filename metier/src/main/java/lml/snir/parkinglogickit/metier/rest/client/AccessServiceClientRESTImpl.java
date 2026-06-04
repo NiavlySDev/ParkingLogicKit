@@ -110,7 +110,7 @@ public class AccessServiceClientRESTImpl extends ClientRest<Access> implements A
     }
 
     @Override
-    public List<Access> getByDriver(String driver) throws Exception {
+    public List<Access> getByDriver(Long driver) throws Exception {
         super.setPath("getByDriver/" + driver);
         return (List<Access>) super.getEntity();
     }

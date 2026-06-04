@@ -19,11 +19,11 @@ public class AccessDataServiceJPAImpl extends AbstracCrudServiceJPA<Access> impl
     }
 
     @Override
-    public List<Access> getByDriver(String driver) throws Exception {
+    public List<Access> getByDriver(Long driver) throws Exception {
         List<Access> access;
         try {
             this.open();
-            Query query = em.createQuery("SELECT a FROM Access a WHERE a.driver_id = :fdriver");
+            Query query = em.createQuery("SELECT a FROM Access a WHERE a.driver.id = :fdriver");
             query.setParameter("fdriver", driver);
             access = query.getResultList();
         } catch (NoResultException ex) {
