@@ -1,13 +1,21 @@
 {
   "latest": {
-    "version": "v1.5.0",
-    "title": "v1.5.0",
-    "publishedAt": "2026-06-03T11:14:58Z",
-    "body": "## Changements depuis v1.4.9\n\n- Légère modification (modify-user) (`f6f3bc7`)\n",
-    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.5.0/plk.apk",
-    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.5.0"
+    "version": "v1.5.1",
+    "title": "v1.5.1",
+    "publishedAt": "2026-06-04T12:54:09Z",
+    "body": "## Changements depuis v1.5.0\n\n- forçage du caractère spécial dans le mot de passe du modify-user (`6c504c8`)\n- Ajout test getter dans test.java + fix requête JPQL (`44ffc3b`)\n- Grosse modification pour Access (+get) dans Common/Métier/Physique (voir diagramme) + mise à jour du test.java (`e4a9603`)\n",
+    "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.5.1/plk.apk",
+    "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.5.1"
   },
   "releases": [
+    {
+      "version": "v1.5.1",
+      "title": "v1.5.1",
+      "publishedAt": "2026-06-04T12:54:09Z",
+      "body": "## Changements depuis v1.5.0\n\n- forçage du caractère spécial dans le mot de passe du modify-user (`6c504c8`)\n- Ajout test getter dans test.java + fix requête JPQL (`44ffc3b`)\n- Grosse modification pour Access (+get) dans Common/Métier/Physique (voir diagramme) + mise à jour du test.java (`e4a9603`)\n",
+      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.5.1/plk.apk",
+      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.5.1"
+    },
     {
       "version": "v1.5.0",
       "title": "v1.5.0",
@@ -79,14 +87,6 @@
       "body": "## Changements depuis v1.4.1\n\n- Fix icones (`30a7ce3`)\n",
       "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.2/plk.apk",
       "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.2"
-    },
-    {
-      "version": "v1.4.1",
-      "title": "v1.4.1",
-      "publishedAt": "2026-06-02T12:47:06Z",
-      "body": "## Changements depuis v1.4.0\n\n- Correction Bug Build (`244dba4`)\n- Dark Mode Correctif + Icones (`f11acc6`)\n",
-      "apkUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/download/v1.4.1/plk.apk",
-      "htmlUrl": "https://github.com/NiavlySDev/ParkingLogicKit/releases/tag/v1.4.1"
     }
   ]
 }
