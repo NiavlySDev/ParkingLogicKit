@@ -17,8 +17,8 @@ public final class AccessServiceImpl implements AccessService {
     }
     
     @Override
-    public List<Access> getByDriver(String driver) throws Exception {
-        return this.accessDataSrv.getByDate(driver);
+    public List<Access> getByDriver(Long driver) throws Exception {
+        return this.accessDataSrv.getByDriver(driver);
     }
 
     @Override

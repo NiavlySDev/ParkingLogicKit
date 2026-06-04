@@ -40,6 +40,7 @@ public class Test {
         test.populateDriver();
         test.populateParking();
         test.populateAccess();
+        test.testGetter();
     }
 
     private Test() throws Exception {
@@ -224,7 +225,6 @@ public class Test {
         drv.setPassword("test");
         this.usrSrv.add(drv);
 
-        
         Access a = new Access();
         a.setBadge(true);
         a.setPlate(true);
@@ -249,5 +249,36 @@ public class Test {
         a.setIsOpen(true);
         a.setDate((this.sdf.parse("2026-06-03-11-38-12")));
         this.accessSrv.add(a);
+
+        List<Access> access = this.accessSrv.getAll();
+        for (Access ac : access) {
+            System.out.println(ac);
+        }
     }
+
+    private void testGetter() throws Exception {
+
+        System.out.println("========== Test getter ==========");
+        List<Access> ByDriver = this.accessSrv.getByDriver((long) 5);
+        System.out.println("Test getByDriver : \n" + ByDriver);
+        List<Access> IsOpen = this.accessSrv.getByIsOpen(true);
+        System.out.println("Test getByIsOpen : \n" + IsOpen);
+        List<Access> access = this.accessSrv.getByDate("2026-06-03 11:36:12");
+        System.out.println("Test getByDate : \n" + access);
+
+        Badge badge = this.badgeSrv.getByContent("0009966230");
+        System.out.println("Test getByContent : \n" + badge);
+
+        Driver driver = this.usrSrv.getByUsername("HS");
+        System.out.println("Test getByUsername : \n" + driver);
+
+        Parking parking = this.parkingSrv.getByIsFull(false);
+        System.out.println("Test getByIsFull : \n" + parking);
+
+        Vehicle vehicle = this.vehicleSrv.getByContent("TT-458-CC");
+        System.out.println("Test getByContent : \n" + vehicle);
+        List<Vehicle> vehicleAssociate = this.vehicleSrv.getByAssociate(true);
+        System.out.println("Test getByAssociate : \n" + vehicleAssociate);
+    }
+
 }

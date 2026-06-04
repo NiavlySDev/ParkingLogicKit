@@ -70,7 +70,7 @@ public final class PhysiqueDataFactory {
 
     public static synchronized AccessDataService getAccessDataService() throws Exception {
         if (AccessSrv == null) {
-            
+
             AccessSrv = new AccessDataServiceJPAImpl(PU);
         }
 

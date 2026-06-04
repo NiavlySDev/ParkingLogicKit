@@ -32,7 +32,7 @@ public class AssociateServiceRestServeurImpl {
     }
 
     @POST
-    @Path("/")  
+    @Path("/")
     public Associate add(Associate t) throws Exception {
         try {
             return this.AssociateSrv.add(t);
@@ -65,7 +65,7 @@ public class AssociateServiceRestServeurImpl {
     @Path("/{id}")
     public Associate getById(@Context UriInfo uriInfo, @PathParam("id") Long id) throws Exception {
         try {
-              Authenticate.authenticate(uriInfo.getQueryParameters());
+            Authenticate.authenticate(uriInfo.getQueryParameters());
             return this.AssociateSrv.getById(id);
         } catch (Exception ex) {
             throw new RestException(500, ex.getMessage());
@@ -101,8 +101,4 @@ public class AssociateServiceRestServeurImpl {
             throw new RestException(500, ex.getMessage());
         }
     }
-
-   
-    }
-
-
+}
