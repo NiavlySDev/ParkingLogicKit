@@ -221,15 +221,32 @@ export class ModifyUser implements OnInit {
    * SÉCURITÉ REHAUSSÉE : Générateur pseudo-aléatoire cryptographiquement fort (CSPRNG)
    */
   private generateRandomPassword(length: number = 12): string {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
-    const array = new Uint32Array(length);
+    const lettersAndDigits: string =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const specialChars: string = '!@#$%^&*';
+    const allChars: string = lettersAndDigits + specialChars;
+
+    const array: Uint32Array = new Uint32Array(length);
     window.crypto.getRandomValues(array);
 
-    let password = '';
+    const passwordArr: string[] = [];
     for (let i = 0; i < length; i++) {
-      password += chars.charAt(array[i] % chars.length);
+      passwordArr.push(allChars.charAt(array[i] % allChars.length));
     }
-    return password;
+
+    const hasSpecial: boolean = passwordArr.some((char: string) => specialChars.includes(char));
+
+    if (!hasSpecial) {
+      const extraRandom: Uint32Array = new Uint32Array(2);
+      window.crypto.getRandomValues(extraRandom);
+
+      const randomIndexToReplace: number = extraRandom[0] % length;
+      const randomSpecialChar: string = specialChars.charAt(extraRandom[1] % specialChars.length);
+
+      passwordArr[randomIndexToReplace] = randomSpecialChar;
+    }
+
+    return passwordArr.join('');
   }
 
   copyMdp(): void {

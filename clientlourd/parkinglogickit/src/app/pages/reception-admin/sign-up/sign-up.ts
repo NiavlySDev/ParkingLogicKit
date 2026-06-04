@@ -38,7 +38,7 @@ export class SignUp implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    // BARRIÈRE DE SÉCURITÉ 1 : Contrôle d'accès strict au rôle Admin
+    // BARRIÈRE DE SÉCURITÉ : Contrôle d'accès strict au rôle Admin
     // (Nécessaire car cet écran permet de créer des comptes "Admin")
     const currentRole = await this.authService.getRole();
     const currentUsername = await this.authService.getUsername();
@@ -102,7 +102,7 @@ export class SignUp implements OnInit {
       firstName: sanitizedFirstname,
       lastName: sanitizedLastname,
       username: sanitizedUsername,
-      password: Md5.hashStr(this.password), // Transmis proprement au backend qui doit se charger du hachage (BCrypt...)
+      password: Md5.hashStr(this.password),
       age: Number(this.age),
       isMale: Boolean(this.isMale),
       class: DriverClass,
