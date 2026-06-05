@@ -193,6 +193,8 @@ Author: Sylvain Crocquevieille
                                  icon="pi pi-sign-out"
                                  styleClass="rounded-button ui-button-danger"
                                  action="#{loginBean.logout()}"
+                                 process="@this"
+                                 immediate="true"
                                  update=":index:fragmentPanel :index:messageindex :index:message :index:tabMenu"/>
             </div>
         </h:panelGroup>
