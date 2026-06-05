@@ -10,7 +10,7 @@ Author : Sylvain Crocquevieille
     <h:head>
         <title>ParkingLogicKit</title>
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css?v=5" />
-        <script type="text/javascript" src="#{request.contextPath}/assets/js/theme.js?v=3"></script>
+        <script type="text/javascript" src="#{request.contextPath}/assets/js/theme.js?v=4"></script>
         <script type="text/javascript" src="#{request.contextPath}/assets/js/settings.js?v=2"></script>
         <link rel="icon" type="image/png" href="#{request.contextPath}/favicon.png" />
         <script type="text/javascript">
@@ -34,6 +34,21 @@ Author : Sylvain Crocquevieille
                     if (loader) {
                         loader.classList.remove('is-visible');
                     }
+                }
+            };
+            window.PLKRefresh = {
+                isDialogOpen: function () {
+                    var dialogs = document.querySelectorAll('.ui-dialog');
+                    for (var i = 0; i &lt; dialogs.length; i++) {
+                        var style = window.getComputedStyle(dialogs[i]);
+                        if (style.display !== 'none' &amp;&amp; style.visibility !== 'hidden') {
+                            return true;
+                        }
+                    }
+                    return false;
+                },
+                shouldRun: function () {
+                    return !this.isDialogOpen();
                 }
             };
         </script>
@@ -77,6 +92,7 @@ Author : Sylvain Crocquevieille
                         listener="#{navBean.refreshCurrentPage()}"
                         global="false"
                         process="@this"
+                        onstart="return PLKRefresh.shouldRun();"
                         update="#{navBean.refreshUpdateTargets}" />
                 <h:panelGroup id="fragmentPanel" layout="block">
                     <ui:include src="#{navBean.path}" />

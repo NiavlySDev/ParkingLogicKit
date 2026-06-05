@@ -188,8 +188,22 @@ public class MdpChangeBean implements Serializable {
         this.setValidationMessage("");
         this.setError(false);
         this.setErrorMessage("");
-        if (loginBean.getDriver().getPassword().equalsIgnoreCase(currentPassword)) {
-            if (newPassword.equalsIgnoreCase(newPasswordConfirmation)) {
+
+        if (loginBean.getDriver() == null) {
+            this.setError(true);
+            this.setErrorMessage("Vous devez être connecté pour changer votre mot de passe.");
+            return;
+        }
+        if (currentPassword == null || currentPassword.trim().isEmpty()
+                || newPassword == null || newPassword.trim().isEmpty()
+                || newPasswordConfirmation == null || newPasswordConfirmation.trim().isEmpty()) {
+            this.setError(true);
+            this.setErrorMessage("Tous les champs du mot de passe sont obligatoires.");
+            return;
+        }
+
+        if (loginBean.getDriver().isValid(currentPassword)) {
+            if (newPassword.equals(newPasswordConfirmation)) {
                 loginBean.getDriver().setPassword(newPassword);
                 try {
                     DriverService us = MetierFactory.getDriverService();
