@@ -117,7 +117,7 @@ export class ModifyUser implements OnInit {
         ? 'lml.snir.parkinglogickit.metier.entity.Maintenance'
         : 'lml.snir.parkinglogickit.metier.entity.Driver';
 
-    // ASSAINISSEMENT DES ENTRÉES : Filtrage des caractères d'injection (Anti-XSS / SQL)
+    // Filtrage des caractères d'injection (Anti-XSS / SQL)
     const sanitizedFirstname = String(this.firstname)
       .trim()
       .replace(/[<>"/\\;`]/g, '');

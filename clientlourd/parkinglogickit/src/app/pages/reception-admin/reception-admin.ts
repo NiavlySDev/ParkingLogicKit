@@ -56,7 +56,6 @@ export class ReceptionAdmin implements OnInit, OnDestroy {
               this.placesTotal = Number(parking.totalPlace) || 0;
               this.placesOccupees = Number(parking.placeCount) || 0;
 
-              // Sécurité mathématique : Évite une division par zéro si les compteurs de la BDD sont vides
               if (this.placesTotal > 0) {
                 this.placesLibres = this.placesTotal - this.placesOccupees;
                 this.tauxOccupation = Math.round((this.placesOccupees / this.placesTotal) * 100);
