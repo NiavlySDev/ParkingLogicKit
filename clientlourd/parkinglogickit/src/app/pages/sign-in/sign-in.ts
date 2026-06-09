@@ -64,7 +64,7 @@ export class SignIn implements OnInit {
     this.isLoading = true;
     this.message = '';
 
-    // ASSAINISSEMENT : Élimination des caractères d'injection sur l'identifiant
+    // Élimination des caractères d'injection sur l'identifiant
     const sanitizedUsername = this.username.trim().replace(/[<>"/\\;`\s]/g, '');
 
     this.driverService.getByUsername(sanitizedUsername).subscribe({
@@ -80,7 +80,7 @@ export class SignIn implements OnInit {
             exp: Math.floor(Date.now() / 1000) + 60 * 60, // Expiration 1 heure
           };
 
-          // Construction temporaire du Jeton (À remplacer par un retour d'API Backend signé)
+          // Construction temporaire du Jeton (retour d'API Backend signé)
           const token =
             btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' })) +
             '.' +

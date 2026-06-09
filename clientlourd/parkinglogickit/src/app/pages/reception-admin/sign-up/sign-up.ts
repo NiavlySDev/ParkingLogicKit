@@ -39,7 +39,7 @@ export class SignUp implements OnInit {
 
   async ngOnInit(): Promise<void> {
     // BARRIÈRE DE SÉCURITÉ : Contrôle d'accès strict au rôle Admin
-    // (Nécessaire car cet écran permet de créer des comptes "Admin")
+    // (Nécessaire car cet écran permet de créer des comptes)
     const currentRole = await this.authService.getRole();
     const currentUsername = await this.authService.getUsername();
 
@@ -85,7 +85,7 @@ export class SignUp implements OnInit {
       return;
     }
 
-    // ASSAINISSEMENT DES ENTRÉES : Filtrage anti-injection (XSS / SQL)
+    // Filtrage anti-injection (XSS / SQL)
     const sanitizedFirstname = this.firstname.trim().replace(/[<>"/\\;`]/g, '');
     const sanitizedLastname = this.lastName.trim().replace(/[<>"/\\;`]/g, '');
     const sanitizedUsername = this.username.trim().replace(/[<>"/\\;`\s]/g, ''); // Pas d'espaces dans l'identifiant
