@@ -11,9 +11,9 @@
   <name>ParkingLogicKit</name>
 
   <modules>
-    <module>common</module>
-    <module>metier</module>
+    <module>common</module>    
     <module>physique</module>
+    <module>metier</module>
     <module>serveurweb</module>
   </modules>
 
